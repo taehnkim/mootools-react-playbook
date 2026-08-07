@@ -8,43 +8,48 @@ import { Command } from "commander";
 import {
   applyAdapterCodemod,
   planAdapterCodemod,
-} from "./adapter-codemod.js";
+} from "./codemods/adapter.js";
 import {
   analyzeComponent,
   checkWorksheetFreshness,
   writeWorksheet,
-} from "./analyze.js";
-import { captureSurface, type CaptureSurface } from "./capture.js";
-import { compareCandidate } from "./compare.js";
+} from "./analyze/index.js";
+import { captureSurface, type CaptureSurface } from "./parity/capture.js";
+import { compareCandidate } from "./parity/compare.js";
+import {
+  checkComponentTest,
+  runComponentTest,
+  type ComponentTestSurface,
+} from "./checks/component-tests.js";
 import {
   createContext,
   defaultToolsRoot,
   loadComponentConfig,
   type ToolContext,
-} from "./context.js";
+} from "./core/context.js";
 import {
   checkDecisions,
   createDecisionDraft,
   loadDecisions,
   loadWorksheet,
   writeDecisionDraft,
-} from "./decisions.js";
-import { buildInventory, writeInventory } from "./inventory.js";
-import { checkNoNewUse, loadLegacyUseAllowlist } from "./no-new-use.js";
+} from "./checks/decisions.js";
+import { buildInventory, writeInventory } from "./inventory/index.js";
+import { checkNoNewUse, loadLegacyUseAllowlist } from "./checks/no-new-use.js";
 import {
   loadPilotData,
   loadPilotDecisions,
   pilotPaths,
-} from "./pilot-data.js";
-import { runProjectChecks } from "./project-checks.js";
-import { detectRebasePorts } from "./rebase.js";
-import { writeFailure, writeMessage, writeResult } from "./report.js";
+} from "./parity/pilot-data.js";
+import { runProjectChecks } from "./checks/project-checks.js";
+import { detectRebasePorts } from "./rebase/detect.js";
+import { writeFailure, writeMessage, writeResult } from "./core/report.js";
 import {
   RunIdSchema,
   type ComponentConfig,
   type Worksheet,
-} from "./schemas.js";
-import { getMigrationStatus } from "./status.js";
+} from "./contracts/schemas.js";
+import { getMigrationStatus } from "./checks/status.js";
 
 type GlobalOptions = {
   toolsRoot: string;
@@ -207,6 +212,22 @@ program
   });
 
 program
+  .command("test")
+  .description("Run and record one component unit-test surface.")
+  .argument("<surface>", "legacy or react")
+  .argument("<component>")
+  .action(async (surfaceValue: string, componentId: string) => {
+    const surface = parseTestSurface(surfaceValue);
+    const context = await getContext();
+    const config = await loadComponentConfig(context, componentId);
+    const result = await runComponentTest({ context, config, surface });
+    writeResult(result);
+    if (!result.passed) {
+      process.exitCode = 2;
+    }
+  });
+
+program
   .command("capture")
   .description("Capture one legacy or React surface in a real browser.")
   .argument("<component>")
@@ -220,8 +241,9 @@ program
     const context = await getContext();
     const config = await loadComponentConfig(context, componentId);
     await requireFreshWorksheet(context, config);
-    const data = await loadPilotData(context, componentId);
     const surface = parseSurface(commandOptions.surface);
+    await requireFreshComponentTest(context, config, surface);
+    const data = await loadPilotData(context, componentId);
     const runId = RunIdSchema.parse(
       commandOptions.runId ?? createRunId(surface),
     );
@@ -278,6 +300,8 @@ program
       const context = await getContext();
       const config = await loadComponentConfig(context, componentId);
       const worksheet = await requireFreshWorksheet(context, config);
+      await requireFreshComponentTest(context, config, "legacy");
+      await requireFreshComponentTest(context, config, "react");
       const decisionFile = await loadPilotDecisions(context, componentId);
       const decisionCheck = checkDecisions({
         worksheet,
@@ -351,6 +375,16 @@ program
         config,
         allowlist: await loadLegacyUseAllowlist({ context, componentId }),
       });
+      const legacyTestCheck = await checkComponentTest({
+        context,
+        config,
+        surface: "legacy",
+      });
+      const reactTestCheck = await checkComponentTest({
+        context,
+        config,
+        surface: "react",
+      });
       const projectChecks = commandOptions.skipProjectChecks
         ? []
         : await runProjectChecks(context.projectRoot);
@@ -358,12 +392,16 @@ program
       const ok =
         decisionCheck.ok &&
         useCheck.ok &&
+        legacyTestCheck.ok &&
+        reactTestCheck.ok &&
         projectChecks.every((check) => check.ok) &&
         status.phase === "done";
       writeResult({
         ok,
         decisionCheck,
         useCheck,
+        legacyTestCheck,
+        reactTestCheck,
         projectChecks,
         status,
       });
@@ -454,6 +492,19 @@ async function requireFreshWorksheet(
   return worksheet;
 }
 
+async function requireFreshComponentTest(
+  context: ToolContext,
+  config: ComponentConfig,
+  surface: ComponentTestSurface,
+): Promise<void> {
+  const check = await checkComponentTest({ context, config, surface });
+  if (!check.ok) {
+    throw new Error(
+      `${surface} unit test is not current:\n${check.issues.join("\n")}`,
+    );
+  }
+}
+
 async function runDeterministicLoop(options: {
   context: ToolContext;
   componentId: string;
@@ -482,6 +533,27 @@ async function runDeterministicLoop(options: {
           config,
         });
         await writeWorksheet({ context: options.context, worksheet });
+        continue;
+      }
+      case "legacy-test": {
+        if (
+          !(await fileExists(
+            resolve(options.context.projectRoot, config.tests.legacyFile),
+          ))
+        ) {
+          writeMessage(`Stop for agent test backfill: ${current.nextAction}`);
+          return;
+        }
+        const result = await runComponentTest({
+          context: options.context,
+          config,
+          surface: "legacy",
+        });
+        writeResult(result);
+        if (!result.passed) {
+          process.exitCode = 2;
+          return;
+        }
         continue;
       }
       case "baseline": {
@@ -537,6 +609,27 @@ async function runDeterministicLoop(options: {
       case "implement":
         writeMessage(`Stop for agent implementation: ${current.nextAction}`);
         return;
+      case "react-test": {
+        if (
+          !(await fileExists(
+            resolve(options.context.projectRoot, config.tests.reactFile),
+          ))
+        ) {
+          writeMessage(`Stop for agent test work: ${current.nextAction}`);
+          return;
+        }
+        const result = await runComponentTest({
+          context: options.context,
+          config,
+          surface: "react",
+        });
+        writeResult(result);
+        if (!result.passed) {
+          process.exitCode = 2;
+          return;
+        }
+        continue;
+      }
       case "compare": {
         if (options.reactUrl === undefined) {
           writeMessage("Stop: provide --react-url to compare the React surface.");
@@ -599,6 +692,13 @@ function parseSurface(value: string): CaptureSurface {
     return value;
   }
   throw new Error(`Surface must be legacy or react; received ${value}.`);
+}
+
+function parseTestSurface(value: string): ComponentTestSurface {
+  if (value === "legacy" || value === "react") {
+    return value;
+  }
+  throw new Error(`Test surface must be legacy or react; received ${value}.`);
 }
 
 function createRunId(surface: CaptureSurface): string {

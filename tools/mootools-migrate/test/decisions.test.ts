@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { checkDecisions } from "../src/decisions.js";
-import { addFindingFingerprint } from "../src/fingerprint.js";
+import { checkDecisions } from "../src/checks/decisions.js";
+import { addFindingFingerprint } from "../src/core/fingerprint.js";
 import {
   DecisionsFileSchema,
   WorksheetSchema,
-} from "../src/schemas.js";
+} from "../src/contracts/schemas.js";
 
 const finding = addFindingFingerprint({
   id: "tab-pane:event:change",

@@ -48,6 +48,18 @@ It analyzes:
 The worksheet has coverage counts and explicit limitations for every category.
 It records unknown forms. It does not edit source or choose behavior.
 
+### Component unit tests
+
+```bash
+npm run migrate -- test legacy <component>
+npm run migrate -- test react <component>
+```
+
+Each command runs only the configured test file and writes a result under
+`tools/mootools-migrate/components/<id>/test-results/`. The result includes
+source and test hashes. Status and parity reject missing, stale, or failed test
+evidence.
+
 ### Decisions
 
 ```bash
@@ -91,8 +103,9 @@ npm run migrate -- status <component>
 npm run migrate -- loop <component> --legacy-url <url> --react-url <url>
 ```
 
-The loop executes deterministic phases only. It stops for decisions and React
-implementation.
+The loop executes deterministic phases only. It backfills no test code by
+guessing. It stops when a test file, decision, or React implementation needs
+agent or human work.
 
 ### Verify
 
@@ -100,9 +113,9 @@ implementation.
 npm run migrate -- verify <component>
 ```
 
-Runs decision freshness, the no-new-use guard, migration status, the target
-project type check, and the production build. It stays nonzero until parity is
-complete.
+Runs both component-test freshness checks, decision freshness, the no-new-use
+guard, migration status, the target project type check, and the production
+build. It stays nonzero until parity is complete.
 
 ### Rebase detection
 

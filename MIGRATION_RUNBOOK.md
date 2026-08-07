@@ -164,14 +164,25 @@ tools/mootools-migrate/
       selectors.react.json
       legacy-use-allowlist.json
       accepted-differences.json
+      test-results/
+        legacy.json
+        react.json
       baseline/
       candidate/
         <run-id>/
   src/
     cli.ts
-    capture.ts
-    compare.ts
-    schemas.ts
+    analyze/
+    codemods/
+    parity/
+    checks/
+    inventory/
+    rebase/
+    contracts/
+    core/
+
+components/<name>/<Component>.legacy.test.ts
+src/components/<name>/<Component>.test.tsx
 ```
 
 The analyzer may replace `worksheet.generated.json`. It must not replace
@@ -181,7 +192,8 @@ Generated evidence and human decisions must stay in different files. Each
 decision stores the finding fingerprint that it approved. A changed
 fingerprint makes that decision stale.
 
-`schemas.ts` calculates fingerprints for manual and generated worksheets. It
+`contracts/schemas.ts` defines the artifact shapes. `core/fingerprint.ts`
+calculates fingerprints for manual and generated worksheets. It
 uses SHA-256 over canonical JSON with lexicographically sorted object keys. The
 fingerprinted fields are schema version, finding ID, kind, summary,
 `contractRelevant`, `decisionRequired`, and sorted evidence records. Each
@@ -440,6 +452,22 @@ Output:
 
 - Zero only when every contract-relevant or behavior-affecting
   decision-required finding is resolved.
+
+### `test legacy|react <component>`
+
+Examples:
+
+```bash
+npm run migrate -- test legacy tab-pane
+npm run migrate -- test react tab-pane
+```
+
+The legacy command runs the backfilled MooTools unit test before baseline
+capture. The React command runs the focused React unit test before browser
+comparison.
+
+Each result stores the implementation, test, and dependency hashes. A source
+or test change makes the evidence stale and blocks the next phase.
 
 ### `baseline capture <component>`
 
@@ -858,7 +886,25 @@ Stop when:
 - The component has an unknown owner.
 - The analyzer output is stale.
 
-### Phase 2. Capture the legacy baseline
+### Phase 2. Backfill and run the legacy unit test
+
+Create a colocated test file for the current MooTools component. Load the
+actual legacy source and pinned runtime. Cover public methods, emitted events,
+DOM state, and known defects.
+
+Run:
+
+```bash
+npm run migrate -- test legacy <component>
+```
+
+Gate:
+
+- The configured legacy test file exists.
+- The focused legacy test passes.
+- Its source, test, and runtime dependency hashes are current.
+
+### Phase 3. Capture the legacy baseline
 
 Write scenarios from the source contract and caller behavior. Run the scenarios
 against the real legacy page.
@@ -880,7 +926,7 @@ Gate:
 
 No valid baseline means no migration.
 
-### Phase 3. Resolve decisions
+### Phase 4. Resolve decisions
 
 Classify every decision-required finding as:
 
@@ -908,7 +954,7 @@ Gate:
 Resolved findings do not prove that the analysis was complete. The run record
 must keep the declared search scope and known evidence gaps.
 
-### Phase 4. Define ownership and the target contract
+### Phase 5. Define ownership and the target contract
 
 Define:
 
@@ -934,7 +980,7 @@ Gate:
 - The target API has caller evidence.
 - Any required adapter keeps legacy behavior unchanged.
 
-### Phase 5. Implement React
+### Phase 6. Implement React
 
 For the first pilots, implement by hand with the core skill and customer React
 skills.
@@ -954,7 +1000,21 @@ Gate:
 - Event contract tests cover required callbacks.
 - No React source imports or calls MooTools.
 
-### Phase 6. Prove parity
+### Phase 7. Run the React unit test
+
+Run:
+
+```bash
+npm run migrate -- test react <component>
+```
+
+Gate:
+
+- The focused React test passes.
+- Its React source and test hashes are current.
+- The test covers the approved behavior and intentional fixes.
+
+### Phase 8. Prove parity
 
 Run `compare`.
 
@@ -984,7 +1044,7 @@ Gate:
 - Every accepted difference has an approved decision.
 - Type check, tests, and production build pass.
 
-### Phase 7. Switch ownership and clean up
+### Phase 9. Switch ownership and clean up
 
 In local pilot mode:
 
@@ -1031,10 +1091,12 @@ component files are shared state.
 ```text
 select component
   -> build inventory and worksheet
+  -> backfill and run legacy unit test
   -> capture baseline
   -> resolve decisions
   -> define contract
   -> implement one behavior unit
+  -> run React unit test
   -> run focused proof
        -> mismatch: fix React and retry
        -> intentional difference: require approved decision
@@ -1212,10 +1274,11 @@ A production component is done when:
    schemas.
 3. Write the TabPane registry entry, worksheet, fixtures, selector maps,
    scenarios, and decisions by hand.
-4. Create a TabPane-focused Playwright capture and compare command.
-5. Add Vitest and React Testing Library for React behavior tests.
+4. Backfill and run a focused MooTools unit test.
+5. Create a TabPane-focused Playwright capture and compare command.
 6. Capture the TabPane baseline.
-7. Migrate TabPane by hand and make its proof green.
+7. Add and run the focused React unit test.
+8. Migrate TabPane by hand and make its proof green.
 
 ### Pass 2
 

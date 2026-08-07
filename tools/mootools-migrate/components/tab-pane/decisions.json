@@ -198,16 +198,16 @@
       }
     },
     {
-      "findingId": "tab-pane:dependency:script-order:https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-core-1-4-2-js-then-https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-more-1-4-0-1-js-then-components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
-      "findingFingerprint": "sha256:15e3bde4870e52f14d6bc91b9bdc2c696a2476092e96211018f70a80694c0542",
+      "findingId": "tab-pane:dependency:script-order:components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
+      "findingFingerprint": "sha256:71f3c5f195661dc3ad09de4dd08b8275f7285d9d1733f4045c5e92c397436c84",
       "resolution": "replace",
-      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "rationale": "Use the local pinned MooTools runtime for legacy tests and remove it from React.",
       "requiresHumanApproval": true,
       "approval": {
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:15e3bde4870e52f14d6bc91b9bdc2c696a2476092e96211018f70a80694c0542"
+        "findingFingerprint": "sha256:71f3c5f195661dc3ad09de4dd08b8275f7285d9d1733f4045c5e92c397436c84"
       }
     },
     {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { RunIdSchema, ScenarioSchema } from "../src/schemas.js";
+import { RunIdSchema, ScenarioSchema } from "../src/contracts/schemas.js";
 
 describe("scenario schema", () => {
   it("rejects duplicate step IDs and unknown assertion steps", () => {

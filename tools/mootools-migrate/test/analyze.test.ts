@@ -4,11 +4,11 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { analyzeComponent } from "../src/analyze.js";
+import { analyzeComponent } from "../src/analyze/index.js";
 import {
   ComponentConfigSchema,
   RegistrySchema,
-} from "../src/schemas.js";
+} from "../src/contracts/schemas.js";
 
 describe("component analyzer", () => {
   it("covers events, callers, DOM, APIs, effects, dependencies, markup, and CSS", async () => {
@@ -117,6 +117,12 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       bootstrapFiles: ["legacy/bootstrap.ts"],
       scanRoots: ["legacy", "src"],
       callsiteGlobs: ["legacy/main.js", "src/**/*.{ts,tsx}"],
+      tests: {
+        legacyFile: "legacy/Widget.legacy.test.ts",
+        legacyDependencies: [],
+        reactFile: "src/Widget.test.tsx",
+        reactDependencies: [],
+      },
       fixtureBridge: {
         windowValueKey: "__FIXTURE__",
         windowIdKey: "__FIXTURE_ID__",
