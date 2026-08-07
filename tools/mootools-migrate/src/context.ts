@@ -26,7 +26,7 @@ export async function createContext(options: {
   const toolsRoot = resolve(options.toolsRoot);
   const projectRoot =
     options.projectRoot === null
-      ? resolve(toolsRoot, "..")
+      ? resolve(toolsRoot, "../..")
       : resolve(options.projectRoot);
   const registrySource = await readFile(
     resolve(toolsRoot, "registry.json"),

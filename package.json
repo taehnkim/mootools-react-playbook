@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "migrate": "npm --prefix tools/mootools-migrate run migrate --",
+    "migrate:check": "npm --prefix tools/mootools-migrate run check",
+    "migrate:setup": "npm install --prefix tools/mootools-migrate && npm exec --prefix tools/mootools-migrate -- playwright install chromium",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview"

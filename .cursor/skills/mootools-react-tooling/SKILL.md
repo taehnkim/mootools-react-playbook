@@ -5,7 +5,7 @@ description: Operates and changes the checked-in MooTools migration CLI. Use whe
 
 # MooTools migration tooling
 
-Run commands from `migration_tools`.
+Run commands from the repository root.
 
 ## Command contract
 
@@ -32,7 +32,7 @@ npm run migrate -- analyze <component> --write
 ```
 
 Reads source, CSS, and callers. Writes only
-`components/<id>/worksheet.generated.json`.
+`tools/mootools-migrate/components/<id>/worksheet.generated.json`.
 
 It analyzes:
 

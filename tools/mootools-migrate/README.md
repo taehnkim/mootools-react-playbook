@@ -1,7 +1,7 @@
 # MooTools migration tools
 
-This directory contains the executable first pass of the migration runbook.
-It is a separate TypeScript package.
+This directory contains the executable migration package. Cursor instructions
+for these tools live in the repository root at `.cursor/skills/`.
 
 ## Included
 
@@ -31,12 +31,10 @@ The first codemod is intentionally narrow. It wraps supported
 classic-script load order. It does not generate React behavior or delete
 legacy source.
 
-## Install
+## Install from the repository root
 
 ```bash
-cd migration_tools
-npm install
-npx playwright install chromium
+npm run migrate:setup
 ```
 
 ## Run
@@ -47,10 +45,9 @@ Start the sandbox from the repository root:
 npm run dev
 ```
 
-In another terminal:
+In another terminal, stay at the repository root:
 
 ```bash
-cd migration_tools
 npm run migrate -- status tab-pane
 ```
 
@@ -82,9 +79,8 @@ npm run migrate -- compare tab-pane \
   --base-url http://127.0.0.1:5173
 ```
 
-`adapter` is dry-run by default. The current sandbox is not a git repository,
-so a write also needs `--allow-unsafe-write`. Use that option only when the
-sandbox is disposable.
+`adapter` is dry-run by default. A write requires clean target paths in git.
+Use `--allow-unsafe-write` only in a disposable non-git sandbox.
 
 `capture` rejects an existing evidence directory. Add `--replace` only when
 you intend to replace a reviewed baseline atomically.
@@ -103,7 +99,7 @@ reports computed or project-specific forms as unknown instead of guessing.
 - Seven browser scenarios.
 - The exact legacy-use allowlist.
 - Generated static worksheet.
-- Pending decision records.
+- Approved decision records.
 - Captured legacy baseline and screenshots.
 
 The React component implements the selector map, approved compatibility
@@ -112,17 +108,13 @@ handle, and fixture acknowledgement. The `react-pilot-3` evidence run reached
 
 ## Skills in Cursor
 
-The project skills are under `migration_tools/.cursor/skills`.
-
-Open `migration_tools` as the Cursor project root to make these skills
-discoverable without copying them. If the parent repository remains the
-project root, attach a skill by its file path or move the final approved skill
-set to the parent `.cursor/skills` directory.
+The project skills are under the root `.cursor/skills/` directory. Cursor can
+discover them when this repository is open.
 
 ## Checks
 
 ```bash
-npm run check
+npm run migrate:check
 npm run build
 ```
 

@@ -5,7 +5,8 @@ description: Migrates one MooTools component to React with a saved legacy baseli
 
 # Migrate one MooTools component
 
-Run this workflow from `migration_tools`.
+Run this workflow from the repository root. Cursor should run the commands,
+write the React component and tests, and continue until verification passes.
 
 ## Hard rules
 

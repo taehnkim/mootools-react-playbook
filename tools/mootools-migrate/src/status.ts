@@ -112,7 +112,7 @@ export async function getMigrationStatus(options: {
     return status(
       componentId,
       "decisions",
-      `Review components/${componentId}/decisions.json`,
+      `Review tools/mootools-migrate/components/${componentId}/decisions.json`,
       decisionCheck.issues,
     );
   }

@@ -10,7 +10,7 @@ const DEFAULT_IGNORES = [
   "**/node_modules/**",
   "**/dist/**",
   "**/.git/**",
-  "migration_tools/artifacts/**",
+  "tools/mootools-migrate/artifacts/**",
 ];
 
 export async function expandProjectGlobs(options: {
