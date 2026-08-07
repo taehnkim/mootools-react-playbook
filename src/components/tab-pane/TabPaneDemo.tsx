@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from "react";
 
-import "../../../legacy/styles.css";
+import "../../../styles.css";
 import {
   TabPane,
   type TabPaneHandle,
@@ -141,7 +141,7 @@ export function TabPaneDemo() {
         <div className="legacy-shell">
           <nav className="site-nav" aria-label="Sandbox pages">
             <strong>MooTools → React sandbox</strong>
-            <a href="/legacy/">Legacy reference</a>
+            <a href="/">Legacy reference</a>
           </nav>
           <p className="eyebrow">React + TypeScript</p>
           <h1>Hello from the React TabPane.</h1>
@@ -159,7 +159,7 @@ export function TabPaneDemo() {
               <p className="component-kicker">Migrated component</p>
               <h2>TabPane</h2>
             </div>
-            <a href="/legacy/#tab-pane-demo">Open legacy reference</a>
+            <a href="/#tab-pane-demo">Open legacy reference</a>
           </header>
           <div className="demo-content">
             <TabPane

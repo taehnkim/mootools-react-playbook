@@ -4,28 +4,28 @@
   "displayName": "TabPane",
   "legacyGlobal": "TabPane",
   "sourceFiles": [
-    "legacy/components/tab-pane/TabPane.js",
-    "legacy/components/tab-pane/TabPane.Extra.js"
+    "components/tab-pane/TabPane.js",
+    "components/tab-pane/TabPane.Extra.js"
   ],
   "cssFiles": [
-    "legacy/styles.css",
+    "styles.css",
     "src/global.css"
   ],
   "markupFiles": [
     {
-      "path": "legacy/index.html",
+      "path": "index.html",
       "rootSelector": "#tab-pane"
     }
   ],
   "bootstrapFiles": [
-    "legacy/bootstrap.ts"
+    "bootstrap.ts"
   ],
   "scanRoots": [
-    "legacy",
+    ".",
     "src"
   ],
   "callsiteGlobs": [
-    "legacy/main.js",
+    "main.js",
     "src/**/*.{js,jsx,ts,tsx}"
   ],
   "fixtureBridge": {
@@ -38,7 +38,7 @@
     ]
   },
   "legacy": {
-    "entryPath": "/legacy/",
+    "entryPath": "/",
     "readyPath": [
       "MooSandbox",
       "tabPane"
@@ -50,7 +50,7 @@
     ]
   },
   "react": {
-    "entryPath": "/",
+    "entryPath": "/react.html",
     "readySelector": "[data-migration-component=\"tab-pane\"]",
     "handlePath": [
       "ReactSandbox",
@@ -60,11 +60,11 @@
   },
   "adapter": {
     "globalName": "mountTabPane",
-    "outputPath": "legacy/adapters/mount-tab-pane.js",
+    "outputPath": "adapters/mount-tab-pane.js",
     "callsiteFiles": [
-      "legacy/main.js"
+      "main.js"
     ],
-    "bootstrapFile": "legacy/bootstrap.ts",
+    "bootstrapFile": "bootstrap.ts",
     "bootstrapImportAnchor": "import mainUrl from \"./main.js?url\";",
     "bootstrapArrayAnchor": "mainUrl,",
     "bootstrapImportPath": "./adapters/mount-tab-pane.js"

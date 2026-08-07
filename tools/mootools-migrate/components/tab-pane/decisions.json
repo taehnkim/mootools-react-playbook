@@ -4,7 +4,7 @@
   "decisions": [
     {
       "findingId": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
-      "findingFingerprint": "sha256:405f111736364dc636861c9611cd3678a0d59944e09dc486ce27d5ee7c545a91",
+      "findingFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -12,12 +12,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:405f111736364dc636861c9611cd3678a0d59944e09dc486ce27d5ee7c545a91"
+        "findingFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f"
       }
     },
     {
       "findingId": "tab-pane:caller-dom-listener:domready-tabpane-add-tabpane-addevent-tabpane-close",
-      "findingFingerprint": "sha256:b6658f8fb7a266e2cf26e2578ebc02f74addc860914781cac50eb913a37543fd",
+      "findingFingerprint": "sha256:388a49922dc5f82a7bb001f6ae640ce6d5bc4d325ad4e79480dcfa0440341efe",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -25,12 +25,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:b6658f8fb7a266e2cf26e2578ebc02f74addc860914781cac50eb913a37543fd"
+        "findingFingerprint": "sha256:388a49922dc5f82a7bb001f6ae640ce6d5bc4d325ad4e79480dcfa0440341efe"
       }
     },
     {
       "findingId": "tab-pane:caller-dom-listener:submit-tabpane-add",
-      "findingFingerprint": "sha256:d72538309ae2be8d2785bb1de81dcbcbb579d3b64b612bec99e23aab15377341",
+      "findingFingerprint": "sha256:c817a3e7a09445377b36f8dc103a8829fd5bcf0d10b00c18427393cd455701c2",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -38,12 +38,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:d72538309ae2be8d2785bb1de81dcbcbb579d3b64b612bec99e23aab15377341"
+        "findingFingerprint": "sha256:c817a3e7a09445377b36f8dc103a8829fd5bcf0d10b00c18427393cd455701c2"
       }
     },
     {
       "findingId": "tab-pane:caller-event-listener:addevent-change",
-      "findingFingerprint": "sha256:e19c1caa0f5d6f0e08b6b7e1606c627c956d9755b60ad3dde983f23214dba2f1",
+      "findingFingerprint": "sha256:83355607aa8fb39b09146a6f96a2fee1b0e0d050a9afd9f4924ff05c38a6fb7c",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -51,12 +51,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:e19c1caa0f5d6f0e08b6b7e1606c627c956d9755b60ad3dde983f23214dba2f1"
+        "findingFingerprint": "sha256:83355607aa8fb39b09146a6f96a2fee1b0e0d050a9afd9f4924ff05c38a6fb7c"
       }
     },
     {
       "findingId": "tab-pane:caller-global-exposure:window-moosandbox",
-      "findingFingerprint": "sha256:ae8516fdce8314e70d039665d1bcc19175b15ac51984d7df2969636873de6dd3",
+      "findingFingerprint": "sha256:45765c7de553fcee356052ecd1c93cba073f8db8388352dc4156117554f8f110",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -64,12 +64,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ae8516fdce8314e70d039665d1bcc19175b15ac51984d7df2969636873de6dd3"
+        "findingFingerprint": "sha256:45765c7de553fcee356052ecd1c93cba073f8db8388352dc4156117554f8f110"
       }
     },
     {
       "findingId": "tab-pane:caller-method:add",
-      "findingFingerprint": "sha256:dd2a36d03f862376f8a400e89b1b41a5323c1e5eb372715476b097faad367c72",
+      "findingFingerprint": "sha256:d0816f36fc4b5c1a5d7c3b9ef864841afb57ad039274f242b10a2537a197a8fd",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -77,12 +77,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:dd2a36d03f862376f8a400e89b1b41a5323c1e5eb372715476b097faad367c72"
+        "findingFingerprint": "sha256:d0816f36fc4b5c1a5d7c3b9ef864841afb57ad039274f242b10a2537a197a8fd"
       }
     },
     {
       "findingId": "tab-pane:caller-method:addevent",
-      "findingFingerprint": "sha256:231762b932ec0ee4747e6b17614c1943b525eb6a82af6ed834c68ec42a1e3e54",
+      "findingFingerprint": "sha256:36322b6b2b89370e9d130ba6fb69c9a75b6cd795eff30c2ba13813dc10a9a999",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -90,12 +90,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:231762b932ec0ee4747e6b17614c1943b525eb6a82af6ed834c68ec42a1e3e54"
+        "findingFingerprint": "sha256:36322b6b2b89370e9d130ba6fb69c9a75b6cd795eff30c2ba13813dc10a9a999"
       }
     },
     {
       "findingId": "tab-pane:caller-method:close",
-      "findingFingerprint": "sha256:16e8c57694d6d5227dedfe3596d68c41e3b02e5917e102e3bbcae9a5865e9d6d",
+      "findingFingerprint": "sha256:7d08f50495cef3ac4c1ab9266d223ce8d7dd8a8f396777e069e750b1d4d6bf69",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -103,12 +103,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:16e8c57694d6d5227dedfe3596d68c41e3b02e5917e102e3bbcae9a5865e9d6d"
+        "findingFingerprint": "sha256:7d08f50495cef3ac4c1ab9266d223ce8d7dd8a8f396777e069e750b1d4d6bf69"
       }
     },
     {
-      "findingId": "tab-pane:caller:legacy-main-js-5-constructor",
-      "findingFingerprint": "sha256:e0c6dda2dd9ce8e1d07bd38c62754dc5d5432913beebd706be1735d73ef0b2ae",
+      "findingId": "tab-pane:caller:main-js-5-constructor",
+      "findingFingerprint": "sha256:4e5d6fdd4240b69b07cd831bb74cb2128a90da24d0d433dc681dafb55bcf70dc",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -116,12 +116,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:e0c6dda2dd9ce8e1d07bd38c62754dc5d5432913beebd706be1735d73ef0b2ae"
+        "findingFingerprint": "sha256:4e5d6fdd4240b69b07cd831bb74cb2128a90da24d0d433dc681dafb55bcf70dc"
       }
     },
     {
       "findingId": "tab-pane:dependency:core-1-4-class",
-      "findingFingerprint": "sha256:0698415cae35fccd870a0d283e29747cdacc0f7fdf68e392cc1842b8c624f94b",
+      "findingFingerprint": "sha256:0cfa08a84605cb13922ce564ced86cef1a98558b325da1d276069977aef020c5",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -129,12 +129,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0698415cae35fccd870a0d283e29747cdacc0f7fdf68e392cc1842b8c624f94b"
+        "findingFingerprint": "sha256:0cfa08a84605cb13922ce564ced86cef1a98558b325da1d276069977aef020c5"
       }
     },
     {
       "findingId": "tab-pane:dependency:core-1-4-class-extras",
-      "findingFingerprint": "sha256:a856b360e509112b47fd253618a139f1e8e0da6041c0b3fddcdc2ddce6518194",
+      "findingFingerprint": "sha256:56621d611571512cfe105cbc1cfc2cd8bc111346f835fed7ca615b4b1bb6e83f",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -142,12 +142,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:a856b360e509112b47fd253618a139f1e8e0da6041c0b3fddcdc2ddce6518194"
+        "findingFingerprint": "sha256:56621d611571512cfe105cbc1cfc2cd8bc111346f835fed7ca615b4b1bb6e83f"
       }
     },
     {
       "findingId": "tab-pane:dependency:core-1-4-element",
-      "findingFingerprint": "sha256:bcb1afc6024ce396e5eab5052beeafb1a9c1df7c4b4d4c5caebfb6bb0a2cc4c5",
+      "findingFingerprint": "sha256:3f75fe3cf0c5a1af2d8b76f99a0b0a0b1d3af6bd0ed65f90484ce1833e293bfa",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -155,12 +155,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:bcb1afc6024ce396e5eab5052beeafb1a9c1df7c4b4d4c5caebfb6bb0a2cc4c5"
+        "findingFingerprint": "sha256:3f75fe3cf0c5a1af2d8b76f99a0b0a0b1d3af6bd0ed65f90484ce1833e293bfa"
       }
     },
     {
       "findingId": "tab-pane:dependency:core-1-4-element-delegation",
-      "findingFingerprint": "sha256:5e50f344d5eec60d35025b9ecbd2eec0b8bc24aa56e4f2070fc3f4d7dc5b3617",
+      "findingFingerprint": "sha256:010f14c9333aba2029023ea7daf786f841e15b1511e6416e0f656e6ed62e78d9",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -168,12 +168,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:5e50f344d5eec60d35025b9ecbd2eec0b8bc24aa56e4f2070fc3f4d7dc5b3617"
+        "findingFingerprint": "sha256:010f14c9333aba2029023ea7daf786f841e15b1511e6416e0f656e6ed62e78d9"
       }
     },
     {
       "findingId": "tab-pane:dependency:core-1-4-element-event",
-      "findingFingerprint": "sha256:cbd44b3b79c9e45dd3ac4bcef73f0823bc4f759b305c91c6da706655b4ceb811",
+      "findingFingerprint": "sha256:f328190a34396cc5721131d35e60fa524f26bb7c2f89b81c1a030789a062e3cb",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -181,12 +181,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:cbd44b3b79c9e45dd3ac4bcef73f0823bc4f759b305c91c6da706655b4ceb811"
+        "findingFingerprint": "sha256:f328190a34396cc5721131d35e60fa524f26bb7c2f89b81c1a030789a062e3cb"
       }
     },
     {
       "findingId": "tab-pane:dependency:core-1-4-event",
-      "findingFingerprint": "sha256:4c99a97f45934ffaa1ae94bbda6672a86e76583bfa6bf61d41526fe604df84d2",
+      "findingFingerprint": "sha256:4756bedc9861d1964a69b16f86cc0c81ecec71b1d4105ea0f0dc83bef3f4774a",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -194,12 +194,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:4c99a97f45934ffaa1ae94bbda6672a86e76583bfa6bf61d41526fe604df84d2"
+        "findingFingerprint": "sha256:4756bedc9861d1964a69b16f86cc0c81ecec71b1d4105ea0f0dc83bef3f4774a"
       }
     },
     {
       "findingId": "tab-pane:dependency:script-order:https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-core-1-4-2-js-then-https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-more-1-4-0-1-js-then-components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
-      "findingFingerprint": "sha256:d1ca16261533dd51df2f1fafc625f7d9814f17357b9705a06bf8f540217bcdc0",
+      "findingFingerprint": "sha256:15e3bde4870e52f14d6bc91b9bdc2c696a2476092e96211018f70a80694c0542",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -207,12 +207,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:d1ca16261533dd51df2f1fafc625f7d9814f17357b9705a06bf8f540217bcdc0"
+        "findingFingerprint": "sha256:15e3bde4870e52f14d6bc91b9bdc2c696a2476092e96211018f70a80694c0542"
       }
     },
     {
       "findingId": "tab-pane:dependency:tabpane",
-      "findingFingerprint": "sha256:10ac07ffd05549747b615b48a17a7d65965172cd00c49fd0746fd7dbb82670b9",
+      "findingFingerprint": "sha256:65179e02412138335ac6edab903ba76216406a8fd26cc2b1c1c72c7dd4f14559",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -220,12 +220,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:10ac07ffd05549747b615b48a17a7d65965172cd00c49fd0746fd7dbb82670b9"
+        "findingFingerprint": "sha256:65179e02412138335ac6edab903ba76216406a8fd26cc2b1c1c72c7dd4f14559"
       }
     },
     {
       "findingId": "tab-pane:event-listener:registers-change",
-      "findingFingerprint": "sha256:39a0800baf2e8d137268fcb71c17540c927ff99fce89b7e733310a1464798562",
+      "findingFingerprint": "sha256:7d2bfb23b6a915258109cb383513d15b788c14f2161aeb75bf3e2760534b94d6",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -233,12 +233,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:39a0800baf2e8d137268fcb71c17540c927ff99fce89b7e733310a1464798562"
+        "findingFingerprint": "sha256:7d2bfb23b6a915258109cb383513d15b788c14f2161aeb75bf3e2760534b94d6"
       }
     },
     {
       "findingId": "tab-pane:event-listener:registers-click-relay-data-close-tab",
-      "findingFingerprint": "sha256:88d16a9a3528ba9934243b2a7dbd04d330f06a1842a70e9318d49b170f1c8efc",
+      "findingFingerprint": "sha256:21d5095bc00fb443b5ef3ce6e63a1a740d5e49b972ac5349e4473a7b607079d2",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -246,12 +246,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:88d16a9a3528ba9934243b2a7dbd04d330f06a1842a70e9318d49b170f1c8efc"
+        "findingFingerprint": "sha256:21d5095bc00fb443b5ef3ce6e63a1a740d5e49b972ac5349e4473a7b607079d2"
       }
     },
     {
       "findingId": "tab-pane:event-listener:registers-click-relay-this-options-tabselector",
-      "findingFingerprint": "sha256:418cd75429e357626d30cff6b824cd8d29c268b903ad405e39301fddb70cb00b",
+      "findingFingerprint": "sha256:c7dc63b0001ec4ba305fb0f3a55ce54d58d624a82a44d4454de4084619e6606a",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -259,12 +259,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:418cd75429e357626d30cff6b824cd8d29c268b903ad405e39301fddb70cb00b"
+        "findingFingerprint": "sha256:c7dc63b0001ec4ba305fb0f3a55ce54d58d624a82a44d4454de4084619e6606a"
       }
     },
     {
       "findingId": "tab-pane:event-listener:registers-domready",
-      "findingFingerprint": "sha256:c58391bb832d29635745cd1224e135932bc0a6bd7a725ded5a243abbe8d53a60",
+      "findingFingerprint": "sha256:7b3d120a59e945241922fdcbf13ec75c20695f2accc18d15ec83fa06eb875b9e",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -272,12 +272,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:c58391bb832d29635745cd1224e135932bc0a6bd7a725ded5a243abbe8d53a60"
+        "findingFingerprint": "sha256:7b3d120a59e945241922fdcbf13ec75c20695f2accc18d15ec83fa06eb875b9e"
       }
     },
     {
       "findingId": "tab-pane:event-listener:registers-submit",
-      "findingFingerprint": "sha256:a70dfa2a41475d52d4e1292d2843d7170a8a819119f3a8a272c2e6c787c9f36a",
+      "findingFingerprint": "sha256:5d008b1fc25667ade904b2bfb60b5b8c7e11485011b6a0906b3f5175624d9fcd",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -285,12 +285,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:a70dfa2a41475d52d4e1292d2843d7170a8a819119f3a8a272c2e6c787c9f36a"
+        "findingFingerprint": "sha256:5d008b1fc25667ade904b2bfb60b5b8c7e11485011b6a0906b3f5175624d9fcd"
       }
     },
     {
       "findingId": "tab-pane:event:add",
-      "findingFingerprint": "sha256:e48c536296c091b14c6013771142b89a3a5563c9e4f2eeae3342ff8550a9e618",
+      "findingFingerprint": "sha256:6e80c7ccc614735803f5d000184a9d72dcb1eaf84e5337f579d31e1ba000442e",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -298,12 +298,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:e48c536296c091b14c6013771142b89a3a5563c9e4f2eeae3342ff8550a9e618"
+        "findingFingerprint": "sha256:6e80c7ccc614735803f5d000184a9d72dcb1eaf84e5337f579d31e1ba000442e"
       }
     },
     {
       "findingId": "tab-pane:event:change",
-      "findingFingerprint": "sha256:58087d3d50f80d72e961f7b00c7c5013da9797494360c4e66640354ba74d5bd6",
+      "findingFingerprint": "sha256:ef10a6c93c8d77da5f4834fef12505550dce19bd7c4970778049135ec6b08f62",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -311,12 +311,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:58087d3d50f80d72e961f7b00c7c5013da9797494360c4e66640354ba74d5bd6"
+        "findingFingerprint": "sha256:ef10a6c93c8d77da5f4834fef12505550dce19bd7c4970778049135ec6b08f62"
       }
     },
     {
       "findingId": "tab-pane:event:close",
-      "findingFingerprint": "sha256:10cf5c579f15eaea60496925300a2f032bad154f8435b6d84c3c15cc52651717",
+      "findingFingerprint": "sha256:6116478f5738d3f0c339d95bf9e904cd105d18a9ee70c9ad098ae94969047fcf",
       "resolution": "preserve",
       "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
       "requiresHumanApproval": true,
@@ -324,12 +324,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:10cf5c579f15eaea60496925300a2f032bad154f8435b6d84c3c15cc52651717"
+        "findingFingerprint": "sha256:6116478f5738d3f0c339d95bf9e904cd105d18a9ee70c9ad098ae94969047fcf"
       }
     },
     {
       "findingId": "tab-pane:global:tabpane",
-      "findingFingerprint": "sha256:252198c1c9fd51ab303db2d1ea442a27052d52b499e8e6eebf024374bdde656d",
+      "findingFingerprint": "sha256:d9191834aadb517c45c0da4071c0e34b0b6b88cb8954faed061e81a855f494c2",
       "resolution": "replace",
       "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
       "requiresHumanApproval": true,
@@ -337,12 +337,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:252198c1c9fd51ab303db2d1ea442a27052d52b499e8e6eebf024374bdde656d"
+        "findingFingerprint": "sha256:d9191834aadb517c45c0da4071c0e34b0b6b88cb8954faed061e81a855f494c2"
       }
     },
     {
       "findingId": "tab-pane:import:static-import-components-tab-pane-tabpane-extra-js-url",
-      "findingFingerprint": "sha256:ef2e4108be2326f43da69f23b4753c492374bbf1f07b42a8d03b132b21b32dcd",
+      "findingFingerprint": "sha256:e08e91a224132b1aa3edc1f6892f9ab52b0203b72ce51a2475cca5ac897ea629",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -350,12 +350,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ef2e4108be2326f43da69f23b4753c492374bbf1f07b42a8d03b132b21b32dcd"
+        "findingFingerprint": "sha256:e08e91a224132b1aa3edc1f6892f9ab52b0203b72ce51a2475cca5ac897ea629"
       }
     },
     {
       "findingId": "tab-pane:import:static-import-components-tab-pane-tabpane-js-url",
-      "findingFingerprint": "sha256:6802b3e53b5f01661e68f1335e49401db4f2c148112eaf053468eaeaffd78d46",
+      "findingFingerprint": "sha256:4ad13d96354a616cbb0f723e6712e765887ea83792a0fea25e434cab91bf70c2",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -363,12 +363,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:6802b3e53b5f01661e68f1335e49401db4f2c148112eaf053468eaeaffd78d46"
+        "findingFingerprint": "sha256:4ad13d96354a616cbb0f723e6712e765887ea83792a0fea25e434cab91bf70c2"
       }
     },
     {
       "findingId": "tab-pane:import:static-import-main-js-url",
-      "findingFingerprint": "sha256:9bc9ca2d1cd6cf72d3cb7b349402da5180bd5478d03d7ea93a8f841b4e183d07",
+      "findingFingerprint": "sha256:ad6f50988aac47444a22763c9a9494d2743225b3a9bce12e9970d9345235747d",
       "resolution": "replace",
       "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
       "requiresHumanApproval": true,
@@ -376,12 +376,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:9bc9ca2d1cd6cf72d3cb7b349402da5180bd5478d03d7ea93a8f841b4e183d07"
+        "findingFingerprint": "sha256:ad6f50988aac47444a22763c9a9494d2743225b3a9bce12e9970d9345235747d"
       }
     },
     {
       "findingId": "tab-pane:markup-order:div-tab-pane-ul-tabs-section-content-section-content-section-content",
-      "findingFingerprint": "sha256:7c73ac2f128825d2c2aea2ee34c501cab79708e86eedaa3ca91b693eb1f9532e",
+      "findingFingerprint": "sha256:3bd7572b9efa00c334250d443e2f5816d972719b5cd0608a93513882ee7e2de6",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -389,12 +389,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:7c73ac2f128825d2c2aea2ee34c501cab79708e86eedaa3ca91b693eb1f9532e"
+        "findingFingerprint": "sha256:3bd7572b9efa00c334250d443e2f5816d972719b5cd0608a93513882ee7e2de6"
       }
     },
     {
       "findingId": "tab-pane:markup-order:li-tab-span-button-tab-close",
-      "findingFingerprint": "sha256:3281f8e8996e07ea205cfa38236b6f82a909d1626e5dfc2f8eb464e02d3bb320",
+      "findingFingerprint": "sha256:0df89f485f37415a45203b67a6589c4d0217b8898efc7cdec17f1dc197c99b36",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -402,12 +402,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:3281f8e8996e07ea205cfa38236b6f82a909d1626e5dfc2f8eb464e02d3bb320"
+        "findingFingerprint": "sha256:0df89f485f37415a45203b67a6589c4d0217b8898efc7cdec17f1dc197c99b36"
       }
     },
     {
       "findingId": "tab-pane:markup-order:section-content-h3-p",
-      "findingFingerprint": "sha256:56ba38672610e3c227f181ba881b715c5776f7acc6f4c48df52ebbbc6727ce1e",
+      "findingFingerprint": "sha256:2db8e4b93e5a265e9d263c98bdcf34c734ca70f9eed45f9c22c054978211549e",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -415,12 +415,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:56ba38672610e3c227f181ba881b715c5776f7acc6f4c48df52ebbbc6727ce1e"
+        "findingFingerprint": "sha256:2db8e4b93e5a265e9d263c98bdcf34c734ca70f9eed45f9c22c054978211549e"
       }
     },
     {
       "findingId": "tab-pane:markup-order:ul-tabs-li-tab-li-tab-li-tab",
-      "findingFingerprint": "sha256:e27194952df71fc38de94f357989cc41ff2ce61c5b4b81e90bb354d120cad72b",
+      "findingFingerprint": "sha256:e6a2dc384685e32054e645294a85340644fb11553d9301811559a5fb1187a5aa",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -428,12 +428,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:e27194952df71fc38de94f357989cc41ff2ce61c5b4b81e90bb354d120cad72b"
+        "findingFingerprint": "sha256:e6a2dc384685e32054e645294a85340644fb11553d9301811559a5fb1187a5aa"
       }
     },
     {
       "findingId": "tab-pane:markup:button-tab-close",
-      "findingFingerprint": "sha256:2fcb4be615481bdf536cded9b810cad3f08bf57db2119a0af3d342f43da1471d",
+      "findingFingerprint": "sha256:a367ad0e93cd582f792e8d2462ee1f48208e9b0ca97143b60ad337debc9da084",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -441,12 +441,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:2fcb4be615481bdf536cded9b810cad3f08bf57db2119a0af3d342f43da1471d"
+        "findingFingerprint": "sha256:a367ad0e93cd582f792e8d2462ee1f48208e9b0ca97143b60ad337debc9da084"
       }
     },
     {
       "findingId": "tab-pane:markup:div-tab-pane",
-      "findingFingerprint": "sha256:243a3aa11569d039ea463436730f6424137794040413ff9ff2bf1850e7d6347f",
+      "findingFingerprint": "sha256:68af850031d16e789689a0ed1c1f60966b2440cd2ea726a58d75f5b8d122d762",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -454,12 +454,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:243a3aa11569d039ea463436730f6424137794040413ff9ff2bf1850e7d6347f"
+        "findingFingerprint": "sha256:68af850031d16e789689a0ed1c1f60966b2440cd2ea726a58d75f5b8d122d762"
       }
     },
     {
       "findingId": "tab-pane:markup:dynamic-button",
-      "findingFingerprint": "sha256:0318113898185b5e95ca0b6a1349f62708f3752cca39cb8d23723d294b2efb88",
+      "findingFingerprint": "sha256:d0eb8f6ca9af30da0c6e55817ef758b67a61f4c923947e59939077801ba184d7",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -467,12 +467,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0318113898185b5e95ca0b6a1349f62708f3752cca39cb8d23723d294b2efb88"
+        "findingFingerprint": "sha256:d0eb8f6ca9af30da0c6e55817ef758b67a61f4c923947e59939077801ba184d7"
       }
     },
     {
       "findingId": "tab-pane:markup:dynamic-h3",
-      "findingFingerprint": "sha256:803063a39961dcbf64def804c277a5b3ea12946160c78492cb14bd5f4b3b48a4",
+      "findingFingerprint": "sha256:3fd5f9552ef3c417380d129be6236d31754c4528cc1fd45762cd77a448f0e857",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -480,12 +480,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:803063a39961dcbf64def804c277a5b3ea12946160c78492cb14bd5f4b3b48a4"
+        "findingFingerprint": "sha256:3fd5f9552ef3c417380d129be6236d31754c4528cc1fd45762cd77a448f0e857"
       }
     },
     {
       "findingId": "tab-pane:markup:dynamic-li",
-      "findingFingerprint": "sha256:bf2f366283dae631b45675edd822b32dab992b0408ae4c4b1a1253dda4d2ba09",
+      "findingFingerprint": "sha256:2b6062905943b0d237994fdf93150d5f7c6891ad8779f379c8f909789f5371b4",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -493,12 +493,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:bf2f366283dae631b45675edd822b32dab992b0408ae4c4b1a1253dda4d2ba09"
+        "findingFingerprint": "sha256:2b6062905943b0d237994fdf93150d5f7c6891ad8779f379c8f909789f5371b4"
       }
     },
     {
       "findingId": "tab-pane:markup:dynamic-p",
-      "findingFingerprint": "sha256:20af015f543966c7f293dc5725217c0c0aaa85d3f138a4919f22c59dd2ff340f",
+      "findingFingerprint": "sha256:5ef09ff55ff60f6e71a2b67e13ec8faf03e20d3bda6f00f70d11f6d4869acb57",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -506,12 +506,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:20af015f543966c7f293dc5725217c0c0aaa85d3f138a4919f22c59dd2ff340f"
+        "findingFingerprint": "sha256:5ef09ff55ff60f6e71a2b67e13ec8faf03e20d3bda6f00f70d11f6d4869acb57"
       }
     },
     {
       "findingId": "tab-pane:markup:dynamic-section",
-      "findingFingerprint": "sha256:cfe426f89e076bbe9fc6e808dd0b409b1bcb59a34d85cbc54223eabcb3880cb8",
+      "findingFingerprint": "sha256:3f29774644ea68538a12f4c0bd8f193e6fb8b7dc0956839ba15a61ccf5cb4ac9",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -519,12 +519,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:cfe426f89e076bbe9fc6e808dd0b409b1bcb59a34d85cbc54223eabcb3880cb8"
+        "findingFingerprint": "sha256:3f29774644ea68538a12f4c0bd8f193e6fb8b7dc0956839ba15a61ccf5cb4ac9"
       }
     },
     {
       "findingId": "tab-pane:markup:dynamic-span",
-      "findingFingerprint": "sha256:4ecfa2cd85b3117d71e982efa850185208afbc5aef71a6ea04c769bb4a3189a4",
+      "findingFingerprint": "sha256:dd857d0104e1134c3108132996d8593a578b0a7e6f10fd4dde05f78976412b69",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -532,12 +532,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:4ecfa2cd85b3117d71e982efa850185208afbc5aef71a6ea04c769bb4a3189a4"
+        "findingFingerprint": "sha256:dd857d0104e1134c3108132996d8593a578b0a7e6f10fd4dde05f78976412b69"
       }
     },
     {
       "findingId": "tab-pane:markup:li-tab",
-      "findingFingerprint": "sha256:48f49cd524bbf08a1007f2b727992b1b0cc0e699ee27db7b40abdbae4cb8adcd",
+      "findingFingerprint": "sha256:622a814b85c840a349a957bc3558078af80aef4ae7c8d927fb618ae22972b9c0",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -545,12 +545,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:48f49cd524bbf08a1007f2b727992b1b0cc0e699ee27db7b40abdbae4cb8adcd"
+        "findingFingerprint": "sha256:622a814b85c840a349a957bc3558078af80aef4ae7c8d927fb618ae22972b9c0"
       }
     },
     {
       "findingId": "tab-pane:markup:section-content",
-      "findingFingerprint": "sha256:0202a09984fd8891b0c8337d0bedf6304d2ee341c050b891ededb1195151c7c3",
+      "findingFingerprint": "sha256:ac2b4f2ae48f37adf8b2d885c726aa9d1839bbadd314aee05c2e73972d2f9e7d",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -558,12 +558,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0202a09984fd8891b0c8337d0bedf6304d2ee341c050b891ededb1195151c7c3"
+        "findingFingerprint": "sha256:ac2b4f2ae48f37adf8b2d885c726aa9d1839bbadd314aee05c2e73972d2f9e7d"
       }
     },
     {
       "findingId": "tab-pane:markup:ul-tabs",
-      "findingFingerprint": "sha256:ecc35b4b91ddba7a2dea667615cfdbefc66787262999e3224b3e9e263b9aa380",
+      "findingFingerprint": "sha256:68e9048763a685786c5deef5ce19fd298274125104d94a08feb2ce95631cd732",
       "resolution": "fix",
       "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
       "requiresHumanApproval": true,
@@ -571,12 +571,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ecc35b4b91ddba7a2dea667615cfdbefc66787262999e3224b3e9e263b9aa380"
+        "findingFingerprint": "sha256:68e9048763a685786c5deef5ce19fd298274125104d94a08feb2ce95631cd732"
       }
     },
     {
       "findingId": "tab-pane:public-input:activeclass",
-      "findingFingerprint": "sha256:122913c5b35ffe1c62e975810ddac5965053748fcdd26d37a7cf797cf3fb70b7",
+      "findingFingerprint": "sha256:1a1cd09ed028077e83df29456151ba5e6a9b1252be69d93afbb1f925d9cf4af9",
       "resolution": "replace",
       "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
       "requiresHumanApproval": true,
@@ -584,12 +584,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:122913c5b35ffe1c62e975810ddac5965053748fcdd26d37a7cf797cf3fb70b7"
+        "findingFingerprint": "sha256:1a1cd09ed028077e83df29456151ba5e6a9b1252be69d93afbb1f925d9cf4af9"
       }
     },
     {
       "findingId": "tab-pane:public-input:contentselector",
-      "findingFingerprint": "sha256:8caccb87566c358d900a16decb1061d8600b3a03997c68876ac1f75773b243ec",
+      "findingFingerprint": "sha256:1cf081ec2dfb9c73d13683432547387350078c713116eb5ab57255623337c544",
       "resolution": "replace",
       "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
       "requiresHumanApproval": true,
@@ -597,12 +597,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:8caccb87566c358d900a16decb1061d8600b3a03997c68876ac1f75773b243ec"
+        "findingFingerprint": "sha256:1cf081ec2dfb9c73d13683432547387350078c713116eb5ab57255623337c544"
       }
     },
     {
       "findingId": "tab-pane:public-input:tabselector",
-      "findingFingerprint": "sha256:dfeb3d64930cacc88ddb32dfba609916595c8cdb9c8d31593d1c36ec9be4f6b5",
+      "findingFingerprint": "sha256:8ff548c3cf8b2fa09be7aa27c7bdd006be2fcb26a7568539e2178755a667d614",
       "resolution": "replace",
       "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
       "requiresHumanApproval": true,
@@ -610,12 +610,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:dfeb3d64930cacc88ddb32dfba609916595c8cdb9c8d31593d1c36ec9be4f6b5"
+        "findingFingerprint": "sha256:8ff548c3cf8b2fa09be7aa27c7bdd006be2fcb26a7568539e2178755a667d614"
       }
     },
     {
       "findingId": "tab-pane:public-method:add",
-      "findingFingerprint": "sha256:93dbd80d6ecec6d7738b4bdfbe666ce4eacb6e1b1dd905fcc7d10a00ec8d7886",
+      "findingFingerprint": "sha256:e7951fd94e2904a18050f822e13d19ba9e8c181b0d10907fb5142a0726ab06de",
       "resolution": "replace",
       "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
       "requiresHumanApproval": true,
@@ -623,12 +623,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:93dbd80d6ecec6d7738b4bdfbe666ce4eacb6e1b1dd905fcc7d10a00ec8d7886"
+        "findingFingerprint": "sha256:e7951fd94e2904a18050f822e13d19ba9e8c181b0d10907fb5142a0726ab06de"
       }
     },
     {
       "findingId": "tab-pane:public-method:close",
-      "findingFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb",
+      "findingFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c",
       "resolution": "fix",
       "rationale": "Keep close behavior but retain the selected stable tab when another tab closes.",
       "requiresHumanApproval": true,
@@ -636,12 +636,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb"
+        "findingFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c"
       }
     },
     {
       "findingId": "tab-pane:public-method:get",
-      "findingFingerprint": "sha256:ffa3dd8bd444a5df29f36650b8184221f4d866ae1f8780bb68916b53ac8eee4f",
+      "findingFingerprint": "sha256:0ed2b7c0eaa48f426144a40a792886cebf46986e6f61d03f5230e4ebf9b0bcd0",
       "resolution": "delete",
       "rationale": "These index-based helpers are legacy internals and have no required React caller.",
       "requiresHumanApproval": true,
@@ -649,12 +649,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ffa3dd8bd444a5df29f36650b8184221f4d866ae1f8780bb68916b53ac8eee4f"
+        "findingFingerprint": "sha256:0ed2b7c0eaa48f426144a40a792886cebf46986e6f61d03f5230e4ebf9b0bcd0"
       }
     },
     {
       "findingId": "tab-pane:public-method:indexof",
-      "findingFingerprint": "sha256:0e2b9f23049495b1ad49e8df1b75f2411c77248a0c50e61ac7221c7c67030fe1",
+      "findingFingerprint": "sha256:c3a200a597c844d32ab462fd55374c717d1901ebb68a639cc15cf96aaaeb5405",
       "resolution": "delete",
       "rationale": "These index-based helpers are legacy internals and have no required React caller.",
       "requiresHumanApproval": true,
@@ -662,12 +662,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0e2b9f23049495b1ad49e8df1b75f2411c77248a0c50e61ac7221c7c67030fe1"
+        "findingFingerprint": "sha256:c3a200a597c844d32ab462fd55374c717d1901ebb68a639cc15cf96aaaeb5405"
       }
     },
     {
       "findingId": "tab-pane:public-method:initialize",
-      "findingFingerprint": "sha256:decf8597aa8cf7839f1751c3a45e33e8c7ca1585b52159793ec816f01a4767c3",
+      "findingFingerprint": "sha256:3dc2e83b5f9763351ef6c650d559ec50207d61e49390e14b24193c20b5ed5889",
       "resolution": "replace",
       "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
       "requiresHumanApproval": true,
@@ -675,12 +675,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:decf8597aa8cf7839f1751c3a45e33e8c7ca1585b52159793ec816f01a4767c3"
+        "findingFingerprint": "sha256:3dc2e83b5f9763351ef6c650d559ec50207d61e49390e14b24193c20b5ed5889"
       }
     },
     {
       "findingId": "tab-pane:public-method:show",
-      "findingFingerprint": "sha256:72248b129c8dd132cbdd6bce90fa9e984ea6fd95b2ff4139b42c3fa18c5743a2",
+      "findingFingerprint": "sha256:56827da40314f87f00546c2ce833fc9f34c9f0eef6c09baeb3704da4b28550e4",
       "resolution": "replace",
       "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
       "requiresHumanApproval": true,
@@ -688,12 +688,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:72248b129c8dd132cbdd6bce90fa9e984ea6fd95b2ff4139b42c3fa18c5743a2"
+        "findingFingerprint": "sha256:56827da40314f87f00546c2ce833fc9f34c9f0eef6c09baeb3704da4b28550e4"
       }
     },
     {
       "findingId": "tab-pane:selector-option:tabselector",
-      "findingFingerprint": "sha256:b37035757f1924c921d53d902a8f7674ea2a8850d11e9556efc4aec4fe69aa22",
+      "findingFingerprint": "sha256:f124cb5699e55fc83c6c74f27baba1d0077a3dfc9e42d3572274dee3eed560a9",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -701,12 +701,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:b37035757f1924c921d53d902a8f7674ea2a8850d11e9556efc4aec4fe69aa22"
+        "findingFingerprint": "sha256:f124cb5699e55fc83c6c74f27baba1d0077a3dfc9e42d3572274dee3eed560a9"
       }
     },
     {
       "findingId": "tab-pane:selector:active",
-      "findingFingerprint": "sha256:03756dd68ac21bb15ada6338d8e72d6bd3e0936c369eacda87483defc9620721",
+      "findingFingerprint": "sha256:f10f703397a262fbc033b2104d060ad0054e707f67bc5f04e88ac23c17660e68",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -714,12 +714,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:03756dd68ac21bb15ada6338d8e72d6bd3e0936c369eacda87483defc9620721"
+        "findingFingerprint": "sha256:f10f703397a262fbc033b2104d060ad0054e707f67bc5f04e88ac23c17660e68"
       }
     },
     {
       "findingId": "tab-pane:selector:aria-label-close-behavior-tab",
-      "findingFingerprint": "sha256:512095d47f70a0b2e1f56ae667908fe5596d26883342d26127efa1ef08773a01",
+      "findingFingerprint": "sha256:1258ecc5bcc05a6da97338d185e162b9d83183a6dd7a29e0c8c98ba967f57378",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -727,12 +727,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:512095d47f70a0b2e1f56ae667908fe5596d26883342d26127efa1ef08773a01"
+        "findingFingerprint": "sha256:1258ecc5bcc05a6da97338d185e162b9d83183a6dd7a29e0c8c98ba967f57378"
       }
     },
     {
       "findingId": "tab-pane:selector:aria-label-close-hello-tab",
-      "findingFingerprint": "sha256:2f89f637a7079b39c19a95d5de9748d16d7faa23a7f8ac8f917b66dc8704366e",
+      "findingFingerprint": "sha256:01d5df1435d301fba03d8a64ae0faa2bc8096e3ee37ee35bcbbcda7d76bea8b6",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -740,12 +740,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:2f89f637a7079b39c19a95d5de9748d16d7faa23a7f8ac8f917b66dc8704366e"
+        "findingFingerprint": "sha256:01d5df1435d301fba03d8a64ae0faa2bc8096e3ee37ee35bcbbcda7d76bea8b6"
       }
     },
     {
       "findingId": "tab-pane:selector:aria-label-close-migration-notes-tab",
-      "findingFingerprint": "sha256:dfabad58e32d6c1646f5447c4a283fb4c1c5bd2f2fcdf62d99a2912ac7ff94fc",
+      "findingFingerprint": "sha256:c93d2080ebef765e7af040e575897cb25ff207390b718ed6c26f993b8a4679b3",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -753,7 +753,7 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:dfabad58e32d6c1646f5447c4a283fb4c1c5bd2f2fcdf62d99a2912ac7ff94fc"
+        "findingFingerprint": "sha256:c93d2080ebef765e7af040e575897cb25ff207390b718ed6c26f993b8a4679b3"
       }
     },
     {
@@ -810,7 +810,7 @@
     },
     {
       "findingId": "tab-pane:selector:content",
-      "findingFingerprint": "sha256:bcff89b0972c3e871a35af6676cbaba64b963670203e667d7290fbbe827fee3b",
+      "findingFingerprint": "sha256:851a8408485121756c192f0c6f068b46abeb316934413acdadaf3c2894800e25",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -818,12 +818,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:bcff89b0972c3e871a35af6676cbaba64b963670203e667d7290fbbe827fee3b"
+        "findingFingerprint": "sha256:851a8408485121756c192f0c6f068b46abeb316934413acdadaf3c2894800e25"
       }
     },
     {
       "findingId": "tab-pane:selector:data-close-tab",
-      "findingFingerprint": "sha256:27c19db1842908f6eedae670c80ebbf225f1cd83ad9b60262291d9611dafc5f8",
+      "findingFingerprint": "sha256:dbcb0d63b097d87d653080e7f2104eb22a789fd02b9b1b58874afbeac76ed67c",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -831,7 +831,7 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:27c19db1842908f6eedae670c80ebbf225f1cd83ad9b60262291d9611dafc5f8"
+        "findingFingerprint": "sha256:dbcb0d63b097d87d653080e7f2104eb22a789fd02b9b1b58874afbeac76ed67c"
       }
     },
     {
@@ -849,7 +849,7 @@
     },
     {
       "findingId": "tab-pane:selector:new-tab-content",
-      "findingFingerprint": "sha256:c356b2475615d550b5aa5ed43bf9a4bfe473adea02f8ee2fec442b779fa25c6c",
+      "findingFingerprint": "sha256:b21f0e28eefa8e992d61cab932fb145cf43bdae64de29a8105aea2877fee0788",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -857,12 +857,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:c356b2475615d550b5aa5ed43bf9a4bfe473adea02f8ee2fec442b779fa25c6c"
+        "findingFingerprint": "sha256:b21f0e28eefa8e992d61cab932fb145cf43bdae64de29a8105aea2877fee0788"
       }
     },
     {
       "findingId": "tab-pane:selector:new-tab-title",
-      "findingFingerprint": "sha256:3e3be106f13957ed237ec5fddd370886f01290b22b3aa726767503f38fa7027e",
+      "findingFingerprint": "sha256:fbf1484cac6f454345a44a25acaa3defecf1fe72c168b86488f7143ef8033744",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -870,12 +870,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:3e3be106f13957ed237ec5fddd370886f01290b22b3aa726767503f38fa7027e"
+        "findingFingerprint": "sha256:fbf1484cac6f454345a44a25acaa3defecf1fe72c168b86488f7143ef8033744"
       }
     },
     {
       "findingId": "tab-pane:selector:tab",
-      "findingFingerprint": "sha256:0dfad8142c66e0f157846b0394ffd752e298a067b5603b5ddb54060076d689df",
+      "findingFingerprint": "sha256:3b0b14695687e2926422325437e8d75e020a217fd152e954e1220ed32e0dbdef",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -883,12 +883,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0dfad8142c66e0f157846b0394ffd752e298a067b5603b5ddb54060076d689df"
+        "findingFingerprint": "sha256:3b0b14695687e2926422325437e8d75e020a217fd152e954e1220ed32e0dbdef"
       }
     },
     {
       "findingId": "tab-pane:selector:tab-close",
-      "findingFingerprint": "sha256:2c8dc04180baea8bba47db125eb23da37cbd103c6e36317f10a51e2d99828e71",
+      "findingFingerprint": "sha256:e04fdb66128dee105acc7b126ff5694d10c9e52bcd297ad74708f355866f7d00",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -896,12 +896,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:2c8dc04180baea8bba47db125eb23da37cbd103c6e36317f10a51e2d99828e71"
+        "findingFingerprint": "sha256:e04fdb66128dee105acc7b126ff5694d10c9e52bcd297ad74708f355866f7d00"
       }
     },
     {
       "findingId": "tab-pane:selector:tab-close-hover",
-      "findingFingerprint": "sha256:ec771d9fe2cf0a4917c7a44b807ed4d18f9bf1e7289462f1ea854694ed514c6a",
+      "findingFingerprint": "sha256:96c9e69c1b813875b824673be1025f87fc6dbfd192b4274b6383b30009deda74",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -909,12 +909,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ec771d9fe2cf0a4917c7a44b807ed4d18f9bf1e7289462f1ea854694ed514c6a"
+        "findingFingerprint": "sha256:96c9e69c1b813875b824673be1025f87fc6dbfd192b4274b6383b30009deda74"
       }
     },
     {
       "findingId": "tab-pane:selector:tab-pane",
-      "findingFingerprint": "sha256:64f7101c9c465d7e5dca0bc229c5fa98f726f702e73819bbd498913b5aa9bab8",
+      "findingFingerprint": "sha256:eac8ab188383fdbbb2afced9d8f71faf93306f7fa314e0034018833b82cb089e",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -922,12 +922,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:64f7101c9c465d7e5dca0bc229c5fa98f726f702e73819bbd498913b5aa9bab8"
+        "findingFingerprint": "sha256:eac8ab188383fdbbb2afced9d8f71faf93306f7fa314e0034018833b82cb089e"
       }
     },
     {
       "findingId": "tab-pane:selector:tab-pane-content",
-      "findingFingerprint": "sha256:510c1515674e5d2f8e91505dc4402b71e591306cb4da964b2d44a3cc4e8768ef",
+      "findingFingerprint": "sha256:e6a1a27ec442e361fb077a5fb7621eb9e4c647abf4a41e102ae43d2b339042af",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -935,12 +935,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:510c1515674e5d2f8e91505dc4402b71e591306cb4da964b2d44a3cc4e8768ef"
+        "findingFingerprint": "sha256:e6a1a27ec442e361fb077a5fb7621eb9e4c647abf4a41e102ae43d2b339042af"
       }
     },
     {
       "findingId": "tab-pane:selector:tab-pane-content-h3",
-      "findingFingerprint": "sha256:f9e3847375d9d92aaba94aed0d5514861f170ffd578e86949077ed8d909c8389",
+      "findingFingerprint": "sha256:b455603fb4c1aa761a9a38a69a0d811c88a72f323b57aa6c7ff998e5303a5c00",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -948,12 +948,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:f9e3847375d9d92aaba94aed0d5514861f170ffd578e86949077ed8d909c8389"
+        "findingFingerprint": "sha256:b455603fb4c1aa761a9a38a69a0d811c88a72f323b57aa6c7ff998e5303a5c00"
       }
     },
     {
       "findingId": "tab-pane:selector:tab-pane-content-p",
-      "findingFingerprint": "sha256:0dff533e66d37531ea2dcd5009127e9ce3d1948a766235663cd9ecbca6da69d4",
+      "findingFingerprint": "sha256:a91c1b903e7a4aeb0ad22e2135fcc41b4352461512e105de25c6f82a3fb7c913",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -961,12 +961,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0dff533e66d37531ea2dcd5009127e9ce3d1948a766235663cd9ecbca6da69d4"
+        "findingFingerprint": "sha256:a91c1b903e7a4aeb0ad22e2135fcc41b4352461512e105de25c6f82a3fb7c913"
       }
     },
     {
       "findingId": "tab-pane:selector:tabs",
-      "findingFingerprint": "sha256:0306f33dc80163caebd352d52937cfecc34c9bbf4c0c65db0de426e0a63156aa",
+      "findingFingerprint": "sha256:c246d2bba52fd436f9fd67ef3ba406bceac090994ffebccb4a75e4f2e66b8236",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -974,12 +974,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:0306f33dc80163caebd352d52937cfecc34c9bbf4c0c65db0de426e0a63156aa"
+        "findingFingerprint": "sha256:c246d2bba52fd436f9fd67ef3ba406bceac090994ffebccb4a75e4f2e66b8236"
       }
     },
     {
       "findingId": "tab-pane:selector:tabs-tab",
-      "findingFingerprint": "sha256:f84fa1c8de2595c52f2329ad541ae6844ae27e609318c90a54b42229ca6122cc",
+      "findingFingerprint": "sha256:df9068e10ad3e2b87588ac9018fc87954fee1ca1c3f1728d73b26a0c3a34c230",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -987,12 +987,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:f84fa1c8de2595c52f2329ad541ae6844ae27e609318c90a54b42229ca6122cc"
+        "findingFingerprint": "sha256:df9068e10ad3e2b87588ac9018fc87954fee1ca1c3f1728d73b26a0c3a34c230"
       }
     },
     {
       "findingId": "tab-pane:selector:tabs-tab-active",
-      "findingFingerprint": "sha256:4fa0118f2d14e80959264dc0f5c0b222e1d028fa65bb50a34761736acef2d19c",
+      "findingFingerprint": "sha256:ebfc9975ee57007a406b12b529accc6828f22632c930f3134e885acce79993bb",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1000,12 +1000,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:4fa0118f2d14e80959264dc0f5c0b222e1d028fa65bb50a34761736acef2d19c"
+        "findingFingerprint": "sha256:ebfc9975ee57007a406b12b529accc6828f22632c930f3134e885acce79993bb"
       }
     },
     {
       "findingId": "tab-pane:selector:tabs-tab-hover",
-      "findingFingerprint": "sha256:9a286f1f65a7723b608ad27a7e19dd3e330d5dd6c086a7933c7f4fa95aba5c14",
+      "findingFingerprint": "sha256:7b5c58162d8ba31b0cbacd92e86ce084b16fb70e375fe7f6d23cfac760d38ffa",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1013,7 +1013,7 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:9a286f1f65a7723b608ad27a7e19dd3e330d5dd6c086a7933c7f4fa95aba5c14"
+        "findingFingerprint": "sha256:7b5c58162d8ba31b0cbacd92e86ce084b16fb70e375fe7f6d23cfac760d38ffa"
       }
     },
     {
@@ -1083,7 +1083,7 @@
     },
     {
       "findingId": "tab-pane:style-rule:tab-close",
-      "findingFingerprint": "sha256:1a31cc8354435834ada8c7e2274a8ba4e4f6ebd84b0e40a36fdcf1f9d3ecfe99",
+      "findingFingerprint": "sha256:aedc6c2839bce6368c142769ed08ac5b30a1e47f7e8e0c52f16b3f5d0ea1dbdb",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1091,12 +1091,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:1a31cc8354435834ada8c7e2274a8ba4e4f6ebd84b0e40a36fdcf1f9d3ecfe99"
+        "findingFingerprint": "sha256:aedc6c2839bce6368c142769ed08ac5b30a1e47f7e8e0c52f16b3f5d0ea1dbdb"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tab-close-hover",
-      "findingFingerprint": "sha256:ff4d816839252628fd10a073003e006b3a0cb0c0b5a221d653a7e4c2bd298fc8",
+      "findingFingerprint": "sha256:c1d45b8f99a1df7d1ac6b74fc0e8cffb2ae7cfa993b10d98bccc7664fb97b437",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1104,12 +1104,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:ff4d816839252628fd10a073003e006b3a0cb0c0b5a221d653a7e4c2bd298fc8"
+        "findingFingerprint": "sha256:c1d45b8f99a1df7d1ac6b74fc0e8cffb2ae7cfa993b10d98bccc7664fb97b437"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tab-pane-content",
-      "findingFingerprint": "sha256:28720d3d6a08041e597be435a2189e6825b9363e5eb7e0e0d9d241d2348588a6",
+      "findingFingerprint": "sha256:987ac799337f7bfe77dba4749a6df937419dc5f0be50ab48cd2aa5eb2d58e85e",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1117,12 +1117,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:28720d3d6a08041e597be435a2189e6825b9363e5eb7e0e0d9d241d2348588a6"
+        "findingFingerprint": "sha256:987ac799337f7bfe77dba4749a6df937419dc5f0be50ab48cd2aa5eb2d58e85e"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tab-pane-content-h3",
-      "findingFingerprint": "sha256:954e858e9ba0f6e45e086b6d4541e626163944af1a68aad5aefb6ed49e84bb60",
+      "findingFingerprint": "sha256:ccffa17500ecc5959c31a97fc2e103f47c41d0ea68463b5a88f2b6c7bc2c732c",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1130,12 +1130,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:954e858e9ba0f6e45e086b6d4541e626163944af1a68aad5aefb6ed49e84bb60"
+        "findingFingerprint": "sha256:ccffa17500ecc5959c31a97fc2e103f47c41d0ea68463b5a88f2b6c7bc2c732c"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tab-pane-content-media-max-width-520px",
-      "findingFingerprint": "sha256:4db20ccdcbcef87a1361e6908e0897243b2b22c89cdb1c544972152ffc4f52e6",
+      "findingFingerprint": "sha256:a57fac7a1edb65ddd901588d8d182b3394cef829b6b679774aad69ae0f1548e0",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1143,12 +1143,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:4db20ccdcbcef87a1361e6908e0897243b2b22c89cdb1c544972152ffc4f52e6"
+        "findingFingerprint": "sha256:a57fac7a1edb65ddd901588d8d182b3394cef829b6b679774aad69ae0f1548e0"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tab-pane-content-p",
-      "findingFingerprint": "sha256:1ba4a7f9fb10779604f7c5c28f12b28ecf2bfb873c85cf5626c157a0b6741c09",
+      "findingFingerprint": "sha256:48557079718100b49adf09762728f89133f0380d253594f97fc134051f7a07e0",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1156,12 +1156,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:1ba4a7f9fb10779604f7c5c28f12b28ecf2bfb873c85cf5626c157a0b6741c09"
+        "findingFingerprint": "sha256:48557079718100b49adf09762728f89133f0380d253594f97fc134051f7a07e0"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tabs",
-      "findingFingerprint": "sha256:6bf2d6644e3385007eb368b75736252aeee2f5104053e7dddaad36d9a68c4d23",
+      "findingFingerprint": "sha256:dff6aeb485a9bcb3e21d9944cb2e930de53c076868f8c436d790ff832548d6ca",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1169,12 +1169,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:6bf2d6644e3385007eb368b75736252aeee2f5104053e7dddaad36d9a68c4d23"
+        "findingFingerprint": "sha256:dff6aeb485a9bcb3e21d9944cb2e930de53c076868f8c436d790ff832548d6ca"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tabs-media-max-width-520px",
-      "findingFingerprint": "sha256:8276459eb1a1621c4d323616265c52e8dff28c6d1de9dbf75b343f4252d4c92d",
+      "findingFingerprint": "sha256:bf9cc77dd461ceddfe8aecc51dd5cb8185b96d6f33a93bd0dc31bc2318185d9b",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1182,12 +1182,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:8276459eb1a1621c4d323616265c52e8dff28c6d1de9dbf75b343f4252d4c92d"
+        "findingFingerprint": "sha256:bf9cc77dd461ceddfe8aecc51dd5cb8185b96d6f33a93bd0dc31bc2318185d9b"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tabs-tab",
-      "findingFingerprint": "sha256:23456993ffc42822cde38c4179fdcb5e3db46ece8e08d1c433bc8284ebda1ec4",
+      "findingFingerprint": "sha256:ec82f09cbde4fa6510a5648901c19310da2798db807d637bad98cf2d5e115a69",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1195,12 +1195,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:23456993ffc42822cde38c4179fdcb5e3db46ece8e08d1c433bc8284ebda1ec4"
+        "findingFingerprint": "sha256:ec82f09cbde4fa6510a5648901c19310da2798db807d637bad98cf2d5e115a69"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tabs-tab-active",
-      "findingFingerprint": "sha256:c4e2de5011a544fb9c01fdbf6a93ad0a572990d573f4aee0d8e683ec029336e7",
+      "findingFingerprint": "sha256:7dab1b328212638dc68416b22493aec20388178fc1aa922e6ed241e40b3ab5a6",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1208,12 +1208,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:c4e2de5011a544fb9c01fdbf6a93ad0a572990d573f4aee0d8e683ec029336e7"
+        "findingFingerprint": "sha256:7dab1b328212638dc68416b22493aec20388178fc1aa922e6ed241e40b3ab5a6"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tabs-tab-hover",
-      "findingFingerprint": "sha256:30835348e737461d762bf8c153845ef3ca6eec4f1ee8c59c487e010645c4ce32",
+      "findingFingerprint": "sha256:f88ea646862c06c75b0e5a42f134e5efc15a8b65f630907c3c45f43f78ad9e2e",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1221,12 +1221,12 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:30835348e737461d762bf8c153845ef3ca6eec4f1ee8c59c487e010645c4ce32"
+        "findingFingerprint": "sha256:f88ea646862c06c75b0e5a42f134e5efc15a8b65f630907c3c45f43f78ad9e2e"
       }
     },
     {
       "findingId": "tab-pane:style-rule:tabs-tab-media-max-width-520px",
-      "findingFingerprint": "sha256:4d99e707ec23a38fca306d6ecac75248d55c3031052de2d13e0937ff09534ef6",
+      "findingFingerprint": "sha256:acdc96c9f167561cfbf4bdfe5a58537ef62c1c0b1224b267536656bf28754fc1",
       "resolution": "preserve",
       "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
       "requiresHumanApproval": true,
@@ -1234,7 +1234,7 @@
         "status": "approved",
         "approvedBy": "user:taekim",
         "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:4d99e707ec23a38fca306d6ecac75248d55c3031052de2d13e0937ff09534ef6"
+        "findingFingerprint": "sha256:acdc96c9f167561cfbf4bdfe5a58537ef62c1c0b1224b267536656bf28754fc1"
       }
     },
     {

@@ -10,10 +10,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        react: fileURLToPath(new URL("index.html", import.meta.url)),
-        mootools: fileURLToPath(
-          new URL("legacy/index.html", import.meta.url),
-        ),
+        mootools: fileURLToPath(new URL("index.html", import.meta.url)),
+        react: fileURLToPath(new URL("react.html", import.meta.url)),
       },
     },
   },

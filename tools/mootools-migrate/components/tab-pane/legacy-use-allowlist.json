@@ -2,16 +2,17 @@
   "schemaVersion": 1,
   "componentId": "tab-pane",
   "searchRoots": [
-    "legacy",
+    ".",
     "src"
   ],
   "fileGlobs": [
-    "legacy/**/*.{js,ts}",
+    "*.{js,ts}",
+    "components/**/*.{js,ts}",
     "src/**/*.{js,jsx,ts,tsx}"
   ],
   "allowedUses": [
     {
-      "path": "legacy/main.js",
+      "path": "main.js",
       "kind": "constructor",
       "symbol": "TabPane",
       "line": 5

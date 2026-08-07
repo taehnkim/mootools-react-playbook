@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "runId": "legacy-root-layout",
+  "runId": "react-root-layout-1",
   "componentId": "tab-pane",
-  "surface": "legacy",
-  "createdAt": "2026-08-07T21:34:02.493Z",
+  "surface": "react",
+  "createdAt": "2026-08-07T21:34:18.465Z",
   "baseUrl": "http://127.0.0.1:5181",
-  "projectInputHash": "sha256:7abb80c27ec99243ddf552d554089d32677b1f77323d524804b5c06c742c7c72",
+  "projectInputHash": "sha256:e248100302b9ef7e78f0215cbe432e316b1023b116e84aa4ada8c61062e73510",
   "componentConfigHash": "sha256:691fcfcf8b57410ce052efb7971dcb4a30e8fca2cebd1951dc68fdca45eab846",
   "scenariosHash": "sha256:8197299c6b0dde7dc626c41d9255dee96fa80a39dc80d82d278b40e619351ee9",
   "fixturesHash": "sha256:ed5940842335ace9f987963dc0d5e303f5b3bf3fed5d8c2fcc694d1be47ec9aa",
-  "selectorsHash": "sha256:0c9911eb6454d7b050f64d4175d22a6ca217afd75f0a8a94888e774ea644b47a",
+  "selectorsHash": "sha256:60079a99088437e6d3593f4685dbb2015d86cc06cf818c290b6c9a912fbc7b27",
   "browserVersion": "151.0.7922.34",
   "viewport": {
     "width": 1280,
@@ -223,7 +223,7 @@
           "assertionId": "api-close-selected-tab",
           "afterStepId": "close-hello-by-api",
           "kind": "class",
-          "actual": true,
+          "actual": false,
           "screenshotPath": null,
           "screenshotHash": null
         },
@@ -231,7 +231,7 @@
           "assertionId": "api-close-status",
           "afterStepId": "close-hello-by-api",
           "kind": "text",
-          "actual": "Showing tab 2.",
+          "actual": "Showing tab 1.",
           "screenshotPath": null,
           "screenshotHash": null
         },
@@ -255,7 +255,7 @@
             {
               "name": "change",
               "args": [
-                1
+                0
               ]
             }
           ],
@@ -288,12 +288,6 @@
           "afterStepId": "close-behavior-button",
           "kind": "event-trace",
           "actual": [
-            {
-              "name": "change",
-              "args": [
-                1
-              ]
-            },
             {
               "name": "change",
               "args": [

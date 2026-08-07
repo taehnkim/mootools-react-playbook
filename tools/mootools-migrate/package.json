@@ -7,7 +7,7 @@
     "mootools-migrate": "./dist/cli.js"
   },
   "scripts": {
-    "migrate": "node --import tsx src/cli.ts",
+    "migrate": "npm run build --silent && node dist/cli.js",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",

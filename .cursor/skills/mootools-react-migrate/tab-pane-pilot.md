@@ -2,10 +2,10 @@
 
 ## Source
 
-- `legacy/components/tab-pane/TabPane.js`
-- `legacy/components/tab-pane/TabPane.Extra.js`
-- `legacy/main.js`
-- `legacy/styles.css`
+- `components/tab-pane/TabPane.js`
+- `components/tab-pane/TabPane.Extra.js`
+- `main.js`
+- `styles.css`
 
 ## Known contract
 

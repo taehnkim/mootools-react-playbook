@@ -11,7 +11,7 @@ verification loop.
 Example request:
 
 ```text
-Migrate legacy/components/brand-box/BrandBox.js to React.
+Migrate components/brand-box/BrandBox.js to React.
 Use the mootools-react-migrate skill and run until verification passes.
 ```
 
@@ -95,8 +95,10 @@ tools/mootools-migrate/
 Application code lives at:
 
 ```text
-legacy/components/          unchanged MooTools references
-src/components/             migrated React components
+components/                 unchanged MooTools references
+main.js + styles.css         legacy application at the repository root
+src/components/             colocated React components
+react.html                  React comparison entry
 ```
 
 This matches the original everysphere pattern. Skills live in `.cursor/skills`.
@@ -118,8 +120,8 @@ Start both reference pages:
 npm run dev
 ```
 
-- `http://localhost:5173/` is the React page.
-- `http://localhost:5173/legacy/` is the MooTools reference.
+- `http://localhost:5173/` is the root MooTools application.
+- `http://localhost:5173/react.html` is the colocated React page.
 
 ## Commands the agent runs
 
