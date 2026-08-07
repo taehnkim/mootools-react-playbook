@@ -8,48 +8,48 @@ import { Command } from "commander";
 import {
   applyAdapterCodemod,
   planAdapterCodemod,
-} from "./adapter-codemod.js";
+} from "./codemods/adapter.js";
 import {
   analyzeComponent,
   checkWorksheetFreshness,
   writeWorksheet,
-} from "./analyze.js";
-import { captureSurface, type CaptureSurface } from "./capture.js";
-import { compareCandidate } from "./compare.js";
+} from "./analyze/index.js";
+import { captureSurface, type CaptureSurface } from "./parity/capture.js";
+import { compareCandidate } from "./parity/compare.js";
 import {
   checkComponentTest,
   runComponentTest,
   type ComponentTestSurface,
-} from "./component-tests.js";
+} from "./checks/component-tests.js";
 import {
   createContext,
   defaultToolsRoot,
   loadComponentConfig,
   type ToolContext,
-} from "./context.js";
+} from "./core/context.js";
 import {
   checkDecisions,
   createDecisionDraft,
   loadDecisions,
   loadWorksheet,
   writeDecisionDraft,
-} from "./decisions.js";
-import { buildInventory, writeInventory } from "./inventory.js";
-import { checkNoNewUse, loadLegacyUseAllowlist } from "./no-new-use.js";
+} from "./checks/decisions.js";
+import { buildInventory, writeInventory } from "./inventory/index.js";
+import { checkNoNewUse, loadLegacyUseAllowlist } from "./checks/no-new-use.js";
 import {
   loadPilotData,
   loadPilotDecisions,
   pilotPaths,
-} from "./pilot-data.js";
-import { runProjectChecks } from "./project-checks.js";
-import { detectRebasePorts } from "./rebase.js";
-import { writeFailure, writeMessage, writeResult } from "./report.js";
+} from "./parity/pilot-data.js";
+import { runProjectChecks } from "./checks/project-checks.js";
+import { detectRebasePorts } from "./rebase/detect.js";
+import { writeFailure, writeMessage, writeResult } from "./core/report.js";
 import {
   RunIdSchema,
   type ComponentConfig,
   type Worksheet,
-} from "./schemas.js";
-import { getMigrationStatus } from "./status.js";
+} from "./contracts/schemas.js";
+import { getMigrationStatus } from "./checks/status.js";
 
 type GlobalOptions = {
   toolsRoot: string;

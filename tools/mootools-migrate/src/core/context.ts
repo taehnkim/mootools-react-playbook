@@ -7,7 +7,7 @@ import {
   RegistrySchema,
   type ComponentConfig,
   type Registry,
-} from "./schemas.js";
+} from "../contracts/schemas.js";
 
 export type ToolContext = {
   toolsRoot: string;
@@ -16,7 +16,7 @@ export type ToolContext = {
 };
 
 export function defaultToolsRoot(): string {
-  return resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  return resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 }
 
 export async function createContext(options: {

@@ -9,8 +9,8 @@ import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 
 import { chromium, type Locator, type Page } from "playwright";
 
-import { hashProjectFiles } from "./fingerprint.js";
-import { hashJson, sha256, writeJson } from "./json.js";
+import { hashProjectFiles } from "../core/fingerprint.js";
+import { hashJson, sha256, writeJson } from "../core/json.js";
 import {
   CaptureManifestSchema,
   EventRecordSchema,
@@ -25,8 +25,8 @@ import {
   type ScenarioAssertion,
   type ScenariosFile,
   type SelectorMap,
-} from "./schemas.js";
-import type { ToolContext } from "./context.js";
+} from "../contracts/schemas.js";
+import type { ToolContext } from "../core/context.js";
 
 const EVENT_STORE = "__mootoolsMigrationEvents";
 

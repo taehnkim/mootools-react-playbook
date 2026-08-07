@@ -7,11 +7,11 @@ import { describe, expect, it } from "vitest";
 import {
   checkComponentTest,
   runComponentTest,
-} from "../src/component-tests.js";
+} from "../src/checks/component-tests.js";
 import {
   ComponentConfigSchema,
   RegistrySchema,
-} from "../src/schemas.js";
+} from "../src/contracts/schemas.js";
 
 describe("component test evidence", () => {
   it("becomes stale when the tested source changes", async () => {

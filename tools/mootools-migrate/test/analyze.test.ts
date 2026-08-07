@@ -4,11 +4,11 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { analyzeComponent } from "../src/analyze.js";
+import { analyzeComponent } from "../src/analyze/index.js";
 import {
   ComponentConfigSchema,
   RegistrySchema,
-} from "../src/schemas.js";
+} from "../src/contracts/schemas.js";
 
 describe("component analyzer", () => {
   it("covers events, callers, DOM, APIs, effects, dependencies, markup, and CSS", async () => {

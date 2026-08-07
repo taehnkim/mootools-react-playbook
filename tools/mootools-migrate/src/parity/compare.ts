@@ -9,8 +9,8 @@ import { captureSurface } from "./capture.js";
 import {
   acceptedDifferenceFingerprint,
   hashProjectFiles,
-} from "./fingerprint.js";
-import { hashJson, readJson, sha256, writeJson } from "./json.js";
+} from "../core/fingerprint.js";
+import { hashJson, readJson, sha256, writeJson } from "../core/json.js";
 import {
   AcceptedDifferencesFileSchema,
   CaptureManifestSchema,
@@ -26,8 +26,8 @@ import {
   type ParityResultData,
   type ScenariosFile,
   type SelectorMap,
-} from "./schemas.js";
-import type { ToolContext } from "./context.js";
+} from "../contracts/schemas.js";
+import type { ToolContext } from "../core/context.js";
 
 export type ParityMismatch = {
   scenarioId: string;

@@ -1,6 +1,6 @@
 import ts from "typescript";
 
-import type { FindingKind } from "./schemas.js";
+import type { FindingKind } from "../contracts/schemas.js";
 import { lineForNode } from "./source.js";
 
 export type EvidenceLocation = {

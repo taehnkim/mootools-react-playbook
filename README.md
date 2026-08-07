@@ -92,7 +92,12 @@ Executable migration tools and evidence live at:
 
 ```text
 tools/mootools-migrate/
-  src/
+  src/analyze/
+  src/codemods/
+  src/parity/
+  src/checks/
+  src/contracts/
+  src/core/
   test/
   components/
   registry.json

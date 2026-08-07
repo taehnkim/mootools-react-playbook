@@ -1,7 +1,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
-import { loadComponentConfig, type ToolContext } from "./context.js";
+import { loadComponentConfig, type ToolContext } from "../core/context.js";
 
 const execFileAsync = promisify(execFile);
 

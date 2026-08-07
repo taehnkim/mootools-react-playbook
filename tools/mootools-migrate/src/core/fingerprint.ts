@@ -7,7 +7,7 @@ import type {
   Evidence,
   Finding,
   JsonValue,
-} from "./schemas.js";
+} from "../contracts/schemas.js";
 
 export async function createEvidence(options: {
   projectRoot: string;

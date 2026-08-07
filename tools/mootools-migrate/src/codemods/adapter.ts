@@ -12,9 +12,9 @@ import { promisify } from "node:util";
 
 import ts from "typescript";
 
-import type { ToolContext } from "./context.js";
-import type { ComponentConfig } from "./schemas.js";
-import { scriptKindForPath, walk } from "./source.js";
+import type { ToolContext } from "../core/context.js";
+import type { ComponentConfig } from "../contracts/schemas.js";
+import { scriptKindForPath, walk } from "../analyze/source.js";
 
 const execFileAsync = promisify(execFile);
 

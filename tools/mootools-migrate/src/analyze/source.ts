@@ -4,7 +4,7 @@ import { extname, relative, resolve } from "node:path";
 import fg from "fast-glob";
 import ts from "typescript";
 
-import type { ComponentConfig, LegacyUse } from "./schemas.js";
+import type { ComponentConfig, LegacyUse } from "../contracts/schemas.js";
 
 const DEFAULT_IGNORES = [
   "**/node_modules/**",

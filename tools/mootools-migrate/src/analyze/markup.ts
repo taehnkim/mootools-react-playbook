@@ -7,8 +7,8 @@ import {
   addDraft,
   slug,
   type FindingDraft,
-} from "./analysis-shared.js";
-import type { ComponentConfig } from "./schemas.js";
+} from "./shared.js";
+import type { ComponentConfig } from "../contracts/schemas.js";
 
 type HtmlNode = DefaultTreeAdapterMap["node"];
 type HtmlElement = DefaultTreeAdapterMap["element"];

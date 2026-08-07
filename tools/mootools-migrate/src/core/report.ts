@@ -1,4 +1,4 @@
-import { JsonValueSchema } from "./schemas.js";
+import { JsonValueSchema } from "../contracts/schemas.js";
 
 export function writeResult(value: unknown): void {
   const json = JsonValueSchema.parse(value);

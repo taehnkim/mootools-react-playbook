@@ -10,20 +10,20 @@ import {
   slug,
   stringValue,
   type FindingDraft,
-} from "./analysis-shared.js";
-import { analyzeCallsites } from "./analyze-callsites.js";
-import { analyzeCssAst } from "./analyze-css.js";
-import { analyzeDependencies } from "./analyze-dependencies.js";
-import { analyzeDomOperations } from "./analyze-dom.js";
-import { analyzeEffects } from "./analyze-effects.js";
-import { analyzeMarkup } from "./analyze-markup.js";
-import { componentArtifactPath, type ToolContext } from "./context.js";
+} from "./shared.js";
+import { analyzeCallsites } from "./callsites.js";
+import { analyzeCssAst } from "./css.js";
+import { analyzeDependencies } from "./dependencies.js";
+import { analyzeDomOperations } from "./dom.js";
+import { analyzeEffects } from "./effects.js";
+import { analyzeMarkup } from "./markup.js";
+import { componentArtifactPath, type ToolContext } from "../core/context.js";
 import {
   addFindingFingerprint,
   createEvidence,
   hashProjectFiles,
-} from "./fingerprint.js";
-import { hashJson, writeJson } from "./json.js";
+} from "../core/fingerprint.js";
+import { hashJson, writeJson } from "../core/json.js";
 import type {
   AnalysisCategory,
   ComponentConfig,
@@ -31,8 +31,8 @@ import type {
   Finding,
   JsonValue,
   Worksheet,
-} from "./schemas.js";
-import { JsonValueSchema, WorksheetSchema } from "./schemas.js";
+} from "../contracts/schemas.js";
+import { JsonValueSchema, WorksheetSchema } from "../contracts/schemas.js";
 import {
   expandProjectGlobs,
   findLegacyUses,

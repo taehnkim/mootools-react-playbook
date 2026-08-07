@@ -6,7 +6,7 @@ import {
   slug,
   stringValue,
   type FindingDraft,
-} from "./analysis-shared.js";
+} from "./shared.js";
 import { walk } from "./source.js";
 
 const DOM_READ_METHODS = new Set([

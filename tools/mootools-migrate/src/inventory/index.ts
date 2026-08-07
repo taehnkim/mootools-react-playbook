@@ -1,14 +1,14 @@
 import { access } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { loadComponentConfig, type ToolContext } from "./context.js";
-import { writeJson } from "./json.js";
+import { loadComponentConfig, type ToolContext } from "../core/context.js";
+import { writeJson } from "../core/json.js";
 import {
   RegistryInventorySchema,
   type JsonValue,
   type RegistryInventory,
-} from "./schemas.js";
-import { findLegacyUses } from "./source.js";
+} from "../contracts/schemas.js";
+import { findLegacyUses } from "../analyze/source.js";
 
 export async function buildInventory(
   context: ToolContext,

@@ -32,6 +32,21 @@ The first codemod is intentionally narrow. It wraps supported
 classic-script load order. It does not generate React behavior or delete
 legacy source.
 
+## Source layout
+
+```text
+src/
+  cli.ts            command entry point
+  analyze/          AST, callsite, DOM, HTML, CSS, and dependency analysis
+  codemods/         source transforms
+  parity/           browser capture, comparison, and pilot data
+  checks/           test gates, decisions, guards, project checks, and status
+  inventory/        component inventory
+  rebase/           migration collision detection
+  contracts/        shared schemas
+  core/             context, JSON, hashing, and reporting utilities
+```
+
 ## Install from the repository root
 
 ```bash

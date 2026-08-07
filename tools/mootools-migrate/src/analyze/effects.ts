@@ -6,8 +6,8 @@ import {
   slug,
   stringValue,
   type FindingDraft,
-} from "./analysis-shared.js";
-import { isLikelyDomReceiver } from "./analyze-dom.js";
+} from "./shared.js";
+import { isLikelyDomReceiver } from "./dom.js";
 import { walk } from "./source.js";
 
 const TIMER_CALLS = new Set([

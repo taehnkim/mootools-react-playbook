@@ -1,12 +1,12 @@
-import { componentArtifactPath, type ToolContext } from "./context.js";
-import { readJson } from "./json.js";
+import { componentArtifactPath, type ToolContext } from "../core/context.js";
+import { readJson } from "../core/json.js";
 import {
   LegacyUseAllowlistSchema,
   type ComponentConfig,
   type LegacyUse,
   type LegacyUseAllowlist,
-} from "./schemas.js";
-import { findLegacyUses } from "./source.js";
+} from "../contracts/schemas.js";
+import { findLegacyUses } from "../analyze/source.js";
 
 export type LegacyUseCheck = {
   ok: boolean;

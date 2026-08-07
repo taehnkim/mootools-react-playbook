@@ -7,10 +7,10 @@ import {
   slug,
   stringValue,
   type FindingDraft,
-} from "./analysis-shared.js";
-import { analyzeDomOperations } from "./analyze-dom.js";
-import { analyzeEffects } from "./analyze-effects.js";
-import type { ComponentConfig } from "./schemas.js";
+} from "./shared.js";
+import { analyzeDomOperations } from "./dom.js";
+import { analyzeEffects } from "./effects.js";
+import type { ComponentConfig } from "../contracts/schemas.js";
 import {
   expandProjectGlobs,
   walk,

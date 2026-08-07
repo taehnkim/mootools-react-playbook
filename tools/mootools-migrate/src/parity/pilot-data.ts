@@ -1,12 +1,12 @@
-import { componentArtifactPath, type ToolContext } from "./context.js";
-import { readJson } from "./json.js";
+import { componentArtifactPath, type ToolContext } from "../core/context.js";
+import { readJson } from "../core/json.js";
 import {
   AcceptedDifferencesFileSchema,
   DecisionsFileSchema,
   RunIdSchema,
   ScenariosFileSchema,
   SelectorMapSchema,
-} from "./schemas.js";
+} from "../contracts/schemas.js";
 
 export function pilotPaths(context: ToolContext, componentId: string) {
   const path = (...segments: string[]) =>

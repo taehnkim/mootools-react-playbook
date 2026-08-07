@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addFindingFingerprint } from "../src/fingerprint.js";
+import { addFindingFingerprint } from "../src/core/fingerprint.js";
 
 describe("finding fingerprints", () => {
   it("is stable across evidence order", () => {

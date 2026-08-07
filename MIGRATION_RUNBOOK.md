@@ -172,9 +172,14 @@ tools/mootools-migrate/
         <run-id>/
   src/
     cli.ts
-    capture.ts
-    compare.ts
-    schemas.ts
+    analyze/
+    codemods/
+    parity/
+    checks/
+    inventory/
+    rebase/
+    contracts/
+    core/
 
 components/<name>/<Component>.legacy.test.ts
 src/components/<name>/<Component>.test.tsx
@@ -187,7 +192,8 @@ Generated evidence and human decisions must stay in different files. Each
 decision stores the finding fingerprint that it approved. A changed
 fingerprint makes that decision stale.
 
-`schemas.ts` calculates fingerprints for manual and generated worksheets. It
+`contracts/schemas.ts` defines the artifact shapes. `core/fingerprint.ts`
+calculates fingerprints for manual and generated worksheets. It
 uses SHA-256 over canonical JSON with lexicographically sorted object keys. The
 fingerprinted fields are schema version, finding ID, kind, summary,
 `contractRelevant`, `decisionRequired`, and sorted evidence records. Each

@@ -1,12 +1,12 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 
-import { componentArtifactPath, type ToolContext } from "./context.js";
-import { checkWorksheetFreshness } from "./analyze.js";
+import { componentArtifactPath, type ToolContext } from "../core/context.js";
+import { checkWorksheetFreshness } from "../analyze/index.js";
 import { checkComponentTest } from "./component-tests.js";
 import { checkDecisions, loadDecisions, loadWorksheet } from "./decisions.js";
-import { hashProjectFiles } from "./fingerprint.js";
-import { hashJson, readJson, sha256 } from "./json.js";
+import { hashProjectFiles } from "../core/fingerprint.js";
+import { hashJson, readJson, sha256 } from "../core/json.js";
 import {
   AcceptedDifferencesFileSchema,
   CaptureManifestSchema,
@@ -16,7 +16,7 @@ import {
   type CaptureManifest,
   type ComponentConfig,
   type ParityResultData,
-} from "./schemas.js";
+} from "../contracts/schemas.js";
 
 export type MigrationPhase =
   | "analyze"

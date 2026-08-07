@@ -4,11 +4,11 @@ import { tmpdir } from "node:os";
 
 import { describe, expect, it } from "vitest";
 
-import { planAdapterCodemod } from "../src/adapter-codemod.js";
+import { planAdapterCodemod } from "../src/codemods/adapter.js";
 import {
   ComponentConfigSchema,
   RegistrySchema,
-} from "../src/schemas.js";
+} from "../src/contracts/schemas.js";
 
 describe("adapter codemod", () => {
   it("plans the adapter, caller, and load-order edits", async () => {

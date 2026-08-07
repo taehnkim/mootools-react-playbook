@@ -1,14 +1,14 @@
 import { access } from "node:fs/promises";
 
-import { componentArtifactPath, type ToolContext } from "./context.js";
-import { readJson, writeJson } from "./json.js";
+import { componentArtifactPath, type ToolContext } from "../core/context.js";
+import { readJson, writeJson } from "../core/json.js";
 import {
   DecisionsFileSchema,
   JsonValueSchema,
   WorksheetSchema,
   type DecisionsFile,
   type Worksheet,
-} from "./schemas.js";
+} from "../contracts/schemas.js";
 
 export type DecisionCheck = {
   ok: boolean;

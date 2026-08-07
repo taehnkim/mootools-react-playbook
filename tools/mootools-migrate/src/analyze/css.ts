@@ -13,8 +13,8 @@ import {
   slug,
   type EvidenceLocation,
   type FindingDraft,
-} from "./analysis-shared.js";
-import type { ComponentConfig } from "./schemas.js";
+} from "./shared.js";
+import type { ComponentConfig } from "../contracts/schemas.js";
 
 export async function analyzeCssAst(options: {
   projectRoot: string;

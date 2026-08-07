@@ -4,8 +4,8 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { ComponentConfigSchema } from "../src/schemas.js";
-import { findLegacyUses } from "../src/source.js";
+import { ComponentConfigSchema } from "../src/contracts/schemas.js";
+import { findLegacyUses } from "../src/analyze/source.js";
 
 describe("legacy-use scanner", () => {
   it("finds bracket access through the browser global", async () => {

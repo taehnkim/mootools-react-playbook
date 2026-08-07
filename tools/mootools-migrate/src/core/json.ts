@@ -4,7 +4,7 @@ import { dirname } from "node:path";
 
 import type { ZodType } from "zod";
 
-import type { JsonValue } from "./schemas.js";
+import type { JsonValue } from "../contracts/schemas.js";
 
 export async function readJson<T>(
   path: string,

@@ -5,15 +5,15 @@ import { resolve } from "node:path";
 import {
   componentArtifactPath,
   type ToolContext,
-} from "./context.js";
-import { hashProjectFiles } from "./fingerprint.js";
-import { readJson, sha256, writeJson } from "./json.js";
+} from "../core/context.js";
+import { hashProjectFiles } from "../core/fingerprint.js";
+import { readJson, sha256, writeJson } from "../core/json.js";
 import {
   ComponentTestResultSchema,
   JsonValueSchema,
   type ComponentConfig,
   type ComponentTestResult,
-} from "./schemas.js";
+} from "../contracts/schemas.js";
 
 export type ComponentTestSurface = "legacy" | "react";
 
