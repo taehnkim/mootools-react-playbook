@@ -10,11 +10,19 @@ import {
 import { dirname, resolve } from "node:path";
 import { promisify } from "node:util";
 
-import ts from "typescript";
-
 import type { ToolContext } from "../core/context.js";
 import type { ComponentConfig } from "../contracts/schemas.js";
-import { scriptKindForPath, walk } from "../analyze/source.js";
+import {
+  localNameFromArrayAnchor,
+  moduleFromDefaultImportAnchor,
+  preflightLegacyConstructors,
+} from "./constructor-preflight.js";
+import { wrapLegacyConstructor } from "../../transforms/wrap-legacy-constructor.js";
+import { updateBootstrap } from "../../transforms/update-bootstrap.js";
+import type {
+  SourceTransformResult,
+  TransformStatistics,
+} from "../../transforms/contract.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -24,15 +32,31 @@ export type PlannedEdit = {
   after: string;
 };
 
+export type TransformFileReport = {
+  path: string;
+  transform: "adapter-file" | "update-bootstrap" | "wrap-legacy-constructor";
+  result: "changed" | "unchanged" | "unsupported";
+  statistics: TransformStatistics;
+};
+
 export type AdapterCodemodResult =
   | {
       kind: "ready";
       edits: PlannedEdit[];
+      reports: TransformFileReport[];
     }
   | {
       kind: "unsupported";
       reasons: string[];
+      reports: TransformFileReport[];
     };
+
+export type AdapterFileOperations = {
+  mkdir: typeof mkdir;
+  writeFile: typeof writeFile;
+  rename: typeof rename;
+  unlink: typeof unlink;
+};
 
 export async function planAdapterCodemod(options: {
   context: ToolContext;
@@ -40,19 +64,33 @@ export async function planAdapterCodemod(options: {
 }): Promise<AdapterCodemodResult> {
   const reasons: string[] = [];
   const edits: PlannedEdit[] = [];
+  const reports: TransformFileReport[] = [];
 
   for (const path of options.config.adapter.callsiteFiles) {
     const absolutePath = resolve(options.context.projectRoot, path);
     const source = await readFile(absolutePath, "utf8");
-    const replacement = replaceConstructors({
+    const preflight = preflightLegacyConstructors({
+      source,
+      path,
+      legacyGlobal: options.config.legacyGlobal,
+    });
+    const result = wrapLegacyConstructor({
       source,
       path,
       legacyGlobal: options.config.legacyGlobal,
       adapterGlobal: options.config.adapter.globalName,
+      globalConstructors: preflight.globalConstructors,
     });
-    reasons.push(...replacement.reasons);
-    if (replacement.source !== source) {
-      edits.push({ path, before: source, after: replacement.source });
+    reports.push(transformReport(path, "wrap-legacy-constructor", result));
+    if (result.kind === "unsupported") {
+      reasons.push(
+        ...result.reasons.map(
+          (reason) =>
+            `${path}:${reason.line}:${reason.column} ${reason.message}`,
+        ),
+      );
+    } else if (result.kind === "changed") {
+      edits.push({ path, before: source, after: result.source });
     }
   }
 
@@ -63,8 +101,27 @@ export async function planAdapterCodemod(options: {
   );
   if (existingAdapter === null) {
     edits.push({ path: adapterPath, before: null, after: adapterSource });
+    reports.push({
+      path: adapterPath,
+      transform: "adapter-file",
+      result: "changed",
+      statistics: { created: 1 },
+    });
   } else if (existingAdapter !== adapterSource) {
     reasons.push(`Existing adapter differs from generated output: ${adapterPath}`);
+    reports.push({
+      path: adapterPath,
+      transform: "adapter-file",
+      result: "unsupported",
+      statistics: { conflicts: 1 },
+    });
+  } else {
+    reports.push({
+      path: adapterPath,
+      transform: "adapter-file",
+      result: "unchanged",
+      statistics: { existing: 1 },
+    });
   }
 
   const bootstrapPath = options.config.adapter.bootstrapFile;
@@ -72,12 +129,31 @@ export async function planAdapterCodemod(options: {
     resolve(options.context.projectRoot, bootstrapPath),
     "utf8",
   );
-  const bootstrapResult = editBootstrap({
+  const mainLocal = localNameFromArrayAnchor(
+    options.config.adapter.bootstrapArrayAnchor,
+  );
+  const bootstrapResult = updateBootstrap({
     source: bootstrapSource,
-    config: options.config,
+    path: bootstrapPath,
+    adapterModule: `${options.config.adapter.bootstrapImportPath}?url`,
+    adapterLocal: "mountAdapterUrl",
+    mainLocal,
+    mainModule: moduleFromDefaultImportAnchor({
+      anchor: options.config.adapter.bootstrapImportAnchor,
+      localName: mainLocal,
+    }),
   });
-  reasons.push(...bootstrapResult.reasons);
-  if (bootstrapResult.source !== bootstrapSource) {
+  reports.push(
+    transformReport(bootstrapPath, "update-bootstrap", bootstrapResult),
+  );
+  if (bootstrapResult.kind === "unsupported") {
+    reasons.push(
+      ...bootstrapResult.reasons.map(
+        (reason) =>
+          `${bootstrapPath}:${reason.line}:${reason.column} ${reason.message}`,
+      ),
+    );
+  } else if (bootstrapResult.kind === "changed") {
     edits.push({
       path: bootstrapPath,
       before: bootstrapSource,
@@ -86,15 +162,16 @@ export async function planAdapterCodemod(options: {
   }
 
   if (reasons.length > 0) {
-    return { kind: "unsupported", reasons };
+    return { kind: "unsupported", reasons, reports };
   }
-  return { kind: "ready", edits };
+  return { kind: "ready", edits, reports };
 }
 
 export async function applyAdapterCodemod(options: {
   context: ToolContext;
   result: Extract<AdapterCodemodResult, { kind: "ready" }>;
   allowUnsafeWrite: boolean;
+  fileOperations?: Partial<AdapterFileOperations>;
 }): Promise<void> {
   if (options.result.edits.length === 0) {
     return;
@@ -104,183 +181,55 @@ export async function applyAdapterCodemod(options: {
   if (!options.allowUnsafeWrite) {
     await requireCleanGitPaths(options.context.projectRoot, paths);
   }
+  const fileOperations: AdapterFileOperations = {
+    mkdir,
+    writeFile,
+    rename,
+    unlink,
+    ...options.fileOperations,
+  };
 
   const temporaryPaths: string[] = [];
   try {
     for (const edit of options.result.edits) {
       const absolutePath = resolve(options.context.projectRoot, edit.path);
       const temporaryPath = `${absolutePath}.migration-tools-tmp`;
-      await mkdir(dirname(absolutePath), { recursive: true });
-      await writeFile(temporaryPath, edit.after, "utf8");
+      await fileOperations.mkdir(dirname(absolutePath), { recursive: true });
+      await fileOperations.writeFile(temporaryPath, edit.after, "utf8");
       temporaryPaths.push(temporaryPath);
     }
 
     for (const edit of options.result.edits) {
       const absolutePath = resolve(options.context.projectRoot, edit.path);
-      await rename(`${absolutePath}.migration-tools-tmp`, absolutePath);
+      await fileOperations.rename(
+        `${absolutePath}.migration-tools-tmp`,
+        absolutePath,
+      );
     }
   } catch (error: unknown) {
-    await restoreEdits(options.context.projectRoot, options.result.edits);
+    await restoreEdits(
+      options.context.projectRoot,
+      options.result.edits,
+      fileOperations,
+    );
     for (const temporaryPath of temporaryPaths) {
-      await unlink(temporaryPath).catch(() => undefined);
+      await fileOperations.unlink(temporaryPath).catch(() => undefined);
     }
     throw error;
   }
 }
 
-function replaceConstructors(options: {
-  source: string;
-  path: string;
-  legacyGlobal: string;
-  adapterGlobal: string;
-}): { source: string; reasons: string[] } {
-  const sourceFile = ts.createSourceFile(
-    options.path,
-    options.source,
-    ts.ScriptTarget.Latest,
-    true,
-    scriptKindForPath(options.path),
-  );
-  const replacements: { start: number; end: number; value: string }[] = [];
-  const reasons: string[] = [];
-
-  walk(sourceFile, (node) => {
-    if (
-      !ts.isNewExpression(node) ||
-      !ts.isIdentifier(node.expression) ||
-      node.expression.text !== options.legacyGlobal
-    ) {
-      return;
-    }
-    const start = node.getStart(sourceFile);
-    const end = node.expression.end;
-    const prefix = options.source.slice(start, end);
-    if (prefix !== `new ${options.legacyGlobal}`) {
-      reasons.push(
-        `${options.path}:${sourceFile.getLineAndCharacterOfPosition(start).line + 1} uses an unsupported constructor form.`,
-      );
-      return;
-    }
-    replacements.push({
-      start,
-      end,
-      value: options.adapterGlobal,
-    });
-  });
-
-  let source = options.source;
-  for (const replacement of replacements.sort(
-    (left, right) => right.start - left.start,
-  )) {
-    source =
-      source.slice(0, replacement.start) +
-      replacement.value +
-      source.slice(replacement.end);
-  }
-  return { source, reasons };
-}
-
-function editBootstrap(options: {
-  source: string;
-  config: ComponentConfig;
-}): { source: string; reasons: string[] } {
-  const sourceFile = ts.createSourceFile(
-    options.config.adapter.bootstrapFile,
-    options.source,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TS,
-  );
-  const adapterModule = `${options.config.adapter.bootstrapImportPath}?url`;
-  const importLine = `import mountAdapterUrl from "${adapterModule}";`;
-  const reasons: string[] = [];
-  const insertions: { position: number; value: string }[] = [];
-  const adapterImports: ts.ImportDeclaration[] = [];
-  for (const statement of sourceFile.statements) {
-    if (
-      ts.isImportDeclaration(statement) &&
-      ts.isStringLiteral(statement.moduleSpecifier) &&
-      statement.moduleSpecifier.text === adapterModule
-    ) {
-      adapterImports.push(statement);
-    }
-  }
-  if (adapterImports.length > 1) {
-    reasons.push("Bootstrap has more than one adapter import.");
-  } else if (adapterImports.length === 1) {
-    const adapterImport = adapterImports[0];
-    if (
-      adapterImport === undefined ||
-      adapterImport.importClause?.name?.text !== "mountAdapterUrl"
-    ) {
-      reasons.push("Bootstrap adapter import has an unexpected local name.");
-    }
-  } else {
-    const mainImports = sourceFile.statements.filter(
-      (statement) =>
-        ts.isImportDeclaration(statement) &&
-        statement.getText(sourceFile) ===
-          options.config.adapter.bootstrapImportAnchor,
-    );
-    const mainImport = mainImports[0];
-    if (mainImports.length !== 1 || mainImport === undefined) {
-      reasons.push(
-        `Bootstrap import anchor must be one real import; found ${mainImports.length}.`,
-      );
-    } else {
-      insertions.push({
-        position: mainImport.end,
-        value: `\n${importLine}`,
-      });
-    }
-  }
-
-  const scriptArrays: ts.ArrayLiteralExpression[] = [];
-  walk(sourceFile, (node) => {
-    if (
-      ts.isArrayLiteralExpression(node) &&
-      node.elements.some(
-        (element) => ts.isIdentifier(element) && element.text === "mainUrl",
-      )
-    ) {
-      scriptArrays.push(node);
-    }
-  });
-  const scriptArray = scriptArrays[0];
-  if (scriptArrays.length !== 1 || scriptArray === undefined) {
-    reasons.push(
-      `Bootstrap must have one script array containing mainUrl; found ${scriptArrays.length}.`,
-    );
-  } else if (
-    !scriptArray.elements.some(
-      (element) =>
-        ts.isIdentifier(element) && element.text === "mountAdapterUrl",
-    )
-  ) {
-    const mainElement = scriptArray.elements.find(
-      (element) => ts.isIdentifier(element) && element.text === "mainUrl",
-    );
-    if (mainElement === undefined) {
-      reasons.push("Bootstrap script array has no mainUrl element.");
-    } else {
-      insertions.push({
-        position: mainElement.getStart(sourceFile),
-        value: "mountAdapterUrl,\n  ",
-      });
-    }
-  }
-
-  let source = options.source;
-  for (const insertion of insertions.sort(
-    (left, right) => right.position - left.position,
-  )) {
-    source =
-      source.slice(0, insertion.position) +
-      insertion.value +
-      source.slice(insertion.position);
-  }
-
-  return { source, reasons };
+function transformReport(
+  path: string,
+  transform: TransformFileReport["transform"],
+  result: SourceTransformResult,
+): TransformFileReport {
+  return {
+    path,
+    transform,
+    result: result.kind,
+    statistics: result.statistics,
+  };
 }
 
 function renderAdapter(config: ComponentConfig): string {
@@ -321,13 +270,14 @@ async function requireCleanGitPaths(
 async function restoreEdits(
   projectRoot: string,
   edits: PlannedEdit[],
+  fileOperations: AdapterFileOperations,
 ): Promise<void> {
   for (const edit of edits) {
     const absolutePath = resolve(projectRoot, edit.path);
     if (edit.before === null) {
-      await unlink(absolutePath).catch(() => undefined);
+      await fileOperations.unlink(absolutePath).catch(() => undefined);
     } else {
-      await writeFile(absolutePath, edit.before, "utf8");
+      await fileOperations.writeFile(absolutePath, edit.before, "utf8");
     }
   }
 }

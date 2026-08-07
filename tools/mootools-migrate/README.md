@@ -45,7 +45,18 @@ src/
   rebase/           migration collision detection
   contracts/        shared schemas
   core/             context, JSON, hashing, and reporting utilities
+transforms/
+  wrap-legacy-constructor.ts
+  update-bootstrap.ts
+  __testfixtures__/
 ```
+
+jscodeshift and Recast implement these formatting-preserving source
+transforms. The TypeScript compiler remains responsible for semantic analysis,
+scope, aliases, cross-file callers, findings, and decision fingerprints.
+jscodeshift runs in memory only. The adapter command keeps dry-run as the
+default and sends every final write through the existing component-wide atomic
+writer and rollback path.
 
 ## Install from the repository root
 

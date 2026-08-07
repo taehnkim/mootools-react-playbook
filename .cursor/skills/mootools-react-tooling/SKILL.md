@@ -87,6 +87,12 @@ Dry-run is the default. The codemod:
 
 It writes nothing when one form is unsupported.
 
+jscodeshift and Recast perform the formatting-preserving AST-to-source
+transforms inside this command. They are an implementation detail, not a new
+pipeline phase. The TypeScript compiler still owns symbol, scope, alias, and
+cross-file analysis. jscodeshift never writes project files directly. The
+existing component-wide atomic writer owns all writes and rollback.
+
 ### No-new-use
 
 ```bash

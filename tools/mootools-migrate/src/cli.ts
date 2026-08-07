@@ -189,6 +189,7 @@ program
       writeResult({
         kind: commandOptions.write ? "applied" : "dry-run",
         files: result.edits.map((edit) => edit.path),
+        reports: result.reports,
       });
     },
   );
