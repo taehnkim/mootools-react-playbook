@@ -2,8 +2,8 @@
 
 Status: first pass for the TabPane pilot.
 
-The executable first pass is in `migration_tools/`. Paths in the artifact
-layout are relative to that directory.
+Cursor skills are in root `.cursor/skills/`. The executable package and
+migration evidence are in `tools/mootools-migrate/`.
 
 This runbook defines a safe way to move one MooTools component to React. It
 also defines the skills, local tools, evidence files, and agent loop that the
@@ -151,17 +151,12 @@ Use this layout for the first implementation:
 
 tools/mootools-migrate/
   package.json
-  src/
-    cli.ts
-    capture.ts
-    compare.ts
-    schemas.ts
-
-migration/
   registry.json
+  generated/
+    inventory.json
   components/
     tab-pane/
-      worksheet.json
+      worksheet.generated.json
       decisions.json
       fixtures.json
       scenarios.json
@@ -172,12 +167,15 @@ migration/
       baseline/
       candidate/
         <run-id>/
-      runs/
+  src/
+    cli.ts
+    capture.ts
+    compare.ts
+    schemas.ts
 ```
 
-The TabPane pilot uses a manual worksheet. A later analyzer writes
-`worksheet.generated.json`. It must not replace the manual worksheet,
-`decisions.json`, or `accepted-differences.json`.
+The analyzer may replace `worksheet.generated.json`. It must not replace
+`decisions.json` or `accepted-differences.json`.
 
 Generated evidence and human decisions must stay in different files. Each
 decision stores the finding fingerprint that it approved. A changed
