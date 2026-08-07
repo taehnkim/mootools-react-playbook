@@ -1,0 +1,120 @@
+:root {
+  color: #edeef7;
+  background: #11121a;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --page: #11121a;
+  --surface: #191b27;
+  --surface-raised: #222536;
+  --border: #34384d;
+  --text: #edeef7;
+  --muted: #a9aec2;
+  --accent: #9b8cff;
+  --accent-strong: #c2b9ff;
+  --success: #4dd7a8;
+  --warning: #f6c76f;
+  --danger: #ff7d96;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--page);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 0%, rgb(111 93 255 / 16%), transparent 34rem),
+    var(--page);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.65rem;
+  padding: 0.65rem 1rem;
+  color: #11121a;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--accent-strong);
+  border: 1px solid transparent;
+  border-radius: 0.7rem;
+}
+
+button:hover,
+.primary-link:hover {
+  background: #d3cdff;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgb(155 140 255 / 45%);
+  outline-offset: 3px;
+}
+
+a {
+  color: var(--accent-strong);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 15ch;
+  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 8vw, 5.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.site-shell {
+  width: min(100% - 2rem, 72rem);
+  margin-inline: auto;
+  padding-block: clamp(4rem, 12vw, 9rem);
+}
+
+.eyebrow {
+  margin-bottom: 1rem;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.lede {
+  max-width: 42rem;
+  margin-bottom: 2rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.65;
+}

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "differences": [
+    {
+      "id": "close-non-active-by-api-api-close-selected-tab",
+      "fingerprint": "sha256:0023947cbd8f31b1de581e5476b120216f294435d7da41c49af919dcc551a699",
+      "decisionFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb",
+      "scenarioId": "close-non-active-by-api",
+      "stepId": "close-hello-by-api",
+      "assertionId": "api-close-selected-tab",
+      "legacyValue": true,
+      "reactValue": false,
+      "reason": "React retains the selected stable tab when a different tab closes.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:0023947cbd8f31b1de581e5476b120216f294435d7da41c49af919dcc551a699"
+      }
+    },
+    {
+      "id": "close-non-active-by-api-api-close-status",
+      "fingerprint": "sha256:b98f2ac1b76db79a01372b9204de74b99a426186c62f670cd2c244965fa2cbcb",
+      "decisionFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb",
+      "scenarioId": "close-non-active-by-api",
+      "stepId": "close-hello-by-api",
+      "assertionId": "api-close-status",
+      "legacyValue": "Showing tab 2.",
+      "reactValue": "Showing tab 1.",
+      "reason": "React retains the selected stable tab when a different tab closes.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:b98f2ac1b76db79a01372b9204de74b99a426186c62f670cd2c244965fa2cbcb"
+      }
+    },
+    {
+      "id": "close-non-active-by-api-api-close-event-order",
+      "fingerprint": "sha256:0ed772f1a77a2eff253def45ab5810782eb17aa10a167ea9494102d60cb18117",
+      "decisionFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb",
+      "scenarioId": "close-non-active-by-api",
+      "stepId": "close-hello-by-api",
+      "assertionId": "api-close-event-order",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            0
+          ]
+        }
+      ],
+      "reason": "React retains the selected stable tab when a different tab closes.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:0ed772f1a77a2eff253def45ab5810782eb17aa10a167ea9494102d60cb18117"
+      }
+    },
+    {
+      "id": "close-active-with-button-button-close-events",
+      "fingerprint": "sha256:99d9e0c1eff7f77f887978ac13e2bffa7b0dfe2194f36b9e0855f1ad47281a89",
+      "decisionFingerprint": "sha256:405f111736364dc636861c9611cd3678a0d59944e09dc486ce27d5ee7c545a91",
+      "scenarioId": "close-active-with-button",
+      "stepId": "close-behavior-button",
+      "assertionId": "button-close-events",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reason": "React close buttons stop propagation instead of selecting the tab before close.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:99d9e0c1eff7f77f887978ac13e2bffa7b0dfe2194f36b9e0855f1ad47281a89"
+      }
+    }
+  ]
+}

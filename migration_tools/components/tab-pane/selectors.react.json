@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "surface": "react",
+  "selectors": {
+    "component": "[data-migration-component=\"tab-pane\"]",
+    "tabs": "[data-migration-component=\"tab-pane\"] [role=\"tab\"]",
+    "tab:hello": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"hello\"]",
+    "tab:behavior": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"behavior\"]",
+    "tab:migration-notes": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"migration-notes\"]",
+    "tab:agent": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"agent-tab\"]",
+    "tab:last": "[data-migration-component=\"tab-pane\"] [role=\"tab\"]:last-of-type",
+    "tab:hello:close": "[data-migration-component=\"tab-pane\"] [aria-label=\"Close Hello tab\"]",
+    "tab:behavior:close": "[data-migration-component=\"tab-pane\"] [aria-label=\"Close Behavior tab\"]",
+    "tab:migration-notes:close": "[data-migration-component=\"tab-pane\"] [aria-label=\"Close Migration notes tab\"]",
+    "panel:hello": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"hello\"]",
+    "panel:behavior": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"behavior\"]",
+    "panel:migration-notes": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"migration-notes\"]",
+    "panel:agent": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"agent-tab\"]",
+    "panel:last": "[data-migration-component=\"tab-pane\"] [role=\"tabpanel\"]:last-of-type",
+    "new-tab-title": "[data-migration-control=\"new-tab-title\"]",
+    "new-tab-content": "[data-migration-control=\"new-tab-content\"]",
+    "add-tab": "[data-migration-control=\"add-tab\"]",
+    "status": "[data-migration-control=\"tab-pane-status\"]"
+  }
+}

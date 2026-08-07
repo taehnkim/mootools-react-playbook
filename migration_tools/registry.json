@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "components": [
+    {
+      "id": "tab-pane",
+      "mode": "local-pilot",
+      "configPath": "components/tab-pane/component.json",
+      "status": "pilot-proven",
+      "blockers": []
+    }
+  ]
+}

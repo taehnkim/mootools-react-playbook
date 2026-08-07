@@ -1,0 +1,1332 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "decisions": [
+    {
+      "findingId": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
+      "findingFingerprint": "sha256:405f111736364dc636861c9611cd3678a0d59944e09dc486ce27d5ee7c545a91",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:405f111736364dc636861c9611cd3678a0d59944e09dc486ce27d5ee7c545a91"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-dom-listener:domready-tabpane-add-tabpane-addevent-tabpane-close",
+      "findingFingerprint": "sha256:b6658f8fb7a266e2cf26e2578ebc02f74addc860914781cac50eb913a37543fd",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:b6658f8fb7a266e2cf26e2578ebc02f74addc860914781cac50eb913a37543fd"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-dom-listener:submit-tabpane-add",
+      "findingFingerprint": "sha256:d72538309ae2be8d2785bb1de81dcbcbb579d3b64b612bec99e23aab15377341",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:d72538309ae2be8d2785bb1de81dcbcbb579d3b64b612bec99e23aab15377341"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-event-listener:addevent-change",
+      "findingFingerprint": "sha256:e19c1caa0f5d6f0e08b6b7e1606c627c956d9755b60ad3dde983f23214dba2f1",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e19c1caa0f5d6f0e08b6b7e1606c627c956d9755b60ad3dde983f23214dba2f1"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-global-exposure:window-moosandbox",
+      "findingFingerprint": "sha256:ae8516fdce8314e70d039665d1bcc19175b15ac51984d7df2969636873de6dd3",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ae8516fdce8314e70d039665d1bcc19175b15ac51984d7df2969636873de6dd3"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:add",
+      "findingFingerprint": "sha256:dd2a36d03f862376f8a400e89b1b41a5323c1e5eb372715476b097faad367c72",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:dd2a36d03f862376f8a400e89b1b41a5323c1e5eb372715476b097faad367c72"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:addevent",
+      "findingFingerprint": "sha256:231762b932ec0ee4747e6b17614c1943b525eb6a82af6ed834c68ec42a1e3e54",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:231762b932ec0ee4747e6b17614c1943b525eb6a82af6ed834c68ec42a1e3e54"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:close",
+      "findingFingerprint": "sha256:16e8c57694d6d5227dedfe3596d68c41e3b02e5917e102e3bbcae9a5865e9d6d",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:16e8c57694d6d5227dedfe3596d68c41e3b02e5917e102e3bbcae9a5865e9d6d"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller:legacy-main-js-5-constructor",
+      "findingFingerprint": "sha256:e0c6dda2dd9ce8e1d07bd38c62754dc5d5432913beebd706be1735d73ef0b2ae",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e0c6dda2dd9ce8e1d07bd38c62754dc5d5432913beebd706be1735d73ef0b2ae"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:core-1-4-class",
+      "findingFingerprint": "sha256:0698415cae35fccd870a0d283e29747cdacc0f7fdf68e392cc1842b8c624f94b",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0698415cae35fccd870a0d283e29747cdacc0f7fdf68e392cc1842b8c624f94b"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:core-1-4-class-extras",
+      "findingFingerprint": "sha256:a856b360e509112b47fd253618a139f1e8e0da6041c0b3fddcdc2ddce6518194",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:a856b360e509112b47fd253618a139f1e8e0da6041c0b3fddcdc2ddce6518194"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:core-1-4-element",
+      "findingFingerprint": "sha256:bcb1afc6024ce396e5eab5052beeafb1a9c1df7c4b4d4c5caebfb6bb0a2cc4c5",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:bcb1afc6024ce396e5eab5052beeafb1a9c1df7c4b4d4c5caebfb6bb0a2cc4c5"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:core-1-4-element-delegation",
+      "findingFingerprint": "sha256:5e50f344d5eec60d35025b9ecbd2eec0b8bc24aa56e4f2070fc3f4d7dc5b3617",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:5e50f344d5eec60d35025b9ecbd2eec0b8bc24aa56e4f2070fc3f4d7dc5b3617"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:core-1-4-element-event",
+      "findingFingerprint": "sha256:cbd44b3b79c9e45dd3ac4bcef73f0823bc4f759b305c91c6da706655b4ceb811",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:cbd44b3b79c9e45dd3ac4bcef73f0823bc4f759b305c91c6da706655b4ceb811"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:core-1-4-event",
+      "findingFingerprint": "sha256:4c99a97f45934ffaa1ae94bbda6672a86e76583bfa6bf61d41526fe604df84d2",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:4c99a97f45934ffaa1ae94bbda6672a86e76583bfa6bf61d41526fe604df84d2"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:script-order:https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-core-1-4-2-js-then-https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-more-1-4-0-1-js-then-components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
+      "findingFingerprint": "sha256:d1ca16261533dd51df2f1fafc625f7d9814f17357b9705a06bf8f540217bcdc0",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:d1ca16261533dd51df2f1fafc625f7d9814f17357b9705a06bf8f540217bcdc0"
+      }
+    },
+    {
+      "findingId": "tab-pane:dependency:tabpane",
+      "findingFingerprint": "sha256:10ac07ffd05549747b615b48a17a7d65965172cd00c49fd0746fd7dbb82670b9",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:10ac07ffd05549747b615b48a17a7d65965172cd00c49fd0746fd7dbb82670b9"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-change",
+      "findingFingerprint": "sha256:39a0800baf2e8d137268fcb71c17540c927ff99fce89b7e733310a1464798562",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:39a0800baf2e8d137268fcb71c17540c927ff99fce89b7e733310a1464798562"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-click-relay-data-close-tab",
+      "findingFingerprint": "sha256:88d16a9a3528ba9934243b2a7dbd04d330f06a1842a70e9318d49b170f1c8efc",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:88d16a9a3528ba9934243b2a7dbd04d330f06a1842a70e9318d49b170f1c8efc"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-click-relay-this-options-tabselector",
+      "findingFingerprint": "sha256:418cd75429e357626d30cff6b824cd8d29c268b903ad405e39301fddb70cb00b",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:418cd75429e357626d30cff6b824cd8d29c268b903ad405e39301fddb70cb00b"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-domready",
+      "findingFingerprint": "sha256:c58391bb832d29635745cd1224e135932bc0a6bd7a725ded5a243abbe8d53a60",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c58391bb832d29635745cd1224e135932bc0a6bd7a725ded5a243abbe8d53a60"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-submit",
+      "findingFingerprint": "sha256:a70dfa2a41475d52d4e1292d2843d7170a8a819119f3a8a272c2e6c787c9f36a",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:a70dfa2a41475d52d4e1292d2843d7170a8a819119f3a8a272c2e6c787c9f36a"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:add",
+      "findingFingerprint": "sha256:e48c536296c091b14c6013771142b89a3a5563c9e4f2eeae3342ff8550a9e618",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e48c536296c091b14c6013771142b89a3a5563c9e4f2eeae3342ff8550a9e618"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:change",
+      "findingFingerprint": "sha256:58087d3d50f80d72e961f7b00c7c5013da9797494360c4e66640354ba74d5bd6",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:58087d3d50f80d72e961f7b00c7c5013da9797494360c4e66640354ba74d5bd6"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:close",
+      "findingFingerprint": "sha256:10cf5c579f15eaea60496925300a2f032bad154f8435b6d84c3c15cc52651717",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:10cf5c579f15eaea60496925300a2f032bad154f8435b6d84c3c15cc52651717"
+      }
+    },
+    {
+      "findingId": "tab-pane:global:tabpane",
+      "findingFingerprint": "sha256:252198c1c9fd51ab303db2d1ea442a27052d52b499e8e6eebf024374bdde656d",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:252198c1c9fd51ab303db2d1ea442a27052d52b499e8e6eebf024374bdde656d"
+      }
+    },
+    {
+      "findingId": "tab-pane:import:static-import-components-tab-pane-tabpane-extra-js-url",
+      "findingFingerprint": "sha256:ef2e4108be2326f43da69f23b4753c492374bbf1f07b42a8d03b132b21b32dcd",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ef2e4108be2326f43da69f23b4753c492374bbf1f07b42a8d03b132b21b32dcd"
+      }
+    },
+    {
+      "findingId": "tab-pane:import:static-import-components-tab-pane-tabpane-js-url",
+      "findingFingerprint": "sha256:6802b3e53b5f01661e68f1335e49401db4f2c148112eaf053468eaeaffd78d46",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:6802b3e53b5f01661e68f1335e49401db4f2c148112eaf053468eaeaffd78d46"
+      }
+    },
+    {
+      "findingId": "tab-pane:import:static-import-main-js-url",
+      "findingFingerprint": "sha256:9bc9ca2d1cd6cf72d3cb7b349402da5180bd5478d03d7ea93a8f841b4e183d07",
+      "resolution": "replace",
+      "rationale": "React must not depend on MooTools; retain only shared page assets needed for visual parity.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:9bc9ca2d1cd6cf72d3cb7b349402da5180bd5478d03d7ea93a8f841b4e183d07"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup-order:div-tab-pane-ul-tabs-section-content-section-content-section-content",
+      "findingFingerprint": "sha256:7c73ac2f128825d2c2aea2ee34c501cab79708e86eedaa3ca91b693eb1f9532e",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:7c73ac2f128825d2c2aea2ee34c501cab79708e86eedaa3ca91b693eb1f9532e"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup-order:li-tab-span-button-tab-close",
+      "findingFingerprint": "sha256:3281f8e8996e07ea205cfa38236b6f82a909d1626e5dfc2f8eb464e02d3bb320",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:3281f8e8996e07ea205cfa38236b6f82a909d1626e5dfc2f8eb464e02d3bb320"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup-order:section-content-h3-p",
+      "findingFingerprint": "sha256:56ba38672610e3c227f181ba881b715c5776f7acc6f4c48df52ebbbc6727ce1e",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:56ba38672610e3c227f181ba881b715c5776f7acc6f4c48df52ebbbc6727ce1e"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup-order:ul-tabs-li-tab-li-tab-li-tab",
+      "findingFingerprint": "sha256:e27194952df71fc38de94f357989cc41ff2ce61c5b4b81e90bb354d120cad72b",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e27194952df71fc38de94f357989cc41ff2ce61c5b4b81e90bb354d120cad72b"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:button-tab-close",
+      "findingFingerprint": "sha256:2fcb4be615481bdf536cded9b810cad3f08bf57db2119a0af3d342f43da1471d",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:2fcb4be615481bdf536cded9b810cad3f08bf57db2119a0af3d342f43da1471d"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:div-tab-pane",
+      "findingFingerprint": "sha256:243a3aa11569d039ea463436730f6424137794040413ff9ff2bf1850e7d6347f",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:243a3aa11569d039ea463436730f6424137794040413ff9ff2bf1850e7d6347f"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:dynamic-button",
+      "findingFingerprint": "sha256:0318113898185b5e95ca0b6a1349f62708f3752cca39cb8d23723d294b2efb88",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0318113898185b5e95ca0b6a1349f62708f3752cca39cb8d23723d294b2efb88"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:dynamic-h3",
+      "findingFingerprint": "sha256:803063a39961dcbf64def804c277a5b3ea12946160c78492cb14bd5f4b3b48a4",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:803063a39961dcbf64def804c277a5b3ea12946160c78492cb14bd5f4b3b48a4"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:dynamic-li",
+      "findingFingerprint": "sha256:bf2f366283dae631b45675edd822b32dab992b0408ae4c4b1a1253dda4d2ba09",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:bf2f366283dae631b45675edd822b32dab992b0408ae4c4b1a1253dda4d2ba09"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:dynamic-p",
+      "findingFingerprint": "sha256:20af015f543966c7f293dc5725217c0c0aaa85d3f138a4919f22c59dd2ff340f",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:20af015f543966c7f293dc5725217c0c0aaa85d3f138a4919f22c59dd2ff340f"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:dynamic-section",
+      "findingFingerprint": "sha256:cfe426f89e076bbe9fc6e808dd0b409b1bcb59a34d85cbc54223eabcb3880cb8",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:cfe426f89e076bbe9fc6e808dd0b409b1bcb59a34d85cbc54223eabcb3880cb8"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:dynamic-span",
+      "findingFingerprint": "sha256:4ecfa2cd85b3117d71e982efa850185208afbc5aef71a6ea04c769bb4a3189a4",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:4ecfa2cd85b3117d71e982efa850185208afbc5aef71a6ea04c769bb4a3189a4"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:li-tab",
+      "findingFingerprint": "sha256:48f49cd524bbf08a1007f2b727992b1b0cc0e699ee27db7b40abdbae4cb8adcd",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:48f49cd524bbf08a1007f2b727992b1b0cc0e699ee27db7b40abdbae4cb8adcd"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:section-content",
+      "findingFingerprint": "sha256:0202a09984fd8891b0c8337d0bedf6304d2ee341c050b891ededb1195151c7c3",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0202a09984fd8891b0c8337d0bedf6304d2ee341c050b891ededb1195151c7c3"
+      }
+    },
+    {
+      "findingId": "tab-pane:markup:ul-tabs",
+      "findingFingerprint": "sha256:ecc35b4b91ddba7a2dea667615cfdbefc66787262999e3224b3e9e263b9aa380",
+      "resolution": "fix",
+      "rationale": "Preserve visual structure while adding tab roles, panel roles, focus handling, and keyboard navigation.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ecc35b4b91ddba7a2dea667615cfdbefc66787262999e3224b3e9e263b9aa380"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:activeclass",
+      "findingFingerprint": "sha256:122913c5b35ffe1c62e975810ddac5965053748fcdd26d37a7cf797cf3fb70b7",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:122913c5b35ffe1c62e975810ddac5965053748fcdd26d37a7cf797cf3fb70b7"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:contentselector",
+      "findingFingerprint": "sha256:8caccb87566c358d900a16decb1061d8600b3a03997c68876ac1f75773b243ec",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:8caccb87566c358d900a16decb1061d8600b3a03997c68876ac1f75773b243ec"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:tabselector",
+      "findingFingerprint": "sha256:dfeb3d64930cacc88ddb32dfba609916595c8cdb9c8d31593d1c36ec9be4f6b5",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:dfeb3d64930cacc88ddb32dfba609916595c8cdb9c8d31593d1c36ec9be4f6b5"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:add",
+      "findingFingerprint": "sha256:93dbd80d6ecec6d7738b4bdfbe666ce4eacb6e1b1dd905fcc7d10a00ec8d7886",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:93dbd80d6ecec6d7738b4bdfbe666ce4eacb6e1b1dd905fcc7d10a00ec8d7886"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:close",
+      "findingFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb",
+      "resolution": "fix",
+      "rationale": "Keep close behavior but retain the selected stable tab when another tab closes.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:get",
+      "findingFingerprint": "sha256:ffa3dd8bd444a5df29f36650b8184221f4d866ae1f8780bb68916b53ac8eee4f",
+      "resolution": "delete",
+      "rationale": "These index-based helpers are legacy internals and have no required React caller.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ffa3dd8bd444a5df29f36650b8184221f4d866ae1f8780bb68916b53ac8eee4f"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:indexof",
+      "findingFingerprint": "sha256:0e2b9f23049495b1ad49e8df1b75f2411c77248a0c50e61ac7221c7c67030fe1",
+      "resolution": "delete",
+      "rationale": "These index-based helpers are legacy internals and have no required React caller.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0e2b9f23049495b1ad49e8df1b75f2411c77248a0c50e61ac7221c7c67030fe1"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:initialize",
+      "findingFingerprint": "sha256:decf8597aa8cf7839f1751c3a45e33e8c7ca1585b52159793ec816f01a4767c3",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:decf8597aa8cf7839f1751c3a45e33e8c7ca1585b52159793ec816f01a4767c3"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:show",
+      "findingFingerprint": "sha256:72248b129c8dd132cbdd6bce90fa9e984ea6fd95b2ff4139b42c3fa18c5743a2",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:72248b129c8dd132cbdd6bce90fa9e984ea6fd95b2ff4139b42c3fa18c5743a2"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector-option:tabselector",
+      "findingFingerprint": "sha256:b37035757f1924c921d53d902a8f7674ea2a8850d11e9556efc4aec4fe69aa22",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:b37035757f1924c921d53d902a8f7674ea2a8850d11e9556efc4aec4fe69aa22"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:active",
+      "findingFingerprint": "sha256:03756dd68ac21bb15ada6338d8e72d6bd3e0936c369eacda87483defc9620721",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:03756dd68ac21bb15ada6338d8e72d6bd3e0936c369eacda87483defc9620721"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:aria-label-close-behavior-tab",
+      "findingFingerprint": "sha256:512095d47f70a0b2e1f56ae667908fe5596d26883342d26127efa1ef08773a01",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:512095d47f70a0b2e1f56ae667908fe5596d26883342d26127efa1ef08773a01"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:aria-label-close-hello-tab",
+      "findingFingerprint": "sha256:2f89f637a7079b39c19a95d5de9748d16d7faa23a7f8ac8f917b66dc8704366e",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:2f89f637a7079b39c19a95d5de9748d16d7faa23a7f8ac8f917b66dc8704366e"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:aria-label-close-migration-notes-tab",
+      "findingFingerprint": "sha256:dfabad58e32d6c1646f5447c4a283fb4c1c5bd2f2fcdf62d99a2912ac7ff94fc",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:dfabad58e32d6c1646f5447c4a283fb4c1c5bd2f2fcdf62d99a2912ac7ff94fc"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:button-focus-visible-input-focus-visible-textarea-focus-visible-a-focus-visible",
+      "findingFingerprint": "sha256:c3dfa4946637c4245f09ebd1b91844214cff60905411c7606a3fce288bd997ab",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c3dfa4946637c4245f09ebd1b91844214cff60905411c7606a3fce288bd997ab"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:button-hover-primary-link-hover",
+      "findingFingerprint": "sha256:de2ac299c49fe0d59489f1952e91a6969d473df0d5b18361fe4438741c732b1a",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:de2ac299c49fe0d59489f1952e91a6969d473df0d5b18361fe4438741c732b1a"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:button-input-textarea",
+      "findingFingerprint": "sha256:bb8bb31d80f4b9f686828c421b14474880bc3946dc8e2add113412127ea52410",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:bb8bb31d80f4b9f686828c421b14474880bc3946dc8e2add113412127ea52410"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:button-primary-link",
+      "findingFingerprint": "sha256:d27e12183a57cd9f64da289fa4d3d4ee5b9e639a5808da519690cb02c76c0358",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:d27e12183a57cd9f64da289fa4d3d4ee5b9e639a5808da519690cb02c76c0358"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:content",
+      "findingFingerprint": "sha256:bcff89b0972c3e871a35af6676cbaba64b963670203e667d7290fbbe827fee3b",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:bcff89b0972c3e871a35af6676cbaba64b963670203e667d7290fbbe827fee3b"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:data-close-tab",
+      "findingFingerprint": "sha256:27c19db1842908f6eedae670c80ebbf225f1cd83ad9b60262291d9611dafc5f8",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:27c19db1842908f6eedae670c80ebbf225f1cd83ad9b60262291d9611dafc5f8"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:h1-h2-h3-p",
+      "findingFingerprint": "sha256:ef004c7f532b2cf2692d6737d2552d2eefb091e8bb7f8a391c140ec4cdf9c34e",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ef004c7f532b2cf2692d6737d2552d2eefb091e8bb7f8a391c140ec4cdf9c34e"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:new-tab-content",
+      "findingFingerprint": "sha256:c356b2475615d550b5aa5ed43bf9a4bfe473adea02f8ee2fec442b779fa25c6c",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c356b2475615d550b5aa5ed43bf9a4bfe473adea02f8ee2fec442b779fa25c6c"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:new-tab-title",
+      "findingFingerprint": "sha256:3e3be106f13957ed237ec5fddd370886f01290b22b3aa726767503f38fa7027e",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:3e3be106f13957ed237ec5fddd370886f01290b22b3aa726767503f38fa7027e"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab",
+      "findingFingerprint": "sha256:0dfad8142c66e0f157846b0394ffd752e298a067b5603b5ddb54060076d689df",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0dfad8142c66e0f157846b0394ffd752e298a067b5603b5ddb54060076d689df"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab-close",
+      "findingFingerprint": "sha256:2c8dc04180baea8bba47db125eb23da37cbd103c6e36317f10a51e2d99828e71",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:2c8dc04180baea8bba47db125eb23da37cbd103c6e36317f10a51e2d99828e71"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab-close-hover",
+      "findingFingerprint": "sha256:ec771d9fe2cf0a4917c7a44b807ed4d18f9bf1e7289462f1ea854694ed514c6a",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ec771d9fe2cf0a4917c7a44b807ed4d18f9bf1e7289462f1ea854694ed514c6a"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab-pane",
+      "findingFingerprint": "sha256:64f7101c9c465d7e5dca0bc229c5fa98f726f702e73819bbd498913b5aa9bab8",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:64f7101c9c465d7e5dca0bc229c5fa98f726f702e73819bbd498913b5aa9bab8"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab-pane-content",
+      "findingFingerprint": "sha256:510c1515674e5d2f8e91505dc4402b71e591306cb4da964b2d44a3cc4e8768ef",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:510c1515674e5d2f8e91505dc4402b71e591306cb4da964b2d44a3cc4e8768ef"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab-pane-content-h3",
+      "findingFingerprint": "sha256:f9e3847375d9d92aaba94aed0d5514861f170ffd578e86949077ed8d909c8389",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:f9e3847375d9d92aaba94aed0d5514861f170ffd578e86949077ed8d909c8389"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tab-pane-content-p",
+      "findingFingerprint": "sha256:0dff533e66d37531ea2dcd5009127e9ce3d1948a766235663cd9ecbca6da69d4",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0dff533e66d37531ea2dcd5009127e9ce3d1948a766235663cd9ecbca6da69d4"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tabs",
+      "findingFingerprint": "sha256:0306f33dc80163caebd352d52937cfecc34c9bbf4c0c65db0de426e0a63156aa",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0306f33dc80163caebd352d52937cfecc34c9bbf4c0c65db0de426e0a63156aa"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tabs-tab",
+      "findingFingerprint": "sha256:f84fa1c8de2595c52f2329ad541ae6844ae27e609318c90a54b42229ca6122cc",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:f84fa1c8de2595c52f2329ad541ae6844ae27e609318c90a54b42229ca6122cc"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tabs-tab-active",
+      "findingFingerprint": "sha256:4fa0118f2d14e80959264dc0f5c0b222e1d028fa65bb50a34761736acef2d19c",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:4fa0118f2d14e80959264dc0f5c0b222e1d028fa65bb50a34761736acef2d19c"
+      }
+    },
+    {
+      "findingId": "tab-pane:selector:tabs-tab-hover",
+      "findingFingerprint": "sha256:9a286f1f65a7723b608ad27a7e19dd3e330d5dd6c086a7933c7f4fa95aba5c14",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:9a286f1f65a7723b608ad27a7e19dd3e330d5dd6c086a7933c7f4fa95aba5c14"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:button-focus-visible-input-focus-visible-textarea-focus-visible-a-focus-visible",
+      "findingFingerprint": "sha256:80b74bd28b824a39ee6d91a91bc5aa4ab2412ffe197afbffdb02e39a06e74df1",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:80b74bd28b824a39ee6d91a91bc5aa4ab2412ffe197afbffdb02e39a06e74df1"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:button-hover-primary-link-hover",
+      "findingFingerprint": "sha256:04b067a1214a952f9157e21347583e78f610ae3e644492b914eb885b94118f2a",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:04b067a1214a952f9157e21347583e78f610ae3e644492b914eb885b94118f2a"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:button-input-textarea",
+      "findingFingerprint": "sha256:b3bb0393adb6c69b98ff3a2effaed5c79d5d8063fd02cdc78bdcd1468b2372ef",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:b3bb0393adb6c69b98ff3a2effaed5c79d5d8063fd02cdc78bdcd1468b2372ef"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:button-primary-link",
+      "findingFingerprint": "sha256:78c22a59eb7a8d5c5cd45261c7844f69b19d40a137b1d0c628b3e418367cedd9",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:78c22a59eb7a8d5c5cd45261c7844f69b19d40a137b1d0c628b3e418367cedd9"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:h1-h2-h3-p",
+      "findingFingerprint": "sha256:01b1c61e10ad1dde8c00bc0ca1be7a80fbed6909aab73f92be58aaceec9227fa",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:01b1c61e10ad1dde8c00bc0ca1be7a80fbed6909aab73f92be58aaceec9227fa"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tab-close",
+      "findingFingerprint": "sha256:1a31cc8354435834ada8c7e2274a8ba4e4f6ebd84b0e40a36fdcf1f9d3ecfe99",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:1a31cc8354435834ada8c7e2274a8ba4e4f6ebd84b0e40a36fdcf1f9d3ecfe99"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tab-close-hover",
+      "findingFingerprint": "sha256:ff4d816839252628fd10a073003e006b3a0cb0c0b5a221d653a7e4c2bd298fc8",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ff4d816839252628fd10a073003e006b3a0cb0c0b5a221d653a7e4c2bd298fc8"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tab-pane-content",
+      "findingFingerprint": "sha256:28720d3d6a08041e597be435a2189e6825b9363e5eb7e0e0d9d241d2348588a6",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:28720d3d6a08041e597be435a2189e6825b9363e5eb7e0e0d9d241d2348588a6"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tab-pane-content-h3",
+      "findingFingerprint": "sha256:954e858e9ba0f6e45e086b6d4541e626163944af1a68aad5aefb6ed49e84bb60",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:954e858e9ba0f6e45e086b6d4541e626163944af1a68aad5aefb6ed49e84bb60"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tab-pane-content-media-max-width-520px",
+      "findingFingerprint": "sha256:4db20ccdcbcef87a1361e6908e0897243b2b22c89cdb1c544972152ffc4f52e6",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:4db20ccdcbcef87a1361e6908e0897243b2b22c89cdb1c544972152ffc4f52e6"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tab-pane-content-p",
+      "findingFingerprint": "sha256:1ba4a7f9fb10779604f7c5c28f12b28ecf2bfb873c85cf5626c157a0b6741c09",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:1ba4a7f9fb10779604f7c5c28f12b28ecf2bfb873c85cf5626c157a0b6741c09"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tabs",
+      "findingFingerprint": "sha256:6bf2d6644e3385007eb368b75736252aeee2f5104053e7dddaad36d9a68c4d23",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:6bf2d6644e3385007eb368b75736252aeee2f5104053e7dddaad36d9a68c4d23"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tabs-media-max-width-520px",
+      "findingFingerprint": "sha256:8276459eb1a1621c4d323616265c52e8dff28c6d1de9dbf75b343f4252d4c92d",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:8276459eb1a1621c4d323616265c52e8dff28c6d1de9dbf75b343f4252d4c92d"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tabs-tab",
+      "findingFingerprint": "sha256:23456993ffc42822cde38c4179fdcb5e3db46ece8e08d1c433bc8284ebda1ec4",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:23456993ffc42822cde38c4179fdcb5e3db46ece8e08d1c433bc8284ebda1ec4"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tabs-tab-active",
+      "findingFingerprint": "sha256:c4e2de5011a544fb9c01fdbf6a93ad0a572990d573f4aee0d8e683ec029336e7",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c4e2de5011a544fb9c01fdbf6a93ad0a572990d573f4aee0d8e683ec029336e7"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tabs-tab-hover",
+      "findingFingerprint": "sha256:30835348e737461d762bf8c153845ef3ca6eec4f1ee8c59c487e010645c4ce32",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:30835348e737461d762bf8c153845ef3ca6eec4f1ee8c59c487e010645c4ce32"
+      }
+    },
+    {
+      "findingId": "tab-pane:style-rule:tabs-tab-media-max-width-520px",
+      "findingFingerprint": "sha256:4d99e707ec23a38fca306d6ecac75248d55c3031052de2d13e0937ff09534ef6",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:4d99e707ec23a38fca306d6ecac75248d55c3031052de2d13e0937ff09534ef6"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:accent",
+      "findingFingerprint": "sha256:c9dabd3f6d1291701206d4be439b3ae17550de808d5b24b07ba943eb99c1a59c",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c9dabd3f6d1291701206d4be439b3ae17550de808d5b24b07ba943eb99c1a59c"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:accent-strong",
+      "findingFingerprint": "sha256:1c2ce09db34c51c3c15fb4fae5f93e913d8d60514dc045cafafcd585d86afc34",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:1c2ce09db34c51c3c15fb4fae5f93e913d8d60514dc045cafafcd585d86afc34"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:border",
+      "findingFingerprint": "sha256:6dc592ce3ca739bcfcc43f2ffc0e0ac71abdfd60d27bbea00eb3158da3291933",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:6dc592ce3ca739bcfcc43f2ffc0e0ac71abdfd60d27bbea00eb3158da3291933"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:danger",
+      "findingFingerprint": "sha256:e7ace1d62cea456e80c44ba0989bf339d65b725290773c3f7f5ac525f136ddf6",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e7ace1d62cea456e80c44ba0989bf339d65b725290773c3f7f5ac525f136ddf6"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:muted",
+      "findingFingerprint": "sha256:7bf4d0416df7ba14c78d39c3f6b7a415f64cb6319888bcacbaef93e805ad4341",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:7bf4d0416df7ba14c78d39c3f6b7a415f64cb6319888bcacbaef93e805ad4341"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:surface-raised",
+      "findingFingerprint": "sha256:ccfc1d9d17148a19697a252f2a42b5395d1aba2a9dd7a6b020c5d871d7249695",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ccfc1d9d17148a19697a252f2a42b5395d1aba2a9dd7a6b020c5d871d7249695"
+      }
+    },
+    {
+      "findingId": "tab-pane:style:custom-property:text",
+      "findingFingerprint": "sha256:fc1a0c66f8e70baf70e171176ff561525ca4ca20dd4e4178ae025d7018f479dc",
+      "resolution": "preserve",
+      "rationale": "Keep this hook or computed style during the parity pilot; component-owned CSS can follow later.",
+      "requiresHumanApproval": true,
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:fc1a0c66f8e70baf70e171176ff561525ca4ca20dd4e4178ae025d7018f479dc"
+      }
+    }
+  ]
+}

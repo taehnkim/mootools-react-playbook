@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-07T16:28:49.685Z",
+  "components": [
+    {
+      "id": "tab-pane",
+      "definitions": [
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/components/tab-pane/TabPane.Extra.js"
+      ],
+      "uses": [
+        {
+          "path": "legacy/main.js",
+          "kind": "constructor",
+          "symbol": "TabPane",
+          "line": 5
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "runId": "react-pilot-2",
+  "componentId": "tab-pane",
+  "surface": "react",
+  "createdAt": "2026-08-07T20:34:44.837Z",
+  "baseUrl": "http://127.0.0.1:5180",
+  "projectInputHash": "sha256:e248100302b9ef7e78f0215cbe432e316b1023b116e84aa4ada8c61062e73510",
+  "componentConfigHash": "sha256:c780411ee32702106a29204b694a85c0d0bea95feb3a81adcc8a9bc61c183e1f",
+  "scenariosHash": "sha256:8197299c6b0dde7dc626c41d9255dee96fa80a39dc80d82d278b40e619351ee9",
+  "fixturesHash": "sha256:ed5940842335ace9f987963dc0d5e303f5b3bf3fed5d8c2fcc694d1be47ec9aa",
+  "selectorsHash": "sha256:60079a99088437e6d3593f4685dbb2015d86cc06cf818c290b6c9a912fbc7b27",
+  "browserVersion": "151.0.7922.34",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "results": [
+    {
+      "scenarioId": "initial-selection",
+      "observations": [
+        {
+          "assertionId": "initial-tab-count",
+          "afterStepId": "observe-initial",
+          "kind": "count",
+          "actual": 3,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "hello-is-active",
+          "afterStepId": "observe-initial",
+          "kind": "class",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "hello-panel-visible",
+          "afterStepId": "observe-initial",
+          "kind": "visible",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "behavior-panel-hidden",
+          "afterStepId": "observe-initial",
+          "kind": "visible",
+          "actual": false,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "initial-status",
+          "afterStepId": "observe-initial",
+          "kind": "text",
+          "actual": "Showing tab 1.",
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "initial-component-image",
+          "afterStepId": "observe-initial",
+          "kind": "screenshot",
+          "actual": null,
+          "screenshotPath": "initial-selection/component.png",
+          "screenshotHash": "sha256:24210e2ee23929697eab8d11265a67550582e87729a908f3de151fa50fc55e34"
+        }
+      ]
+    },
+    {
+      "scenarioId": "select-second-tab",
+      "observations": [
+        {
+          "assertionId": "behavior-is-active",
+          "afterStepId": "click-behavior",
+          "kind": "class",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "behavior-panel-visible",
+          "afterStepId": "click-behavior",
+          "kind": "visible",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "second-tab-status",
+          "afterStepId": "click-behavior",
+          "kind": "text",
+          "actual": "Showing tab 2.",
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "select-event-order",
+          "afterStepId": "click-behavior",
+          "kind": "event-trace",
+          "actual": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ],
+          "screenshotPath": null,
+          "screenshotHash": null
+        }
+      ]
+    },
+    {
+      "scenarioId": "add-and-open-tab",
+      "observations": [
+        {
+          "assertionId": "added-tab-count",
+          "afterStepId": "submit-new-tab",
+          "kind": "count",
+          "actual": 4,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "added-tab-active",
+          "afterStepId": "submit-new-tab",
+          "kind": "class",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "added-panel-visible",
+          "afterStepId": "submit-new-tab",
+          "kind": "visible",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "added-tab-status",
+          "afterStepId": "submit-new-tab",
+          "kind": "text",
+          "actual": "Showing tab 4.",
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "title-focus-restored",
+          "afterStepId": "submit-new-tab",
+          "kind": "focus",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "add-event-order",
+          "afterStepId": "submit-new-tab",
+          "kind": "event-trace",
+          "actual": [
+            {
+              "name": "add",
+              "args": [
+                3
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                3
+              ]
+            }
+          ],
+          "screenshotPath": null,
+          "screenshotHash": null
+        }
+      ]
+    },
+    {
+      "scenarioId": "reject-incomplete-add",
+      "observations": [
+        {
+          "assertionId": "incomplete-tab-count",
+          "afterStepId": "submit-incomplete-tab",
+          "kind": "count",
+          "actual": 3,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "incomplete-add-status",
+          "afterStepId": "submit-incomplete-tab",
+          "kind": "text",
+          "actual": "Enter both a tab name and tab content.",
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "incomplete-add-events",
+          "afterStepId": "submit-incomplete-tab",
+          "kind": "event-trace",
+          "actual": [],
+          "screenshotPath": null,
+          "screenshotHash": null
+        }
+      ]
+    },
+    {
+      "scenarioId": "close-non-active-by-api",
+      "observations": [
+        {
+          "assertionId": "api-close-tab-count",
+          "afterStepId": "close-hello-by-api",
+          "kind": "count",
+          "actual": 2,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "api-close-selected-tab",
+          "afterStepId": "close-hello-by-api",
+          "kind": "class",
+          "actual": false,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "api-close-status",
+          "afterStepId": "close-hello-by-api",
+          "kind": "text",
+          "actual": "Showing tab 1.",
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "api-close-event-order",
+          "afterStepId": "close-hello-by-api",
+          "kind": "event-trace",
+          "actual": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "close",
+              "args": [
+                0
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                0
+              ]
+            }
+          ],
+          "screenshotPath": null,
+          "screenshotHash": null
+        }
+      ]
+    },
+    {
+      "scenarioId": "close-active-with-button",
+      "observations": [
+        {
+          "assertionId": "button-close-tab-count",
+          "afterStepId": "close-behavior-button",
+          "kind": "count",
+          "actual": 2,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "button-close-selected-tab",
+          "afterStepId": "close-behavior-button",
+          "kind": "class",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "button-close-events",
+          "afterStepId": "close-behavior-button",
+          "kind": "event-trace",
+          "actual": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "close",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ],
+          "screenshotPath": null,
+          "screenshotHash": null
+        }
+      ]
+    },
+    {
+      "scenarioId": "imperative-show",
+      "observations": [
+        {
+          "assertionId": "imperative-show-active",
+          "afterStepId": "show-migration-notes",
+          "kind": "class",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "imperative-show-panel",
+          "afterStepId": "show-migration-notes",
+          "kind": "visible",
+          "actual": true,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "imperative-show-events",
+          "afterStepId": "show-migration-notes",
+          "kind": "event-trace",
+          "actual": [
+            {
+              "name": "change",
+              "args": [
+                2
+              ]
+            }
+          ],
+          "screenshotPath": null,
+          "screenshotHash": null
+        }
+      ]
+    }
+  ]
+}

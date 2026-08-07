@@ -1,0 +1,2972 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "source": "analyzer",
+  "analyzerVersion": "0.2.0",
+  "inputHash": "sha256:58d2e966476f5079a42fa85c028183a60d842a31b0bfaf8aac8b3760628ef6f9",
+  "generatedAt": "2026-08-07T20:23:00.180Z",
+  "findings": [
+    {
+      "id": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
+      "fingerprint": "sha256:405f111736364dc636861c9611cd3678a0d59944e09dc486ce27d5ee7c545a91",
+      "kind": "event-listener",
+      "summary": "Caller listener click:relay([data-close-tab]) invokes tabPane.close.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 11,
+          "endLine": 24,
+          "sourceHash": "sha256:3a3b2a9ec1afe6ffece45b4c4ab8da739c385c7ebd14380da1a31e631bb5d844"
+        }
+      ],
+      "suggestedAction": "Move this trigger to React or keep it in an explicit host adapter.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-dom-listener:domready-tabpane-add-tabpane-addevent-tabpane-close",
+      "fingerprint": "sha256:b6658f8fb7a266e2cf26e2578ebc02f74addc860914781cac50eb913a37543fd",
+      "kind": "event-listener",
+      "summary": "Caller listener domready invokes tabPane.add, tabPane.addEvent, tabPane.close.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 139,
+          "endLine": 139,
+          "sourceHash": "sha256:02e8487776e0014e44d69838aec4379d4431745ae2ddc6181166d1f593875e01"
+        }
+      ],
+      "suggestedAction": "Move this trigger to React or keep it in an explicit host adapter.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-dom-listener:submit-tabpane-add",
+      "fingerprint": "sha256:d72538309ae2be8d2785bb1de81dcbcbb579d3b64b612bec99e23aab15377341",
+      "kind": "event-listener",
+      "summary": "Caller listener submit invokes tabPane.add.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 26,
+          "endLine": 59,
+          "sourceHash": "sha256:d0ebb6561fa36b2fdcdaec7254e77d9bc56f9f98a0a3e95ce625fba0367e03e6"
+        }
+      ],
+      "suggestedAction": "Move this trigger to React or keep it in an explicit host adapter.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-event-listener:addevent-change",
+      "fingerprint": "sha256:e19c1caa0f5d6f0e08b6b7e1606c627c956d9755b60ad3dde983f23214dba2f1",
+      "kind": "event-listener",
+      "summary": "Caller addEvent registers change on tabPane.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 7,
+          "endLine": 9,
+          "sourceHash": "sha256:1132bf2f29805a1a92c152b7e6d94c360df0b82c1e58d8d9466946a296e53bb6"
+        }
+      ],
+      "suggestedAction": "Preserve callback timing, payload, ordering, and cleanup if used.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-global-exposure:window-moosandbox",
+      "fingerprint": "sha256:ae8516fdce8314e70d039665d1bcc19175b15ac51984d7df2969636873de6dd3",
+      "kind": "side-effect",
+      "summary": "Caller exposes the component through window.MooSandbox.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 131,
+          "endLine": 135,
+          "sourceHash": "sha256:a7fbd72d3e97d9df84bf1565364a33f0ae999e2efe35b63bddc6f6e4e8116f97"
+        }
+      ],
+      "suggestedAction": "Keep this global only as an approved test or compatibility boundary.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-method:add",
+      "fingerprint": "sha256:dd2a36d03f862376f8a400e89b1b41a5323c1e5eb372715476b097faad367c72",
+      "kind": "caller",
+      "summary": "Caller invokes tabPane.add.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 55,
+          "endLine": 55,
+          "sourceHash": "sha256:c36aed04957cb2c190567317ed96f9e69217901e5aa136aeae13ff9109ec05f4"
+        }
+      ],
+      "suggestedAction": "Use this call as evidence for the required React or adapter API.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-method:addevent",
+      "fingerprint": "sha256:231762b932ec0ee4747e6b17614c1943b525eb6a82af6ed834c68ec42a1e3e54",
+      "kind": "caller",
+      "summary": "Caller invokes tabPane.addEvent.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 7,
+          "endLine": 9,
+          "sourceHash": "sha256:1132bf2f29805a1a92c152b7e6d94c360df0b82c1e58d8d9466946a296e53bb6"
+        }
+      ],
+      "suggestedAction": "Use this call as evidence for the required React or adapter API.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller-method:close",
+      "fingerprint": "sha256:16e8c57694d6d5227dedfe3596d68c41e3b02e5917e102e3bbcae9a5865e9d6d",
+      "kind": "caller",
+      "summary": "Caller invokes tabPane.close.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 22,
+          "endLine": 22,
+          "sourceHash": "sha256:dacc9ebe04198fc330b77f2f0099a9671b82990226064c96b64f2ac1404b36be"
+        }
+      ],
+      "suggestedAction": "Use this call as evidence for the required React or adapter API.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:caller:legacy-main-js-5-constructor",
+      "fingerprint": "sha256:e0c6dda2dd9ce8e1d07bd38c62754dc5d5432913beebd706be1735d73ef0b2ae",
+      "kind": "caller",
+      "summary": "constructor use of TabPane",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 5,
+          "endLine": 5,
+          "sourceHash": "sha256:4dd5fa8b07b84ec4d26ffa8f765e9efb8bfec5c0c0d2b81723e6ffaf9267bea9"
+        }
+      ],
+      "suggestedAction": "Confirm this caller's required contract.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:core-1-4-class",
+      "fingerprint": "sha256:0698415cae35fccd870a0d283e29747cdacc0f7fdf68e392cc1842b8c624f94b",
+      "kind": "dependency",
+      "summary": "Declares dependency core/1.4:Class.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:core-1-4-class-extras",
+      "fingerprint": "sha256:a856b360e509112b47fd253618a139f1e8e0da6041c0b3fddcdc2ddce6518194",
+      "kind": "dependency",
+      "summary": "Declares dependency core/1.4:Class.Extras.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:core-1-4-element",
+      "fingerprint": "sha256:bcb1afc6024ce396e5eab5052beeafb1a9c1df7c4b4d4c5caebfb6bb0a2cc4c5",
+      "kind": "dependency",
+      "summary": "Declares dependency core/1.4:Element.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:core-1-4-element-delegation",
+      "fingerprint": "sha256:5e50f344d5eec60d35025b9ecbd2eec0b8bc24aa56e4f2070fc3f4d7dc5b3617",
+      "kind": "dependency",
+      "summary": "Declares dependency core/1.4:Element.Delegation.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:core-1-4-element-event",
+      "fingerprint": "sha256:cbd44b3b79c9e45dd3ac4bcef73f0823bc4f759b305c91c6da706655b4ceb811",
+      "kind": "dependency",
+      "summary": "Declares dependency core/1.4:Element.Event.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:core-1-4-event",
+      "fingerprint": "sha256:4c99a97f45934ffaa1ae94bbda6672a86e76583bfa6bf61d41526fe604df84d2",
+      "kind": "dependency",
+      "summary": "Declares dependency core/1.4:Event.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:provided-module:tabpane",
+      "fingerprint": "sha256:557d37a16618f9e9ac8a8964a85ed026a81fda7971b75fb78a898f02fb8b3fbc",
+      "kind": "dependency",
+      "summary": "Declares provided MooTools module TabPane.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 1,
+          "endLine": 22,
+          "sourceHash": "sha256:161179e682410b0a141669082a2802a66b74d3edd4e65768665251278be99ecd"
+        }
+      ],
+      "suggestedAction": "Use source and caller findings to decide which provided behavior remains.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dependency:provided-module:tabpane-extras",
+      "fingerprint": "sha256:855dee49147f77e196fbc90c4c00ce1a0e53737de6f9119e1dfe7600435bd40c",
+      "kind": "dependency",
+      "summary": "Declares provided MooTools module TabPane.Extras.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 1,
+          "endLine": 15,
+          "sourceHash": "sha256:6234e4f2b83ab2198f081b7f6d3cb753e1503e5d5b8c7930519bdef80b9f6441"
+        }
+      ],
+      "suggestedAction": "Use source and caller findings to decide which provided behavior remains.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dependency:script-order:https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-core-1-4-2-js-then-https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-more-1-4-0-1-js-then-components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
+      "fingerprint": "sha256:d1ca16261533dd51df2f1fafc625f7d9814f17357b9705a06bf8f540217bcdc0",
+      "kind": "dependency",
+      "summary": "Loads scripts in order: https://cdn.jsdelivr.net/gh/akaIDIOT/MooTools-ColorRange@369437111704df7aeaf84a29e5a0ecc2733bbb53/Demo/mootools-core-1.4.2.js -> https://cdn.jsdelivr.net/gh/akaIDIOT/MooTools-ColorRange@369437111704df7aeaf84a29e5a0ecc2733bbb53/Demo/mootools-more-1.4.0.1.js -> ./components/tab-pane/TabPane.js?url -> ./components/tab-pane/TabPane.Extra.js?url -> ./main.js?url.",
+      "evidence": [
+        {
+          "path": "legacy/bootstrap.ts",
+          "startLine": 7,
+          "endLine": 15,
+          "sourceHash": "sha256:cd297b19b10be95de7082df74503edf53aad91c1ef0b12cba2551113dcf47eb1"
+        }
+      ],
+      "suggestedAction": "Preserve required load order until imports replace browser globals.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dependency:tabpane",
+      "fingerprint": "sha256:10ac07ffd05549747b615b48a17a7d65965172cd00c49fd0746fd7dbb82670b9",
+      "kind": "dependency",
+      "summary": "Declares dependency TabPane.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 1,
+          "endLine": 15,
+          "sourceHash": "sha256:6234e4f2b83ab2198f081b7f6d3cb753e1503e5d5b8c7930519bdef80b9f6441"
+        }
+      ],
+      "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:dom-read:get",
+      "fingerprint": "sha256:7f51870a6857428736ed50828ed9b6037354c75c23b9e5e651b50055d3d669d5",
+      "kind": "dom-read",
+      "summary": "Reads DOM through get.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 31,
+          "endLine": 31,
+          "sourceHash": "sha256:5635996e2ab5b32f8833c815ab1e2055188ab4f812021ba9e473e9e4973c58d5"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 32,
+          "endLine": 32,
+          "sourceHash": "sha256:288ce8af220afe8086913c57311fe4047a6549132f92a837290519a6e60e1114"
+        }
+      ],
+      "suggestedAction": "Map this read to fixture data, React state, or a boundary ref.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-read:getelement",
+      "fingerprint": "sha256:e84e0e6f5790881c896b6b63c8dcf29046f24d2850701b6c97e4125db3861d26",
+      "kind": "dom-read",
+      "summary": "Reads DOM through getElement.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 55,
+          "endLine": 55,
+          "sourceHash": "sha256:cadaf5eebf19df8fddc2eb9309225e1d228c8386f3302b6d6976fb00908f862b"
+        }
+      ],
+      "suggestedAction": "Map this read to fixture data, React state, or a boundary ref.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-read:getelements",
+      "fingerprint": "sha256:434eb678eac4580bcde1433a98141afdb3a884e7c0724a63be345877618f5e82",
+      "kind": "dom-read",
+      "summary": "Reads DOM through getElements.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 46,
+          "endLine": 46,
+          "sourceHash": "sha256:cdbb6f460125761a11035357fb1b679ee5d6ab490d6d057a5591470d64e3bc0c"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 68,
+          "endLine": 68,
+          "sourceHash": "sha256:0024e3e41eab7a03081bbac4a675916629c3dd1a261e08697794bd01174e7797"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 69,
+          "endLine": 69,
+          "sourceHash": "sha256:d950d1ec5571485cc77ae295b7fb25e10408999fddfa2fee189aa78736289dfe"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 76,
+          "endLine": 76,
+          "sourceHash": "sha256:d7d9624a9fb01d3c2c8c5eaae2760007720169e385dacd07fd010a34d4451909"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 78,
+          "endLine": 78,
+          "sourceHash": "sha256:d17eec7d70860685502e952b6bd6806fe2c4873cf3765b419478d1e91a97bd72"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 97,
+          "endLine": 97,
+          "sourceHash": "sha256:7c1d1c6646d9bbc0877a728ad02db1d90f3f16549f1af463a90fff235a46ac81"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 98,
+          "endLine": 98,
+          "sourceHash": "sha256:ebd2db702f9ec2129bf2d64d2faf422bfe814df210e714e0d06587910ba8b8ac"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 32,
+          "endLine": 32,
+          "sourceHash": "sha256:7bee035874e5c3f40f197457eb73674e4df2a8f6f005935370bbd0f3560cda4b"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 34,
+          "endLine": 34,
+          "sourceHash": "sha256:1b3b7bba911047cc9917c708fb481c0c5408b4b6226764cfad31326f76bbcfff"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 54,
+          "endLine": 54,
+          "sourceHash": "sha256:76af857b05a3c7d8dea18d61576e36bdaa983f2da713aef43de33774662a9264"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 16,
+          "endLine": 16,
+          "sourceHash": "sha256:743d611f8e85ecbed283c18fa6d523ab8b1a3e46b118923338af849601987a59"
+        }
+      ],
+      "suggestedAction": "Map this read to fixture data, React state, or a boundary ref.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-read:getparent",
+      "fingerprint": "sha256:05c51cc85d1b7022f697763eaf585e8a057d02660f4af95b9e73885b94954631",
+      "kind": "dom-read",
+      "summary": "Reads DOM through getParent.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 22,
+          "endLine": 22,
+          "sourceHash": "sha256:dacc9ebe04198fc330b77f2f0099a9671b82990226064c96b64f2ac1404b36be"
+        }
+      ],
+      "suggestedAction": "Map this read to fixture data, React state, or a boundary ref.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-read:id",
+      "fingerprint": "sha256:b5ee49014a60044904435a0c66849905e51893458de975623d7214c0e991c741",
+      "kind": "dom-read",
+      "summary": "Reads DOM through id.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 44,
+          "endLine": 44,
+          "sourceHash": "sha256:83b114334619105bcfc51ae593327442fe6d39e1733d70f7bcaf0d3988139b88"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 29,
+          "endLine": 29,
+          "sourceHash": "sha256:950db3402d2a7d8ae135df4c4e3ea491a061cb737cbea8947d98a19192b3b0e9"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 30,
+          "endLine": 30,
+          "sourceHash": "sha256:4ef93eda7dfcf6ab133313571e00597267963bd2e8f0a554897c38efeff31269"
+        }
+      ],
+      "suggestedAction": "Map this read to fixture data, React state, or a boundary ref.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-read:match",
+      "fingerprint": "sha256:1bd81f4c6be7f4849e795a717b2ec6d3eeeedfba579e1f117f084d73f934f244",
+      "kind": "dom-read",
+      "summary": "Reads DOM through match.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 75,
+          "endLine": 75,
+          "sourceHash": "sha256:ed6748348603cdb87f8c4e7440aa55bb76bc22e6a12b7b4d542f8c21d595b0d5"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 77,
+          "endLine": 77,
+          "sourceHash": "sha256:9496a5c25b13d68d09c0cfff770b3d9efc420bb4be7e93071dbcfe4412cc8536"
+        }
+      ],
+      "suggestedAction": "Map this read to fixture data, React state, or a boundary ref.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:addclass",
+      "fingerprint": "sha256:f0559d81ddc880ebc62117732841010432c6fcf8b8a4660bb5ded21844dc7fb4",
+      "kind": "dom-write",
+      "summary": "Writes DOM through addClass.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 99,
+          "endLine": 99,
+          "sourceHash": "sha256:4348f2bc49de0b53cd55e747055a25a893e8d17d0fe1cd262e2dc4a414d041c3"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:adopt",
+      "fingerprint": "sha256:b2e05e76eb24711be385a0b8f827590c095c07875e9242adcbad6746f56bd51d",
+      "kind": "dom-write",
+      "summary": "Writes DOM through adopt.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 46,
+          "endLine": 49,
+          "sourceHash": "sha256:20207840868d7892bac2722ea24807d70c91365587c80e5be8ef3de8a9c86991"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 50,
+          "endLine": 53,
+          "sourceHash": "sha256:80da49d670adacd3d4769da5f3359e93a16616d2cd420717edcae730e351afc8"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:destroy",
+      "fingerprint": "sha256:5902ccdfe3c584dc3367bd059fda4b58be37e93a74ff89d6e530250a1dd00642",
+      "kind": "dom-write",
+      "summary": "Writes DOM through destroy.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 57,
+          "endLine": 57,
+          "sourceHash": "sha256:16fad1bd1b162356d6fc38c0d291035a05f8a3327accb997e31ef051291beb10"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 58,
+          "endLine": 58,
+          "sourceHash": "sha256:8e975ef0557111a79f30452480cda8f28f430aae617bf40560feb0939ed6a78e"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:inject",
+      "fingerprint": "sha256:0b59c3a5208a5f6404faca4a689aaeea853c9072bb005a392878ceb61471436a",
+      "kind": "dom-write",
+      "summary": "Writes DOM through inject.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 29,
+          "endLine": 29,
+          "sourceHash": "sha256:00ec7ce334cee2eaf9c8daa7c4bb253219f2f361474ada38f249b83f05cdff54"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 30,
+          "endLine": 30,
+          "sourceHash": "sha256:a2f51217b66a3c0cd93a7e7a8a497437f4b72b2177510aa641cbe5b6eec9d440"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 32,
+          "endLine": 32,
+          "sourceHash": "sha256:7bee035874e5c3f40f197457eb73674e4df2a8f6f005935370bbd0f3560cda4b"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 34,
+          "endLine": 34,
+          "sourceHash": "sha256:1b3b7bba911047cc9917c708fb481c0c5408b4b6226764cfad31326f76bbcfff"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:removeclass",
+      "fingerprint": "sha256:967cb6504966b079406f6316b4657c62fad232ce4581bc222a43204afac59886",
+      "kind": "dom-write",
+      "summary": "Writes DOM through removeClass.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 97,
+          "endLine": 97,
+          "sourceHash": "sha256:7c1d1c6646d9bbc0877a728ad02db1d90f3f16549f1af463a90fff235a46ac81"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:set",
+      "fingerprint": "sha256:c3d052bc6ffa8c3befb1ca72a1c65246f083d0b21a30cf126f6041086eb6276d",
+      "kind": "dom-write",
+      "summary": "Writes DOM through set.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 56,
+          "endLine": 56,
+          "sourceHash": "sha256:1d1b8e2723540bd7efff13bce5878a5e04b8de81a13ac973e2146f60465a9b06"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 57,
+          "endLine": 57,
+          "sourceHash": "sha256:2ca0b6caf93876bb8b9dcf3e2657af7af0dbad14816bc800580ec87d45e8d185"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:dom-write:setstyle",
+      "fingerprint": "sha256:980a4f88fee47551f0d2df308403de77b3d6328759a114445663dfd4e31ac175",
+      "kind": "dom-write",
+      "summary": "Writes DOM through setStyle.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 46,
+          "endLine": 46,
+          "sourceHash": "sha256:cdbb6f460125761a11035357fb1b679ee5d6ab490d6d057a5591470d64e3bc0c"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 98,
+          "endLine": 98,
+          "sourceHash": "sha256:ebd2db702f9ec2129bf2d64d2faf422bfe814df210e714e0d06587910ba8b8ac"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 100,
+          "endLine": 100,
+          "sourceHash": "sha256:cb7f253ea6d0dea0720c9a754095de4b0ea753443ec0e6cd0bceaad59c8ecbbe"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 33,
+          "endLine": 33,
+          "sourceHash": "sha256:290ed745efcc53c7c98e7f93e9d9a24a45f23c4bf2e2063fc73a8d5edef4e497"
+        }
+      ],
+      "suggestedAction": "Give React sole ownership of this mutation.",
+      "contractRelevant": true,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:event-listener:registers-change",
+      "fingerprint": "sha256:39a0800baf2e8d137268fcb71c17540c927ff99fce89b7e733310a1464798562",
+      "kind": "event-listener",
+      "summary": "Registers listener change.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 7,
+          "endLine": 9,
+          "sourceHash": "sha256:1132bf2f29805a1a92c152b7e6d94c360df0b82c1e58d8d9466946a296e53bb6"
+        }
+      ],
+      "suggestedAction": "Preserve required trigger, delegation, ordering, and cleanup behavior.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event-listener:registers-click-relay-data-close-tab",
+      "fingerprint": "sha256:88d16a9a3528ba9934243b2a7dbd04d330f06a1842a70e9318d49b170f1c8efc",
+      "kind": "event-listener",
+      "summary": "Registers listener click:relay([data-close-tab]).",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 11,
+          "endLine": 24,
+          "sourceHash": "sha256:3a3b2a9ec1afe6ffece45b4c4ab8da739c385c7ebd14380da1a31e631bb5d844"
+        }
+      ],
+      "suggestedAction": "Preserve required trigger, delegation, ordering, and cleanup behavior.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event-listener:registers-click-relay-this-options-tabselector",
+      "fingerprint": "sha256:418cd75429e357626d30cff6b824cd8d29c268b903ad405e39301fddb70cb00b",
+      "kind": "event-listener",
+      "summary": "Registers listener 'click:relay(' + this.options.tabSelector + ')'.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 49,
+          "endLine": 51,
+          "sourceHash": "sha256:fc011ce136c11b804c899de21bbfb22dc1a806772c535c7e339ceddf18164613"
+        }
+      ],
+      "suggestedAction": "Preserve required trigger, delegation, ordering, and cleanup behavior.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event-listener:registers-domready",
+      "fingerprint": "sha256:c58391bb832d29635745cd1224e135932bc0a6bd7a725ded5a243abbe8d53a60",
+      "kind": "event-listener",
+      "summary": "Registers listener domready.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 139,
+          "endLine": 139,
+          "sourceHash": "sha256:02e8487776e0014e44d69838aec4379d4431745ae2ddc6181166d1f593875e01"
+        }
+      ],
+      "suggestedAction": "Preserve required trigger, delegation, ordering, and cleanup behavior.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event-listener:registers-submit",
+      "fingerprint": "sha256:a70dfa2a41475d52d4e1292d2843d7170a8a819119f3a8a272c2e6c787c9f36a",
+      "kind": "event-listener",
+      "summary": "Registers listener submit.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 26,
+          "endLine": 59,
+          "sourceHash": "sha256:d0ebb6561fa36b2fdcdaec7254e77d9bc56f9f98a0a3e95ce625fba0367e03e6"
+        }
+      ],
+      "suggestedAction": "Preserve required trigger, delegation, ordering, and cleanup behavior.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event:add",
+      "fingerprint": "sha256:e48c536296c091b14c6013771142b89a3a5563c9e4f2eeae3342ff8550a9e618",
+      "kind": "event",
+      "summary": "Fires add.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 37,
+          "endLine": 37,
+          "sourceHash": "sha256:d8bf2818cfccf9a54af22f34f41ae1812e4f9168d6e43253cf870864825b9916"
+        }
+      ],
+      "suggestedAction": "Record payload and order in a browser scenario.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event:change",
+      "fingerprint": "sha256:58087d3d50f80d72e961f7b00c7c5013da9797494360c4e66640354ba74d5bd6",
+      "kind": "event",
+      "summary": "Fires change.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 101,
+          "endLine": 101,
+          "sourceHash": "sha256:426eed78e92f5781b7b55db51043f0a8c38f42385cbd3cc80ed347f7710355fd"
+        }
+      ],
+      "suggestedAction": "Record payload and order in a browser scenario.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:event:close",
+      "fingerprint": "sha256:10cf5c579f15eaea60496925300a2f032bad154f8435b6d84c3c15cc52651717",
+      "kind": "event",
+      "summary": "Fires close.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 59,
+          "endLine": 59,
+          "sourceHash": "sha256:0434d3e142c854c2a8ced577bf95b8d27d6d2238f7ab2dbcd3070028189fd615"
+        }
+      ],
+      "suggestedAction": "Record payload and order in a browser scenario.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:global:tabpane",
+      "fingerprint": "sha256:252198c1c9fd51ab303db2d1ea442a27052d52b499e8e6eebf024374bdde656d",
+      "kind": "global",
+      "summary": "TabPane is exported as a browser global.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 29,
+          "endLine": 29,
+          "sourceHash": "sha256:679e6d47c908496a6d36790f5bc73b25243483ff32e8eb989faceea1aec1debe"
+        },
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 25,
+          "endLine": 25,
+          "sourceHash": "sha256:79d45b02cfdecbb944a2d6e8df808c3672f0566d7c2c4743628bd968c588628a"
+        },
+        {
+          "path": "src/components/tab-pane/TabPane.tsx",
+          "startLine": 34,
+          "endLine": 236,
+          "sourceHash": "sha256:8d69adfad302fc906274612870cba9cf3bba14f3b102a679a5f737ef8f2f0d21"
+        }
+      ],
+      "suggestedAction": "Keep the global only on the legacy surface.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:import:static-import-components-brand-box-brandbox-js-url",
+      "fingerprint": "sha256:af46848cff8547648c599ca2474147b17801392fd899ed2c737a85ff5bb60b9d",
+      "kind": "import",
+      "summary": "Co-loads static import ./components/brand-box/BrandBox.js?url.",
+      "evidence": [
+        {
+          "path": "legacy/bootstrap.ts",
+          "startLine": 1,
+          "endLine": 1,
+          "sourceHash": "sha256:517001135d87cf0592eefa07558fd13386f3d1db236157909c2ff58239af7150"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-components-color-range-colorrange-js-url",
+      "fingerprint": "sha256:a8e27d309974d953436f6999b6239024ed976ac672f43e59c9690b7c03909fba",
+      "kind": "import",
+      "summary": "Co-loads static import ./components/color-range/ColorRange.js?url.",
+      "evidence": [
+        {
+          "path": "legacy/bootstrap.ts",
+          "startLine": 2,
+          "endLine": 2,
+          "sourceHash": "sha256:0f8d91bec6ba4bdd7baf3ea1d9c4103520ac202e384efcf9f6d87cbd3a70d0a1"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-components-tab-pane-tabpane-extra-js-url",
+      "fingerprint": "sha256:ef2e4108be2326f43da69f23b4753c492374bbf1f07b42a8d03b132b21b32dcd",
+      "kind": "import",
+      "summary": "Uses static import ./components/tab-pane/TabPane.Extra.js?url.",
+      "evidence": [
+        {
+          "path": "legacy/bootstrap.ts",
+          "startLine": 3,
+          "endLine": 3,
+          "sourceHash": "sha256:36c3c0abdc8b07fc130aac7749b8e95b8521114d605bbbaee29599c415036b0a"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:import:static-import-components-tab-pane-tabpane-js-url",
+      "fingerprint": "sha256:6802b3e53b5f01661e68f1335e49401db4f2c148112eaf053468eaeaffd78d46",
+      "kind": "import",
+      "summary": "Uses static import ./components/tab-pane/TabPane.js?url.",
+      "evidence": [
+        {
+          "path": "legacy/bootstrap.ts",
+          "startLine": 4,
+          "endLine": 4,
+          "sourceHash": "sha256:351b4b367b861a2d56c67d1be9e018af984a21c63ba0d6971f0da4ace3e2364f"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:import:static-import-components-tab-pane-tabpanedemo",
+      "fingerprint": "sha256:ac2a31380c249471838ca5006b08dda4973f720264d21dfdd48dd6fa54c6f608",
+      "kind": "import",
+      "summary": "Co-loads static import ./components/tab-pane/TabPaneDemo.",
+      "evidence": [
+        {
+          "path": "src/main.tsx",
+          "startLine": 4,
+          "endLine": 4,
+          "sourceHash": "sha256:3f062d65fbac4a50c0c9600a59507917a3032e2f45a352f35a00e8fa90379783"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-global-css",
+      "fingerprint": "sha256:2c0bc25c040b62df0b1a656f306370e424f9596bea9570076ccf936e258a589a",
+      "kind": "import",
+      "summary": "Co-loads static import ./global.css.",
+      "evidence": [
+        {
+          "path": "src/main.tsx",
+          "startLine": 5,
+          "endLine": 5,
+          "sourceHash": "sha256:6592367c68c94e5ab28f76c97d5d4c212fc71f698d0563674ce74ed15db528f3"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-legacy-styles-css",
+      "fingerprint": "sha256:15a8e21fcd280eedbcc2f8a607985f8c0bb989836b36be1026552827ad489161",
+      "kind": "import",
+      "summary": "Co-loads static import ../../../legacy/styles.css.",
+      "evidence": [
+        {
+          "path": "src/components/tab-pane/TabPaneDemo.tsx",
+          "startLine": 9,
+          "endLine": 9,
+          "sourceHash": "sha256:510c9e891c1395221d8a4e077058af285b459b93e9f1ce9b651e2578ffa89d3a"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-main-js-url",
+      "fingerprint": "sha256:9bc9ca2d1cd6cf72d3cb7b349402da5180bd5478d03d7ea93a8f841b4e183d07",
+      "kind": "import",
+      "summary": "Uses static import ./main.js?url.",
+      "evidence": [
+        {
+          "path": "legacy/bootstrap.ts",
+          "startLine": 5,
+          "endLine": 5,
+          "sourceHash": "sha256:402ebffc0a5f33a52e6c203c428984c6bcf6a13742bcdde680b2a5a8ec2bd696"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:import:static-import-react",
+      "fingerprint": "sha256:ea6abb3dd766b890852647831079801946ffe5ffdac2f962cb257a010e7268be",
+      "kind": "import",
+      "summary": "Co-loads static import react.",
+      "evidence": [
+        {
+          "path": "src/main.tsx",
+          "startLine": 1,
+          "endLine": 1,
+          "sourceHash": "sha256:c04b9e51ae7e95fd829f2f9ab09ce78528e8fbccc2dcb90ab40c30b6cfdb2c60"
+        },
+        {
+          "path": "src/components/tab-pane/TabPane.test.tsx",
+          "startLine": 1,
+          "endLine": 1,
+          "sourceHash": "sha256:4acb5dc98e97b8e0354edc07e673db8d00693d8435f92cb61c2ca4659f5440c9"
+        },
+        {
+          "path": "src/components/tab-pane/TabPane.tsx",
+          "startLine": 1,
+          "endLine": 8,
+          "sourceHash": "sha256:d3d8daa26c08379c288d2bebc1c0699199687a57053aaefe71883843a87c6625"
+        },
+        {
+          "path": "src/components/tab-pane/TabPaneDemo.tsx",
+          "startLine": 1,
+          "endLine": 7,
+          "sourceHash": "sha256:fcdb92925201d61b352d078879886cf1b6c75d3d28e1618c824abb0cdc4cd528"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-react-dom-client",
+      "fingerprint": "sha256:3c8a410a8e5052147400b5250f0abdd177c3f6385105d3c7d50425d2e95f6fda",
+      "kind": "import",
+      "summary": "Co-loads static import react-dom/client.",
+      "evidence": [
+        {
+          "path": "src/main.tsx",
+          "startLine": 2,
+          "endLine": 2,
+          "sourceHash": "sha256:ccde8536ce8c1a9e03aa334aaf3d074f462d3c3fa4b5d5d420665e2038b5dfbd"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-tabpane",
+      "fingerprint": "sha256:c427462c9561d6325e6489392aeaf97aa435c474bb5635584cb2d58c90bc47b4",
+      "kind": "import",
+      "summary": "Co-loads static import ./TabPane.",
+      "evidence": [
+        {
+          "path": "src/components/tab-pane/TabPane.test.tsx",
+          "startLine": 6,
+          "endLine": 10,
+          "sourceHash": "sha256:a1f045b86a109e148da60501b4ff9d0e149685de10b98689f2eec6cb365a9ad8"
+        },
+        {
+          "path": "src/components/tab-pane/TabPaneDemo.tsx",
+          "startLine": 10,
+          "endLine": 14,
+          "sourceHash": "sha256:a1f045b86a109e148da60501b4ff9d0e149685de10b98689f2eec6cb365a9ad8"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-testing-library-react",
+      "fingerprint": "sha256:1211527cbd969a8ca62d7c250c048c5598e0cdd160929099a81b18f1d1e2e0d5",
+      "kind": "import",
+      "summary": "Co-loads static import @testing-library/react.",
+      "evidence": [
+        {
+          "path": "src/components/tab-pane/TabPane.test.tsx",
+          "startLine": 2,
+          "endLine": 2,
+          "sourceHash": "sha256:b896a0ea82ac1c5f6aa747114ea710205d789acec0c7cda94ef74fe64da824f9"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-testing-library-user-event",
+      "fingerprint": "sha256:c49368e5ecf61416fb59061ad472dcb763dd4b21687e20fcdc6d51f1e0cb2dd2",
+      "kind": "import",
+      "summary": "Co-loads static import @testing-library/user-event.",
+      "evidence": [
+        {
+          "path": "src/components/tab-pane/TabPane.test.tsx",
+          "startLine": 3,
+          "endLine": 3,
+          "sourceHash": "sha256:2a443e77e7f1429a1a8ebd08b0cfd07cc3a98f32bbc1af863af77a291bb44581"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-vitest",
+      "fingerprint": "sha256:967085da1d1df99b0d5477e33f296e208be955b1af9222bf47fbb3e915f6ab6f",
+      "kind": "import",
+      "summary": "Co-loads static import vitest.",
+      "evidence": [
+        {
+          "path": "src/components/tab-pane/TabPane.test.tsx",
+          "startLine": 4,
+          "endLine": 4,
+          "sourceHash": "sha256:fb1b0b3d774a160a4f5110437bbd428315c99885c8246b2f8b863c8438c2c8b2"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:markup-order:div-tab-pane-ul-tabs-section-content-section-content-section-content",
+      "fingerprint": "sha256:7c73ac2f128825d2c2aea2ee34c501cab79708e86eedaa3ca91b693eb1f9532e",
+      "kind": "markup",
+      "summary": "<div#tab-pane> child order is <ul.tabs> -> <section.content> -> <section.content> -> <section.content>.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 48,
+          "endLine": 106,
+          "sourceHash": "sha256:057c71ee64fcb677a24aac3307411afc62f46205215b5c213c814f924f7830b0"
+        }
+      ],
+      "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup-order:li-tab-span-button-tab-close",
+      "fingerprint": "sha256:3281f8e8996e07ea205cfa38236b6f82a909d1626e5dfc2f8eb464e02d3bb320",
+      "kind": "markup",
+      "summary": "<li.tab> child order is <span> -> <button.tab-close>.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 50,
+          "endLine": 60,
+          "sourceHash": "sha256:94d2c29de6a79eeff6b6e482c6dc281892774e7b0aae4df4cdf583e6e48be1bd"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 61,
+          "endLine": 71,
+          "sourceHash": "sha256:6ed60a66dea3252b09dd02d23e5464f9a52a57947b343c657dc75146386c046f"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 72,
+          "endLine": 82,
+          "sourceHash": "sha256:4f6880a23e341ab835540e3fcd67e62a58325a8a58b6eb02e36e67a50c2539c3"
+        }
+      ],
+      "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup-order:section-content-h3-p",
+      "fingerprint": "sha256:56ba38672610e3c227f181ba881b715c5776f7acc6f4c48df52ebbbc6727ce1e",
+      "kind": "markup",
+      "summary": "<section.content> child order is <h3> -> <p>.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 85,
+          "endLine": 91,
+          "sourceHash": "sha256:f068f91fc91352164db90d811d6197f9b9b292bd95a7d1797b1fea7137f706f8"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 92,
+          "endLine": 98,
+          "sourceHash": "sha256:f80653c8e6b5ce57091c53ecf3c03b0aaeabf580ed05cd2fc61ebc023ccbb36b"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 99,
+          "endLine": 105,
+          "sourceHash": "sha256:662366f4f4476a6635acaffcede8825289fe70443ca378ac8168e8afbe54cf02"
+        }
+      ],
+      "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup-order:ul-tabs-li-tab-li-tab-li-tab",
+      "fingerprint": "sha256:e27194952df71fc38de94f357989cc41ff2ce61c5b4b81e90bb354d120cad72b",
+      "kind": "markup",
+      "summary": "<ul.tabs> child order is <li.tab> -> <li.tab> -> <li.tab>.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 49,
+          "endLine": 83,
+          "sourceHash": "sha256:3c4f38de35941eedb0730c4f417e083537b9b645397103d7673da13254044d99"
+        }
+      ],
+      "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:button-tab-close",
+      "fingerprint": "sha256:2fcb4be615481bdf536cded9b810cad3f08bf57db2119a0af3d342f43da1471d",
+      "kind": "markup",
+      "summary": "Markup contains <button.tab-close> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 52,
+          "endLine": 59,
+          "sourceHash": "sha256:ef598aa8f94d4aa2c9469ece20d998f62cff4f73e1e6b6a19908c3e40deff590"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 63,
+          "endLine": 70,
+          "sourceHash": "sha256:5121a5f0cc9aac376933fb7c8993308d769217faa0f854de8cfe7edc21b50a73"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 74,
+          "endLine": 81,
+          "sourceHash": "sha256:8e86fb81fd857e46d656deca31d5a30d475c658d645d752572823c157f169761"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:div-tab-pane",
+      "fingerprint": "sha256:243a3aa11569d039ea463436730f6424137794040413ff9ff2bf1850e7d6347f",
+      "kind": "markup",
+      "summary": "Markup contains <div#tab-pane> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 48,
+          "endLine": 106,
+          "sourceHash": "sha256:057c71ee64fcb677a24aac3307411afc62f46205215b5c213c814f924f7830b0"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:dynamic-button",
+      "fingerprint": "sha256:0318113898185b5e95ca0b6a1349f62708f3752cca39cb8d23723d294b2efb88",
+      "kind": "markup",
+      "summary": "Creates dynamic <button> element.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 39,
+          "endLine": 45,
+          "sourceHash": "sha256:12bce88c71142dfa56d62bfd1a0afa2d2d7ff408e4bc38141b1b26d1c8760732"
+        }
+      ],
+      "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:dynamic-h3",
+      "fingerprint": "sha256:803063a39961dcbf64def804c277a5b3ea12946160c78492cb14bd5f4b3b48a4",
+      "kind": "markup",
+      "summary": "Creates dynamic <h3> element.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 51,
+          "endLine": 51,
+          "sourceHash": "sha256:00e1dc77747fa23a82f555f996bcc524b2af5899329faab03f5ae975ebc979bc"
+        }
+      ],
+      "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:dynamic-li",
+      "fingerprint": "sha256:bf2f366283dae631b45675edd822b32dab992b0408ae4c4b1a1253dda4d2ba09",
+      "kind": "markup",
+      "summary": "Creates dynamic <li> element.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 46,
+          "endLine": 46,
+          "sourceHash": "sha256:59d08e02ea6f2ce34b9ed7f4d6366737c95b158177b9e2133b550df44df63860"
+        }
+      ],
+      "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:dynamic-p",
+      "fingerprint": "sha256:20af015f543966c7f293dc5725217c0c0aaa85d3f138a4919f22c59dd2ff340f",
+      "kind": "markup",
+      "summary": "Creates dynamic <p> element.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 52,
+          "endLine": 52,
+          "sourceHash": "sha256:7b4d482a0c7c33330ca1d88decedb246e08f7be5f8d454d1b7c1ab771c06cbe9"
+        }
+      ],
+      "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:dynamic-section",
+      "fingerprint": "sha256:cfe426f89e076bbe9fc6e808dd0b409b1bcb59a34d85cbc54223eabcb3880cb8",
+      "kind": "markup",
+      "summary": "Creates dynamic <section> element.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 50,
+          "endLine": 50,
+          "sourceHash": "sha256:9a377aa72dd02c70dd764d5263e9823660febaebdb86caed96330e37e37459a9"
+        }
+      ],
+      "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:dynamic-span",
+      "fingerprint": "sha256:4ecfa2cd85b3117d71e982efa850185208afbc5aef71a6ea04c769bb4a3189a4",
+      "kind": "markup",
+      "summary": "Creates dynamic <span> element.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 47,
+          "endLine": 47,
+          "sourceHash": "sha256:6d73ab9d8451488c7f33af29216bc95f7a3d3ed4696f3e72940ccb049cfe1cab"
+        }
+      ],
+      "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:h3",
+      "fingerprint": "sha256:7361f30ea10597284ae5c5d0a8332be8f52c2ddede3d52b6072f48f453faabfb",
+      "kind": "markup",
+      "summary": "Markup contains <h3> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 86,
+          "endLine": 86,
+          "sourceHash": "sha256:4025d51d0cdb4146d5bf934a826d44f1f7e8290015dcd52d67ac718b9c6805af"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 93,
+          "endLine": 93,
+          "sourceHash": "sha256:4a2533663c192522b1e896236e8dfbcc33b1e68b651c95bcd742c3860477ac12"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 100,
+          "endLine": 100,
+          "sourceHash": "sha256:bd31db9a172ee1c8dbaa000e60920425c7d5e784e124b00a62cfe4cd6f8a9bcb"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:markup:li-tab",
+      "fingerprint": "sha256:48f49cd524bbf08a1007f2b727992b1b0cc0e699ee27db7b40abdbae4cb8adcd",
+      "kind": "markup",
+      "summary": "Markup contains <li.tab> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 50,
+          "endLine": 60,
+          "sourceHash": "sha256:94d2c29de6a79eeff6b6e482c6dc281892774e7b0aae4df4cdf583e6e48be1bd"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 61,
+          "endLine": 71,
+          "sourceHash": "sha256:6ed60a66dea3252b09dd02d23e5464f9a52a57947b343c657dc75146386c046f"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 72,
+          "endLine": 82,
+          "sourceHash": "sha256:4f6880a23e341ab835540e3fcd67e62a58325a8a58b6eb02e36e67a50c2539c3"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:p",
+      "fingerprint": "sha256:dc9cfbb96e4ed434ba2053d9e1d16c23120ee59e0c1eda3d323cc1fbcec59dd5",
+      "kind": "markup",
+      "summary": "Markup contains <p> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 87,
+          "endLine": 90,
+          "sourceHash": "sha256:af90b4b6ea4b996b903a40cdc15019250ec5d57e5f7fd0eb8486688ff41e485a"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 94,
+          "endLine": 97,
+          "sourceHash": "sha256:c0bfd0c26c70f2be2995f840514c10c55edde9e6b51600a13d1ac010fc940ef1"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 101,
+          "endLine": 104,
+          "sourceHash": "sha256:39f33cfc05f8ae3d7c73459c92eaf95b5fac6067a170236838e199348ffdbad3"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:markup:section-content",
+      "fingerprint": "sha256:0202a09984fd8891b0c8337d0bedf6304d2ee341c050b891ededb1195151c7c3",
+      "kind": "markup",
+      "summary": "Markup contains <section.content> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 85,
+          "endLine": 91,
+          "sourceHash": "sha256:f068f91fc91352164db90d811d6197f9b9b292bd95a7d1797b1fea7137f706f8"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 92,
+          "endLine": 98,
+          "sourceHash": "sha256:f80653c8e6b5ce57091c53ecf3c03b0aaeabf580ed05cd2fc61ebc023ccbb36b"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 99,
+          "endLine": 105,
+          "sourceHash": "sha256:662366f4f4476a6635acaffcede8825289fe70443ca378ac8168e8afbe54cf02"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:markup:span",
+      "fingerprint": "sha256:631d62e64999906ad0370181f1b1b2aacfdcf00d47138aab157c44e02ed3919b",
+      "kind": "markup",
+      "summary": "Markup contains <span> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 51,
+          "endLine": 51,
+          "sourceHash": "sha256:acf9ddb8f153a4d75e3c6593f03f655ffa21092a2c38434a9de0cf854f823ea8"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 62,
+          "endLine": 62,
+          "sourceHash": "sha256:1d41a58670fbc6621b2413fdaa65a82f76b297429f1eb2156dc72e72520dd058"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 73,
+          "endLine": 73,
+          "sourceHash": "sha256:886fb3494794a04d3b2e25482a0cf22440974c93704216a57e00243de9c29e6d"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:markup:ul-tabs",
+      "fingerprint": "sha256:ecc35b4b91ddba7a2dea667615cfdbefc66787262999e3224b3e9e263b9aa380",
+      "kind": "markup",
+      "summary": "Markup contains <ul.tabs> under #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 49,
+          "endLine": 83,
+          "sourceHash": "sha256:3c4f38de35941eedb0730c4f417e083537b9b645397103d7673da13254044d99"
+        }
+      ],
+      "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-input:activeclass",
+      "fingerprint": "sha256:122913c5b35ffe1c62e975810ddac5965053748fcdd26d37a7cf797cf3fb70b7",
+      "kind": "public-input",
+      "summary": "Option activeClass has default activeClass: 'active'.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 36,
+          "endLine": 36,
+          "sourceHash": "sha256:708590a6ccb43dfbd06ceec25f26db0aed903a21fde8218b13e062057197fe7c"
+        }
+      ],
+      "suggestedAction": "Check caller use before defining the React input.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-input:contentselector",
+      "fingerprint": "sha256:8caccb87566c358d900a16decb1061d8600b3a03997c68876ac1f75773b243ec",
+      "kind": "public-input",
+      "summary": "Option contentSelector has default contentSelector: '.content'.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 35,
+          "endLine": 35,
+          "sourceHash": "sha256:f5d3eacfa6b38a288f4291de9fdbfa364a199419538c80b1752b901bf0f0e476"
+        }
+      ],
+      "suggestedAction": "Check caller use before defining the React input.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-input:tabselector",
+      "fingerprint": "sha256:dfeb3d64930cacc88ddb32dfba609916595c8cdb9c8d31593d1c36ec9be4f6b5",
+      "kind": "public-input",
+      "summary": "Option tabSelector has default tabSelector: '.tab'.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 34,
+          "endLine": 34,
+          "sourceHash": "sha256:f42e5ab61e493a90bdb598592a1f2248e41724007bfb4a09512c44ddd95e6c34"
+        }
+      ],
+      "suggestedAction": "Check caller use before defining the React input.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-method:add",
+      "fingerprint": "sha256:93dbd80d6ecec6d7738b4bdfbe666ce4eacb6e1b1dd905fcc7d10a00ec8d7886",
+      "kind": "public-method",
+      "summary": "add(tab, content, location, showNow)",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 26,
+          "endLine": 42,
+          "sourceHash": "sha256:5fbe27505471b234e6bb079f4192526c73adee6bd54878f34c900d26517b01c2"
+        }
+      ],
+      "suggestedAction": "Preserve only when caller or scenario evidence requires it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-method:close",
+      "fingerprint": "sha256:ea152bdd625b8dc9926f9433722164df2d54c2aaf50bd1a1ad8eb0f766dadffb",
+      "kind": "public-method",
+      "summary": "close(what)",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.Extra.js",
+          "startLine": 44,
+          "endLine": 63,
+          "sourceHash": "sha256:ee27ad34517f372f33021d33297daa1c6e1ac6ba8bd7615a952b003b9698ef93"
+        }
+      ],
+      "suggestedAction": "Preserve only when caller or scenario evidence requires it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-method:get",
+      "fingerprint": "sha256:ffa3dd8bd444a5df29f36650b8184221f4d866ae1f8780bb68916b53ac8eee4f",
+      "kind": "public-method",
+      "summary": "get(index)",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 63,
+          "endLine": 72,
+          "sourceHash": "sha256:4ca847193ba21d062ec2fccd1e124599839b44e8e8b708f6e56bbb91c1129c87"
+        }
+      ],
+      "suggestedAction": "Preserve only when caller or scenario evidence requires it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-method:indexof",
+      "fingerprint": "sha256:0e2b9f23049495b1ad49e8df1b75f2411c77248a0c50e61ac7221c7c67030fe1",
+      "kind": "public-method",
+      "summary": "indexOf(element)",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 74,
+          "endLine": 83,
+          "sourceHash": "sha256:65d4de17043a88b930ea1b811be8372bc73ea5f516bc7acb10b299d5659c59ed"
+        }
+      ],
+      "suggestedAction": "Preserve only when caller or scenario evidence requires it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-method:initialize",
+      "fingerprint": "sha256:decf8597aa8cf7839f1751c3a45e33e8c7ca1585b52159793ec816f01a4767c3",
+      "kind": "lifecycle",
+      "summary": "initialize(container, options, showNow)",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 41,
+          "endLine": 61,
+          "sourceHash": "sha256:daa48a294b080df0f7a389ab9c492efd63b4c32cc2e57f5fc03663f05afd1d4a"
+        }
+      ],
+      "suggestedAction": "Model mount behavior at the React boundary.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:public-method:show",
+      "fingerprint": "sha256:72248b129c8dd132cbdd6bce90fa9e984ea6fd95b2ff4139b42c3fa18c5743a2",
+      "kind": "public-method",
+      "summary": "show(what)",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 85,
+          "endLine": 104,
+          "sourceHash": "sha256:98a7c7bcef55f688379a63cda2725d7c717309a78ccc7a3474ea28fd3ba4f286"
+        }
+      ],
+      "suggestedAction": "Preserve only when caller or scenario evidence requires it.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector-option:tabselector",
+      "fingerprint": "sha256:b37035757f1924c921d53d902a8f7674ea2a8850d11e9556efc4aec4fe69aa22",
+      "kind": "selector",
+      "summary": "Delegated event uses selector option tabSelector.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 49,
+          "endLine": 49,
+          "sourceHash": "sha256:c678bbfdbf7f04df804391e27edac49d7241fb10fad159c1cf48c9ef472a84ca"
+        }
+      ],
+      "suggestedAction": "Resolve the option default and caller overrides before migration.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:active",
+      "fingerprint": "sha256:03756dd68ac21bb15ada6338d8e72d6bd3e0936c369eacda87483defc9620721",
+      "kind": "selector",
+      "summary": "Uses selector .active.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 36,
+          "endLine": 36,
+          "sourceHash": "sha256:708590a6ccb43dfbd06ceec25f26db0aed903a21fde8218b13e062057197fe7c"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 119,
+          "endLine": 123,
+          "sourceHash": "sha256:2078b0a8b0aea9f46f259955f47589d85a09f79ebcc47a129f55309be0eb645f"
+        }
+      ],
+      "suggestedAction": "Check CSS, callers, and automation before removal.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:aria-label-close-behavior-tab",
+      "fingerprint": "sha256:512095d47f70a0b2e1f56ae667908fe5596d26883342d26127efa1ef08773a01",
+      "kind": "selector",
+      "summary": "Markup exposes hook [aria-label=\"Close Behavior tab\"].",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 63,
+          "endLine": 70,
+          "sourceHash": "sha256:5121a5f0cc9aac376933fb7c8993308d769217faa0f854de8cfe7edc21b50a73"
+        }
+      ],
+      "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:aria-label-close-hello-tab",
+      "fingerprint": "sha256:2f89f637a7079b39c19a95d5de9748d16d7faa23a7f8ac8f917b66dc8704366e",
+      "kind": "selector",
+      "summary": "Markup exposes hook [aria-label=\"Close Hello tab\"].",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 52,
+          "endLine": 59,
+          "sourceHash": "sha256:ef598aa8f94d4aa2c9469ece20d998f62cff4f73e1e6b6a19908c3e40deff590"
+        }
+      ],
+      "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:aria-label-close-migration-notes-tab",
+      "fingerprint": "sha256:dfabad58e32d6c1646f5447c4a283fb4c1c5bd2f2fcdf62d99a2912ac7ff94fc",
+      "kind": "selector",
+      "summary": "Markup exposes hook [aria-label=\"Close Migration notes tab\"].",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 74,
+          "endLine": 81,
+          "sourceHash": "sha256:8e86fb81fd857e46d656deca31d5a30d475c658d645d752572823c157f169761"
+        }
+      ],
+      "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:button-focus-visible-input-focus-visible-textarea-focus-visible-a-focus-visible",
+      "fingerprint": "sha256:c3dfa4946637c4245f09ebd1b91844214cff60905411c7606a3fce288bd997ab",
+      "kind": "selector",
+      "summary": "CSS selector button:focus-visible,\ninput:focus-visible,\ntextarea:focus-visible,\na:focus-visible.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 72,
+          "endLine": 78,
+          "sourceHash": "sha256:e35a101c4e68c0c51ab01ff320469ca8d4164a10e23f53a6ab1578a9de53eddb"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:button-hover-primary-link-hover",
+      "fingerprint": "sha256:de2ac299c49fe0d59489f1952e91a6969d473df0d5b18361fe4438741c732b1a",
+      "kind": "selector",
+      "summary": "CSS selector button:hover,\n.primary-link:hover.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 67,
+          "endLine": 70,
+          "sourceHash": "sha256:ce50532e1e1a75a944cbf88500fbf0cedd44e13c6f24ed5837480b706737a3a5"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:button-input-textarea",
+      "fingerprint": "sha256:bb8bb31d80f4b9f686828c421b14474880bc3946dc8e2add113412127ea52410",
+      "kind": "selector",
+      "summary": "CSS selector button,\ninput,\ntextarea.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 44,
+          "endLine": 48,
+          "sourceHash": "sha256:c3fc97178b3951038e6b6e0411d39cfc5d14efa05db201a4a138338f0e55d423"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:button-primary-link",
+      "fingerprint": "sha256:d27e12183a57cd9f64da289fa4d3d4ee5b9e639a5808da519690cb02c76c0358",
+      "kind": "selector",
+      "summary": "CSS selector button,\n.primary-link.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 50,
+          "endLine": 65,
+          "sourceHash": "sha256:78daca0dcd6d52c9c8372ab7ffa7ecccd3818cea4639727ffb238027ab82888a"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:content",
+      "fingerprint": "sha256:bcff89b0972c3e871a35af6676cbaba64b963670203e667d7290fbbe827fee3b",
+      "kind": "selector",
+      "summary": "Uses selector .content.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 35,
+          "endLine": 35,
+          "sourceHash": "sha256:f5d3eacfa6b38a288f4291de9fdbfa364a199419538c80b1752b901bf0f0e476"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 50,
+          "endLine": 50,
+          "sourceHash": "sha256:9a377aa72dd02c70dd764d5263e9823660febaebdb86caed96330e37e37459a9"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 85,
+          "endLine": 91,
+          "sourceHash": "sha256:f068f91fc91352164db90d811d6197f9b9b292bd95a7d1797b1fea7137f706f8"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 92,
+          "endLine": 98,
+          "sourceHash": "sha256:f80653c8e6b5ce57091c53ecf3c03b0aaeabf580ed05cd2fc61ebc023ccbb36b"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 99,
+          "endLine": 105,
+          "sourceHash": "sha256:662366f4f4476a6635acaffcede8825289fe70443ca378ac8168e8afbe54cf02"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 142,
+          "endLine": 149,
+          "sourceHash": "sha256:4b3d4f95d43fe8b05ff972c4b1d082f93960e20b17984d903f52f18501ca56da"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 151,
+          "endLine": 154,
+          "sourceHash": "sha256:90b8a86281fc187363f570ee93306aaeedfeadc6667ecc6ffa2a346c462afe66"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 156,
+          "endLine": 161,
+          "sourceHash": "sha256:0f37ed6472b37b241f505b6e3f41aa47c5498308c7bc48c24ce496f2e755e541"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 413,
+          "endLine": 416,
+          "sourceHash": "sha256:84f9c3cfec33f2cfdb658204ac23f1a26301d750c0d8eadeb2fabe5158f18d83"
+        }
+      ],
+      "suggestedAction": "Check CSS, callers, and automation before removal.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:data-close-tab",
+      "fingerprint": "sha256:27c19db1842908f6eedae670c80ebbf225f1cd83ad9b60262291d9611dafc5f8",
+      "kind": "selector",
+      "summary": "Delegated event uses selector [data-close-tab].",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 12,
+          "endLine": 12,
+          "sourceHash": "sha256:07316a87829c554f5cdc1265eac0694b45f5ce2a51017cbd925afd937a7a8170"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 42,
+          "endLine": 42,
+          "sourceHash": "sha256:14f08b87842ba494ede77d73de5778bab7f40d272ccd1d757a06ba3a77594dc3"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 52,
+          "endLine": 59,
+          "sourceHash": "sha256:ef598aa8f94d4aa2c9469ece20d998f62cff4f73e1e6b6a19908c3e40deff590"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 63,
+          "endLine": 70,
+          "sourceHash": "sha256:5121a5f0cc9aac376933fb7c8993308d769217faa0f854de8cfe7edc21b50a73"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 74,
+          "endLine": 81,
+          "sourceHash": "sha256:8e86fb81fd857e46d656deca31d5a30d475c658d645d752572823c157f169761"
+        }
+      ],
+      "suggestedAction": "Preserve this event target or replace it with an explicit React handler.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:h1-h2-h3-p",
+      "fingerprint": "sha256:ef004c7f532b2cf2692d6737d2552d2eefb091e8bb7f8a391c140ec4cdf9c34e",
+      "kind": "selector",
+      "summary": "CSS selector h1,\nh2,\nh3,\np.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 84,
+          "endLine": 89,
+          "sourceHash": "sha256:c3f7f43699fda7e96f8c26f511870afaaf37ff6a12946bed2ade182d87b4eb9c"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:new-tab-content",
+      "fingerprint": "sha256:c356b2475615d550b5aa5ed43bf9a4bfe473adea02f8ee2fec442b779fa25c6c",
+      "kind": "selector",
+      "summary": "DOM code uses hook #new-tab-content.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 30,
+          "endLine": 30,
+          "sourceHash": "sha256:4ef93eda7dfcf6ab133313571e00597267963bd2e8f0a554897c38efeff31269"
+        }
+      ],
+      "suggestedAction": "Search scripts, markup, CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:new-tab-title",
+      "fingerprint": "sha256:3e3be106f13957ed237ec5fddd370886f01290b22b3aa726767503f38fa7027e",
+      "kind": "selector",
+      "summary": "DOM code uses hook #new-tab-title.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 29,
+          "endLine": 29,
+          "sourceHash": "sha256:950db3402d2a7d8ae135df4c4e3ea491a061cb737cbea8947d98a19192b3b0e9"
+        }
+      ],
+      "suggestedAction": "Search scripts, markup, CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab",
+      "fingerprint": "sha256:0dfad8142c66e0f157846b0394ffd752e298a067b5603b5ddb54060076d689df",
+      "kind": "selector",
+      "summary": "Uses selector .tab.",
+      "evidence": [
+        {
+          "path": "legacy/components/tab-pane/TabPane.js",
+          "startLine": 34,
+          "endLine": 34,
+          "sourceHash": "sha256:f42e5ab61e493a90bdb598592a1f2248e41724007bfb4a09512c44ddd95e6c34"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 16,
+          "endLine": 16,
+          "sourceHash": "sha256:743d611f8e85ecbed283c18fa6d523ab8b1a3e46b118923338af849601987a59"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 22,
+          "endLine": 22,
+          "sourceHash": "sha256:dacc9ebe04198fc330b77f2f0099a9671b82990226064c96b64f2ac1404b36be"
+        },
+        {
+          "path": "legacy/main.js",
+          "startLine": 46,
+          "endLine": 46,
+          "sourceHash": "sha256:59d08e02ea6f2ce34b9ed7f4d6366737c95b158177b9e2133b550df44df63860"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 50,
+          "endLine": 60,
+          "sourceHash": "sha256:94d2c29de6a79eeff6b6e482c6dc281892774e7b0aae4df4cdf583e6e48be1bd"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 61,
+          "endLine": 71,
+          "sourceHash": "sha256:6ed60a66dea3252b09dd02d23e5464f9a52a57947b343c657dc75146386c046f"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 72,
+          "endLine": 82,
+          "sourceHash": "sha256:4f6880a23e341ab835540e3fcd67e62a58325a8a58b6eb02e36e67a50c2539c3"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 99,
+          "endLine": 112,
+          "sourceHash": "sha256:7087e4f78ea5756f59ed693029aa49257fc657fb14dd390ffbf01cfa8b5dc9a0"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 114,
+          "endLine": 117,
+          "sourceHash": "sha256:c6b485e531e32da8eb75a9fc56661183ef226fd9ff363b7b5e0ded20b0fe824a"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 119,
+          "endLine": 123,
+          "sourceHash": "sha256:2078b0a8b0aea9f46f259955f47589d85a09f79ebcc47a129f55309be0eb645f"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 408,
+          "endLine": 411,
+          "sourceHash": "sha256:7b33c0ff70f7c81e0579f5e0c0a021d234f6abbd26323c8c9e0fc80f672ed867"
+        }
+      ],
+      "suggestedAction": "Check CSS, callers, and automation before removal.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab-close",
+      "fingerprint": "sha256:2c8dc04180baea8bba47db125eb23da37cbd103c6e36317f10a51e2d99828e71",
+      "kind": "selector",
+      "summary": "DOM code uses hook .tab-close.",
+      "evidence": [
+        {
+          "path": "legacy/main.js",
+          "startLine": 41,
+          "endLine": 41,
+          "sourceHash": "sha256:85f1aa01f976311f515c255de601cea42bab316f74f3064fd4a18c035659c2fe"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 52,
+          "endLine": 59,
+          "sourceHash": "sha256:ef598aa8f94d4aa2c9469ece20d998f62cff4f73e1e6b6a19908c3e40deff590"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 63,
+          "endLine": 70,
+          "sourceHash": "sha256:5121a5f0cc9aac376933fb7c8993308d769217faa0f854de8cfe7edc21b50a73"
+        },
+        {
+          "path": "legacy/index.html",
+          "startLine": 74,
+          "endLine": 81,
+          "sourceHash": "sha256:8e86fb81fd857e46d656deca31d5a30d475c658d645d752572823c157f169761"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 125,
+          "endLine": 135,
+          "sourceHash": "sha256:ac9ee620fb8e65cb277d321776e67f2558cf6a1a7f54c7f14819ef6de3b91bae"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 137,
+          "endLine": 140,
+          "sourceHash": "sha256:d2705b6b582defc17d1c2246c8e534b23fac2c6c14b2447c9beab00830f750f7"
+        }
+      ],
+      "suggestedAction": "Search scripts, markup, CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab-close-hover",
+      "fingerprint": "sha256:ec771d9fe2cf0a4917c7a44b807ed4d18f9bf1e7289462f1ea854694ed514c6a",
+      "kind": "selector",
+      "summary": "CSS selector .tab-close:hover.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 137,
+          "endLine": 140,
+          "sourceHash": "sha256:d2705b6b582defc17d1c2246c8e534b23fac2c6c14b2447c9beab00830f750f7"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab-pane",
+      "fingerprint": "sha256:64f7101c9c465d7e5dca0bc229c5fa98f726f702e73819bbd498913b5aa9bab8",
+      "kind": "selector",
+      "summary": "Markup exposes hook #tab-pane.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 48,
+          "endLine": 106,
+          "sourceHash": "sha256:057c71ee64fcb677a24aac3307411afc62f46205215b5c213c814f924f7830b0"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 142,
+          "endLine": 149,
+          "sourceHash": "sha256:4b3d4f95d43fe8b05ff972c4b1d082f93960e20b17984d903f52f18501ca56da"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 151,
+          "endLine": 154,
+          "sourceHash": "sha256:90b8a86281fc187363f570ee93306aaeedfeadc6667ecc6ffa2a346c462afe66"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 156,
+          "endLine": 161,
+          "sourceHash": "sha256:0f37ed6472b37b241f505b6e3f41aa47c5498308c7bc48c24ce496f2e755e541"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 413,
+          "endLine": 416,
+          "sourceHash": "sha256:84f9c3cfec33f2cfdb658204ac23f1a26301d750c0d8eadeb2fabe5158f18d83"
+        }
+      ],
+      "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab-pane-content",
+      "fingerprint": "sha256:510c1515674e5d2f8e91505dc4402b71e591306cb4da964b2d44a3cc4e8768ef",
+      "kind": "selector",
+      "summary": "CSS selector #tab-pane .content.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 142,
+          "endLine": 149,
+          "sourceHash": "sha256:4b3d4f95d43fe8b05ff972c4b1d082f93960e20b17984d903f52f18501ca56da"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 413,
+          "endLine": 416,
+          "sourceHash": "sha256:84f9c3cfec33f2cfdb658204ac23f1a26301d750c0d8eadeb2fabe5158f18d83"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab-pane-content-h3",
+      "fingerprint": "sha256:f9e3847375d9d92aaba94aed0d5514861f170ffd578e86949077ed8d909c8389",
+      "kind": "selector",
+      "summary": "CSS selector #tab-pane .content h3.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 151,
+          "endLine": 154,
+          "sourceHash": "sha256:90b8a86281fc187363f570ee93306aaeedfeadc6667ecc6ffa2a346c462afe66"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tab-pane-content-p",
+      "fingerprint": "sha256:0dff533e66d37531ea2dcd5009127e9ce3d1948a766235663cd9ecbca6da69d4",
+      "kind": "selector",
+      "summary": "CSS selector #tab-pane .content p.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 156,
+          "endLine": 161,
+          "sourceHash": "sha256:0f37ed6472b37b241f505b6e3f41aa47c5498308c7bc48c24ce496f2e755e541"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tabs",
+      "fingerprint": "sha256:0306f33dc80163caebd352d52937cfecc34c9bbf4c0c65db0de426e0a63156aa",
+      "kind": "selector",
+      "summary": "Markup exposes hook .tabs.",
+      "evidence": [
+        {
+          "path": "legacy/index.html",
+          "startLine": 49,
+          "endLine": 83,
+          "sourceHash": "sha256:3c4f38de35941eedb0730c4f417e083537b9b645397103d7673da13254044d99"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 91,
+          "endLine": 97,
+          "sourceHash": "sha256:0ad6fcf347153d5c00aa4a50e6992ccdea5737464946bad39c651b14ab78c773"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 99,
+          "endLine": 112,
+          "sourceHash": "sha256:7087e4f78ea5756f59ed693029aa49257fc657fb14dd390ffbf01cfa8b5dc9a0"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 114,
+          "endLine": 117,
+          "sourceHash": "sha256:c6b485e531e32da8eb75a9fc56661183ef226fd9ff363b7b5e0ded20b0fe824a"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 119,
+          "endLine": 123,
+          "sourceHash": "sha256:2078b0a8b0aea9f46f259955f47589d85a09f79ebcc47a129f55309be0eb645f"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 404,
+          "endLine": 406,
+          "sourceHash": "sha256:679e7c1fa4c45907456a6658f22d614974b6893af40298cf0dda72b783b02cbb"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 408,
+          "endLine": 411,
+          "sourceHash": "sha256:7b33c0ff70f7c81e0579f5e0c0a021d234f6abbd26323c8c9e0fc80f672ed867"
+        }
+      ],
+      "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tabs-tab",
+      "fingerprint": "sha256:f84fa1c8de2595c52f2329ad541ae6844ae27e609318c90a54b42229ca6122cc",
+      "kind": "selector",
+      "summary": "CSS selector .tabs .tab.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 99,
+          "endLine": 112,
+          "sourceHash": "sha256:7087e4f78ea5756f59ed693029aa49257fc657fb14dd390ffbf01cfa8b5dc9a0"
+        },
+        {
+          "path": "legacy/styles.css",
+          "startLine": 408,
+          "endLine": 411,
+          "sourceHash": "sha256:7b33c0ff70f7c81e0579f5e0c0a021d234f6abbd26323c8c9e0fc80f672ed867"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tabs-tab-active",
+      "fingerprint": "sha256:4fa0118f2d14e80959264dc0f5c0b222e1d028fa65bb50a34761736acef2d19c",
+      "kind": "selector",
+      "summary": "CSS selector .tabs .tab.active.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 119,
+          "endLine": 123,
+          "sourceHash": "sha256:2078b0a8b0aea9f46f259955f47589d85a09f79ebcc47a129f55309be0eb645f"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:selector:tabs-tab-hover",
+      "fingerprint": "sha256:9a286f1f65a7723b608ad27a7e19dd3e330d5dd6c086a7933c7f4fa95aba5c14",
+      "kind": "selector",
+      "summary": "CSS selector .tabs .tab:hover.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 114,
+          "endLine": 117,
+          "sourceHash": "sha256:c6b485e531e32da8eb75a9fc56661183ef226fd9ff363b7b5e0ded20b0fe824a"
+        }
+      ],
+      "suggestedAction": "Preserve required targeting and states, then move style ownership.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:button-focus-visible-input-focus-visible-textarea-focus-visible-a-focus-visible",
+      "fingerprint": "sha256:80b74bd28b824a39ee6d91a91bc5aa4ab2412ffe197afbffdb02e39a06e74df1",
+      "kind": "style",
+      "summary": "CSS rule button:focus-visible,\ninput:focus-visible,\ntextarea:focus-visible,\na:focus-visible sets outline: 3px solid rgb(155 140 255 / 45%); outline-offset: 3px.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 72,
+          "endLine": 78,
+          "sourceHash": "sha256:e35a101c4e68c0c51ab01ff320469ca8d4164a10e23f53a6ab1578a9de53eddb"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:button-hover-primary-link-hover",
+      "fingerprint": "sha256:04b067a1214a952f9157e21347583e78f610ae3e644492b914eb885b94118f2a",
+      "kind": "style",
+      "summary": "CSS rule button:hover,\n.primary-link:hover sets background: #d3cdff.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 67,
+          "endLine": 70,
+          "sourceHash": "sha256:ce50532e1e1a75a944cbf88500fbf0cedd44e13c6f24ed5837480b706737a3a5"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:button-input-textarea",
+      "fingerprint": "sha256:b3bb0393adb6c69b98ff3a2effaed5c79d5d8063fd02cdc78bdcd1468b2372ef",
+      "kind": "style",
+      "summary": "CSS rule button,\ninput,\ntextarea sets font: inherit.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 44,
+          "endLine": 48,
+          "sourceHash": "sha256:c3fc97178b3951038e6b6e0411d39cfc5d14efa05db201a4a138338f0e55d423"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:button-primary-link",
+      "fingerprint": "sha256:78c22a59eb7a8d5c5cd45261c7844f69b19d40a137b1d0c628b3e418367cedd9",
+      "kind": "style",
+      "summary": "CSS rule button,\n.primary-link sets display: inline-flex; align-items: center; justify-content: center; min-height: 2.65rem; padding: 0.65rem 1rem; color: #11121a; font-weight: 700; line-height: 1; text-decoration: none; cursor: pointer; background: var(--accent-strong); border: 1px solid transparent; border-radius: 0.7rem.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 50,
+          "endLine": 65,
+          "sourceHash": "sha256:78daca0dcd6d52c9c8372ab7ffa7ecccd3818cea4639727ffb238027ab82888a"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:h1-h2-h3-p",
+      "fingerprint": "sha256:01b1c61e10ad1dde8c00bc0ca1be7a80fbed6909aab73f92be58aaceec9227fa",
+      "kind": "style",
+      "summary": "CSS rule h1,\nh2,\nh3,\np sets margin-top: 0.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 84,
+          "endLine": 89,
+          "sourceHash": "sha256:c3f7f43699fda7e96f8c26f511870afaaf37ff6a12946bed2ade182d87b4eb9c"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tab-close",
+      "fingerprint": "sha256:1a31cc8354435834ada8c7e2274a8ba4e4f6ebd84b0e40a36fdcf1f9d3ecfe99",
+      "kind": "style",
+      "summary": "CSS rule .tab-close sets min-width: 1.7rem; min-height: 1.7rem; padding: 0; color: var(--muted); font-size: 1.2rem; font-weight: 500; background: transparent; border: 0; border-radius: 50%.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 125,
+          "endLine": 135,
+          "sourceHash": "sha256:ac9ee620fb8e65cb277d321776e67f2558cf6a1a7f54c7f14819ef6de3b91bae"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tab-close-hover",
+      "fingerprint": "sha256:ff4d816839252628fd10a073003e006b3a0cb0c0b5a221d653a7e4c2bd298fc8",
+      "kind": "style",
+      "summary": "CSS rule .tab-close:hover sets color: #17131b; background: var(--danger).",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 137,
+          "endLine": 140,
+          "sourceHash": "sha256:d2705b6b582defc17d1c2246c8e534b23fac2c6c14b2447c9beab00830f750f7"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tab-pane-content",
+      "fingerprint": "sha256:28720d3d6a08041e597be435a2189e6825b9363e5eb7e0e0d9d241d2348588a6",
+      "kind": "style",
+      "summary": "CSS rule #tab-pane .content sets min-height: 10rem; margin: -1px 0 0; padding: clamp(1.25rem, 4vw, 2rem); background: #151722; border: 1px solid var(--border); border-radius: 0 0.9rem 0.9rem 0.9rem.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 142,
+          "endLine": 149,
+          "sourceHash": "sha256:4b3d4f95d43fe8b05ff972c4b1d082f93960e20b17984d903f52f18501ca56da"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tab-pane-content-h3",
+      "fingerprint": "sha256:954e858e9ba0f6e45e086b6d4541e626163944af1a68aad5aefb6ed49e84bb60",
+      "kind": "style",
+      "summary": "CSS rule #tab-pane .content h3 sets margin-bottom: 0.75rem; font-size: 1.35rem.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 151,
+          "endLine": 154,
+          "sourceHash": "sha256:90b8a86281fc187363f570ee93306aaeedfeadc6667ecc6ffa2a346c462afe66"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tab-pane-content-media-max-width-520px",
+      "fingerprint": "sha256:4db20ccdcbcef87a1361e6908e0897243b2b22c89cdb1c544972152ffc4f52e6",
+      "kind": "style",
+      "summary": "CSS rule #tab-pane .content under @media (max-width: 520px) sets margin-top: 0.5rem; border-radius: 0.9rem.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 413,
+          "endLine": 416,
+          "sourceHash": "sha256:84f9c3cfec33f2cfdb658204ac23f1a26301d750c0d8eadeb2fabe5158f18d83"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tab-pane-content-p",
+      "fingerprint": "sha256:1ba4a7f9fb10779604f7c5c28f12b28ecf2bfb873c85cf5626c157a0b6741c09",
+      "kind": "style",
+      "summary": "CSS rule #tab-pane .content p sets max-width: 58rem; margin-bottom: 0; color: var(--muted); line-height: 1.7.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 156,
+          "endLine": 161,
+          "sourceHash": "sha256:0f37ed6472b37b241f505b6e3f41aa47c5498308c7bc48c24ce496f2e755e541"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tabs",
+      "fingerprint": "sha256:6bf2d6644e3385007eb368b75736252aeee2f5104053e7dddaad36d9a68c4d23",
+      "kind": "style",
+      "summary": "CSS rule .tabs sets display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 91,
+          "endLine": 97,
+          "sourceHash": "sha256:0ad6fcf347153d5c00aa4a50e6992ccdea5737464946bad39c651b14ab78c773"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tabs-media-max-width-520px",
+      "fingerprint": "sha256:8276459eb1a1621c4d323616265c52e8dff28c6d1de9dbf75b343f4252d4c92d",
+      "kind": "style",
+      "summary": "CSS rule .tabs under @media (max-width: 520px) sets display: grid.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 404,
+          "endLine": 406,
+          "sourceHash": "sha256:679e7c1fa4c45907456a6658f22d614974b6893af40298cf0dda72b783b02cbb"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tabs-tab",
+      "fingerprint": "sha256:23456993ffc42822cde38c4179fdcb5e3db46ece8e08d1c433bc8284ebda1ec4",
+      "kind": "style",
+      "summary": "CSS rule .tabs .tab sets display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.65rem; padding: 0.55rem 0.65rem 0.55rem 0.9rem; color: var(--muted); font-weight: 700; list-style: none; cursor: pointer; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 0.75rem 0.75rem 0 0.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 99,
+          "endLine": 112,
+          "sourceHash": "sha256:7087e4f78ea5756f59ed693029aa49257fc657fb14dd390ffbf01cfa8b5dc9a0"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tabs-tab-active",
+      "fingerprint": "sha256:c4e2de5011a544fb9c01fdbf6a93ad0a572990d573f4aee0d8e683ec029336e7",
+      "kind": "style",
+      "summary": "CSS rule .tabs .tab.active sets color: var(--text); background: #292c40; border-color: var(--accent).",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 119,
+          "endLine": 123,
+          "sourceHash": "sha256:2078b0a8b0aea9f46f259955f47589d85a09f79ebcc47a129f55309be0eb645f"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tabs-tab-hover",
+      "fingerprint": "sha256:30835348e737461d762bf8c153845ef3ca6eec4f1ee8c59c487e010645c4ce32",
+      "kind": "style",
+      "summary": "CSS rule .tabs .tab:hover sets color: var(--text); border-color: #555b79.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 114,
+          "endLine": 117,
+          "sourceHash": "sha256:c6b485e531e32da8eb75a9fc56661183ef226fd9ff363b7b5e0ded20b0fe824a"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style-rule:tabs-tab-media-max-width-520px",
+      "fingerprint": "sha256:4d99e707ec23a38fca306d6ecac75248d55c3031052de2d13e0937ff09534ef6",
+      "kind": "style",
+      "summary": "CSS rule .tabs .tab under @media (max-width: 520px) sets justify-content: space-between; border-radius: 0.7rem.",
+      "evidence": [
+        {
+          "path": "legacy/styles.css",
+          "startLine": 408,
+          "endLine": 411,
+          "sourceHash": "sha256:7b33c0ff70f7c81e0579f5e0c0a021d234f6abbd26323c8c9e0fc80f672ed867"
+        }
+      ],
+      "suggestedAction": "Compare these computed properties in each matching visual state.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:accent",
+      "fingerprint": "sha256:c9dabd3f6d1291701206d4be439b3ae17550de808d5b24b07ba943eb99c1a59c",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --accent.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 15,
+          "endLine": 15,
+          "sourceHash": "sha256:52c204acc7b2be61e42fc0377307ae66a81fc5afb885103ded0355b2349eb73e"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:accent-strong",
+      "fingerprint": "sha256:1c2ce09db34c51c3c15fb4fae5f93e913d8d60514dc045cafafcd585d86afc34",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --accent-strong.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 16,
+          "endLine": 16,
+          "sourceHash": "sha256:14eade07300967572928219323873336cacb5d7efad3e3748476d01678dcb252"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:border",
+      "fingerprint": "sha256:6dc592ce3ca739bcfcc43f2ffc0e0ac71abdfd60d27bbea00eb3158da3291933",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --border.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 12,
+          "endLine": 12,
+          "sourceHash": "sha256:8cd955e3d653329f873afe31d34ca8bb25de83c1f6cae3018cbf36a95281c920"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:danger",
+      "fingerprint": "sha256:e7ace1d62cea456e80c44ba0989bf339d65b725290773c3f7f5ac525f136ddf6",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --danger.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 19,
+          "endLine": 19,
+          "sourceHash": "sha256:a90e5c4c9f8677b0ca3390162124a23e309fc6da7ddbb8ae4e9ad87a43b398b7"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:muted",
+      "fingerprint": "sha256:7bf4d0416df7ba14c78d39c3f6b7a415f64cb6319888bcacbaef93e805ad4341",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --muted.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 14,
+          "endLine": 14,
+          "sourceHash": "sha256:21ae6a38be9368dad980970ad6e3e0a10eb52b8d06ae00cb9b755452e43d9832"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:surface-raised",
+      "fingerprint": "sha256:ccfc1d9d17148a19697a252f2a42b5395d1aba2a9dd7a6b020c5d871d7249695",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --surface-raised.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 11,
+          "endLine": 11,
+          "sourceHash": "sha256:c92740f5bd69c4044c899de7fe7a1e7436b355c998c6e41a183971d9e39a4709"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    },
+    {
+      "id": "tab-pane:style:custom-property:text",
+      "fingerprint": "sha256:fc1a0c66f8e70baf70e171176ff561525ca4ca20dd4e4178ae025d7018f479dc",
+      "kind": "style",
+      "summary": "Defines required CSS custom property --text.",
+      "evidence": [
+        {
+          "path": "src/global.css",
+          "startLine": 13,
+          "endLine": 13,
+          "sourceHash": "sha256:4e0838a45b6da96c0d257cdc227368890cd9945bf43d0eb566163f5ca61197f7"
+        }
+      ],
+      "suggestedAction": "Preserve the value source or replace all consumers together.",
+      "contractRelevant": true,
+      "decisionRequired": true
+    }
+  ],
+  "coverage": [
+    {
+      "category": "events",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 12,
+      "limitations": [
+        "Computed event names remain source expressions.",
+        "Runtime listener order still needs browser capture."
+      ]
+    },
+    {
+      "category": "selectors",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/index.html",
+        "legacy/main.js",
+        "legacy/styles.css",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/global.css",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 25,
+      "limitations": [
+        "Selectors assembled through arbitrary functions are unknown."
+      ]
+    },
+    {
+      "category": "api-calls",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 0,
+      "limitations": [
+        "Project-specific API wrappers need configured or added recognizers."
+      ]
+    },
+    {
+      "category": "dom",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/index.html",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 13,
+      "limitations": [
+        "Runtime-generated DOM still needs browser scenarios."
+      ]
+    },
+    {
+      "category": "side-effects",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 1,
+      "limitations": [
+        "Effects hidden behind unrecognized helpers remain unknown."
+      ]
+    },
+    {
+      "category": "dependencies",
+      "filesScanned": [
+        "legacy/bootstrap.ts",
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "legacy/styles.css",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/global.css",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 10,
+      "limitations": [
+        "Dynamic global dependencies may require runtime evidence."
+      ]
+    },
+    {
+      "category": "callsites",
+      "filesScanned": [
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 4,
+      "limitations": [
+        "Dynamic and external callers are outside repository proof."
+      ]
+    },
+    {
+      "category": "imports",
+      "filesScanned": [
+        "legacy/bootstrap.ts",
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 14,
+      "limitations": [
+        "Runtime script injection outside scanned files is unknown."
+      ]
+    },
+    {
+      "category": "markup",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/index.html",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 18,
+      "limitations": [
+        "DOM added after startup needs browser capture."
+      ]
+    },
+    {
+      "category": "css",
+      "filesScanned": [
+        "legacy/styles.css",
+        "src/global.css"
+      ],
+      "findingCount": 24,
+      "limitations": [
+        "Computed cascade and layout still need browser comparison."
+      ]
+    },
+    {
+      "category": "timers",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 0,
+      "limitations": [
+        "Timers hidden behind project wrappers need new recognizers."
+      ]
+    },
+    {
+      "category": "storage",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 0,
+      "limitations": [
+        "Project-specific storage wrappers need new recognizers."
+      ]
+    },
+    {
+      "category": "globals",
+      "filesScanned": [
+        "legacy/components/tab-pane/TabPane.Extra.js",
+        "legacy/components/tab-pane/TabPane.js",
+        "legacy/main.js",
+        "src/components/tab-pane/TabPane.test.tsx",
+        "src/components/tab-pane/TabPane.tsx",
+        "src/components/tab-pane/TabPaneDemo.tsx",
+        "src/main.tsx",
+        "src/vite-env.d.ts"
+      ],
+      "findingCount": 2,
+      "limitations": [
+        "Globals created through eval or computed names are unknown."
+      ]
+    }
+  ]
+}

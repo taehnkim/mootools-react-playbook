@@ -1,0 +1,130 @@
+{
+  "status": "MISMATCH",
+  "attested": true,
+  "runId": "react-pilot-1",
+  "createdAt": "2026-08-07T20:33:54.060Z",
+  "baselineManifestHash": "sha256:521edd34934fe88837286dff6aea0c719061960e919d4c25611b0f8918a0dd7f",
+  "candidateManifestHash": "sha256:0d00a7991dbd64678f01615e52e0cb30f46256d6ab58a7330defc2e8f95c5553",
+  "decisionsHash": "sha256:449ee0675fc6418c931aa82fd98404eff41bc67b7fc43183eca568b69958d348",
+  "acceptedDifferencesHash": "sha256:a6ce0416010edef68da7f9d5c98015c870561084b747e95c294f784d827ad4d9",
+  "scenariosHash": "sha256:8197299c6b0dde7dc626c41d9255dee96fa80a39dc80d82d278b40e619351ee9",
+  "mismatches": [
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-tab-count",
+      "reason": "Observed value differs.",
+      "legacyValue": 2,
+      "reactValue": 3
+    },
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-selected-tab",
+      "reason": "Observed value differs.",
+      "legacyValue": true,
+      "reactValue": false
+    },
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-status",
+      "reason": "Observed value differs.",
+      "legacyValue": "Showing tab 2.",
+      "reactValue": "Showing tab 1."
+    },
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-event-order",
+      "reason": "Observed value differs.",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "scenarioId": "close-active-with-button",
+      "assertionId": "button-close-events",
+      "reason": "Observed value differs.",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}

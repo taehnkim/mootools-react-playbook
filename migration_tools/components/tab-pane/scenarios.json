@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "scenarios": [
+    {
+      "id": "initial-selection",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "observe-initial",
+          "action": "observe"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "initial-tab-count",
+          "afterStepId": "observe-initial",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 3
+        },
+        {
+          "assertionId": "hello-is-active",
+          "afterStepId": "observe-initial",
+          "target": "tab:hello",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "hello-panel-visible",
+          "afterStepId": "observe-initial",
+          "target": "panel:hello",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "behavior-panel-hidden",
+          "afterStepId": "observe-initial",
+          "target": "panel:behavior",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": false
+        },
+        {
+          "assertionId": "initial-status",
+          "afterStepId": "observe-initial",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 1."
+        },
+        {
+          "assertionId": "initial-component-image",
+          "afterStepId": "observe-initial",
+          "target": "component",
+          "kind": "screenshot",
+          "matcher": "pixel-diff",
+          "name": "component",
+          "maxDiffRatio": 0.02
+        }
+      ]
+    },
+    {
+      "id": "select-second-tab",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "click-behavior",
+          "action": "click",
+          "target": "tab:behavior"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "behavior-is-active",
+          "afterStepId": "click-behavior",
+          "target": "tab:behavior",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "behavior-panel-visible",
+          "afterStepId": "click-behavior",
+          "target": "panel:behavior",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "second-tab-status",
+          "afterStepId": "click-behavior",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 2."
+        },
+        {
+          "assertionId": "select-event-order",
+          "afterStepId": "click-behavior",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "add-and-open-tab",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "fill-new-title",
+          "action": "fill",
+          "target": "new-tab-title",
+          "value": "Agent tab"
+        },
+        {
+          "stepId": "fill-new-content",
+          "action": "fill",
+          "target": "new-tab-content",
+          "value": "Created by the migration harness."
+        },
+        {
+          "stepId": "submit-new-tab",
+          "action": "click",
+          "target": "add-tab"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "added-tab-count",
+          "afterStepId": "submit-new-tab",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 4
+        },
+        {
+          "assertionId": "added-tab-active",
+          "afterStepId": "submit-new-tab",
+          "target": "tab:agent",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "added-panel-visible",
+          "afterStepId": "submit-new-tab",
+          "target": "panel:agent",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "added-tab-status",
+          "afterStepId": "submit-new-tab",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 4."
+        },
+        {
+          "assertionId": "title-focus-restored",
+          "afterStepId": "submit-new-tab",
+          "target": "new-tab-title",
+          "kind": "focus",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "add-event-order",
+          "afterStepId": "submit-new-tab",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "add",
+              "args": [
+                3
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                3
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reject-incomplete-add",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "clear-new-title",
+          "action": "fill",
+          "target": "new-tab-title",
+          "value": ""
+        },
+        {
+          "stepId": "submit-incomplete-tab",
+          "action": "click",
+          "target": "add-tab"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "incomplete-tab-count",
+          "afterStepId": "submit-incomplete-tab",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 3
+        },
+        {
+          "assertionId": "incomplete-add-status",
+          "afterStepId": "submit-incomplete-tab",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Enter both a tab name and tab content."
+        },
+        {
+          "assertionId": "incomplete-add-events",
+          "afterStepId": "submit-incomplete-tab",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": []
+        }
+      ]
+    },
+    {
+      "id": "close-non-active-by-api",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "select-behavior-before-close",
+          "action": "click",
+          "target": "tab:behavior"
+        },
+        {
+          "stepId": "close-hello-by-api",
+          "action": "call",
+          "method": "close",
+          "args": [
+            0
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "api-close-tab-count",
+          "afterStepId": "close-hello-by-api",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 2
+        },
+        {
+          "assertionId": "api-close-selected-tab",
+          "afterStepId": "close-hello-by-api",
+          "target": "tab:migration-notes",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "api-close-status",
+          "afterStepId": "close-hello-by-api",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 2."
+        },
+        {
+          "assertionId": "api-close-event-order",
+          "afterStepId": "close-hello-by-api",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "close",
+              "args": [
+                0
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close-active-with-button",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "select-behavior-before-button-close",
+          "action": "click",
+          "target": "tab:behavior"
+        },
+        {
+          "stepId": "close-behavior-button",
+          "action": "click",
+          "target": "tab:behavior:close"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "button-close-tab-count",
+          "afterStepId": "close-behavior-button",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 2
+        },
+        {
+          "assertionId": "button-close-selected-tab",
+          "afterStepId": "close-behavior-button",
+          "target": "tab:migration-notes",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "button-close-events",
+          "afterStepId": "close-behavior-button",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "close",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "imperative-show",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "show-migration-notes",
+          "action": "call",
+          "method": "show",
+          "args": [
+            2
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "imperative-show-active",
+          "afterStepId": "show-migration-notes",
+          "target": "tab:migration-notes",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "imperative-show-panel",
+          "afterStepId": "show-migration-notes",
+          "target": "panel:migration-notes",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "imperative-show-events",
+          "afterStepId": "show-migration-notes",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                2
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

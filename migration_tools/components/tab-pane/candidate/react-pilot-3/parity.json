@@ -1,0 +1,12 @@
+{
+  "status": "PARITY",
+  "attested": true,
+  "runId": "react-pilot-3",
+  "createdAt": "2026-08-07T20:35:11.794Z",
+  "baselineManifestHash": "sha256:521edd34934fe88837286dff6aea0c719061960e919d4c25611b0f8918a0dd7f",
+  "candidateManifestHash": "sha256:a2fb1c0b49f7a710724896e28038ff4cd997d42ddf1a6a834e0c997b36784ae8",
+  "decisionsHash": "sha256:449ee0675fc6418c931aa82fd98404eff41bc67b7fc43183eca568b69958d348",
+  "acceptedDifferencesHash": "sha256:0f23e2364b756f0fe97f0d512bb3434d5c0f9882b21232a4b3e59a4d235abd8a",
+  "scenariosHash": "sha256:8197299c6b0dde7dc626c41d9255dee96fa80a39dc80d82d278b40e619351ee9",
+  "mismatches": []
+}
