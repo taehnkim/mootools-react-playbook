@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "surface": "react",
+  "testFile": "src/components/tab-pane/TabPane.test.tsx",
+  "testFileHash": "sha256:04fafb9737485ff8976dc053517e22f0fc26387eb47783db3cb88d3902551d89",
+  "sourceHash": "sha256:392b21e39edfd55a46a0913612fcccaed6c5f3e021f21ca00e32081247356b1c",
+  "createdAt": "2026-08-07T21:49:55.740Z",
+  "command": "npm run test -- src/components/tab-pane/TabPane.test.tsx",
+  "passed": true,
+  "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run src/components/tab-pane/TabPane.test.tsx\n\n\n RUN  v4.1.10 /Users/taekim/Documents/projects/mootools\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  17:49:55\n   Duration  623ms (transform 18ms, setup 0ms, import 112ms, tests 86ms, environment 363ms)"
+}

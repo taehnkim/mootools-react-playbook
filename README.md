@@ -36,6 +36,9 @@ Agent loads .cursor/skills/mootools-react-migrate
        inventory + AST/HTML/CSS analysis
                   |
                   v
+       backfill + run MooTools unit test
+                  |
+                  v
         capture legacy browser baseline
                   |
                   v
@@ -49,6 +52,9 @@ Agent loads .cursor/skills/mootools-react-migrate
                   |
                   v
         write React component + tests
+                  |
+                  v
+             run React unit test
                   |
                   v
       compare React with legacy baseline
@@ -139,6 +145,9 @@ npm run migrate -- inventory --write
 # dependencies, imports, and global side effects.
 npm run migrate -- analyze <component> --write
 
+# Backfill the legacy test file when needed, then run it before capture.
+npm run migrate -- test legacy <component>
+
 # Capture the working MooTools component in Chromium.
 npm run migrate -- capture <component> \
   --surface legacy \
@@ -151,7 +160,10 @@ npm run migrate -- decisions check <component>
 # Preview an optional source codemod. Dry-run is the default.
 npm run migrate -- adapter <component>
 
-# After the agent writes React and tests, compare both implementations.
+# After the agent writes React and its tests, run the React test first.
+npm run migrate -- test react <component>
+
+# Compare both implementations only after both unit-test gates pass.
 npm run migrate -- compare <component> \
   --base-url http://127.0.0.1:5173
 
@@ -160,7 +172,9 @@ npm run migrate -- no-new-use <component>
 npm run migrate -- verify <component>
 ```
 
-The deterministic loop can run analysis and capture phases:
+The deterministic loop runs current test files automatically. It stops when a
+legacy test must be backfilled, a human decision is needed, or React code and
+tests must be written:
 
 ```sh
 npm run migrate -- loop <component> \
@@ -175,7 +189,9 @@ Cursor then completes that work and runs the loop again.
 
 TabPane has completed the full pilot:
 
+- A backfilled MooTools unit test passes before baseline capture.
 - React component and tests exist under `src/components/tab-pane/`.
+- The focused React unit test passes before browser comparison.
 - Browser comparison reached `PARITY`.
 - The run is attested.
 - No new MooTools use exists.

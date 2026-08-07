@@ -4,8 +4,10 @@
 
 - `components/tab-pane/TabPane.js`
 - `components/tab-pane/TabPane.Extra.js`
+- `components/tab-pane/TabPane.legacy.test.ts`
 - `main.js`
 - `styles.css`
+- `src/components/tab-pane/TabPane.test.tsx`
 
 ## Known contract
 

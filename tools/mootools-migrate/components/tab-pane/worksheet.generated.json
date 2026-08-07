@@ -3,8 +3,8 @@
   "componentId": "tab-pane",
   "source": "analyzer",
   "analyzerVersion": "0.2.0",
-  "inputHash": "sha256:7f7b6bce08a8c0ac63f1002b488cf6959ab502f8398056ce255065dd3f05f60f",
-  "generatedAt": "2026-08-07T21:32:23.612Z",
+  "inputHash": "sha256:47b2e3c7ac502ba2d966777fa419396ffe3c2b5136544c5e32a30ef4ce77ca8a",
+  "generatedAt": "2026-08-07T21:48:29.706Z",
   "findings": [
     {
       "id": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
@@ -296,16 +296,16 @@
       "decisionRequired": false
     },
     {
-      "id": "tab-pane:dependency:script-order:https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-core-1-4-2-js-then-https-cdn-jsdelivr-net-gh-akaidiot-mootools-colorrange-369437111704df7aeaf84a29e5a0ecc2733bbb53-demo-mootools-more-1-4-0-1-js-then-components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
-      "fingerprint": "sha256:15e3bde4870e52f14d6bc91b9bdc2c696a2476092e96211018f70a80694c0542",
+      "id": "tab-pane:dependency:script-order:components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
+      "fingerprint": "sha256:71f3c5f195661dc3ad09de4dd08b8275f7285d9d1733f4045c5e92c397436c84",
       "kind": "dependency",
-      "summary": "Loads scripts in order: https://cdn.jsdelivr.net/gh/akaIDIOT/MooTools-ColorRange@369437111704df7aeaf84a29e5a0ecc2733bbb53/Demo/mootools-core-1.4.2.js -> https://cdn.jsdelivr.net/gh/akaIDIOT/MooTools-ColorRange@369437111704df7aeaf84a29e5a0ecc2733bbb53/Demo/mootools-more-1.4.0.1.js -> ./components/tab-pane/TabPane.js?url -> ./components/tab-pane/TabPane.Extra.js?url -> ./main.js?url.",
+      "summary": "Loads scripts in order: ./components/tab-pane/TabPane.js?url -> ./components/tab-pane/TabPane.Extra.js?url -> ./main.js?url.",
       "evidence": [
         {
           "path": "bootstrap.ts",
-          "startLine": 7,
-          "endLine": 15,
-          "sourceHash": "sha256:cd297b19b10be95de7082df74503edf53aad91c1ef0b12cba2551113dcf47eb1"
+          "startLine": 9,
+          "endLine": 17,
+          "sourceHash": "sha256:d6e056a121cb6ddcc05282ae5cffcbbf6bd1b71dda882dc54cb9d8a5d417cc87"
         }
       ],
       "suggestedAction": "Preserve required load order until imports replace browser globals.",
@@ -1092,6 +1092,40 @@
           "startLine": 3,
           "endLine": 3,
           "sourceHash": "sha256:2a443e77e7f1429a1a8ebd08b0cfd07cc3a98f32bbc1af863af77a291bb44581"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-vendor-mootools-core-1-4-2-js-url",
+      "fingerprint": "sha256:e200da22ef3d9cd8f549b4641503aac302f079a896b8179da3e7d78e6be986c6",
+      "kind": "import",
+      "summary": "Co-loads static import ./vendor/mootools-core-1.4.2.js?url.",
+      "evidence": [
+        {
+          "path": "bootstrap.ts",
+          "startLine": 6,
+          "endLine": 6,
+          "sourceHash": "sha256:033f939bf1b8b34e87d8c4cf9f9d7ca9901e5f1eca6222dcd799f0661eadbcbe"
+        }
+      ],
+      "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
+      "contractRelevant": false,
+      "decisionRequired": false
+    },
+    {
+      "id": "tab-pane:import:static-import-vendor-mootools-more-1-4-0-1-js-url",
+      "fingerprint": "sha256:2e1143ad1da6bb814b138c44500f7f785a937245f76362cedc000252d8e4ad5c",
+      "kind": "import",
+      "summary": "Co-loads static import ./vendor/mootools-more-1.4.0.1.js?url.",
+      "evidence": [
+        {
+          "path": "bootstrap.ts",
+          "startLine": 7,
+          "endLine": 7,
+          "sourceHash": "sha256:dcfc1b85d454dafc5ab4769d0aca4184a4c0bb31effd85dafc5c5a0fc9e35451"
         }
       ],
       "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
@@ -2883,7 +2917,7 @@
         "src/main.tsx",
         "src/vite-env.d.ts"
       ],
-      "findingCount": 14,
+      "findingCount": 16,
       "limitations": [
         "Runtime script injection outside scanned files is unknown."
       ]

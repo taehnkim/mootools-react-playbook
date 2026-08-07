@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "componentId": "tab-pane",
+  "surface": "legacy",
+  "testFile": "components/tab-pane/TabPane.legacy.test.ts",
+  "testFileHash": "sha256:c00f4a13eb05fb034b6f4c334515610dac5b7f3b103463d11fcde7163961a585",
+  "sourceHash": "sha256:1e4d2148dd5bcabf7b82ffdba3faeca2eb95dc69e2b0861e0554d11815e7978f",
+  "createdAt": "2026-08-07T21:48:56.330Z",
+  "command": "npm run test -- components/tab-pane/TabPane.legacy.test.ts",
+  "passed": true,
+  "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run components/tab-pane/TabPane.legacy.test.ts\n\n\n RUN  v4.1.10 /Users/taekim/Documents/projects/mootools\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  17:48:55\n   Duration  544ms (transform 12ms, setup 0ms, import 18ms, tests 59ms, environment 396ms)"
+}

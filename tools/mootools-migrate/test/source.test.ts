@@ -27,6 +27,12 @@ describe("legacy-use scanner", () => {
       bootstrapFiles: [],
       scanRoots: ["legacy"],
       callsiteGlobs: ["legacy/main.js"],
+      tests: {
+        legacyFile: "legacy/TabPane.legacy.test.ts",
+        legacyDependencies: [],
+        reactFile: "src/TabPane.test.tsx",
+        reactDependencies: [],
+      },
       fixtureBridge: {
         windowValueKey: "__FIXTURE__",
         windowIdKey: "__FIXTURE_ID__",

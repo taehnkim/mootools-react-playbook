@@ -28,6 +28,14 @@
     "main.js",
     "src/**/*.{js,jsx,ts,tsx}"
   ],
+  "tests": {
+    "legacyFile": "components/tab-pane/TabPane.legacy.test.ts",
+    "legacyDependencies": [
+      "vendor/mootools-core-1.4.2.js"
+    ],
+    "reactFile": "src/components/tab-pane/TabPane.test.tsx",
+    "reactDependencies": []
+  },
   "fixtureBridge": {
     "windowValueKey": "__MOOTOOLS_MIGRATION_FIXTURE__",
     "windowIdKey": "__MOOTOOLS_MIGRATION_FIXTURE_ID__",

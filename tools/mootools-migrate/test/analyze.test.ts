@@ -117,6 +117,12 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       bootstrapFiles: ["legacy/bootstrap.ts"],
       scanRoots: ["legacy", "src"],
       callsiteGlobs: ["legacy/main.js", "src/**/*.{ts,tsx}"],
+      tests: {
+        legacyFile: "legacy/Widget.legacy.test.ts",
+        legacyDependencies: [],
+        reactFile: "src/Widget.test.tsx",
+        reactDependencies: [],
+      },
       fixtureBridge: {
         windowValueKey: "__FIXTURE__",
         windowIdKey: "__FIXTURE_ID__",

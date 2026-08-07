@@ -3,10 +3,12 @@ import colorRangeUrl from "./components/color-range/ColorRange.js?url";
 import tabPaneExtraUrl from "./components/tab-pane/TabPane.Extra.js?url";
 import tabPaneUrl from "./components/tab-pane/TabPane.js?url";
 import mainUrl from "./main.js?url";
+import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
+import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
 
 const scriptSources: readonly string[] = [
-  "https://cdn.jsdelivr.net/gh/akaIDIOT/MooTools-ColorRange@369437111704df7aeaf84a29e5a0ecc2733bbb53/Demo/mootools-core-1.4.2.js",
-  "https://cdn.jsdelivr.net/gh/akaIDIOT/MooTools-ColorRange@369437111704df7aeaf84a29e5a0ecc2733bbb53/Demo/mootools-more-1.4.0.1.js",
+  mootoolsCoreUrl,
+  mootoolsMoreUrl,
   tabPaneUrl,
   tabPaneExtraUrl,
   brandBoxUrl,

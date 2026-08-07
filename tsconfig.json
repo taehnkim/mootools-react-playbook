@@ -17,5 +17,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "bootstrap.ts", "vite.config.ts", "vitest.config.ts"]
+  "include": [
+    "src",
+    "components/**/*.legacy.test.ts",
+    "bootstrap.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
 }

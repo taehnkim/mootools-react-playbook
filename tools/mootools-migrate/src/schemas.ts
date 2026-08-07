@@ -47,6 +47,12 @@ export const ComponentConfigSchema = z.object({
   bootstrapFiles: z.array(RelativePathSchema),
   scanRoots: z.array(RelativePathSchema).min(1),
   callsiteGlobs: z.array(z.string().min(1)).min(1),
+  tests: z.object({
+    legacyFile: RelativePathSchema,
+    legacyDependencies: z.array(RelativePathSchema),
+    reactFile: RelativePathSchema,
+    reactDependencies: z.array(RelativePathSchema),
+  }),
   fixtureBridge: z.object({
     windowValueKey: z.string().min(1),
     windowIdKey: z.string().min(1),
@@ -488,6 +494,23 @@ export const CaptureManifestSchema = z.object({
 });
 
 export type CaptureManifest = z.infer<typeof CaptureManifestSchema>;
+
+export const ComponentTestResultSchema = z.object({
+  schemaVersion: z.literal(1),
+  componentId: ComponentIdSchema,
+  surface: z.enum(["legacy", "react"]),
+  testFile: RelativePathSchema,
+  testFileHash: Sha256Schema,
+  sourceHash: Sha256Schema,
+  createdAt: z.string().datetime(),
+  command: z.string().min(1),
+  passed: z.boolean(),
+  output: z.string(),
+});
+
+export type ComponentTestResult = z.infer<
+  typeof ComponentTestResultSchema
+>;
 
 export const ParityMismatchSchema = z.object({
   scenarioId: z.string().min(1),

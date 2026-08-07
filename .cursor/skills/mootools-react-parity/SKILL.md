@@ -5,6 +5,22 @@ description: Captures legacy behavior and compares a React candidate in a real b
 
 # MooTools and React parity
 
+## Unit-test preconditions
+
+Before baseline capture:
+
+```bash
+npm run migrate -- test legacy <component>
+```
+
+Before React comparison:
+
+```bash
+npm run migrate -- test react <component>
+```
+
+Capture and comparison reject missing, stale, or failed unit-test evidence.
+
 ## Capture legacy
 
 Start the application. Then run:

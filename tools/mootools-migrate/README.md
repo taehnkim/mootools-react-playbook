@@ -19,6 +19,7 @@ Tools:
 - MooTools `Class`, event, call-site, API, side-effect, dependency, markup, and
   CSS analysis.
 - Fingerprint-aware decision checks.
+- Legacy and React unit-test gates with source freshness hashes.
 - A dry-run-first adapter codemod.
 - A no-new-legacy-use guard.
 - Real-browser baseline capture.
@@ -68,15 +69,17 @@ component.
 ```bash
 npm run migrate -- inventory --write
 npm run migrate -- analyze tab-pane --write
-npm run migrate -- decisions check tab-pane
-npm run migrate -- adapter tab-pane
-npm run migrate -- no-new-use tab-pane
-npm run migrate -- verify tab-pane
+npm run migrate -- test legacy tab-pane
 npm run migrate -- capture tab-pane \
   --surface legacy \
   --base-url http://127.0.0.1:5173
+npm run migrate -- decisions check tab-pane
+npm run migrate -- adapter tab-pane
+npm run migrate -- test react tab-pane
 npm run migrate -- compare tab-pane \
   --base-url http://127.0.0.1:5173
+npm run migrate -- no-new-use tab-pane
+npm run migrate -- verify tab-pane
 ```
 
 `adapter` is dry-run by default. A write requires clean target paths in git.
@@ -100,6 +103,7 @@ reports computed or project-specific forms as unknown instead of guessing.
 - The exact legacy-use allowlist.
 - Generated static worksheet.
 - Approved decision records.
+- Legacy and React unit-test result evidence.
 - Captured legacy baseline and screenshots.
 
 The React component implements the selector map, approved compatibility

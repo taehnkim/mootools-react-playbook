@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 
 import { componentArtifactPath, type ToolContext } from "./context.js";
 import { checkWorksheetFreshness } from "./analyze.js";
+import { checkComponentTest } from "./component-tests.js";
 import { checkDecisions, loadDecisions, loadWorksheet } from "./decisions.js";
 import { hashProjectFiles } from "./fingerprint.js";
 import { hashJson, readJson, sha256 } from "./json.js";
@@ -19,9 +20,11 @@ import {
 
 export type MigrationPhase =
   | "analyze"
+  | "legacy-test"
   | "baseline"
   | "decisions"
   | "implement"
+  | "react-test"
   | "compare"
   | "done";
 
@@ -70,6 +73,19 @@ export async function getMigrationStatus(options: {
       "analyze",
       `npm run migrate -- analyze ${componentId} --write`,
       ["The stored worksheet input hash is stale."],
+    );
+  }
+  const legacyTest = await checkComponentTest({
+    context: options.context,
+    config: options.config,
+    surface: "legacy",
+  });
+  if (!legacyTest.ok) {
+    return status(
+      componentId,
+      "legacy-test",
+      `Create ${options.config.tests.legacyFile}, then run npm run migrate -- test legacy ${componentId}`,
+      legacyTest.issues,
     );
   }
 
@@ -126,6 +142,19 @@ export async function getMigrationStatus(options: {
       componentId,
       "implement",
       `Implement ${options.config.react.componentPath} with the approved decisions.`,
+    );
+  }
+  const reactTest = await checkComponentTest({
+    context: options.context,
+    config: options.config,
+    surface: "react",
+  });
+  if (!reactTest.ok) {
+    return status(
+      componentId,
+      "react-test",
+      `Create ${options.config.tests.reactFile}, then run npm run migrate -- test react ${componentId}`,
+      reactTest.issues,
     );
   }
 

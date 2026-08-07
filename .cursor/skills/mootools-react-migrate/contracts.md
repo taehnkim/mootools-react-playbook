@@ -7,11 +7,17 @@
 - `worksheet.generated.json` is replaceable analyzer output.
 - `decisions.json` is human-owned.
 - `accepted-differences.json` is human-owned.
+- `test-results/legacy.json` proves the current MooTools source and unit test.
+- `test-results/react.json` proves the current React source and unit test.
 - `baseline/` is immutable evidence for one legacy input set.
 - `candidate/<run-id>/` is evidence for one React run.
 
 Never let a generated command overwrite a human-owned file without an explicit
 force flag.
+
+Each component test result hashes its test file, implementation source, and
+configured test dependencies. Any change makes the result stale and blocks the
+next migration phase.
 
 ## Finding freshness
 

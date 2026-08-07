@@ -38,8 +38,9 @@ npm run migrate -- loop <component> \
   --react-url http://127.0.0.1:5173
 ```
 
-It must stop at pending decisions or React implementation. It must not approve
-decisions or write React code.
+It must stop when a legacy test needs backfilling, a decision needs approval,
+or React code and tests need implementation. It must not approve decisions or
+write product code by itself.
 
 ## Phase 1. Analyze
 
@@ -51,7 +52,19 @@ npm run migrate -- analyze <component> --write
 Review every unknown and contract-relevant finding. Static analysis is not
 proof that all external callers are known.
 
-## Phase 2. Capture legacy
+## Phase 2. Backfill and run the legacy unit test
+
+Create the configured MooTools unit-test file if it does not exist. Test the
+actual legacy source and pinned runtime. Then run:
+
+```bash
+npm run migrate -- test legacy <component>
+```
+
+Stop if the test fails. The tool stores source and test hashes so later source
+changes make the test evidence stale.
+
+## Phase 3. Capture legacy
 
 Start the sandbox or customer application. Then run:
 
@@ -64,7 +77,7 @@ npm run migrate -- capture <component> \
 The capture must have no page, console, request, selector, or assertion error.
 Do not continue without a valid baseline.
 
-## Phase 3. Decide
+## Phase 4. Decide
 
 Create a decision draft once:
 
@@ -83,7 +96,7 @@ npm run migrate -- decisions check <component>
 
 Stop while this command is nonzero.
 
-## Phase 4. Define the boundary
+## Phase 5. Define the boundary
 
 Read all current callers before choosing the React API.
 
@@ -97,7 +110,7 @@ npm run migrate -- adapter <component>
 The codemod is dry-run by default. It must preflight every target file. Do not
 use `--allow-unsafe-write` outside a disposable non-git sandbox.
 
-## Phase 5. Implement React
+## Phase 6. Implement and test React
 
 - Model state with stable IDs.
 - Preserve only caller-observed contracts.
@@ -108,7 +121,15 @@ use `--allow-unsafe-write` outside a disposable non-git sandbox.
 
 Run the target project type check and build after each behavior unit.
 
-## Phase 6. Prove
+Run and record the focused React unit test:
+
+```bash
+npm run migrate -- test react <component>
+```
+
+Stop if this test fails.
+
+## Phase 7. Prove
 
 ```bash
 npm run migrate -- compare <component> \
@@ -120,7 +141,7 @@ inspect the exact assertion, event, DOM element, or style.
 
 Done requires `PARITY` and `attested: true`.
 
-## Phase 7. Clean up
+## Phase 8. Clean up
 
 ```bash
 npm run migrate -- no-new-use <component>
