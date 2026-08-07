@@ -109,8 +109,8 @@ change. It must stop or report an unknown form. It must not guess.
 Use this mode in this repository.
 
 - Set the registry mode to `local-pilot`.
-- Keep `/legacy/` as the legacy reference.
-- Put the React result on the root page.
+- Keep `/` as the root legacy application.
+- Put the React comparison at `/react.html`.
 - Use the same fixture data and scenario IDs on both pages.
 - Skip feature flags, canary traffic, production telemetry, and deployment.
 - Do not push unless the user asks.
@@ -639,11 +639,11 @@ Example:
       "id": "tab-pane",
       "mode": "local-pilot",
       "legacyFiles": [
-        "legacy/components/tab-pane/TabPane.js",
-        "legacy/components/tab-pane/TabPane.Extra.js"
+        "components/tab-pane/TabPane.js",
+        "components/tab-pane/TabPane.Extra.js"
       ],
-      "legacyEntry": "/legacy/",
-      "reactEntry": "/",
+      "legacyEntry": "/",
+      "reactEntry": "/react.html",
       "reactPath": "src/components/tab-pane/TabPane.tsx",
       "fixturePath": "migration/components/tab-pane/fixtures.json",
       "scenarioPath": "migration/components/tab-pane/scenarios.json",
@@ -686,7 +686,7 @@ Example:
   "summary": "show fires change with a numeric index",
   "evidence": [
     {
-      "path": "legacy/components/tab-pane/TabPane.js",
+      "path": "components/tab-pane/TabPane.js",
       "startLine": 85,
       "endLine": 102
     }
@@ -1093,10 +1093,10 @@ The loop must never:
 
 The first pilot uses:
 
-- `legacy/components/tab-pane/TabPane.js`
-- `legacy/components/tab-pane/TabPane.Extra.js`
-- The only current call site in `legacy/main.js`
-- The reference page at `/legacy/`
+- `components/tab-pane/TabPane.js`
+- `components/tab-pane/TabPane.Extra.js`
+- The only current call site in `main.js`
+- The root reference page at `/`
 - The future React target under `src/components/tab-pane/`
 
 ### Known static contract

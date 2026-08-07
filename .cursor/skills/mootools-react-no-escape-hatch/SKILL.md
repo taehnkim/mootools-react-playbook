@@ -25,8 +25,8 @@ Search the component boundary for:
 - Feature flags that can no longer select legacy.
 - Temporary telemetry and allowlists.
 
-In local pilot mode, the separate `/legacy/` reference may remain. It must not
-be imported by the React target.
+In local pilot mode, the root legacy application may remain as a reference. It
+must not be imported by the React target.
 
 In production mode, complete cleanup only after React serves all intended
 traffic and rollback proof is complete.

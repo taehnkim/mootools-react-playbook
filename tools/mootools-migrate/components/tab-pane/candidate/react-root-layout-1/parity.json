@@ -1,0 +1,123 @@
+{
+  "status": "MISMATCH",
+  "attested": true,
+  "runId": "react-root-layout-1",
+  "createdAt": "2026-08-07T21:34:18.481Z",
+  "baselineManifestHash": "sha256:7e90fce6ee84b04d5db0cc47bdd8c37afd065a312e069aad5303e496c884fdd0",
+  "candidateManifestHash": "sha256:556d7ba559509d6e03e495c351f194bde777e04a11d8c87f15087a133e7f4529",
+  "decisionsHash": "sha256:6f8898493f3959ee9ee82c816820bf9dcb58870504842f9d8ba5d14159d0bfd2",
+  "acceptedDifferencesHash": "sha256:0f23e2364b756f0fe97f0d512bb3434d5c0f9882b21232a4b3e59a4d235abd8a",
+  "scenariosHash": "sha256:8197299c6b0dde7dc626c41d9255dee96fa80a39dc80d82d278b40e619351ee9",
+  "mismatches": [
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-selected-tab",
+      "reason": "Observed value differs.",
+      "legacyValue": true,
+      "reactValue": false
+    },
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-status",
+      "reason": "Observed value differs.",
+      "legacyValue": "Showing tab 2.",
+      "reactValue": "Showing tab 1."
+    },
+    {
+      "scenarioId": "close-non-active-by-api",
+      "assertionId": "api-close-event-order",
+      "reason": "Observed value differs.",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "scenarioId": "close-active-with-button",
+      "assertionId": "button-close-events",
+      "reason": "Observed value differs.",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
