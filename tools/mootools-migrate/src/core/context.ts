@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -16,7 +17,18 @@ export type ToolContext = {
 };
 
 export function defaultToolsRoot(): string {
-  return resolve(dirname(fileURLToPath(import.meta.url)), "../..");
+  const moduleDirectory = dirname(fileURLToPath(import.meta.url));
+  const candidates = [
+    resolve(moduleDirectory, "../.."),
+    resolve(moduleDirectory, "../../.."),
+  ];
+  const toolsRoot = candidates.find((candidate) =>
+    existsSync(resolve(candidate, "registry.json")),
+  );
+  if (toolsRoot === undefined) {
+    throw new Error("Could not locate the migration tools root.");
+  }
+  return toolsRoot;
 }
 
 export async function createContext(options: {
