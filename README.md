@@ -127,9 +127,9 @@ src/components/             React source and tests
 paired selectors, decisions, accepted differences, allowed legacy uses, and
 the optional adapter configuration.
 
-## Example
+## Live example
 
-See the [TabPane migration example](examples/tab-pane-migration.md) for the
-four commands, scenario recordings, sample test receipts, one exact image
-comparison, and the accepted differences. The example is documentation, not
-live proof.
+The [TabPane migration report](examples/tab-pane-migration.html) reads the
+latest local generated evidence after a run when Vite serves the repository.
+It shows the four stages, test receipts, findings, recordings, exact image
+comparisons, and approved differences used.

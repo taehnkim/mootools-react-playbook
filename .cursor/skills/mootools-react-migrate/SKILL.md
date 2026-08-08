@@ -22,6 +22,9 @@ verification passes.
 - Generate, inspect, and report the worksheet, manifests, screenshots,
   recordings, and diffs. Keep all generated media local and ignored. Do not
   commit these generated files.
+- After a run, open
+  `http://127.0.0.1:5173/examples/tab-pane-migration.html`. It reads the latest
+  local generated evidence from the Vite server.
 
 ## TypeScript
 
