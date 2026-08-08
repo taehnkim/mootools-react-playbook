@@ -1,10 +1,10 @@
 {
   "status": "PARITY",
   "attested": true,
-  "runId": "react-2026-08-08T07-26-06-356Z",
-  "createdAt": "2026-08-08T07:26:11.794Z",
+  "runId": "react-2026-08-08T07-31-48-527Z",
+  "createdAt": "2026-08-08T07:31:53.947Z",
   "baselineManifestHash": "sha256:d5ebdf85dcb07803a2a3b7b05ec75fbb58b63e16372d98845637db50282be62a",
-  "candidateManifestHash": "sha256:fa95a10dcb6bd9cf86115e025d87560f8609112b1824fc8105cf4805dcdeb6c1",
+  "candidateManifestHash": "sha256:a2cf8e39b81de8279718193596a6b7fd5d85c254e99ab3f9b0fc0645d8b3859d",
   "decisionsHash": "sha256:2b3ef366a771b6c18628f2acad050a0c77dc3ce959994786a850aa02f2816607",
   "acceptedDifferencesHash": "sha256:e7371ed3a3d9902cdf34e3bf83fc24d48efe1a7bc849abef9da57290fe644693",
   "scenariosHash": "sha256:0c0173bc5975bbef3e57ccf1549350a699e9a829f22f97202b1a7d0a3aca91a8",
