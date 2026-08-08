@@ -1,5 +1,12 @@
-import { access, readFile, rename, rm } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import {
+  access,
+  mkdir,
+  readFile,
+  rename,
+  rm,
+  writeFile,
+} from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 
 import pixelmatch from "pixelmatch";
@@ -12,17 +19,22 @@ import {
 } from "../core/fingerprint.js";
 import { hashJson, readJson, sha256, writeJson } from "../core/json.js";
 import {
+  ArtifactIdSchema,
   CaptureManifestSchema,
   JsonValueSchema,
   ParityResultSchema,
+  RecordingComparisonSchema,
   type AcceptedDifferences,
+  type CaptureChecks,
   type CaptureManifest,
+  type ImageComparison,
   type MigrationSpec,
   type Decisions,
   type Fixtures,
   type JsonValue,
   type Observation,
   type ParityResultData,
+  type RecordingComparison,
   type Scenarios,
   type SelectorMap,
 } from "../contracts/schemas.js";
@@ -38,6 +50,17 @@ export type ParityMismatch = {
 
 export type ParityResult = ParityResultData;
 
+type ObservationComparison =
+  | {
+      kind: "value";
+      mismatch: ParityMismatch | null;
+    }
+  | {
+      kind: "image";
+      mismatch: ParityMismatch | null;
+      imageComparison: ImageComparison;
+    };
+
 type CompareCandidateOptions = {
   context: ToolContext;
   config: MigrationSpec;
@@ -51,6 +74,7 @@ type CompareCandidateOptions = {
   runId: string;
   acceptedDifferences: AcceptedDifferences;
   decisions: Decisions;
+  checks: CaptureChecks;
 };
 
 export async function compareCandidate(
@@ -74,6 +98,11 @@ async function compareCandidateInDirectory(
     join(options.baselineDirectory, "manifest.json"),
     CaptureManifestSchema,
   );
+  validateCaptureCoverage({
+    label: "Baseline",
+    manifest: baseline,
+    scenarios: options.scenarios,
+  });
   await requireFreshBaseline({
     context: options.context,
     config: options.config,
@@ -81,6 +110,7 @@ async function compareCandidateInDirectory(
     scenarios: options.scenarios,
     fixtures: options.fixtures,
     legacySelectors: options.legacySelectors,
+    checks: options.checks,
   });
 
   const candidate = await captureSurface({
@@ -94,8 +124,14 @@ async function compareCandidateInDirectory(
     outputDirectory: candidateDirectory,
     runId: options.runId,
     viewport: options.config.viewport,
+    checks: options.checks,
     enforceExpected: false,
     replaceExisting: false,
+  });
+  validateCaptureCoverage({
+    label: "React candidate",
+    manifest: candidate,
+    scenarios: options.scenarios,
   });
   if (candidate.browserVersion !== baseline.browserVersion) {
     throw new Error(
@@ -107,6 +143,9 @@ async function compareCandidateInDirectory(
   }
 
   const mismatches: ParityMismatch[] = [];
+  const recordings: RecordingComparison[] = [];
+  const imageComparisons: ImageComparison[] = [];
+  const acceptedDifferencesUsed = new Set<string>();
   for (const baselineScenario of baseline.results) {
     const candidateScenario = candidate.results.find(
       (result) => result.scenarioId === baselineScenario.scenarioId,
@@ -121,6 +160,17 @@ async function compareCandidateInDirectory(
       });
       continue;
     }
+    recordings.push(
+      await pairRecordingEvidence({
+        baselineDirectory: options.baselineDirectory,
+        candidateDirectory,
+        scenarioId: baselineScenario.scenarioId,
+        baselineVideoPath: baselineScenario.videoPath,
+        baselineVideoHash: baselineScenario.videoHash,
+        reactVideoPath: candidateScenario.videoPath,
+        reactVideoHash: candidateScenario.videoHash,
+      }),
+    );
     for (const baselineObservation of baselineScenario.observations) {
       const candidateObservation = candidateScenario.observations.find(
         (item) => item.assertionId === baselineObservation.assertionId,
@@ -135,7 +185,7 @@ async function compareCandidateInDirectory(
         });
         continue;
       }
-      const mismatch = await compareObservation({
+      const comparison = await compareObservation({
         baselineDirectory: options.baselineDirectory,
         candidateDirectory,
         scenarioId: baselineScenario.scenarioId,
@@ -143,16 +193,34 @@ async function compareCandidateInDirectory(
         candidate: candidateObservation,
         scenarios: options.scenarios,
       });
-      if (
-        mismatch !== null &&
-        !isAcceptedDifference({
-          mismatch,
-          acceptedDifferences: options.acceptedDifferences,
-          decisions: options.decisions,
-          afterStepId: baselineObservation.afterStepId,
-        })
-      ) {
-        mismatches.push(mismatch);
+      switch (comparison.kind) {
+        case "value": {
+          if (comparison.mismatch === null) {
+            break;
+          }
+          const acceptedDifference = acceptedDifferenceId({
+            mismatch: comparison.mismatch,
+            acceptedDifferences: options.acceptedDifferences,
+            decisions: options.decisions,
+            afterStepId: baselineObservation.afterStepId,
+          });
+          if (acceptedDifference === null) {
+            mismatches.push(comparison.mismatch);
+          } else {
+            acceptedDifferencesUsed.add(acceptedDifference);
+          }
+          break;
+        }
+        case "image":
+          imageComparisons.push(comparison.imageComparison);
+          if (comparison.mismatch !== null) {
+            mismatches.push(comparison.mismatch);
+          }
+          break;
+        default: {
+          const exhaustive: never = comparison;
+          throw new Error(`Unsupported comparison: ${String(exhaustive)}`);
+        }
       }
     }
   }
@@ -184,20 +252,72 @@ async function compareCandidateInDirectory(
     ),
     scenariosHash: candidate.scenariosHash,
     mismatches,
+    recordings,
+    imageComparisons,
+    acceptedDifferencesUsed: [...acceptedDifferencesUsed].sort(),
   });
   await writeJson(
     join(candidateDirectory, "parity.json"),
     JsonValueSchema.parse(result),
   );
-  if (result.status === "PARITY" && result.attested) {
-    await commitFinalCandidate({
-      candidateDirectory,
-      finalDirectory: options.finalDirectory,
-    });
-  } else {
-    await rm(candidateDirectory, { recursive: true, force: true });
-  }
+  await commitCandidateEvidence({
+    candidateDirectory,
+    finalDirectory: options.finalDirectory,
+    passed: result.status === "PARITY" && result.attested,
+  });
   return result;
+}
+
+export function validateCaptureCoverage(options: {
+  label: string;
+  manifest: CaptureManifest;
+  scenarios: Scenarios;
+}): void {
+  const expectedScenarioIds = options.scenarios
+    .map((scenario) => scenario.id)
+    .sort();
+  const actualScenarioIds = options.manifest.results
+    .map((result) => result.scenarioId)
+    .sort();
+  if (!isDeepStrictEqual(actualScenarioIds, expectedScenarioIds)) {
+    throw new Error(`${options.label} scenario coverage is incomplete.`);
+  }
+
+  for (const scenario of options.scenarios) {
+    const result = options.manifest.results.find(
+      (candidate) => candidate.scenarioId === scenario.id,
+    );
+    if (result === undefined) {
+      throw new Error(
+        `${options.label} is missing scenario ${scenario.id}.`,
+      );
+    }
+    const expectedAssertionIds = scenario.assertions
+      .map((assertion) => assertion.assertionId)
+      .sort();
+    const actualAssertionIds = result.observations
+      .map((observation) => observation.assertionId)
+      .sort();
+    if (!isDeepStrictEqual(actualAssertionIds, expectedAssertionIds)) {
+      throw new Error(
+        `${options.label} observation coverage is incomplete for ${scenario.id}.`,
+      );
+    }
+    for (const assertion of scenario.assertions) {
+      const observation = result.observations.find(
+        (candidate) => candidate.assertionId === assertion.assertionId,
+      );
+      if (
+        observation === undefined ||
+        observation.afterStepId !== assertion.afterStepId ||
+        observation.kind !== assertion.kind
+      ) {
+        throw new Error(
+          `${options.label} observation ${scenario.id}/${assertion.assertionId} does not match its assertion.`,
+        );
+      }
+    }
+  }
 }
 
 async function requireFreshBaseline(options: {
@@ -207,7 +327,17 @@ async function requireFreshBaseline(options: {
   scenarios: Scenarios;
   fixtures: Fixtures;
   legacySelectors: SelectorMap;
+  checks: CaptureChecks;
 }): Promise<void> {
+  const baselineLegacyTest = options.baseline.checks.componentTests.find(
+    (test) => test.surface === "legacy",
+  );
+  const currentLegacyTest = options.checks.componentTests.find(
+    (test) => test.surface === "legacy",
+  );
+  if (baselineLegacyTest === undefined || currentLegacyTest === undefined) {
+    throw new Error("Legacy component test receipt is missing.");
+  }
   const checks: { name: string; expected: string; actual: string }[] = [
     {
       name: "capture config",
@@ -238,6 +368,11 @@ async function requireFreshBaseline(options: {
       }),
     },
     {
+      name: "legacy test inputs",
+      expected: baselineLegacyTest.inputHash,
+      actual: currentLegacyTest.inputHash,
+    },
+    {
       name: "viewport",
       expected: hashJson(JsonValueSchema.parse(options.baseline.viewport)),
       actual: hashJson(JsonValueSchema.parse(options.config.viewport)),
@@ -260,28 +395,37 @@ async function compareObservation(options: {
   baseline: Observation;
   candidate: Observation;
   scenarios: Scenarios;
-}): Promise<ParityMismatch | null> {
+}): Promise<ObservationComparison> {
   if (
     options.baseline.kind !== options.candidate.kind ||
     options.baseline.afterStepId !== options.candidate.afterStepId
   ) {
-    return mismatch(
-      options,
-      "Observation kind or step does not match the baseline.",
-      options.baseline.actual,
-      options.candidate.actual,
-    );
+    return {
+      kind: "value",
+      mismatch: mismatch(
+        options,
+        "Observation kind or step does not match the baseline.",
+        options.baseline.actual,
+        options.candidate.actual,
+      ),
+    };
   }
 
   if (options.baseline.kind !== "screenshot") {
-    return isDeepStrictEqual(options.baseline.actual, options.candidate.actual)
-      ? null
-      : mismatch(
-          options,
-          "Observed value differs.",
-          options.baseline.actual,
-          options.candidate.actual,
-        );
+    return {
+      kind: "value",
+      mismatch: isDeepStrictEqual(
+        options.baseline.actual,
+        options.candidate.actual,
+      )
+        ? null
+        : mismatch(
+            options,
+            "Observed value differs.",
+            options.baseline.actual,
+            options.candidate.actual,
+          ),
+    };
   }
 
   const assertion = findAssertion(
@@ -300,59 +444,177 @@ async function compareObservation(options: {
     options.baseline.screenshotHash === null ||
     options.candidate.screenshotHash === null
   ) {
-    return mismatch(
-      options,
-      "Screenshot path or content hash is missing.",
-      null,
-      null,
+    throw new Error(
+      `Screenshot evidence is missing for ${options.scenarioId}/${options.baseline.assertionId}.`,
     );
   }
 
+  const imageComparison = await compareScreenshotEvidence({
+    baselineDirectory: options.baselineDirectory,
+    candidateDirectory: options.candidateDirectory,
+    scenarioId: options.scenarioId,
+    stepId: options.baseline.afterStepId,
+    assertionId: assertion.assertionId,
+    baselineScreenshotPath: options.baseline.screenshotPath,
+    baselineScreenshotHash: options.baseline.screenshotHash,
+    reactScreenshotPath: options.candidate.screenshotPath,
+    reactScreenshotHash: options.candidate.screenshotHash,
+  });
+  const dimensionsMatch =
+    imageComparison.baselineScreenshotSize.width ===
+      imageComparison.reactScreenshotSize.width &&
+    imageComparison.baselineScreenshotSize.height ===
+      imageComparison.reactScreenshotSize.height;
+  return {
+    kind: "image",
+    imageComparison,
+    mismatch: imageComparison.exact
+      ? null
+      : mismatch(
+          options,
+          dimensionsMatch
+            ? `${imageComparison.changedPixels} screenshot pixels changed.`
+            : "Screenshot dimensions differ.",
+          dimensionsMatch
+            ? 0
+            : `${imageComparison.baselineScreenshotSize.width}x${imageComparison.baselineScreenshotSize.height}`,
+          dimensionsMatch
+            ? imageComparison.changedPixels
+            : `${imageComparison.reactScreenshotSize.width}x${imageComparison.reactScreenshotSize.height}`,
+        ),
+  };
+}
+
+export async function pairRecordingEvidence(options: {
+  baselineDirectory: string;
+  candidateDirectory: string;
+  scenarioId: string;
+  baselineVideoPath: string;
+  baselineVideoHash: string;
+  reactVideoPath: string;
+  reactVideoHash: string;
+}): Promise<RecordingComparison> {
+  const recording = RecordingComparisonSchema.parse({
+    scenarioId: options.scenarioId,
+    baselineVideoPath: options.baselineVideoPath,
+    baselineVideoHash: options.baselineVideoHash,
+    reactVideoPath: options.reactVideoPath,
+    reactVideoHash: options.reactVideoHash,
+  });
+  const [baselineBytes, reactBytes] = await Promise.all([
+    readFile(
+      resolve(options.baselineDirectory, recording.baselineVideoPath),
+    ),
+    readFile(
+      resolve(options.candidateDirectory, recording.reactVideoPath),
+    ),
+  ]);
+  if (sha256(baselineBytes) !== recording.baselineVideoHash) {
+    throw new Error(
+      `Baseline recording evidence hash failed for ${recording.scenarioId}.`,
+    );
+  }
+  if (sha256(reactBytes) !== recording.reactVideoHash) {
+    throw new Error(
+      `React recording evidence hash failed for ${recording.scenarioId}.`,
+    );
+  }
+  return recording;
+}
+
+export async function compareScreenshotEvidence(options: {
+  baselineDirectory: string;
+  candidateDirectory: string;
+  scenarioId: string;
+  stepId: string;
+  assertionId: string;
+  baselineScreenshotPath: string;
+  baselineScreenshotHash: string;
+  reactScreenshotPath: string;
+  reactScreenshotHash: string;
+}): Promise<ImageComparison> {
+  const scenarioId = ArtifactIdSchema.parse(options.scenarioId);
+  const assertionId = ArtifactIdSchema.parse(options.assertionId);
   const baselineBytes = await readFile(
-    resolve(options.baselineDirectory, options.baseline.screenshotPath),
+    resolve(options.baselineDirectory, options.baselineScreenshotPath),
   );
   const candidateBytes = await readFile(
-    resolve(options.candidateDirectory, options.candidate.screenshotPath),
+    resolve(options.candidateDirectory, options.reactScreenshotPath),
   );
   if (
-    sha256(baselineBytes) !== options.baseline.screenshotHash ||
-    sha256(candidateBytes) !== options.candidate.screenshotHash
+    sha256(baselineBytes) !== options.baselineScreenshotHash ||
+    sha256(candidateBytes) !== options.reactScreenshotHash
   ) {
     throw new Error(
-      `Screenshot evidence hash failed for ${options.scenarioId}/${options.baseline.assertionId}.`,
+      `Screenshot evidence hash failed for ${scenarioId}/${assertionId}.`,
     );
   }
   const baselinePng = PNG.sync.read(baselineBytes);
   const candidatePng = PNG.sync.read(candidateBytes);
-  if (
-    baselinePng.width !== candidatePng.width ||
-    baselinePng.height !== candidatePng.height
-  ) {
-    return mismatch(
-      options,
-      "Screenshot dimensions differ.",
-      `${baselinePng.width}x${baselinePng.height}`,
-      `${candidatePng.width}x${candidatePng.height}`,
+  const width = Math.max(baselinePng.width, candidatePng.width);
+  const height = Math.max(baselinePng.height, candidatePng.height);
+  const diffPng = new PNG({ width, height });
+  const changedPixels = pixelmatch(
+    rgbaAtSize(baselinePng, width, height),
+    rgbaAtSize(candidatePng, width, height),
+    diffPng.data,
+    width,
+    height,
+    { threshold: 0, includeAA: true },
+  );
+  const totalPixels = width * height;
+  const diffPath = join(
+    "diffs",
+    scenarioId,
+    `${assertionId}.png`,
+  ).split("\\").join("/");
+  const diffBytes = PNG.sync.write(diffPng);
+  const absoluteDiffPath = resolve(options.candidateDirectory, diffPath);
+  await mkdir(dirname(absoluteDiffPath), { recursive: true });
+  await writeFile(absoluteDiffPath, diffBytes);
+  return {
+    scenarioId,
+    stepId: options.stepId,
+    assertionId,
+    baselineScreenshotPath: options.baselineScreenshotPath,
+    baselineScreenshotHash: options.baselineScreenshotHash,
+    baselineScreenshotSize: {
+      width: baselinePng.width,
+      height: baselinePng.height,
+    },
+    reactScreenshotPath: options.reactScreenshotPath,
+    reactScreenshotHash: options.reactScreenshotHash,
+    reactScreenshotSize: {
+      width: candidatePng.width,
+      height: candidatePng.height,
+    },
+    diffPath,
+    diffHash: sha256(diffBytes),
+    totalPixels,
+    changedPixels,
+    diffRatio: changedPixels / totalPixels,
+    allowedChangedPixels: 0,
+    exact:
+      baselinePng.width === candidatePng.width &&
+      baselinePng.height === candidatePng.height &&
+      changedPixels === 0,
+  };
+}
+
+function rgbaAtSize(image: PNG, width: number, height: number): Buffer {
+  if (image.width === width && image.height === height) {
+    return image.data;
+  }
+  const data = Buffer.alloc(width * height * 4);
+  for (let row = 0; row < image.height; row += 1) {
+    image.data.copy(
+      data,
+      row * width * 4,
+      row * image.width * 4,
+      (row + 1) * image.width * 4,
     );
   }
-  const changedPixels = pixelmatch(
-    baselinePng.data,
-    candidatePng.data,
-    undefined,
-    baselinePng.width,
-    baselinePng.height,
-    { threshold: 0.1 },
-  );
-  const diffRatio =
-    changedPixels / (baselinePng.width * baselinePng.height);
-  return diffRatio <= assertion.maxDiffRatio
-    ? null
-    : mismatch(
-        options,
-        `Screenshot diff ratio ${diffRatio} exceeds ${assertion.maxDiffRatio}.`,
-        0,
-        diffRatio,
-      );
+  return data;
 }
 
 function findAssertion(
@@ -390,46 +652,56 @@ function mismatch(
   };
 }
 
+function acceptedDifferenceId(options: {
+  mismatch: ParityMismatch;
+  acceptedDifferences: AcceptedDifferences;
+  decisions: Decisions;
+  afterStepId: string;
+}): string | null {
+  const difference = options.acceptedDifferences.find((candidate) => {
+    const calculatedFingerprint = acceptedDifferenceFingerprint({
+      id: candidate.id,
+      decisionFingerprint: candidate.decisionFingerprint,
+      scenarioId: candidate.scenarioId,
+      stepId: candidate.stepId,
+      assertionId: candidate.assertionId,
+      legacyValue: candidate.legacyValue,
+      reactValue: candidate.reactValue,
+      reason: candidate.reason,
+    });
+    if (
+      candidate.fingerprint !== calculatedFingerprint ||
+      candidate.approval.status !== "approved" ||
+      candidate.approval.differenceFingerprint !== calculatedFingerprint ||
+      candidate.scenarioId !== options.mismatch.scenarioId ||
+      candidate.stepId !== options.afterStepId ||
+      candidate.assertionId !== options.mismatch.assertionId ||
+      !isDeepStrictEqual(
+        candidate.legacyValue,
+        options.mismatch.legacyValue,
+      ) ||
+      !isDeepStrictEqual(candidate.reactValue, options.mismatch.reactValue)
+    ) {
+      return false;
+    }
+    return options.decisions.some(
+      (decision) =>
+        decision.findingFingerprint === candidate.decisionFingerprint &&
+        decision.approval.status === "approved" &&
+        decision.approval.findingFingerprint ===
+          candidate.decisionFingerprint,
+    );
+  });
+  return difference?.id ?? null;
+}
+
 export function isAcceptedDifference(options: {
   mismatch: ParityMismatch;
   acceptedDifferences: AcceptedDifferences;
   decisions: Decisions;
   afterStepId: string;
 }): boolean {
-  return options.acceptedDifferences.some((difference) => {
-    const calculatedFingerprint = acceptedDifferenceFingerprint({
-      id: difference.id,
-      decisionFingerprint: difference.decisionFingerprint,
-      scenarioId: difference.scenarioId,
-      stepId: difference.stepId,
-      assertionId: difference.assertionId,
-      legacyValue: difference.legacyValue,
-      reactValue: difference.reactValue,
-      reason: difference.reason,
-    });
-    if (
-      difference.fingerprint !== calculatedFingerprint ||
-      difference.approval.status !== "approved" ||
-      difference.approval.differenceFingerprint !== calculatedFingerprint ||
-      difference.scenarioId !== options.mismatch.scenarioId ||
-      difference.stepId !== options.afterStepId ||
-      difference.assertionId !== options.mismatch.assertionId ||
-      !isDeepStrictEqual(
-        difference.legacyValue,
-        options.mismatch.legacyValue,
-      ) ||
-      !isDeepStrictEqual(difference.reactValue, options.mismatch.reactValue)
-    ) {
-      return false;
-    }
-    return options.decisions.some(
-      (decision) =>
-        decision.findingFingerprint === difference.decisionFingerprint &&
-        decision.approval.status === "approved" &&
-        decision.approval.findingFingerprint ===
-          difference.decisionFingerprint,
-    );
-  });
+  return acceptedDifferenceId(options) !== null;
 }
 
 export async function commitFinalCandidate(options: {
@@ -452,6 +724,25 @@ export async function commitFinalCandidate(options: {
     }
     throw error;
   }
+}
+
+export async function commitCandidateEvidence(options: {
+  candidateDirectory: string;
+  finalDirectory: string;
+  passed: boolean;
+}): Promise<string> {
+  const failedDirectory = `${options.finalDirectory}.failed`;
+  const committedDirectory = options.passed
+    ? options.finalDirectory
+    : failedDirectory;
+  await commitFinalCandidate({
+    candidateDirectory: options.candidateDirectory,
+    finalDirectory: committedDirectory,
+  });
+  if (options.passed) {
+    await rm(failedDirectory, { recursive: true, force: true });
+  }
+  return committedDirectory;
 }
 
 async function fileExists(path: string): Promise<boolean> {

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { resolve } from "node:path";
+
 import { Command } from "commander";
 
 import {
@@ -94,6 +96,11 @@ program
         return;
       }
 
+      const baselineDirectory = componentArtifactPath(
+        context,
+        config.id,
+        "baseline",
+      );
       const manifest = await captureSurface({
         context,
         config,
@@ -102,13 +109,13 @@ program
         fixtures: config.fixtures,
         baseUrl: options.baseUrl,
         surface: "legacy",
-        outputDirectory: componentArtifactPath(
-          context,
-          config.id,
-          "baseline",
-        ),
+        outputDirectory: baselineDirectory,
         runId: createRunId("legacy"),
         viewport: config.viewport,
+        checks: {
+          componentTests: [unitTest],
+          projectChecks: [],
+        },
         enforceExpected: true,
         replaceExisting: options.replace,
       });
@@ -117,6 +124,17 @@ program
         unitTest,
         runId: manifest.runId,
         scenarios: manifest.results.length,
+        evidencePath: baselineDirectory,
+        recordingPaths: manifest.results.map((result) =>
+          resolve(baselineDirectory, result.videoPath),
+        ),
+        screenshotPaths: manifest.results.flatMap((result) =>
+          result.observations.flatMap((observation) =>
+            observation.kind === "screenshot"
+              ? [resolve(baselineDirectory, observation.screenshotPath)]
+              : [],
+          ),
+        ),
       });
     },
   );
@@ -185,6 +203,16 @@ program
       return;
     }
 
+    const finalDirectory = componentArtifactPath(
+      context,
+      config.id,
+      "final",
+    );
+    const baselineDirectory = componentArtifactPath(
+      context,
+      config.id,
+      "baseline",
+    );
     const parity = await compareCandidate({
       context,
       config,
@@ -192,22 +220,21 @@ program
       fixtures: config.fixtures,
       legacySelectors: selectorMap(config, "legacy"),
       reactSelectors: selectorMap(config, "react"),
-      baselineDirectory: componentArtifactPath(
-        context,
-        config.id,
-        "baseline",
-      ),
-      finalDirectory: componentArtifactPath(
-        context,
-        config.id,
-        "final",
-      ),
+      baselineDirectory,
+      finalDirectory,
       reactBaseUrl: options.baseUrl,
       runId: createRunId("react"),
       acceptedDifferences: config.acceptedDifferences,
       decisions: config.decisions,
+      checks: {
+        componentTests: unitTests,
+        projectChecks,
+      },
     });
     const ok = parity.status === "PARITY" && parity.attested;
+    const evidencePath = ok
+      ? finalDirectory
+      : `${finalDirectory}.failed`;
     writeResult({
       ok,
       decisionCheck,
@@ -215,6 +242,23 @@ program
       unitTests,
       projectChecks,
       parity,
+      evidencePath,
+      baselineRecordingPaths: parity.recordings.map((recording) =>
+        resolve(baselineDirectory, recording.baselineVideoPath),
+      ),
+      reactRecordingPaths: parity.recordings.map((recording) =>
+        resolve(evidencePath, recording.reactVideoPath),
+      ),
+      baselineScreenshotPaths: parity.imageComparisons.map(
+        (comparison) =>
+          resolve(baselineDirectory, comparison.baselineScreenshotPath),
+      ),
+      reactScreenshotPaths: parity.imageComparisons.map((comparison) =>
+        resolve(evidencePath, comparison.reactScreenshotPath),
+      ),
+      diffScreenshotPaths: parity.imageComparisons.map((comparison) =>
+        resolve(evidencePath, comparison.diffPath),
+      ),
     });
     if (!ok) {
       process.exitCode = 2;

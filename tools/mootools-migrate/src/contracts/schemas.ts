@@ -68,6 +68,10 @@ export const ArtifactIdSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
+export function scenarioVideoPath(scenarioId: string): string {
+  return `recordings/${ArtifactIdSchema.parse(scenarioId)}.webm`;
+}
+
 const MigrationDefinitionSchema = z.object({
   schemaVersion: z.literal(1),
   id: ComponentIdSchema,
@@ -279,7 +283,7 @@ export const ScenarioActionSchema = z.discriminatedUnion("action", [
 export type ScenarioAction = z.infer<typeof ScenarioActionSchema>;
 
 const AssertionBaseSchema = z.object({
-  assertionId: z.string().min(1),
+  assertionId: ArtifactIdSchema,
   afterStepId: z.string().min(1),
   target: z.string().min(1),
 });
@@ -336,7 +340,7 @@ export const ScenarioAssertionSchema = z.discriminatedUnion("kind", [
     expected: z.string(),
   }),
   z.object({
-    assertionId: z.string().min(1),
+    assertionId: ArtifactIdSchema,
     afterStepId: z.string().min(1),
     target: z.literal("$events"),
     kind: z.literal("event-trace"),
@@ -352,7 +356,7 @@ export const ScenarioAssertionSchema = z.discriminatedUnion("kind", [
     kind: z.literal("screenshot"),
     matcher: z.literal("pixel-diff"),
     name: ArtifactIdSchema,
-    maxDiffRatio: z.number().min(0).max(1),
+    maxDiffRatio: z.literal(0),
   }),
 ]);
 
@@ -378,6 +382,7 @@ export const ScenarioSchema = z
     }
 
     const assertionIds = new Set<string>();
+    const screenshotNames = new Set<string>();
     for (const assertion of scenario.assertions) {
       if (assertionIds.has(assertion.assertionId)) {
         context.addIssue({
@@ -386,6 +391,15 @@ export const ScenarioSchema = z
         });
       }
       assertionIds.add(assertion.assertionId);
+      if (assertion.kind === "screenshot") {
+        if (screenshotNames.has(assertion.name)) {
+          context.addIssue({
+            code: "custom",
+            message: `Duplicate screenshot name: ${assertion.name}`,
+          });
+        }
+        screenshotNames.add(assertion.name);
+      }
       if (!stepIds.has(assertion.afterStepId)) {
         context.addIssue({
           code: "custom",
@@ -457,41 +471,157 @@ export const EventRecordSchema = z.object({
 
 export type EventRecord = z.infer<typeof EventRecordSchema>;
 
-export const ObservationSchema = z.object({
+const NonScreenshotAssertionKindSchema = z.enum([
+  "count",
+  "text",
+  "class",
+  "visible",
+  "focus",
+  "attribute",
+  "computed-style",
+  "event-trace",
+]);
+
+const ObservationBaseSchema = z.object({
   assertionId: z.string().min(1),
   afterStepId: z.string().min(1),
-  kind: AssertionKindSchema,
-  actual: JsonValueSchema,
-  screenshotPath: z.string().nullable(),
-  screenshotHash: Sha256Schema.nullable(),
 });
+
+export const ObservationSchema = z.discriminatedUnion("kind", [
+  ObservationBaseSchema.extend({
+    kind: NonScreenshotAssertionKindSchema,
+    actual: JsonValueSchema,
+    screenshotPath: z.null(),
+    screenshotHash: z.null(),
+  }),
+  ObservationBaseSchema.extend({
+    kind: z.literal("screenshot"),
+    actual: z.null(),
+    screenshotPath: RelativePathSchema,
+    screenshotHash: Sha256Schema,
+  }),
+]);
 
 export type Observation = z.infer<typeof ObservationSchema>;
 
-export const ScenarioResultSchema = z.object({
-  scenarioId: z.string().min(1),
-  observations: z.array(ObservationSchema),
-});
+export const ScenarioResultSchema = z
+  .object({
+    scenarioId: ArtifactIdSchema,
+    observations: z.array(ObservationSchema),
+    videoPath: RelativePathSchema,
+    videoHash: Sha256Schema,
+  })
+  .superRefine((result, context) => {
+    const expectedPath = scenarioVideoPath(result.scenarioId);
+    if (result.videoPath !== expectedPath) {
+      context.addIssue({
+        code: "custom",
+        path: ["videoPath"],
+        message: `Expected scenario video path ${expectedPath}.`,
+      });
+    }
+  });
 
-export const CaptureManifestSchema = z.object({
-  schemaVersion: z.literal(1),
-  runId: RunIdSchema,
-  componentId: ComponentIdSchema,
-  surface: z.enum(["legacy", "react"]),
-  createdAt: z.string().datetime(),
-  baseUrl: z.string().url(),
-  projectInputHash: Sha256Schema,
-  captureConfigHash: Sha256Schema,
-  scenariosHash: Sha256Schema,
-  fixturesHash: Sha256Schema,
-  selectorsHash: Sha256Schema,
-  browserVersion: z.string().min(1),
-  viewport: z.object({
-    width: z.number().int().positive(),
-    height: z.number().int().positive(),
-  }),
-  results: z.array(ScenarioResultSchema),
+export type ScenarioResult = z.infer<typeof ScenarioResultSchema>;
+
+export const ComponentTestSurfaceSchema = z.enum(["legacy", "react"]);
+export type ComponentTestSurface = z.infer<
+  typeof ComponentTestSurfaceSchema
+>;
+
+export const ComponentTestResultSchema = z.object({
+  surface: ComponentTestSurfaceSchema,
+  command: z.string().min(1),
+  passed: z.boolean(),
+  output: z.string(),
+  inputHash: Sha256Schema,
 });
+export type ComponentTestResult = z.infer<
+  typeof ComponentTestResultSchema
+>;
+
+export const ProjectCheckResultSchema = z.object({
+  command: z.string().min(1),
+  ok: z.boolean(),
+  output: z.string(),
+});
+export type ProjectCheckResult = z.infer<
+  typeof ProjectCheckResultSchema
+>;
+
+export const CaptureChecksSchema = z.object({
+  componentTests: z.array(ComponentTestResultSchema),
+  projectChecks: z.array(ProjectCheckResultSchema),
+});
+export type CaptureChecks = z.infer<typeof CaptureChecksSchema>;
+
+export const CaptureManifestSchema = z
+  .object({
+    schemaVersion: z.literal(2),
+    runId: RunIdSchema,
+    componentId: ComponentIdSchema,
+    surface: ComponentTestSurfaceSchema,
+    createdAt: z.string().datetime(),
+    baseUrl: z.string().url(),
+    projectInputHash: Sha256Schema,
+    captureConfigHash: Sha256Schema,
+    scenariosHash: Sha256Schema,
+    fixturesHash: Sha256Schema,
+    selectorsHash: Sha256Schema,
+    browserVersion: z.string().min(1),
+    viewport: z.object({
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+    }),
+    checks: CaptureChecksSchema,
+    results: z.array(ScenarioResultSchema),
+  })
+  .superRefine((manifest, context) => {
+    const testSurfaces = manifest.checks.componentTests.map(
+      (test) => test.surface,
+    );
+    if (manifest.checks.componentTests.some((test) => !test.passed)) {
+      context.addIssue({
+        code: "custom",
+        path: ["checks", "componentTests"],
+        message: "Capture evidence cannot contain a failed component test.",
+      });
+    }
+    if (manifest.checks.projectChecks.some((check) => !check.ok)) {
+      context.addIssue({
+        code: "custom",
+        path: ["checks", "projectChecks"],
+        message: "Capture evidence cannot contain a failed project check.",
+      });
+    }
+    if (
+      manifest.surface === "legacy" &&
+      (testSurfaces.length !== 1 ||
+        testSurfaces[0] !== "legacy" ||
+        manifest.checks.projectChecks.length !== 0)
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["checks"],
+        message:
+          "Legacy captures require one legacy component test and no project checks.",
+      });
+    }
+    if (
+      manifest.surface === "react" &&
+      (testSurfaces.length !== 2 ||
+        !testSurfaces.includes("legacy") ||
+        !testSurfaces.includes("react") ||
+        manifest.checks.projectChecks.length === 0)
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["checks"],
+        message:
+          "React captures require legacy and React component tests plus project checks.",
+      });
+    }
+  });
 
 export type CaptureManifest = z.infer<typeof CaptureManifestSchema>;
 
@@ -502,6 +632,61 @@ export const ParityMismatchSchema = z.object({
   legacyValue: JsonValueSchema,
   reactValue: JsonValueSchema,
 });
+
+const ScreenshotSizeSchema = z.object({
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+});
+
+export const ImageComparisonSchema = z.object({
+  scenarioId: ArtifactIdSchema,
+  stepId: z.string().min(1),
+  assertionId: ArtifactIdSchema,
+  baselineScreenshotPath: RelativePathSchema,
+  baselineScreenshotHash: Sha256Schema,
+  baselineScreenshotSize: ScreenshotSizeSchema,
+  reactScreenshotPath: RelativePathSchema,
+  reactScreenshotHash: Sha256Schema,
+  reactScreenshotSize: ScreenshotSizeSchema,
+  diffPath: RelativePathSchema,
+  diffHash: Sha256Schema,
+  totalPixels: z.number().int().positive(),
+  changedPixels: z.number().int().nonnegative(),
+  diffRatio: z.number().min(0).max(1),
+  allowedChangedPixels: z.literal(0),
+  exact: z.boolean(),
+});
+export type ImageComparison = z.infer<typeof ImageComparisonSchema>;
+
+export const RecordingComparisonSchema = z
+  .object({
+    scenarioId: ArtifactIdSchema,
+    baselineVideoPath: RelativePathSchema,
+    baselineVideoHash: Sha256Schema,
+    reactVideoPath: RelativePathSchema,
+    reactVideoHash: Sha256Schema,
+  })
+  .superRefine((recording, context) => {
+    const expectedPath = scenarioVideoPath(recording.scenarioId);
+    if (recording.baselineVideoPath !== expectedPath) {
+      context.addIssue({
+        code: "custom",
+        path: ["baselineVideoPath"],
+        message: `Expected baseline video path ${expectedPath}.`,
+      });
+    }
+    if (recording.reactVideoPath !== expectedPath) {
+      context.addIssue({
+        code: "custom",
+        path: ["reactVideoPath"],
+        message: `Expected React video path ${expectedPath}.`,
+      });
+    }
+  });
+
+export type RecordingComparison = z.infer<
+  typeof RecordingComparisonSchema
+>;
 
 export const ParityResultSchema = z.object({
   status: z.enum(["PARITY", "MISMATCH"]),
@@ -514,6 +699,9 @@ export const ParityResultSchema = z.object({
   acceptedDifferencesHash: Sha256Schema,
   scenariosHash: Sha256Schema,
   mismatches: z.array(ParityMismatchSchema),
+  recordings: z.array(RecordingComparisonSchema),
+  imageComparisons: z.array(ImageComparisonSchema),
+  acceptedDifferencesUsed: z.array(ArtifactIdSchema),
 });
 
 export type ParityResultData = z.infer<typeof ParityResultSchema>;
@@ -530,6 +718,26 @@ export const MigrationSpecSchema = MigrationDefinitionSchema.extend({
     config.scenarios.map((scenario) => [scenario.id, scenario]),
   );
   for (const scenario of config.scenarios) {
+    const terminalStep = scenario.steps.at(-1);
+    const hasTerminalScreenshot =
+      terminalStep !== undefined &&
+      scenario.assertions.some(
+        (assertion) =>
+          assertion.kind === "screenshot" &&
+          assertion.afterStepId === terminalStep.stepId,
+      );
+    const hasApprovedDifference = config.acceptedDifferences.some(
+      (difference) =>
+        difference.scenarioId === scenario.id &&
+        difference.approval.status === "approved",
+    );
+    if (!hasTerminalScreenshot && !hasApprovedDifference) {
+      context.addIssue({
+        code: "custom",
+        path: ["scenarios"],
+        message: `Scenario ${scenario.id} requires a terminal screenshot or an approved difference.`,
+      });
+    }
     if (config.fixtures[scenario.fixture] === undefined) {
       context.addIssue({
         code: "custom",

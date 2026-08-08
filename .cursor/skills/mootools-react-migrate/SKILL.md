@@ -19,6 +19,35 @@ verification passes.
 - Stop for human approval when a decision is pending.
 - Use the adapter only when callers need an intermediate mount function.
 - Do not push, deploy, or write an adapter without user authority.
+- Generate, inspect, and report the worksheet, manifests, screenshots,
+  recordings, and diffs. Keep all generated media local and ignored. Do not
+  commit these generated files.
+
+## TypeScript
+
+Use TypeScript for new React code. Keep the types focused on the migration.
+
+- Type component props, local state, function inputs and outputs, and new React
+  API contracts.
+- Use inference when an initializer or function body makes the same type clear.
+  Do not repeat that type in an annotation.
+- Define a small interface for only the legacy members that the React boundary
+  calls.
+- Use `unknown` for untrusted legacy values. Use narrowly scoped `any` only
+  when a MooTools value cannot be described cheaply. Do not let `any` spread
+  past the boundary.
+- Prefer inline unions and callback types inside one boundary type. Extract a
+  named type only when code reuses it or it names a real domain concept.
+- Do not model the full MooTools class or type untouched legacy files.
+- Do not add generics, branded types, mapped types, conditional types, wrappers,
+  or helper abstractions only to improve typing.
+- Do not refactor behavior or expand the migration scope to improve types.
+- Preserve behavior and parity first. Add stronger types only when a migrated
+  caller or a failing check requires them.
+- Remove a type if it does not catch a migration bug or make the boundary
+  easier to understand.
+
+**Type the seam, not the legacy implementation.**
 
 ## 1. Analyze
 
@@ -42,7 +71,8 @@ npm run migrate -- baseline <component> \
 
 This command runs the legacy unit test before browser capture. Review the
 worksheet and baseline. Resolve every pending product decision in
-`migration.json` before writing React.
+`migration.json` before writing React. The baseline saves one legacy WebM for
+each scenario under `recordings/<scenario>.webm`.
 
 ## 3. Define the boundary
 
@@ -69,8 +99,30 @@ npm run migrate -- verify <component> \
 
 `verify` checks decisions, new MooTools uses, both unit tests, type checking,
 the production build, baseline freshness, browser behavior, event order,
-focus, styles, and screenshots. Fix React and rerun until the result is
-`PARITY` with `attested: true`.
+focus, styles, and screenshots. It prints the saved `final` or `final.failed`
+evidence directory.
+
+## Verification gate
+
+Do not claim parity until every item passes.
+
+- Run the focused legacy and React unit tests. The saved test receipts must
+  match the configured source, test file, and dependencies.
+- Add a component screenshot for every meaningful visual state that must be
+  exact.
+- Save one legacy WebM and one React WebM for every scenario. Recordings are
+  inspection evidence, not a visual parity assertion. Screenshots remain exact
+  parity evidence.
+- Require equal image dimensions and zero changed pixels. Do not add visual
+  tolerance.
+- Save the baseline image, the React image, and the diff image for every
+  screenshot assertion, including exact matches.
+- Review the saved manifests, recordings, images, diffs, and `parity.json`.
+- Do not update the baseline to make React pass.
+- Do not claim parity for an approved visual difference. Leave that scenario
+  without an exact screenshot assertion and document the approved difference.
+
+Fix React and rerun until the result is `PARITY` with `attested: true`.
 
 ## Rebase and cleanup
 

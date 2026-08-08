@@ -6,9 +6,10 @@ import { describe, expect, it } from "vitest";
 
 import { runComponentTest } from "../src/checks/component-tests.js";
 import { MigrationSpecSchema } from "../src/contracts/schemas.js";
+import { hashProjectFiles } from "../src/core/fingerprint.js";
 
 describe("component tests", () => {
-  it("runs the configured test live without stored evidence", async () => {
+  it("binds the test receipt to its configured inputs", async () => {
     const projectRoot = await mkdtemp(join(tmpdir(), "component-test-"));
     await mkdir(join(projectRoot, "components/widget"), { recursive: true });
     await mkdir(join(projectRoot, "src"), { recursive: true });
@@ -31,6 +32,11 @@ describe("component tests", () => {
       "export {};\n",
       "utf8",
     );
+    await writeFile(
+      join(projectRoot, "components/widget/runtime.js"),
+      "export const ready = true;\n",
+      "utf8",
+    );
     const config = MigrationSpecSchema.parse({
       schemaVersion: 1,
       id: "widget",
@@ -42,7 +48,7 @@ describe("component tests", () => {
       callsiteGlobs: ["main.js"],
       tests: {
         legacyFile: "components/widget/Widget.legacy.test.ts",
-        legacyDependencies: [],
+        legacyDependencies: ["components/widget/runtime.js"],
         reactFile: "src/Widget.test.tsx",
         reactDependencies: [],
       },
@@ -88,6 +94,15 @@ describe("component tests", () => {
               matcher: "equals",
               expected: 1,
             },
+            {
+              assertionId: "component-image",
+              afterStepId: "observe",
+              target: "component",
+              kind: "screenshot",
+              matcher: "pixel-diff",
+              name: "component",
+              maxDiffRatio: 0,
+            },
           ],
         },
       ],
@@ -104,6 +119,14 @@ describe("component tests", () => {
       config,
       surface: "legacy",
     });
+    const expectedInputHash = await hashProjectFiles({
+      projectRoot,
+      paths: [
+        "components/widget/Widget.js",
+        "components/widget/Widget.legacy.test.ts",
+        "components/widget/runtime.js",
+      ],
+    });
     await writeFile(
       join(projectRoot, "components/widget/Widget.js"),
       "var Widget = function changed() {};\n",
@@ -116,6 +139,8 @@ describe("component tests", () => {
     });
 
     expect(first.passed).toBe(true);
+    expect(first.inputHash).toBe(expectedInputHash);
     expect(second.passed).toBe(true);
+    expect(second.inputHash).not.toBe(first.inputHash);
   });
 });

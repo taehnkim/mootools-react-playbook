@@ -66,8 +66,37 @@ npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-`verify` succeeds only when browser comparison reaches `PARITY` with
-`attested: true`.
+`verify` succeeds only when both focused unit tests and all project checks
+pass, every exact screenshot has equal dimensions and zero changed pixels,
+and browser comparison reaches `PARITY` with `attested: true`.
+
+## Saved verification evidence
+
+The worksheet, manifests, screenshots, recordings, and diffs are generated
+locally and ignored by Git. Each scenario records one legacy WebM and one React
+WebM. Videos are inspection evidence. Screenshots remain the exact parity
+evidence.
+
+- `tools/mootools-migrate/components/<component>/baseline/manifest.json`
+  records the hash-bound legacy test receipt. Baseline screenshots sit beside
+  it under `<scenario>/<name>.png`. Legacy recordings use
+  `recordings/<scenario>.webm`.
+- `tools/mootools-migrate/components/<component>/final/manifest.json` records
+  both test receipts and the project checks. React recordings use
+  `recordings/<scenario>.webm`.
+- `tools/mootools-migrate/components/<component>/final/parity.json` records
+  every paired recording and image comparison. The tool verifies each
+  recording against its manifest hash but does not compare the two videos.
+  React screenshots use `<scenario>/<name>.png`. Diff images use
+  `diffs/<scenario>/<assertion>.png`, including exact matches.
+- A mismatch writes the complete candidate to
+  `tools/mootools-migrate/components/<component>/final.failed/`. The last
+  passing `final/` stays unchanged. A later pass removes `final.failed/`.
+
+All generated media stays local and ignored. Review the legacy and React
+recordings and the saved baseline, React, and diff images before claiming
+parity. Do not refresh a valid baseline to make React pass. An approved visual
+difference is not visual parity and must not use an exact screenshot claim.
 
 ## Layout
 
@@ -80,7 +109,16 @@ tools/mootools-migrate/
     migration.json
     worksheet.generated.json
     baseline/
+      manifest.json
+      recordings/<scenario>.webm
+      <scenario>/<name>.png
     final/
+      manifest.json
+      parity.json
+      recordings/<scenario>.webm
+      <scenario>/<name>.png
+      diffs/<scenario>/<assertion>.png
+    final.failed/
 components/                 MooTools source and legacy tests
 src/components/             React source and tests
 ```
@@ -89,11 +127,9 @@ src/components/             React source and tests
 paired selectors, decisions, accepted differences, allowed legacy uses, and
 the optional adapter configuration.
 
-## Current example
+## Example
 
-TabPane includes:
-
-- A passing MooTools unit test.
-- A passing React unit test.
-- A reviewed legacy baseline.
-- A final attested parity result with no mismatches.
+See the [TabPane migration example](examples/tab-pane-migration.md) for the
+four commands, scenario recordings, sample test receipts, one exact image
+comparison, and the accepted differences. The example is documentation, not
+live proof.
