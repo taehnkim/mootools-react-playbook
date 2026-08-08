@@ -292,14 +292,21 @@ function renderAdapter(config: MigrationSpec): string {
   return `(function (global) {
   global[${JSON.stringify(config.adapter.globalName)}] = function (container, options, initialIndex) {
     var tableManager = global[${JSON.stringify(config.adapter.tableManagerGlobal)}];
-    if (tableManager && tableManager.isEnabled(${JSON.stringify(config.adapter.flagName)})) {
+    if (!tableManager) {
+      return new global[${JSON.stringify(config.legacyGlobal)}](container, options, initialIndex);
+    }
+    var implementation = tableManager.get(${JSON.stringify(config.adapter.selectionKey)});
+    if (implementation === ${JSON.stringify(config.adapter.legacyValue)}) {
+      return new global[${JSON.stringify(config.legacyGlobal)}](container, options, initialIndex);
+    }
+    if (implementation === ${JSON.stringify(config.adapter.reactValue)}) {
       var reactMount = global[${JSON.stringify(config.adapter.reactMountGlobal)}];
       if (typeof reactMount !== "function") {
         throw new Error(${JSON.stringify(`React mount global ${config.adapter.reactMountGlobal} is not available.`)});
       }
       return reactMount(container, options, initialIndex);
     }
-    return new global[${JSON.stringify(config.legacyGlobal)}](container, options, initialIndex);
+    throw new Error(${JSON.stringify(`Table manager returned an unsupported implementation for ${config.adapter.selectionKey}: `)} + String(implementation) + ".");
   };
 })(window);
 `;

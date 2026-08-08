@@ -98,6 +98,11 @@ const MigrationDefinitionSchema = z.object({
     legacyStaticFixtureId: z.string().min(1),
     reactAcknowledgementPath: z.array(z.string().min(1)).min(1),
   }),
+  implementationBridge: z.object({
+    windowKey: z.string().min(1),
+    legacyValue: z.string().min(1),
+    reactValue: z.string().min(1),
+  }),
   legacy: z.object({
     entryPath: z.string().startsWith("/"),
     readyPath: z.array(z.string().min(1)).min(1),
@@ -117,7 +122,9 @@ const MigrationDefinitionSchema = z.object({
   }),
   adapter: z.object({
     globalName: z.string().min(1),
-    flagName: z.string().min(1),
+    selectionKey: z.string().min(1),
+    legacyValue: z.string().min(1),
+    reactValue: z.string().min(1),
     tableManagerGlobal: z.string().min(1),
     reactMountGlobal: z.string().min(1),
     outputPath: RelativePathSchema,

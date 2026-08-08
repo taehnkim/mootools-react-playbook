@@ -14,6 +14,7 @@ declare global {
     ReactSandbox?: ReactSandbox;
     __MOOTOOLS_MIGRATION_FIXTURE__?: unknown;
     __MOOTOOLS_MIGRATION_FIXTURE_ID__?: unknown;
+    __TAB_PANE_IMPLEMENTATION__?: unknown;
     mountReactTabPane: typeof mountReactTabPane;
     tableManager: MockTableManager;
   }

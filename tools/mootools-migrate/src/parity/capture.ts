@@ -203,10 +203,23 @@ export function captureConfigHash(
   return hashJson(
     JsonValueSchema.parse({
       fixtureBridge: config.fixtureBridge,
+      implementationBridge: {
+        windowKey: config.implementationBridge.windowKey,
+        value: implementationValue(config, surface),
+      },
       eventNames: config.legacy.eventNames,
       surface: config[surface],
     }),
   );
+}
+
+function implementationValue(
+  config: MigrationSpec,
+  surface: CaptureSurface,
+): string {
+  return surface === "legacy"
+    ? config.implementationBridge.legacyValue
+    : config.implementationBridge.reactValue;
 }
 
 async function runRecordedScenario(options: {
@@ -282,15 +295,28 @@ async function runScenario(options: {
 
   rejectStartupEventAssertions(options.scenario);
   await options.page.addInitScript(
-    ({ fixtureId, fixtureJson, idKey, valueKey }) => {
+    ({
+      fixtureId,
+      fixtureJson,
+      idKey,
+      implementationKey,
+      implementationValue,
+      valueKey,
+    }) => {
       const fixture: unknown = JSON.parse(fixtureJson);
       Reflect.set(window, idKey, fixtureId);
+      Reflect.set(window, implementationKey, implementationValue);
       Reflect.set(window, valueKey, fixture);
     },
     {
       fixtureId: options.scenario.fixture,
       fixtureJson: JSON.stringify(options.fixture),
       idKey: options.config.fixtureBridge.windowIdKey,
+      implementationKey: options.config.implementationBridge.windowKey,
+      implementationValue: implementationValue(
+        options.config,
+        options.surface,
+      ),
       valueKey: options.config.fixtureBridge.windowValueKey,
     },
   );

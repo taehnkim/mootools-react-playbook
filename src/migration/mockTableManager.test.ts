@@ -1,27 +1,35 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { mockTableManager } from "./mockTableManager";
-
-beforeEach(() => {
-  window.history.replaceState(null, "", "/");
-});
+import { createMockTableManager } from "./mockTableManager";
 
 describe("mockTableManager", () => {
-  it("uses the legacy branch by default", () => {
-    expect(mockTableManager.isEnabled("react-tab-pane")).toBe(false);
+  it("returns the injected legacy implementation", () => {
+    const manager = createMockTableManager("legacy-TabPane");
+
+    expect(manager.get("TabPane")).toBe("legacy-TabPane");
   });
 
-  it("enables the React TabPane branch from the URL query", () => {
-    window.history.replaceState(null, "", "/?tab-pane=react");
+  it("returns the injected React implementation", () => {
+    const manager = createMockTableManager("react-TabPane");
 
-    expect(mockTableManager.isEnabled("react-tab-pane")).toBe(true);
+    expect(manager.get("TabPane")).toBe("react-TabPane");
   });
 
-  it("keeps unknown flag and query values on the legacy branch", () => {
-    window.history.replaceState(null, "", "/?tab-pane=unknown");
-    expect(mockTableManager.isEnabled("react-tab-pane")).toBe(false);
+  it("defaults missing injected state to the legacy implementation", () => {
+    const manager = createMockTableManager();
 
-    window.history.replaceState(null, "", "/?tab-pane=react");
-    expect(mockTableManager.isEnabled("unknown-flag")).toBe(false);
+    expect(manager.get("TabPane")).toBe("legacy-TabPane");
+  });
+
+  it("defaults an unknown injected value to the legacy implementation", () => {
+    const manager = createMockTableManager("unknown-TabPane");
+
+    expect(manager.get("TabPane")).toBe("legacy-TabPane");
+  });
+
+  it("returns no implementation for unrelated selection keys", () => {
+    const manager = createMockTableManager("react-TabPane");
+
+    expect(manager.get("BrandBox")).toBeUndefined();
   });
 });

@@ -27,6 +27,13 @@ describe("migration config", () => {
       legacy: "#tab-pane",
       react: '[data-migration-component="tab-pane"]',
     });
+    expect(config.implementationBridge).toEqual({
+      windowKey: "__TAB_PANE_IMPLEMENTATION__",
+      legacyValue: "legacy-TabPane",
+      reactValue: "react-TabPane",
+    });
+    expect(config.legacy.entryPath).toBe("/");
+    expect(config.react.entryPath).toBe("/");
   });
 
   it("rejects component paths that can escape the tools directory", async () => {
@@ -75,6 +82,13 @@ describe("migration config", () => {
         entryPath: "/changed-react.html",
       },
     });
+    const bridgeEdit = MigrationSpecSchema.parse({
+      ...config,
+      implementationBridge: {
+        ...config.implementationBridge,
+        reactValue: "react-TabPane-next",
+      },
+    });
 
     expect(captureConfigHash(decisionEdit, "legacy")).toBe(
       captureConfigHash(config, "legacy"),
@@ -86,6 +100,12 @@ describe("migration config", () => {
       captureConfigHash(config, "legacy"),
     );
     expect(captureConfigHash(reactEdit, "react")).not.toBe(
+      captureConfigHash(config, "react"),
+    );
+    expect(captureConfigHash(bridgeEdit, "legacy")).toBe(
+      captureConfigHash(config, "legacy"),
+    );
+    expect(captureConfigHash(bridgeEdit, "react")).not.toBe(
       captureConfigHash(config, "react"),
     );
   });

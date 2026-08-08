@@ -145,6 +145,7 @@ npm run migrate -- verify tab-pane \
           <article>
             <h3>Preview the adapter <span class="badge neutral">Dry run by default</span></h3>
             <p>The first command prints the complete plan. Run the second command only after approval. It applies every edit or restores the original files.</p>
+            <p>The host or browser proof runner sets the configured implementation value before bootstrap. Both proof surfaces load <code>/</code>. Bootstrap creates the table manager from the injected value, not the URL.</p>
             <pre><code>npm run migrate -- adapter tab-pane
 npm run migrate -- adapter tab-pane --write</code></pre>
             <h4>Configured binary branch</h4>
@@ -162,7 +163,7 @@ npm run migrate -- adapter tab-pane --write</code></pre>
         <li>
           <article>
             <h3>Capture the legacy fallback baseline</h3>
-            <p>Run the focused legacy test through the shared mount with the flag off, then capture observations, screenshots, and one WebM per scenario.</p>
+            <p>Inject <code>legacy-TabPane</code> before bootstrap, run the focused legacy test through the shared mount, then capture observations, screenshots, and one WebM per scenario.</p>
             <pre><code>npm run migrate -- baseline tab-pane \
   --base-url http://127.0.0.1:5173</code></pre>
             <h4>Artifacts</h4>
@@ -176,7 +177,7 @@ npm run migrate -- adapter tab-pane --write</code></pre>
         <li>
           <article>
             <h3>Verify React parity</h3>
-            <p>Run both focused tests, project checks, browser scenarios, exact image comparisons, and approved behavior checks.</p>
+            <p>Inject <code>react-TabPane</code> before bootstrap, then run both focused tests, project checks, browser scenarios, exact image comparisons, and approved behavior checks.</p>
             <pre><code>npm run migrate -- verify tab-pane \
   --base-url http://127.0.0.1:5173</code></pre>
             <h4>Artifacts</h4>
@@ -390,6 +391,7 @@ npm run migrate -- adapter tab-pane --write</code></pre>
     function renderEvidence(evidence) {
       const { migration, worksheet, baseline, final, parity } = evidence;
       const adapter = migration.adapter || {};
+      const implementationBridge = migration.implementationBridge || {};
       const scenarios = asArray(migration.scenarios);
       const recordings = asArray(parity.recordings);
       const imageComparisons = asArray(parity.imageComparisons);
@@ -398,11 +400,15 @@ npm run migrate -- adapter tab-pane --write</code></pre>
       const changedPixels = imageComparisons.reduce((total, item) => total + Number(item.changedPixels || 0), 0);
       const parityPassed = parity.status === "PARITY" && parity.attested === true;
       const adapterDetails = [
-        ["Flag", JSON.stringify(adapter.flagName || "missing")],
+        ["Implementation global", browserGlobal(implementationBridge.windowKey)],
+        ["Selection key", JSON.stringify(adapter.selectionKey || "missing")],
+        ["Legacy value", JSON.stringify(adapter.legacyValue || "missing")],
+        ["React value", JSON.stringify(adapter.reactValue || "missing")],
         ["Table manager", browserGlobal(adapter.tableManagerGlobal)],
         ["React mount", browserGlobal(adapter.reactMountGlobal)],
-        ["Legacy branch", `missing manager or false flag calls new ${browserGlobal(migration.legacyGlobal)}(...)`],
-        ["React branch", `true flag calls ${browserGlobal(adapter.reactMountGlobal)}(container, options, initialIndex)`]
+        ["Legacy branch", `missing manager or get(${JSON.stringify(adapter.selectionKey)}) === ${JSON.stringify(adapter.legacyValue)} calls new ${browserGlobal(migration.legacyGlobal)}(...)`],
+        ["React branch", `get(${JSON.stringify(adapter.selectionKey)}) === ${JSON.stringify(adapter.reactValue)} calls ${browserGlobal(adapter.reactMountGlobal)}(container, options, initialIndex)`],
+        ["Invalid branch", "any other manager value throws"]
       ];
       for (const [label, value] of adapterDetails) {
         const item = make("div");

@@ -58,6 +58,11 @@ describe("component tests", () => {
         legacyStaticFixtureId: "default",
         reactAcknowledgementPath: ["ReactSandbox", "fixtureId"],
       },
+      implementationBridge: {
+        windowKey: "__WIDGET_IMPLEMENTATION__",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+      },
       legacy: {
         entryPath: "/",
         readyPath: ["Widget"],
@@ -74,7 +79,9 @@ describe("component tests", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountWidget",
-        flagName: "react-widget",
+        selectionKey: "Widget",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
         tableManagerGlobal: "tableManager",
         reactMountGlobal: "mountReactWidget",
         outputPath: "adapters/mount-widget.js",

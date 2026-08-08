@@ -5,11 +5,13 @@ import tabPaneUrl from "./components/tab-pane/TabPane.js?url";
 import mainUrl from "./main.js?url";
 import mountAdapterUrl from "./adapters/mount-tab-pane.js?url";
 import { mountReactTabPane } from "./src/components/tab-pane/mountTabPane";
-import { mockTableManager } from "./src/migration/mockTableManager";
+import { createMockTableManager } from "./src/migration/mockTableManager";
 import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
 import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
 
-window.tableManager = mockTableManager;
+window.tableManager = createMockTableManager(
+  window.__TAB_PANE_IMPLEMENTATION__,
+);
 window.mountReactTabPane = mountReactTabPane;
 
 const scriptSources: readonly string[] = [

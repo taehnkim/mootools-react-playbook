@@ -38,6 +38,11 @@ describe("legacy-use scanner", () => {
         legacyStaticFixtureId: "default",
         reactAcknowledgementPath: ["ReactSandbox", "fixtureId"],
       },
+      implementationBridge: {
+        windowKey: "__TAB_PANE_IMPLEMENTATION__",
+        legacyValue: "legacy-TabPane",
+        reactValue: "react-TabPane",
+      },
       legacy: {
         entryPath: "/legacy/",
         readyPath: ["MooSandbox", "tabPane"],
@@ -54,7 +59,9 @@ describe("legacy-use scanner", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountTabPane",
-        flagName: "react-tab-pane",
+        selectionKey: "TabPane",
+        legacyValue: "legacy-TabPane",
+        reactValue: "react-TabPane",
         tableManagerGlobal: "tableManager",
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",

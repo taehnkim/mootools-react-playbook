@@ -19,7 +19,7 @@ build shared mount and apply reviewed adapter
 run legacy fallback test and capture baseline
           |
           v
-run React flag tests, browser parity, typecheck, and build
+run React branch tests, browser parity, typecheck, and build
           |
           v
 React component + tests + final proof
@@ -43,9 +43,14 @@ npm run migrate:setup
 npm run dev
 ```
 
-- `http://localhost:5173/` runs the MooTools application.
-- `http://localhost:5173/?tab-pane=react` runs TabPane through the shared mount.
+- `http://localhost:5173/` runs TabPane through the shared mount.
 - `http://localhost:5173/react.html` runs the standalone React page.
+
+Before `bootstrap.ts` runs, the host can set
+`window.__TAB_PANE_IMPLEMENTATION__` to `legacy-TabPane` or `react-TabPane`.
+Missing and unknown injected values select `legacy-TabPane`. The browser proof
+runner sets the configured value before it loads `/`; the URL does not select
+the implementation.
 
 ## Migration commands
 
@@ -75,17 +80,19 @@ The adapter command is a dry run unless it receives `--write`. An approved
 write applies the generated adapter, caller rewrite, and load-order edit
 atomically.
 
-The generated adapter checks the configured table manager. A missing manager
-or a disabled flag constructs the legacy class. An enabled flag requires the
-configured React mount and forwards the same container, options, and initial
-index. A missing enabled mount throws.
+The generated adapter calls `tableManager.get("TabPane")`. A missing manager or
+the `legacy-TabPane` result constructs the legacy class. The `react-TabPane`
+result requires the React mount and forwards the same container, options, and
+initial index. Any other manager value throws. A missing React mount throws.
 
 TabPane keeps the mount groundwork in these tracked files:
 
-- `src/migration/mockTableManager.ts` selects the URL-controlled branch.
+- `src/migration/mockTableManager.ts` normalizes the injected implementation
+  and exposes the `TabPane` selection.
 - `src/components/tab-pane/mountTabPane.tsx` snapshots the host DOM and mounts
   React into the existing container.
-- `bootstrap.ts` registers both globals before classic scripts load.
+- `bootstrap.ts` reads `window.__TAB_PANE_IMPLEMENTATION__`, creates the table
+  manager, and registers both globals before classic scripts load.
 
 The approved adapter write generates `adapters/mount-tab-pane.js` and rewrites
 `main.js`. Do not create either codemod edit by hand.
@@ -151,8 +158,10 @@ adapters/                   Generated caller adapters after approved writes
 
 `migration.json` is the human-owned migration input. It contains scenarios,
 paired selectors, decisions, accepted differences, allowed legacy uses, and
-the optional adapter configuration. The adapter config names its flag, table
-manager global, and React mount global.
+the implementation bridge and adapter configuration. The implementation bridge
+names the injected window key and both implementation values. The adapter
+config names its selection key, branch values, table manager global, and React
+mount global.
 
 ## Live example
 

@@ -40,6 +40,11 @@
       "fixtureId"
     ]
   },
+  "implementationBridge": {
+    "windowKey": "__TAB_PANE_IMPLEMENTATION__",
+    "legacyValue": "legacy-TabPane",
+    "reactValue": "react-TabPane"
+  },
   "legacy": {
     "entryPath": "/",
     "readyPath": [
@@ -65,7 +70,7 @@
     ]
   },
   "react": {
-    "entryPath": "/?tab-pane=react",
+    "entryPath": "/",
     "readySelector": "[data-migration-component=\"tab-pane\"]",
     "handlePath": [
       "ReactSandbox",
@@ -90,7 +95,9 @@
   },
   "adapter": {
     "globalName": "mountTabPane",
-    "flagName": "react-tab-pane",
+    "selectionKey": "TabPane",
+    "legacyValue": "legacy-TabPane",
+    "reactValue": "react-TabPane",
     "tableManagerGlobal": "tableManager",
     "reactMountGlobal": "mountReactTabPane",
     "outputPath": "adapters/mount-tab-pane.js",

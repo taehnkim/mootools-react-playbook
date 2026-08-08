@@ -69,13 +69,21 @@ legacy class API.
 
 Build and test these mount artifacts before changing callers:
 
+- The implementation bridge. It names the injected window key and the exact
+  legacy and React values.
 - The configured table manager global. A missing manager selects legacy.
-- The configured React mount global. An enabled flag without this mount throws.
-- Bootstrap registration for both globals before classic scripts load.
+- The configured React mount global. The React value without this mount throws.
+- Bootstrap reads the injected value, creates the manager, and registers both
+  globals before classic scripts load.
 
-The generated adapter has two branches. It calls the React mount with the
-original arguments when the configured flag is enabled. Otherwise it constructs
-the legacy class with those arguments.
+The host sets the implementation value before bootstrap. The browser proof
+runner does the same before it loads `/` for either surface. Do not select an
+implementation from the URL.
+
+The generated adapter reads the configured selection key. A missing manager or
+the configured legacy value constructs the legacy class with the original
+arguments. The configured React value calls the React mount with those
+arguments. Any other manager value throws.
 
 Preview the optional adapter:
 
@@ -107,7 +115,8 @@ This command runs the legacy unit test before browser capture. Review the
 worksheet and baseline. Resolve every pending product decision in
 `migration.json` before writing React. The baseline saves one legacy WebM for
 each scenario under `recordings/<scenario>.webm`. The shared mount must select
-the legacy branch during this capture.
+the legacy branch during this capture. The browser runner injects the configured
+legacy implementation value before bootstrap.
 
 ## 4. Implement and verify
 
@@ -150,5 +159,5 @@ Fix React and rerun until the result is `PARITY` with `attested: true`.
 If upstream changes the legacy component, rerun `baseline` and port the change
 before verification.
 
-Remove obsolete globals, compatibility wrappers, feature flags, temporary
-selectors, and direct MooTools calls when React takes ownership.
+Remove obsolete globals, compatibility wrappers, implementation bridges,
+temporary selectors, and direct MooTools calls when React takes ownership.

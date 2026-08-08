@@ -51,6 +51,11 @@ describe("adapter codemod", () => {
         legacyStaticFixtureId: "default",
         reactAcknowledgementPath: ["ReactSandbox", "fixtureId"],
       },
+      implementationBridge: {
+        windowKey: "__TAB_PANE_IMPLEMENTATION__",
+        legacyValue: "legacy-TabPane",
+        reactValue: "react-TabPane",
+      },
       legacy: {
         entryPath: "/legacy/",
         readyPath: ["MooSandbox", "tabPane"],
@@ -67,7 +72,9 @@ describe("adapter codemod", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountTabPane",
-        flagName: "react-tab-pane",
+        selectionKey: "TabPane",
+        legacyValue: "legacy-TabPane",
+        reactValue: "react-TabPane",
         tableManagerGlobal: "tableManager",
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
@@ -140,7 +147,13 @@ describe("adapter codemod", () => {
       throw new Error("The generated adapter edit is missing.");
     }
     expect(adapterAfter).toContain(
-      'if (tableManager && tableManager.isEnabled("react-tab-pane"))',
+      'var implementation = tableManager.get("TabPane");',
+    );
+    expect(adapterAfter).toContain(
+      'if (implementation === "legacy-TabPane")',
+    );
+    expect(adapterAfter).toContain(
+      'if (implementation === "react-TabPane")',
     );
     expect(adapterAfter).toContain(
       "return reactMount(container, options, initialIndex);",
@@ -167,30 +180,37 @@ describe("adapter codemod", () => {
     expect(legacyResult).toBeInstanceOf(LegacyTabPane);
     expectForwarded(legacyCalls, container, options, initialIndex);
 
-    const disabledFlags: string[] = [];
-    const disabledCalls: unknown[][] = [];
-    class DisabledLegacyTabPane {
+    const legacySelectionKeys: string[] = [];
+    const explicitLegacyCalls: unknown[][] = [];
+    class ExplicitLegacyTabPane {
       constructor(...args: unknown[]) {
-        disabledCalls.push(args);
+        explicitLegacyCalls.push(args);
       }
     }
-    const disabledAdapter = evaluateAdapter(adapterAfter, {
-      TabPane: DisabledLegacyTabPane,
+    const explicitLegacyAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: ExplicitLegacyTabPane,
       tableManager: {
-        isEnabled(flagName: string) {
-          disabledFlags.push(flagName);
-          return false;
+        get(selectionKey: string) {
+          legacySelectionKeys.push(selectionKey);
+          return "legacy-TabPane";
         },
       },
     });
 
-    expect(disabledAdapter(container, options, initialIndex)).toBeInstanceOf(
-      DisabledLegacyTabPane,
+    expect(
+      explicitLegacyAdapter(container, options, initialIndex),
+    ).toBeInstanceOf(
+      ExplicitLegacyTabPane,
     );
-    expect(disabledFlags).toEqual(["react-tab-pane"]);
-    expectForwarded(disabledCalls, container, options, initialIndex);
+    expect(legacySelectionKeys).toEqual(["TabPane"]);
+    expectForwarded(
+      explicitLegacyCalls,
+      container,
+      options,
+      initialIndex,
+    );
 
-    const requestedFlags: string[] = [];
+    const requestedSelectionKeys: string[] = [];
     const reactCalls: unknown[][] = [];
     const reactResult = { owner: "react" };
     const reactAdapter = evaluateAdapter(adapterAfter, {
@@ -200,9 +220,9 @@ describe("adapter codemod", () => {
         }
       },
       tableManager: {
-        isEnabled(flagName: string) {
-          requestedFlags.push(flagName);
-          return true;
+        get(selectionKey: string) {
+          requestedSelectionKeys.push(selectionKey);
+          return "react-TabPane";
         },
       },
       mountReactTabPane(...args: unknown[]) {
@@ -212,14 +232,26 @@ describe("adapter codemod", () => {
     });
 
     expect(reactAdapter(container, options, initialIndex)).toBe(reactResult);
-    expect(requestedFlags).toEqual(["react-tab-pane"]);
+    expect(requestedSelectionKeys).toEqual(["TabPane"]);
     expectForwarded(reactCalls, container, options, initialIndex);
+
+    const invalidAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: LegacyTabPane,
+      tableManager: {
+        get() {
+          return "unknown-TabPane";
+        },
+      },
+    });
+    expect(() => invalidAdapter(container, options, initialIndex)).toThrow(
+      "Table manager returned an unsupported implementation for TabPane: unknown-TabPane.",
+    );
 
     const missingMountAdapter = evaluateAdapter(adapterAfter, {
       TabPane: LegacyTabPane,
       tableManager: {
-        isEnabled() {
-          return true;
+        get() {
+          return "react-TabPane";
         },
       },
     });
@@ -229,14 +261,18 @@ describe("adapter codemod", () => {
       "React mount global mountReactTabPane is not available.",
     );
 
-    const escapedFlag = 'react-"tab\npane';
+    const escapedSelectionKey = 'Tab"Pane\nkey';
+    const escapedLegacyValue = 'legacy-"Tab\nPane';
+    const escapedReactValue = "react-\\TabPane";
     const escapedManagerName = 'table"Manager';
     const escapedMountName = "mount\\React";
     const escapedConfig = MigrationSpecSchema.parse({
       ...config,
       adapter: {
         ...config.adapter,
-        flagName: escapedFlag,
+        selectionKey: escapedSelectionKey,
+        legacyValue: escapedLegacyValue,
+        reactValue: escapedReactValue,
         tableManagerGlobal: escapedManagerName,
         reactMountGlobal: escapedMountName,
       },
@@ -254,13 +290,13 @@ describe("adapter codemod", () => {
     if (escapedSource === undefined) {
       throw new Error("The escaped adapter edit is missing.");
     }
-    const escapedFlags: string[] = [];
+    const escapedSelectionKeys: string[] = [];
     const escapedAdapter = evaluateAdapter(escapedSource, {
       TabPane: LegacyTabPane,
       [escapedManagerName]: {
-        isEnabled(flagName: string) {
-          escapedFlags.push(flagName);
-          return true;
+        get(selectionKey: string) {
+          escapedSelectionKeys.push(selectionKey);
+          return escapedReactValue;
         },
       },
       [escapedMountName]() {
@@ -269,7 +305,32 @@ describe("adapter codemod", () => {
     });
 
     expect(escapedAdapter(container, options, initialIndex)).toBe(reactResult);
-    expect(escapedFlags).toEqual([escapedFlag]);
+    expect(escapedSelectionKeys).toEqual([escapedSelectionKey]);
+
+    const repeatedCalls: unknown[][] = [];
+    class RepeatedLegacyTabPane {
+      constructor(...args: unknown[]) {
+        repeatedCalls.push(args);
+      }
+    }
+    const repeatedAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: RepeatedLegacyTabPane,
+      tableManager: {
+        get() {
+          return "legacy-TabPane";
+        },
+      },
+    });
+
+    repeatedAdapter(container, options, initialIndex);
+    repeatedAdapter(container, options, initialIndex);
+
+    expect(repeatedCalls).toHaveLength(2);
+    for (const call of repeatedCalls) {
+      expect(call[0]).toBe(container);
+      expect(call[1]).toBe(options);
+      expect(call[2]).toBe(initialIndex);
+    }
   });
 });
 
