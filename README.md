@@ -66,8 +66,27 @@ npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-`verify` succeeds only when browser comparison reaches `PARITY` with
-`attested: true`.
+`verify` succeeds only when both focused unit tests and all project checks
+pass, every exact screenshot has equal dimensions and zero changed pixels,
+and browser comparison reaches `PARITY` with `attested: true`.
+
+## Saved verification evidence
+
+- `tools/mootools-migrate/components/<component>/baseline/manifest.json`
+  records the hash-bound legacy test receipt. Baseline screenshots sit beside
+  it under `<scenario>/<name>.png`.
+- `tools/mootools-migrate/components/<component>/final/manifest.json` records
+  both test receipts and the project checks.
+- `tools/mootools-migrate/components/<component>/final/parity.json` records
+  every image comparison. React screenshots use `<scenario>/<name>.png`.
+  Diff images use `diffs/<scenario>/<assertion>.png`, including exact matches.
+- A mismatch writes the complete candidate to
+  `tools/mootools-migrate/components/<component>/final.failed/`. The last
+  passing `final/` stays unchanged. A later pass removes `final.failed/`.
+
+Review the saved baseline, React, and diff images before claiming parity.
+Do not refresh a valid baseline to make React pass. An approved visual
+difference is not visual parity and must not use an exact screenshot claim.
 
 ## Layout
 
@@ -80,7 +99,14 @@ tools/mootools-migrate/
     migration.json
     worksheet.generated.json
     baseline/
+      manifest.json
+      <scenario>/<name>.png
     final/
+      manifest.json
+      parity.json
+      <scenario>/<name>.png
+      diffs/<scenario>/<assertion>.png
+    final.failed/
 components/                 MooTools source and legacy tests
 src/components/             React source and tests
 ```
@@ -93,10 +119,10 @@ the optional adapter configuration.
 
 TabPane includes:
 
-- A passing MooTools unit test.
-- A passing React unit test.
+- Saved, hash-bound receipts for the passing MooTools and React unit tests.
 - A reviewed legacy baseline.
-- A final attested parity result with no mismatches.
+- Six exact browser image comparisons with zero changed pixels and saved diffs.
+- A final attested parity result with no unapproved mismatches.
 
 Open `http://localhost:5173/tab-pane-migration.html` for the source-to-proof
 walkthrough.

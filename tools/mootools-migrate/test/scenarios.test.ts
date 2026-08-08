@@ -60,4 +60,45 @@ describe("scenario schema", () => {
 
     expect(result.success).toBe(false);
   });
+
+  it("rejects a positive screenshot tolerance", () => {
+    const result = ScenarioSchema.safeParse({
+      id: "visual-state",
+      fixture: "default",
+      steps: [{ stepId: "observe", action: "observe" }],
+      assertions: [
+        {
+          assertionId: "component-image",
+          afterStepId: "observe",
+          target: "component",
+          kind: "screenshot",
+          matcher: "pixel-diff",
+          name: "component",
+          maxDiffRatio: 0.001,
+        },
+      ],
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it("allows a scenario without exact visual proof", () => {
+    const result = ScenarioSchema.safeParse({
+      id: "approved-visual-difference",
+      fixture: "default",
+      steps: [{ stepId: "observe", action: "observe" }],
+      assertions: [
+        {
+          assertionId: "component-count",
+          afterStepId: "observe",
+          target: "component",
+          kind: "count",
+          matcher: "equals",
+          expected: 1,
+        },
+      ],
+    });
+
+    expect(result.success).toBe(true);
+  });
 });

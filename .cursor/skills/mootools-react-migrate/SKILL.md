@@ -95,8 +95,27 @@ npm run migrate -- verify <component> \
 
 `verify` checks decisions, new MooTools uses, both unit tests, type checking,
 the production build, baseline freshness, browser behavior, event order,
-focus, styles, and screenshots. Fix React and rerun until the result is
-`PARITY` with `attested: true`.
+focus, styles, and screenshots. It prints the saved `final` or `final.failed`
+evidence directory.
+
+## Verification gate
+
+Do not claim parity until every item passes.
+
+- Run the focused legacy and React unit tests. The saved test receipts must
+  match the configured source, test file, and dependencies.
+- Add a component screenshot for every meaningful visual state that must be
+  exact.
+- Require equal image dimensions and zero changed pixels. Do not add visual
+  tolerance.
+- Save the baseline image, the React image, and the diff image for every
+  screenshot assertion, including exact matches.
+- Review the saved manifests, images, diffs, and `parity.json`.
+- Do not update the baseline to make React pass.
+- Do not claim parity for an approved visual difference. Leave that scenario
+  without an exact screenshot assertion and document the approved difference.
+
+Fix React and rerun until the result is `PARITY` with `attested: true`.
 
 ## Rebase and cleanup
 

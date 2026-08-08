@@ -35,6 +35,32 @@ describe("migration config", () => {
     await expect(loadMigrationSpec(context, "../tab-pane")).rejects.toThrow();
   });
 
+  it("requires terminal screenshot proof for exact scenarios", async () => {
+    const context = await createContext({ toolsRoot, projectRoot });
+    const config = await loadMigrationSpec(context, "tab-pane");
+    const result = MigrationSpecSchema.safeParse({
+      ...config,
+      scenarios: config.scenarios.map((scenario) =>
+        scenario.id === "initial-selection"
+          ? {
+              ...scenario,
+              assertions: scenario.assertions.filter(
+                (assertion) => assertion.kind !== "screenshot",
+              ),
+            }
+          : scenario,
+      ),
+    });
+
+    expect(result.success).toBe(false);
+    if (result.success) {
+      throw new Error("Migration without screenshot proof passed validation.");
+    }
+    expect(result.error.issues.map((issue) => issue.message)).toContain(
+      "Scenario initial-selection requires a terminal screenshot or an approved difference.",
+    );
+  });
+
   it("hashes legacy and React proof inputs independently", async () => {
     const context = await createContext({ toolsRoot, projectRoot });
     const config = await loadMigrationSpec(context, "tab-pane");
@@ -80,6 +106,18 @@ describe("migration config", () => {
         outputDirectory: resolve(toolsRoot, "outside"),
         runId: "outside",
         viewport: config.viewport,
+        checks: {
+          componentTests: [
+            {
+              surface: "legacy",
+              command: "npm run test -- legacy.test.ts",
+              passed: true,
+              output: "passed",
+              inputHash: `sha256:${"0".repeat(64)}`,
+            },
+          ],
+          projectChecks: [],
+        },
         enforceExpected: true,
         replaceExisting: false,
       }),

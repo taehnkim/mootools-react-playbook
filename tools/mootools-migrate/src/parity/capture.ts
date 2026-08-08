@@ -15,6 +15,7 @@ import {
   CaptureManifestSchema,
   EventRecordSchema,
   JsonValueSchema,
+  type CaptureChecks,
   type CaptureManifest,
   type MigrationSpec,
   type Fixtures,
@@ -61,6 +62,7 @@ export async function captureSurface(options: {
   outputDirectory: string;
   runId: string;
   viewport: { width: number; height: number };
+  checks: CaptureChecks;
   enforceExpected: boolean;
   replaceExisting: boolean;
 }): Promise<CaptureManifest> {
@@ -149,6 +151,7 @@ export async function captureSurface(options: {
       selectorsHash: hashJson(JsonValueSchema.parse(options.selectors)),
       browserVersion,
       viewport: options.viewport,
+      checks: options.checks,
       results,
     });
     await writeJson(

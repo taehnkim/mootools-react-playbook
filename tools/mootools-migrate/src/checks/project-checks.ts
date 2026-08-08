@@ -1,13 +1,9 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
-const execFileAsync = promisify(execFile);
+import type { ProjectCheckResult } from "../contracts/schemas.js";
 
-export type ProjectCheckResult = {
-  command: string;
-  ok: boolean;
-  output: string;
-};
+const execFileAsync = promisify(execFile);
 
 export async function runProjectChecks(
   projectRoot: string,

@@ -94,6 +94,11 @@ program
         return;
       }
 
+      const baselineDirectory = componentArtifactPath(
+        context,
+        config.id,
+        "baseline",
+      );
       const manifest = await captureSurface({
         context,
         config,
@@ -102,13 +107,13 @@ program
         fixtures: config.fixtures,
         baseUrl: options.baseUrl,
         surface: "legacy",
-        outputDirectory: componentArtifactPath(
-          context,
-          config.id,
-          "baseline",
-        ),
+        outputDirectory: baselineDirectory,
         runId: createRunId("legacy"),
         viewport: config.viewport,
+        checks: {
+          componentTests: [unitTest],
+          projectChecks: [],
+        },
         enforceExpected: true,
         replaceExisting: options.replace,
       });
@@ -117,6 +122,7 @@ program
         unitTest,
         runId: manifest.runId,
         scenarios: manifest.results.length,
+        evidencePath: baselineDirectory,
       });
     },
   );
@@ -185,6 +191,11 @@ program
       return;
     }
 
+    const finalDirectory = componentArtifactPath(
+      context,
+      config.id,
+      "final",
+    );
     const parity = await compareCandidate({
       context,
       config,
@@ -197,15 +208,15 @@ program
         config.id,
         "baseline",
       ),
-      finalDirectory: componentArtifactPath(
-        context,
-        config.id,
-        "final",
-      ),
+      finalDirectory,
       reactBaseUrl: options.baseUrl,
       runId: createRunId("react"),
       acceptedDifferences: config.acceptedDifferences,
       decisions: config.decisions,
+      checks: {
+        componentTests: unitTests,
+        projectChecks,
+      },
     });
     const ok = parity.status === "PARITY" && parity.attested;
     writeResult({
@@ -215,6 +226,7 @@ program
       unitTests,
       projectChecks,
       parity,
+      evidencePath: ok ? finalDirectory : `${finalDirectory}.failed`,
     });
     if (!ok) {
       process.exitCode = 2;

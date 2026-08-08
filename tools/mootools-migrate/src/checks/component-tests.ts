@@ -3,16 +3,12 @@ import { access } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import type { ToolContext } from "../core/context.js";
-import type { MigrationSpec } from "../contracts/schemas.js";
-
-export type ComponentTestSurface = "legacy" | "react";
-
-export type ComponentTestResult = {
-  surface: ComponentTestSurface;
-  command: string;
-  passed: boolean;
-  output: string;
-};
+import { hashProjectFiles } from "../core/fingerprint.js";
+import type {
+  ComponentTestResult,
+  ComponentTestSurface,
+  MigrationSpec,
+} from "../contracts/schemas.js";
 
 export async function runComponentTest(options: {
   context: ToolContext;
@@ -30,6 +26,10 @@ export async function runComponentTest(options: {
   }
 
   const command = `npm run test -- ${testFile}`;
+  const inputHash = await hashProjectFiles({
+    projectRoot: options.context.projectRoot,
+    paths: inputPaths,
+  });
   const execution = await executeNpmTest(
     options.context.projectRoot,
     testFile,
@@ -39,6 +39,7 @@ export async function runComponentTest(options: {
     command,
     passed: execution.passed,
     output: execution.output,
+    inputHash,
   };
 }
 

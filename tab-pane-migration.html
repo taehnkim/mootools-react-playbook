@@ -1773,10 +1773,11 @@ export type TabPaneHandle = {
           <p class="phase-label">Parity proof</p>
           <h2 id="parity-proof-title">The saved verification result is PARITY</h2>
           <p class="section-intro">
-            The baseline and final manifests record the same 7 scenarios and 31
+            The baseline and final manifests record the same 7 scenarios and 36
             browser observations. Verification ran 4 legacy unit tests and 4
-            React unit tests. The final result is PARITY, attested true, with 4
-            approved behavior differences and 0 unapproved mismatches.
+            React unit tests. Six image comparisons have equal dimensions and
+            zero changed pixels. The final result is PARITY, attested true,
+            with 4 approved behavior differences and 0 unapproved mismatches.
           </p>
 
           <div class="parity-banner" aria-label="Final parity status">
@@ -1791,7 +1792,11 @@ export type TabPaneHandle = {
             </div>
             <div>
               <dt>Browser observations</dt>
-              <dd>31</dd>
+              <dd>36</dd>
+            </div>
+            <div>
+              <dt>Exact image comparisons</dt>
+              <dd>6</dd>
             </div>
             <div>
               <dt>Legacy unit tests</dt>
@@ -1822,37 +1827,37 @@ export type TabPaneHandle = {
             <li>
               <div>
                 <code>select-second-tab</code>
-                <span>Checks selection, visibility, status, and event order.</span>
+                <span>Checks selection, visibility, status, event order, and image.</span>
               </div>
             </li>
             <li>
               <div>
                 <code>add-and-open-tab</code>
-                <span>Checks add, selection, focus, and event order.</span>
+                <span>Checks add, selection, focus, event order, and image.</span>
               </div>
             </li>
             <li>
               <div>
                 <code>reject-incomplete-add</code>
-                <span>Checks validation, status, and no emitted events.</span>
+                <span>Checks validation, status, no emitted events, and image.</span>
               </div>
             </li>
             <li>
               <div>
                 <code>close-non-active-by-api</code>
-                <span>Checks the approved stable-selection fix.</span>
+                <span>Checks the approved stable-selection fix. It makes no exact visual claim.</span>
               </div>
             </li>
             <li>
               <div>
                 <code>close-active-with-button</code>
-                <span>Checks close-button behavior and event order.</span>
+                <span>Checks close-button behavior, event order, and image.</span>
               </div>
             </li>
             <li>
               <div>
                 <code>imperative-show</code>
-                <span>Checks the compatibility handle's show method.</span>
+                <span>Checks the compatibility handle's show method and image.</span>
               </div>
             </li>
           </ol>
@@ -1866,10 +1871,10 @@ export type TabPaneHandle = {
 
           <div class="callout contract-note">
             <p>
-              The initial component screenshots are byte-identical. The other
-              scenarios compare DOM state, text, focus, computed style, and
-              event order. They do not prove every pixel in every possible
-              state.
+              Six exact visual states have equal dimensions and zero changed
+              pixels. Each state saves its legacy image, React image, and diff
+              image. The non-active close scenario has an approved visible
+              behavior difference, so it does not claim visual parity.
             </p>
           </div>
 
@@ -1918,32 +1923,43 @@ export type TabPaneHandle = {
               ><code>{
   "status": "PARITY",
   "attested": true,
-  "runId": "react-2026-08-08T02-40-52-588Z",
-  "createdAt": "2026-08-08T02:40:57.597Z",
-  "baselineManifestHash": "sha256:5ad54162e3c80cc7dc461c2f7ce306134fbf4ba39e599757b329c2fa0abef51b",
-  "candidateManifestHash": "sha256:484f2d512c0d24d01ea38fd137d63371e29699989ceaccf2d64622af1c11ec3c",
-  "decisionsHash": "sha256:2b3ef366a771b6c18628f2acad050a0c77dc3ce959994786a850aa02f2816607",
-  "acceptedDifferencesHash": "sha256:e7371ed3a3d9902cdf34e3bf83fc24d48efe1a7bc849abef9da57290fe644693",
-  "scenariosHash": "sha256:c63439ce6db9639d3d7b53a8f4830c144c11bca4c0d2007b230f90d5aec11e29",
-  "mismatches": []
+  "mismatches": [],
+  "imageComparisons": [{
+    "scenarioId": "initial-selection",
+    "diffPath": "diffs/initial-selection/initial-component-image.png",
+    "changedPixels": 0,
+    "allowedChangedPixels": 0,
+    "exact": true
+  }],
+  "acceptedDifferencesUsed": [
+    "close-non-active-by-api-api-close-selected-tab"
+  ]
 }</code></pre>
             </figure>
 
             <figure class="source-panel">
               <figcaption>
-                <strong>migration.json</strong>
-                <span>configured unit tests</span>
+                <strong>final/manifest.json</strong>
+                <span>saved test receipts</span>
               </figcaption>
               <pre
                 tabindex="0"
-                aria-label="Configured unit test files source excerpt"
-              ><code>"tests": {
-  "legacyFile": "components/tab-pane/TabPane.legacy.test.ts",
-  "legacyDependencies": [
-    "vendor/mootools-core-1.4.2.js"
-  ],
-  "reactFile": "src/components/tab-pane/TabPane.test.tsx",
-  "reactDependencies": []
+                aria-label="Saved component test receipts"
+              ><code>"checks": {
+  "componentTests": [
+    {
+      "surface": "legacy",
+      "command": "npm run test -- components/tab-pane/TabPane.legacy.test.ts",
+      "passed": true,
+      "inputHash": "sha256:1e4d2148..."
+    },
+    {
+      "surface": "react",
+      "command": "npm run test -- src/components/tab-pane/TabPane.test.tsx",
+      "passed": true,
+      "inputHash": "sha256:392b21e3..."
+    }
+  ]
 },</code></pre>
             </figure>
           </div>
@@ -2060,6 +2076,11 @@ export type TabPaneHandle = {
           <li>
             <code
               >tools/mootools-migrate/components/tab-pane/final/parity.json</code
+            >
+          </li>
+          <li>
+            <code
+              >tools/mootools-migrate/components/tab-pane/final/diffs/</code
             >
           </li>
         </ul>
