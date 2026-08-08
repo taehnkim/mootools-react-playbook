@@ -145,9 +145,7 @@ function snapshotTab(
   return {
     id,
     label,
-    content: [...panel.childNodes].map((node, childIndex) =>
-      domNodeToReactNode(node, `${id}-${childIndex}`),
-    ),
+    content: panelContent(panel, id),
     closable: tab.querySelector("[data-close-tab]") !== null,
   };
 }
@@ -192,56 +190,17 @@ function uniqueTabId(
   return id;
 }
 
-function domNodeToReactNode(node: Node, key: string): ReactNode {
-  if (node.nodeType === Node.TEXT_NODE) {
-    return node.textContent;
+function panelContent(panel: Element, tabId: string): ReactNode {
+  const children = [...panel.children];
+  if (children.length === 0) {
+    return panel.textContent;
   }
-  if (!(node instanceof Element)) {
-    return null;
-  }
-
-  const properties: Record<string, unknown> = { key };
-  for (const attribute of node.attributes) {
-    switch (attribute.name) {
-      case "class":
-        properties.className = attribute.value;
-        break;
-      case "for":
-        properties.htmlFor = attribute.value;
-        break;
-      case "style":
-        properties.style = reactStyle(attribute.value, node.ownerDocument);
-        break;
-      default:
-        properties[attribute.name] = attribute.value;
-        break;
-    }
-  }
-  const children = [...node.childNodes].map((child, index) =>
-    domNodeToReactNode(child, `${key}-${index}`),
-  );
-  return createElement(node.localName, properties, ...children);
-}
-
-function reactStyle(
-  cssText: string,
-  ownerDocument: Document,
-): Record<string, string> {
-  const declaration = ownerDocument.createElement("span").style;
-  declaration.cssText = cssText;
-  const style: Record<string, string> = {};
-  for (const property of declaration) {
-    style[reactStyleName(property)] = declaration.getPropertyValue(property);
-  }
-  return style;
-}
-
-function reactStyleName(property: string): string {
-  if (property.startsWith("--")) {
-    return property;
-  }
-  return property.replace(/^-ms-/, "ms-").replace(/-([a-z])/g, (_, letter) =>
-    letter.toUpperCase(),
+  return children.map((child, index) =>
+    createElement(child.localName, {
+      key: `${tabId}-${index}`,
+      className: child.getAttribute("class") ?? undefined,
+      dangerouslySetInnerHTML: { __html: child.innerHTML },
+    }),
   );
 }
 
