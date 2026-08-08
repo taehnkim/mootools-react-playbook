@@ -377,6 +377,51 @@
         margin: 1.35rem 0;
       }
 
+      .capture-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem;
+        margin: 1.35rem 0;
+      }
+
+      .capture-card {
+        min-width: 0;
+        margin: 0;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background: #f7f5ee;
+      }
+
+      .capture-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: var(--code);
+      }
+
+      .capture-card figcaption {
+        padding: 0.75rem 0.9rem;
+        color: var(--ink-soft);
+        font-size: 0.8rem;
+      }
+
+      .capture-card figcaption strong,
+      .capture-card figcaption code {
+        display: block;
+      }
+
+      .capture-card figcaption strong {
+        color: var(--navy);
+      }
+
+      .capture-card figcaption code {
+        margin-top: 0.2rem;
+        padding: 0;
+        background: transparent;
+        overflow-wrap: anywhere;
+      }
+
       .source-panel {
         min-width: 0;
         margin: 0;
@@ -611,7 +656,7 @@
       }
 
       .proof-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
       }
 
       .proof-grid dd {
@@ -768,6 +813,7 @@
 
         .file-grid,
         .source-grid,
+        .capture-grid,
         .decision-grid,
         .adapter-layout {
           grid-template-columns: 1fr;
@@ -855,7 +901,7 @@
             <dd>7</dd>
           </div>
           <div>
-            <dt>Mismatches</dt>
+            <dt>Unapproved mismatches</dt>
             <dd>0</dd>
           </div>
         </dl>
@@ -1014,9 +1060,9 @@ this.show(selected.limit(0, tabs.length - 2));</code></pre>
           <p class="phase-label">Analyzer inventory</p>
           <h2 id="analyzer-inventory-title">The analyzer records the contract</h2>
           <p class="section-intro">
-            <code>worksheet.generated.json</code> contains 133 analyzer findings
-            across 15 finding kinds. The inventory covers callers, DOM work,
-            events, API inputs, markup, selectors, and styles.
+            <code>worksheet.generated.json</code> contains 133 findings across
+            15 kinds. The inventory covers callers, DOM work, events, API
+            inputs, markup, selectors, and styles.
           </p>
 
           <div
@@ -1129,51 +1175,94 @@ this.show(selected.limit(0, tabs.length - 2));</code></pre>
                 <tr>
                   <td>Mount lifecycle</td>
                   <td>lifecycle</td>
-                  <td><code>TabPane.js:41-61</code></td>
+                  <td>
+                    <code>components/tab-pane/TabPane.js:41-61</code>
+                  </td>
                 </tr>
                 <tr>
                   <td>Delegated tab selection</td>
                   <td>event listener</td>
-                  <td><code>TabPane.js:49-51</code></td>
+                  <td>
+                    <code>components/tab-pane/TabPane.js:49-51</code>
+                  </td>
                 </tr>
                 <tr>
                   <td>Add method</td>
                   <td>public method</td>
-                  <td><code>TabPane.Extra.js:26-42</code></td>
+                  <td>
+                    <code>components/tab-pane/TabPane.Extra.js:26-42</code>
+                  </td>
                 </tr>
                 <tr>
                   <td>Close method</td>
                   <td>public method</td>
-                  <td><code>TabPane.Extra.js:44-63</code></td>
+                  <td>
+                    <code>components/tab-pane/TabPane.Extra.js:44-63</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Get and index helpers</td>
+                  <td>public method</td>
+                  <td>
+                    <code>components/tab-pane/TabPane.js:63-72</code>,
+                    <code>components/tab-pane/TabPane.js:74-83</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Show method</td>
+                  <td>public method</td>
+                  <td>
+                    <code>components/tab-pane/TabPane.js:85-104</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Selector option inputs</td>
+                  <td>public input</td>
+                  <td>
+                    <code>components/tab-pane/TabPane.js:34</code>,
+                    <code>components/tab-pane/TabPane.js:35</code>,
+                    <code>components/tab-pane/TabPane.js:36</code>
+                  </td>
                 </tr>
                 <tr>
                   <td>Add, change, and close emissions</td>
                   <td>event</td>
                   <td>
-                    <code>TabPane.Extra.js:37</code>,
-                    <code>TabPane.js:101</code>,
-                    <code>TabPane.Extra.js:59</code>
+                    <code>components/tab-pane/TabPane.Extra.js:37</code>,
+                    <code>components/tab-pane/TabPane.js:101</code>,
+                    <code>components/tab-pane/TabPane.Extra.js:59</code>
                   </td>
                 </tr>
                 <tr>
                   <td>Visibility mutations</td>
                   <td>DOM write</td>
                   <td>
-                    <code>TabPane.js:46,98,100</code>,
-                    <code>TabPane.Extra.js:33</code>
+                    <code>components/tab-pane/TabPane.js:46, 98, 100</code>,
+                    <code>components/tab-pane/TabPane.Extra.js:33</code>
                   </td>
                 </tr>
                 <tr>
                   <td>Insertion and destruction</td>
                   <td>DOM write</td>
-                  <td><code>TabPane.Extra.js:29-34,57-58</code></td>
+                  <td>
+                    <code
+                      >components/tab-pane/TabPane.Extra.js:29, 30, 32, 34,
+                      57, 58</code
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>Caller global exposure</td>
+                  <td>side effect</td>
+                  <td><code>main.js:131-135</code></td>
                 </tr>
                 <tr>
                   <td>TabPane browser global</td>
                   <td>global</td>
                   <td>
-                    <code>TabPane.js:29</code>,
-                    <code>TabPane.Extra.js:25</code>
+                    <code>components/tab-pane/TabPane.js:29</code>,
+                    <code>components/tab-pane/TabPane.Extra.js:25</code>,
+                    <code>src/components/tab-pane/TabPane.tsx:34-236</code>
                   </td>
                 </tr>
               </tbody>
@@ -1192,9 +1281,8 @@ this.show(selected.limit(0, tabs.length - 2));</code></pre>
           <p class="phase-label">Decisions</p>
           <h2 id="decisions-title">Twenty-seven decisions are approved</h2>
           <p class="section-intro">
-            The decisions in <code>migration.json</code> define what React
-            preserves, replaces, deletes, and fixes. Each of the 27 decisions
-            has an approved status.
+            <code>migration.json</code> records 27 approved decisions. They
+            define what React preserves, replaces, deletes, and fixes.
           </p>
 
           <div class="decision-grid">
@@ -1417,19 +1505,28 @@ queueMicrotask(() =&gt; tabElementsRef.current.get(nextSelectedId)?.focus());</c
                   aria-label="Adapter dry-run command"
                 ><code>npm run migrate -- adapter tab-pane</code></pre>
                 <p>
-                  The command has no <code>--write</code> flag. Its plan names
-                  three files.
+                  The command has no <code>--write</code> flag. It returns a
+                  <code>dry-run</code> plan for three files.
                 </p>
               </div>
               <ul class="planned-files">
-                <li><code>adapters/mount-tab-pane.js</code></li>
-                <li><code>main.js</code></li>
-                <li><code>bootstrap.ts</code></li>
+                <li>
+                  <code>main.js</code> replaces <code>new TabPane</code> with
+                  <code>mountTabPane</code>.
+                </li>
+                <li>
+                  <code>adapters/mount-tab-pane.js</code> creates the legacy
+                  mount wrapper.
+                </li>
+                <li>
+                  <code>bootstrap.ts</code> loads the wrapper before
+                  <code>main.js</code>.
+                </li>
               </ul>
             </div>
             <p>
-              The adapter was not written. The final design gives React direct
-              ownership and keeps the legacy page unchanged as the baseline.
+              No adapter write occurred because React has direct ownership. The
+              legacy page remains the baseline.
             </p>
           </div>
         </div>
@@ -1578,20 +1675,25 @@ export type TabPaneHandle = {
           <p class="phase-label">Parity proof</p>
           <h2 id="parity-proof-title">The saved verification result is PARITY</h2>
           <p class="section-intro">
-            The baseline and final manifests run the same fixtures and seven
-            browser scenarios. The final parity file reports
-            <code>attested: true</code> and an empty mismatch list.
+            The baseline and final manifests record the same 7 scenarios and 31
+            browser observations. Verification ran 4 legacy unit tests and 4
+            React unit tests. The final result is PARITY, attested true, with 4
+            approved behavior differences and 0 unapproved mismatches.
           </p>
 
           <div class="parity-banner" aria-label="Final parity status">
             <strong>PARITY</strong>
-            <span>attested true / 0 mismatches</span>
+            <span>attested true, 0 unapproved mismatches</span>
           </div>
 
           <dl class="proof-grid">
             <div>
               <dt>Browser scenarios</dt>
               <dd>7</dd>
+            </div>
+            <div>
+              <dt>Browser observations</dt>
+              <dd>31</dd>
             </div>
             <div>
               <dt>Legacy unit tests</dt>
@@ -1606,7 +1708,7 @@ export type TabPaneHandle = {
               <dd>4</dd>
             </div>
             <div>
-              <dt>Mismatches</dt>
+              <dt>Unapproved mismatches</dt>
               <dd>0</dd>
             </div>
           </dl>
@@ -1658,13 +1760,43 @@ export type TabPaneHandle = {
           </ol>
 
           <div class="hash-proof">
-            <p>
-              The initial legacy and React screenshots have the same SHA-256
-              hash.
-            </p>
+            <p>Matching initial screenshot SHA-256</p>
             <code
               >3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a</code
             >
+          </div>
+
+          <div class="capture-grid" aria-label="Matching initial screenshots">
+            <figure class="capture-card">
+              <img
+                src="tools/mootools-migrate/components/tab-pane/baseline/initial-selection/component.png"
+                alt="Legacy TabPane with the Hello tab selected"
+                width="1086"
+                height="206"
+                loading="lazy"
+              />
+              <figcaption>
+                <strong>Legacy baseline</strong>
+                <code
+                  >tools/mootools-migrate/components/tab-pane/baseline/initial-selection/component.png</code
+                >
+              </figcaption>
+            </figure>
+            <figure class="capture-card">
+              <img
+                src="tools/mootools-migrate/components/tab-pane/final/initial-selection/component.png"
+                alt="React TabPane with the Hello tab selected"
+                width="1086"
+                height="206"
+                loading="lazy"
+              />
+              <figcaption>
+                <strong>React result</strong>
+                <code
+                  >tools/mootools-migrate/components/tab-pane/final/initial-selection/component.png</code
+                >
+              </figcaption>
+            </figure>
           </div>
 
           <div class="source-grid">
@@ -1712,7 +1844,8 @@ export type TabPaneHandle = {
           <div class="callout">
             <p>
               The parity result accepts the four approved behavior differences.
-              It reports 0 mismatches. That is the recorded contract proof.
+              It reports 0 unapproved mismatches. That is the recorded contract
+              proof.
             </p>
           </div>
         </div>
