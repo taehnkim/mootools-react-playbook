@@ -5,10 +5,7 @@ import { tmpdir } from "node:os";
 import { describe, expect, it } from "vitest";
 
 import { planAdapterCodemod } from "../src/codemods/adapter.js";
-import {
-  ComponentConfigSchema,
-  RegistrySchema,
-} from "../src/contracts/schemas.js";
+import { MigrationSpecSchema } from "../src/contracts/schemas.js";
 
 describe("adapter codemod", () => {
   it("plans the adapter, caller, and load-order edits", async () => {
@@ -32,16 +29,14 @@ describe("adapter codemod", () => {
       ].join("\n"),
       "utf8",
     );
-    const config = ComponentConfigSchema.parse({
+    const config = MigrationSpecSchema.parse({
       schemaVersion: 1,
       id: "tab-pane",
-      displayName: "TabPane",
       legacyGlobal: "TabPane",
       sourceFiles: ["legacy/TabPane.js"],
       cssFiles: [],
       markupFiles: [],
       bootstrapFiles: ["legacy/bootstrap.ts"],
-      scanRoots: ["legacy"],
       callsiteGlobs: ["legacy/main.js"],
       tests: {
         legacyFile: "legacy/TabPane.legacy.test.ts",
@@ -59,38 +54,51 @@ describe("adapter codemod", () => {
         entryPath: "/legacy/",
         readyPath: ["MooSandbox", "tabPane"],
         eventNames: ["change"],
+        proofFiles: ["legacy/TabPane.js"],
       },
       react: {
         entryPath: "/",
         readySelector: "[data-component=\"tab-pane\"]",
         handlePath: null,
         componentPath: "src/TabPane.tsx",
+        proofFiles: ["src/TabPane.tsx"],
       },
+      viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
         bootstrapFile: "legacy/bootstrap.ts",
-        bootstrapImportAnchor: 'import mainUrl from "./main.js?url";',
-        bootstrapArrayAnchor: "mainUrl,",
         bootstrapImportPath: "./adapters/mount-tab-pane.js",
       },
-    });
-    const registry = RegistrySchema.parse({
-      schemaVersion: 1,
-      components: [
+      fixtures: { default: {} },
+      scenarios: [
         {
-          id: "tab-pane",
-          mode: "local-pilot",
-          configPath: "component.json",
-          status: "legacy",
-          blockers: [],
+          id: "observe",
+          fixture: "default",
+          steps: [{ stepId: "observe", action: "observe" }],
+          assertions: [
+            {
+              assertionId: "component-count",
+              afterStepId: "observe",
+              target: "component",
+              kind: "count",
+              matcher: "equals",
+              expected: 1,
+            },
+          ],
         },
       ],
+      selectors: {
+        component: { legacy: "#tab-pane", react: "[data-tab-pane]" },
+      },
+      decisions: [],
+      acceptedDifferences: [],
+      allowedLegacyUses: [],
     });
 
     const result = await planAdapterCodemod({
-      context: { projectRoot, toolsRoot: projectRoot, registry },
+      context: { projectRoot, toolsRoot: projectRoot },
       config,
     });
 

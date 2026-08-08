@@ -14,32 +14,48 @@ import { hashJson, sha256, writeJson } from "../core/json.js";
 import {
   CaptureManifestSchema,
   EventRecordSchema,
-  FixturesFileSchema,
   JsonValueSchema,
   type CaptureManifest,
-  type ComponentConfig,
+  type MigrationSpec,
+  type Fixtures,
   type JsonValue,
   type Observation,
   type Scenario,
   type ScenarioAction,
   type ScenarioAssertion,
-  type ScenariosFile,
+  type Scenarios,
   type SelectorMap,
 } from "../contracts/schemas.js";
-import type { ToolContext } from "../core/context.js";
+import {
+  componentArtifactPath,
+  type ToolContext,
+} from "../core/context.js";
 
 const EVENT_STORE = "__mootoolsMigrationEvents";
 
 export type CaptureSurface = "legacy" | "react";
 
+export function selectorMap(
+  config: MigrationSpec,
+  surface: CaptureSurface,
+): SelectorMap {
+  return {
+    surface,
+    selectors: Object.fromEntries(
+      Object.entries(config.selectors).map(([target, selectors]) => [
+        target,
+        selectors[surface],
+      ]),
+    ),
+  };
+}
+
 export async function captureSurface(options: {
   context: ToolContext;
-  config: ComponentConfig;
-  scenarios: ScenariosFile;
+  config: MigrationSpec;
+  scenarios: Scenarios;
   selectors: SelectorMap;
-  fixturesPath: string;
-  scenariosPath: string;
-  selectorsPath: string;
+  fixtures: Fixtures;
   baseUrl: string;
   surface: CaptureSurface;
   outputDirectory: string;
@@ -48,11 +64,14 @@ export async function captureSurface(options: {
   enforceExpected: boolean;
   replaceExisting: boolean;
 }): Promise<CaptureManifest> {
+  requireComponentEvidencePath(
+    options.context,
+    options.config.id,
+    options.outputDirectory,
+  );
   validateSurface(options.surface, options.selectors.surface);
-  const fixturesSource = await readFile(options.fixturesPath, "utf8");
-  const fixtures = FixturesFileSchema.parse(JSON.parse(fixturesSource));
-  for (const scenario of options.scenarios.scenarios) {
-    if (fixtures.fixtures[scenario.fixture] === undefined) {
+  for (const scenario of options.scenarios) {
+    if (options.fixtures[scenario.fixture] === undefined) {
       throw new Error(
         `Scenario ${scenario.id} uses unknown fixture ${scenario.fixture}.`,
       );
@@ -75,8 +94,8 @@ export async function captureSurface(options: {
   const results: CaptureManifest["results"] = [];
 
   try {
-    for (const scenario of options.scenarios.scenarios) {
-      const fixture = fixtures.fixtures[scenario.fixture];
+    for (const scenario of options.scenarios) {
+      const fixture = options.fixtures[scenario.fixture];
       if (fixture === undefined) {
         throw new Error(
           `Scenario ${scenario.id} uses unknown fixture ${scenario.fixture}.`,
@@ -107,10 +126,7 @@ export async function captureSurface(options: {
     await browser.close();
   }
 
-  const inputPaths =
-    options.surface === "legacy"
-      ? [...options.config.sourceFiles, ...options.config.cssFiles]
-      : [options.config.react.componentPath];
+  const inputPaths = options.config[options.surface].proofFiles;
   const projectInputHash = await hashProjectFiles({
     projectRoot: options.context.projectRoot,
     paths: [...new Set(inputPaths)],
@@ -124,10 +140,13 @@ export async function captureSurface(options: {
       createdAt: new Date().toISOString(),
       baseUrl: options.baseUrl,
       projectInputHash,
-      componentConfigHash: hashJson(JsonValueSchema.parse(options.config)),
-      scenariosHash: sha256(await readFile(options.scenariosPath)),
-      fixturesHash: sha256(fixturesSource),
-      selectorsHash: sha256(await readFile(options.selectorsPath)),
+      captureConfigHash: captureConfigHash(
+        options.config,
+        options.surface,
+      ),
+      scenariosHash: hashJson(JsonValueSchema.parse(options.scenarios)),
+      fixturesHash: hashJson(JsonValueSchema.parse(options.fixtures)),
+      selectorsHash: hashJson(JsonValueSchema.parse(options.selectors)),
       browserVersion,
       viewport: options.viewport,
       results,
@@ -148,9 +167,22 @@ export async function captureSurface(options: {
   }
 }
 
+export function captureConfigHash(
+  config: MigrationSpec,
+  surface: CaptureSurface,
+): string {
+  return hashJson(
+    JsonValueSchema.parse({
+      fixtureBridge: config.fixtureBridge,
+      eventNames: config.legacy.eventNames,
+      surface: config[surface],
+    }),
+  );
+}
+
 async function runScenario(options: {
   page: Page;
-  config: ComponentConfig;
+  config: MigrationSpec;
   scenario: Scenario;
   selectors: SelectorMap;
   baseUrl: string;
@@ -253,7 +285,7 @@ async function runScenario(options: {
 
 async function waitUntilReady(options: {
   page: Page;
-  config: ComponentConfig;
+  config: MigrationSpec;
   surface: CaptureSurface;
 }): Promise<void> {
   if (options.surface === "react") {
@@ -277,7 +309,7 @@ async function waitUntilReady(options: {
 
 async function attachEventRecorder(options: {
   page: Page;
-  config: ComponentConfig;
+  config: MigrationSpec;
   surface: CaptureSurface;
 }): Promise<void> {
   const path =
@@ -377,7 +409,7 @@ async function attachEventRecorder(options: {
 
 async function runAction(options: {
   page: Page;
-  config: ComponentConfig;
+  config: MigrationSpec;
   selectors: SelectorMap;
   surface: CaptureSurface;
   action: ScenarioAction;
@@ -658,7 +690,7 @@ function rejectStartupEventAssertions(scenario: Scenario): void {
 
 async function confirmFixture(options: {
   page: Page;
-  config: ComponentConfig;
+  config: MigrationSpec;
   surface: CaptureSurface;
   fixtureId: string;
 }): Promise<void> {
@@ -749,4 +781,22 @@ function resolveInside(root: string, child: string): string {
     throw new Error(`Evidence path escapes its output directory: ${child}`);
   }
   return absolutePath;
+}
+
+function requireComponentEvidencePath(
+  context: ToolContext,
+  componentId: string,
+  outputDirectory: string,
+): void {
+  const componentDirectory = componentArtifactPath(context, componentId);
+  const child = relative(componentDirectory, resolve(outputDirectory));
+  if (
+    child === "" ||
+    child.startsWith("..") ||
+    isAbsolute(child)
+  ) {
+    throw new Error(
+      `Evidence output must stay inside ${componentDirectory}.`,
+    );
+  }
 }

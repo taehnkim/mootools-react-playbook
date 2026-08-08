@@ -19,8 +19,45 @@ export const JsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
   ]),
 );
 
-const RelativePathSchema = z.string().min(1);
-const ComponentIdSchema = z
+const RelativePathSchema = z.string().min(1).superRefine((value, context) => {
+  if (
+    value.startsWith("/") ||
+    value.includes("\\") ||
+    value.split("/").some((segment) => segment === ".." || segment === "")
+  ) {
+    context.addIssue({
+      code: "custom",
+      message: `Expected a safe relative path, received ${value}.`,
+    });
+  }
+});
+const ProjectGlobSchema = z.string().min(1).superRefine((value, context) => {
+  if (
+    value.startsWith("/") ||
+    value.includes("\\") ||
+    value.split("/").some((segment) => segment === ".." || segment === "")
+  ) {
+    context.addIssue({
+      code: "custom",
+      message: `Expected a safe project glob, received ${value}.`,
+    });
+  }
+});
+const RelativeImportSchema = z
+  .string()
+  .startsWith("./")
+  .superRefine((value, context) => {
+    if (
+      value.includes("\\") ||
+      value.split("/").some((segment) => segment === "..")
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: `Expected a safe relative import, received ${value}.`,
+      });
+    }
+  });
+export const ComponentIdSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 const Sha256Schema = z.string().regex(/^sha256:[a-f0-9]{64}$/);
@@ -31,10 +68,9 @@ export const ArtifactIdSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
-export const ComponentConfigSchema = z.object({
+const MigrationDefinitionSchema = z.object({
   schemaVersion: z.literal(1),
   id: ComponentIdSchema,
-  displayName: z.string().min(1),
   legacyGlobal: z.string().min(1),
   sourceFiles: z.array(RelativePathSchema).min(1),
   cssFiles: z.array(RelativePathSchema),
@@ -45,8 +81,7 @@ export const ComponentConfigSchema = z.object({
     }),
   ),
   bootstrapFiles: z.array(RelativePathSchema),
-  scanRoots: z.array(RelativePathSchema).min(1),
-  callsiteGlobs: z.array(z.string().min(1)).min(1),
+  callsiteGlobs: z.array(ProjectGlobSchema).min(1),
   tests: z.object({
     legacyFile: RelativePathSchema,
     legacyDependencies: z.array(RelativePathSchema),
@@ -63,52 +98,27 @@ export const ComponentConfigSchema = z.object({
     entryPath: z.string().startsWith("/"),
     readyPath: z.array(z.string().min(1)).min(1),
     eventNames: z.array(z.string().min(1)),
+    proofFiles: z.array(RelativePathSchema).min(1),
   }),
   react: z.object({
     entryPath: z.string().startsWith("/"),
     readySelector: z.string().min(1),
     handlePath: z.array(z.string().min(1)).nullable(),
     componentPath: RelativePathSchema,
+    proofFiles: z.array(RelativePathSchema).min(1),
+  }),
+  viewport: z.object({
+    width: z.number().int().positive(),
+    height: z.number().int().positive(),
   }),
   adapter: z.object({
     globalName: z.string().min(1),
     outputPath: RelativePathSchema,
     callsiteFiles: z.array(RelativePathSchema).min(1),
     bootstrapFile: RelativePathSchema,
-    bootstrapImportAnchor: z.string().min(1),
-    bootstrapArrayAnchor: z.string().min(1),
-    bootstrapImportPath: z.string().min(1),
+    bootstrapImportPath: RelativeImportSchema,
   }),
 });
-
-export type ComponentConfig = z.infer<typeof ComponentConfigSchema>;
-
-export const RegistryStatusSchema = z.enum([
-  "legacy",
-  "analyzed",
-  "baseline-captured",
-  "decisions-ready",
-  "react-draft",
-  "parity-ready",
-  "pilot-proven",
-  "react",
-  "blocked",
-]);
-
-export const RegistrySchema = z.object({
-  schemaVersion: z.literal(1),
-  components: z.array(
-    z.object({
-      id: ComponentIdSchema,
-      mode: z.enum(["local-pilot", "production"]),
-      configPath: RelativePathSchema,
-      status: RegistryStatusSchema,
-      blockers: z.array(z.string()),
-    }),
-  ),
-});
-
-export type Registry = z.infer<typeof RegistrySchema>;
 
 export const FindingKindSchema = z.enum([
   "public-input",
@@ -186,8 +196,8 @@ export const AnalysisCoverageSchema = z.object({
 export const WorksheetSchema = z.object({
   schemaVersion: z.literal(1),
   componentId: ComponentIdSchema,
-  source: z.enum(["manual", "analyzer"]),
-  analyzerVersion: z.string().nullable(),
+  source: z.literal("analyzer"),
+  analyzerVersion: z.string().min(1),
   inputHash: Sha256Schema,
   generatedAt: z.string().datetime(),
   findings: z.array(FindingSchema),
@@ -197,7 +207,6 @@ export const WorksheetSchema = z.object({
 export type Worksheet = z.infer<typeof WorksheetSchema>;
 
 export const ApprovalSchema = z.discriminatedUnion("status", [
-  z.object({ status: z.literal("not-required") }),
   z.object({ status: z.literal("pending") }),
   z.object({
     status: z.literal("approved"),
@@ -212,34 +221,30 @@ export const DecisionSchema = z.object({
   findingFingerprint: Sha256Schema,
   resolution: z.enum(["preserve", "replace", "fix", "delete"]),
   rationale: z.string().min(1),
-  requiresHumanApproval: z.boolean(),
   approval: ApprovalSchema,
 });
 
 export type Decision = z.infer<typeof DecisionSchema>;
 
-export const DecisionsFileSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  decisions: z.array(DecisionSchema),
-});
+export const DecisionsSchema = z.array(DecisionSchema);
+export type Decisions = z.infer<typeof DecisionsSchema>;
 
-export type DecisionsFile = z.infer<typeof DecisionsFileSchema>;
+export const FixturesSchema = z.record(z.string().min(1), JsonValueSchema);
+export type Fixtures = z.infer<typeof FixturesSchema>;
 
-export const FixturesFileSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  fixtures: z.record(z.string().min(1), JsonValueSchema),
-});
+export const SelectorsSchema = z.record(
+  z.string().min(1),
+  z.object({
+    legacy: z.string().min(1),
+    react: z.string().min(1),
+  }),
+);
 
-export const SelectorMapSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  surface: z.enum(["legacy", "react"]),
-  selectors: z.record(z.string().min(1), z.string().min(1)),
-});
-
-export type SelectorMap = z.infer<typeof SelectorMapSchema>;
+export type Selectors = z.infer<typeof SelectorsSchema>;
+export type SelectorMap = {
+  surface: "legacy" | "react";
+  selectors: Record<string, string>;
+};
 
 export const ScenarioActionSchema = z.discriminatedUnion("action", [
   z.object({
@@ -390,13 +395,22 @@ export const ScenarioSchema = z
     }
   });
 
-export const ScenariosFileSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  scenarios: z.array(ScenarioSchema).min(1),
-});
-
-export type ScenariosFile = z.infer<typeof ScenariosFileSchema>;
+export const ScenariosSchema = z
+  .array(ScenarioSchema)
+  .min(1)
+  .superRefine((scenarios, context) => {
+    const ids = new Set<string>();
+    for (const scenario of scenarios) {
+      if (ids.has(scenario.id)) {
+        context.addIssue({
+          code: "custom",
+          message: `Duplicate scenario ID: ${scenario.id}`,
+        });
+      }
+      ids.add(scenario.id);
+    }
+  });
+export type Scenarios = z.infer<typeof ScenariosSchema>;
 export type Scenario = z.infer<typeof ScenarioSchema>;
 
 export const AcceptedDifferenceSchema = z.object({
@@ -422,14 +436,9 @@ export const AcceptedDifferenceSchema = z.object({
 
 export type AcceptedDifference = z.infer<typeof AcceptedDifferenceSchema>;
 
-export const AcceptedDifferencesFileSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  differences: z.array(AcceptedDifferenceSchema),
-});
-
-export type AcceptedDifferencesFile = z.infer<
-  typeof AcceptedDifferencesFileSchema
+export const AcceptedDifferencesSchema = z.array(AcceptedDifferenceSchema);
+export type AcceptedDifferences = z.infer<
+  typeof AcceptedDifferencesSchema
 >;
 
 export const LegacyUseSchema = z.object({
@@ -439,16 +448,7 @@ export const LegacyUseSchema = z.object({
   line: z.number().int().positive(),
 });
 
-export const LegacyUseAllowlistSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  searchRoots: z.array(RelativePathSchema).min(1),
-  fileGlobs: z.array(z.string().min(1)).min(1),
-  allowedUses: z.array(LegacyUseSchema),
-});
-
 export type LegacyUse = z.infer<typeof LegacyUseSchema>;
-export type LegacyUseAllowlist = z.infer<typeof LegacyUseAllowlistSchema>;
 
 export const EventRecordSchema = z.object({
   name: z.string().min(1),
@@ -481,7 +481,7 @@ export const CaptureManifestSchema = z.object({
   createdAt: z.string().datetime(),
   baseUrl: z.string().url(),
   projectInputHash: Sha256Schema,
-  componentConfigHash: Sha256Schema,
+  captureConfigHash: Sha256Schema,
   scenariosHash: Sha256Schema,
   fixturesHash: Sha256Schema,
   selectorsHash: Sha256Schema,
@@ -494,23 +494,6 @@ export const CaptureManifestSchema = z.object({
 });
 
 export type CaptureManifest = z.infer<typeof CaptureManifestSchema>;
-
-export const ComponentTestResultSchema = z.object({
-  schemaVersion: z.literal(1),
-  componentId: ComponentIdSchema,
-  surface: z.enum(["legacy", "react"]),
-  testFile: RelativePathSchema,
-  testFileHash: Sha256Schema,
-  sourceHash: Sha256Schema,
-  createdAt: z.string().datetime(),
-  command: z.string().min(1),
-  passed: z.boolean(),
-  output: z.string(),
-});
-
-export type ComponentTestResult = z.infer<
-  typeof ComponentTestResultSchema
->;
 
 export const ParityMismatchSchema = z.object({
   scenarioId: z.string().min(1),
@@ -535,16 +518,77 @@ export const ParityResultSchema = z.object({
 
 export type ParityResultData = z.infer<typeof ParityResultSchema>;
 
-export const RegistryInventorySchema = z.object({
-  schemaVersion: z.literal(1),
-  generatedAt: z.string().datetime(),
-  components: z.array(
-    z.object({
-      id: ComponentIdSchema,
-      definitions: z.array(RelativePathSchema),
-      uses: z.array(LegacyUseSchema),
-    }),
-  ),
+export const MigrationSpecSchema = MigrationDefinitionSchema.extend({
+  fixtures: FixturesSchema,
+  scenarios: ScenariosSchema,
+  selectors: SelectorsSchema,
+  decisions: DecisionsSchema,
+  acceptedDifferences: AcceptedDifferencesSchema,
+  allowedLegacyUses: z.array(LegacyUseSchema),
+}).superRefine((config, context) => {
+  const scenarios = new Map(
+    config.scenarios.map((scenario) => [scenario.id, scenario]),
+  );
+  for (const scenario of config.scenarios) {
+    if (config.fixtures[scenario.fixture] === undefined) {
+      context.addIssue({
+        code: "custom",
+        message: `Scenario ${scenario.id} uses unknown fixture ${scenario.fixture}.`,
+      });
+    }
+    for (const step of scenario.steps) {
+      if (
+        (step.action === "click" ||
+          step.action === "fill" ||
+          step.action === "press") &&
+        config.selectors[step.target] === undefined
+      ) {
+        context.addIssue({
+          code: "custom",
+          message: `Scenario ${scenario.id} uses unknown target ${step.target}.`,
+        });
+      }
+    }
+    for (const assertion of scenario.assertions) {
+      if (
+        assertion.target !== "$events" &&
+        config.selectors[assertion.target] === undefined
+      ) {
+        context.addIssue({
+          code: "custom",
+          message: `Scenario ${scenario.id} uses unknown target ${assertion.target}.`,
+        });
+      }
+    }
+  }
+  for (const difference of config.acceptedDifferences) {
+    if (
+      difference.scenarioId.includes("*") ||
+      difference.stepId.includes("*") ||
+      difference.assertionId.includes("*")
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: `Accepted difference ${difference.id} cannot use wildcards.`,
+      });
+      continue;
+    }
+    const scenario = scenarios.get(difference.scenarioId);
+    const stepExists = scenario?.steps.some(
+      (step) => step.stepId === difference.stepId,
+    );
+    const assertionExists = scenario?.assertions.some(
+      (assertion) =>
+        assertion.assertionId === difference.assertionId &&
+        assertion.afterStepId === difference.stepId,
+    );
+    if (!stepExists || !assertionExists) {
+      context.addIssue({
+        code: "custom",
+        message: `Accepted difference ${difference.id} does not match one exact observation.`,
+      });
+    }
+  }
 });
 
-export type RegistryInventory = z.infer<typeof RegistryInventorySchema>;
+export type MigrationSpec = z.infer<typeof MigrationSpecSchema>;

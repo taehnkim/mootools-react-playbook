@@ -10,7 +10,7 @@
     "migrate": "npm run build --silent && node dist/cli.js",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run",
+    "test": "npm run build --silent && vitest run",
     "check": "npm run typecheck && npm run test"
   },
   "dependencies": {
@@ -28,7 +28,6 @@
   "devDependencies": {
     "@types/node": "^26.1.2",
     "@types/pngjs": "^6.0.5",
-    "tsx": "^4.23.11",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10"
   }

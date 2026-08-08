@@ -1,30 +1,29 @@
-import { readFile } from "node:fs/promises";
+import { access, readFile, rename, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 
-import { captureSurface } from "./capture.js";
+import { captureConfigHash, captureSurface } from "./capture.js";
 import {
   acceptedDifferenceFingerprint,
   hashProjectFiles,
 } from "../core/fingerprint.js";
 import { hashJson, readJson, sha256, writeJson } from "../core/json.js";
 import {
-  AcceptedDifferencesFileSchema,
   CaptureManifestSchema,
-  DecisionsFileSchema,
   JsonValueSchema,
   ParityResultSchema,
-  type AcceptedDifferencesFile,
+  type AcceptedDifferences,
   type CaptureManifest,
-  type ComponentConfig,
-  type DecisionsFile,
+  type MigrationSpec,
+  type Decisions,
+  type Fixtures,
   type JsonValue,
   type Observation,
   type ParityResultData,
-  type ScenariosFile,
+  type Scenarios,
   type SelectorMap,
 } from "../contracts/schemas.js";
 import type { ToolContext } from "../core/context.js";
@@ -39,24 +38,38 @@ export type ParityMismatch = {
 
 export type ParityResult = ParityResultData;
 
-export async function compareCandidate(options: {
+type CompareCandidateOptions = {
   context: ToolContext;
-  config: ComponentConfig;
-  scenarios: ScenariosFile;
+  config: MigrationSpec;
+  scenarios: Scenarios;
+  fixtures: Fixtures;
   legacySelectors: SelectorMap;
   reactSelectors: SelectorMap;
-  fixturesPath: string;
-  scenariosPath: string;
-  legacySelectorsPath: string;
-  reactSelectorsPath: string;
   baselineDirectory: string;
-  candidateDirectory: string;
+  finalDirectory: string;
   reactBaseUrl: string;
   runId: string;
-  viewport: { width: number; height: number };
-  acceptedDifferences: AcceptedDifferencesFile;
-  decisions: DecisionsFile;
-}): Promise<ParityResult> {
+  acceptedDifferences: AcceptedDifferences;
+  decisions: Decisions;
+};
+
+export async function compareCandidate(
+  options: CompareCandidateOptions,
+): Promise<ParityResult> {
+  const candidateDirectory = `${options.finalDirectory}.pending-${options.runId}`;
+  await rm(candidateDirectory, { recursive: true, force: true });
+  try {
+    return await compareCandidateInDirectory(options, candidateDirectory);
+  } catch (error: unknown) {
+    await rm(candidateDirectory, { recursive: true, force: true });
+    throw error;
+  }
+}
+
+async function compareCandidateInDirectory(
+  options: CompareCandidateOptions,
+  candidateDirectory: string,
+): Promise<ParityResult> {
   const baseline = await readJson(
     join(options.baselineDirectory, "manifest.json"),
     CaptureManifestSchema,
@@ -65,24 +78,22 @@ export async function compareCandidate(options: {
     context: options.context,
     config: options.config,
     baseline,
-    scenariosPath: options.scenariosPath,
-    fixturesPath: options.fixturesPath,
-    legacySelectorsPath: options.legacySelectorsPath,
+    scenarios: options.scenarios,
+    fixtures: options.fixtures,
+    legacySelectors: options.legacySelectors,
   });
 
   const candidate = await captureSurface({
     context: options.context,
     config: options.config,
     scenarios: options.scenarios,
+    fixtures: options.fixtures,
     selectors: options.reactSelectors,
-    fixturesPath: options.fixturesPath,
-    scenariosPath: options.scenariosPath,
-    selectorsPath: options.reactSelectorsPath,
     baseUrl: options.reactBaseUrl,
     surface: "react",
-    outputDirectory: options.candidateDirectory,
+    outputDirectory: candidateDirectory,
     runId: options.runId,
-    viewport: options.viewport,
+    viewport: options.config.viewport,
     enforceExpected: false,
     replaceExisting: false,
   });
@@ -126,7 +137,7 @@ export async function compareCandidate(options: {
       }
       const mismatch = await compareObservation({
         baselineDirectory: options.baselineDirectory,
-        candidateDirectory: options.candidateDirectory,
+        candidateDirectory,
         scenarioId: baselineScenario.scenarioId,
         baseline: baselineObservation,
         candidate: candidateObservation,
@@ -134,7 +145,7 @@ export async function compareCandidate(options: {
       });
       if (
         mismatch !== null &&
-        !isAccepted({
+        !isAcceptedDifference({
           mismatch,
           acceptedDifferences: options.acceptedDifferences,
           decisions: options.decisions,
@@ -147,7 +158,7 @@ export async function compareCandidate(options: {
   }
 
   const expectedScenarioIds = new Set(
-    options.scenarios.scenarios.map((scenario) => scenario.id),
+    options.scenarios.map((scenario) => scenario.id),
   );
   const attested =
     baseline.results.length === expectedScenarioIds.size &&
@@ -165,7 +176,7 @@ export async function compareCandidate(options: {
       await readFile(join(options.baselineDirectory, "manifest.json")),
     ),
     candidateManifestHash: sha256(
-      await readFile(join(options.candidateDirectory, "manifest.json")),
+      await readFile(join(candidateDirectory, "manifest.json")),
     ),
     decisionsHash: hashJson(JsonValueSchema.parse(options.decisions)),
     acceptedDifferencesHash: hashJson(
@@ -175,61 +186,61 @@ export async function compareCandidate(options: {
     mismatches,
   });
   await writeJson(
-    join(options.candidateDirectory, "parity.json"),
+    join(candidateDirectory, "parity.json"),
     JsonValueSchema.parse(result),
   );
+  if (result.status === "PARITY" && result.attested) {
+    await commitFinalCandidate({
+      candidateDirectory,
+      finalDirectory: options.finalDirectory,
+    });
+  } else {
+    await rm(candidateDirectory, { recursive: true, force: true });
+  }
   return result;
-}
-
-export async function loadAcceptedDifferences(
-  path: string,
-): Promise<AcceptedDifferencesFile> {
-  return readJson(path, AcceptedDifferencesFileSchema);
-}
-
-export async function loadDecisionFile(path: string): Promise<DecisionsFile> {
-  return readJson(path, DecisionsFileSchema);
 }
 
 async function requireFreshBaseline(options: {
   context: ToolContext;
-  config: ComponentConfig;
+  config: MigrationSpec;
   baseline: CaptureManifest;
-  scenariosPath: string;
-  fixturesPath: string;
-  legacySelectorsPath: string;
+  scenarios: Scenarios;
+  fixtures: Fixtures;
+  legacySelectors: SelectorMap;
 }): Promise<void> {
   const checks: { name: string; expected: string; actual: string }[] = [
     {
-      name: "component config",
-      expected: options.baseline.componentConfigHash,
-      actual: hashJson(JsonValueSchema.parse(options.config)),
+      name: "capture config",
+      expected: options.baseline.captureConfigHash,
+      actual: captureConfigHash(options.config, "legacy"),
     },
     {
       name: "scenarios",
       expected: options.baseline.scenariosHash,
-      actual: sha256(await readFile(options.scenariosPath)),
+      actual: hashJson(JsonValueSchema.parse(options.scenarios)),
     },
     {
       name: "fixtures",
       expected: options.baseline.fixturesHash,
-      actual: sha256(await readFile(options.fixturesPath)),
+      actual: hashJson(JsonValueSchema.parse(options.fixtures)),
     },
     {
       name: "legacy selectors",
       expected: options.baseline.selectorsHash,
-      actual: sha256(await readFile(options.legacySelectorsPath)),
+      actual: hashJson(JsonValueSchema.parse(options.legacySelectors)),
     },
     {
       name: "legacy source",
       expected: options.baseline.projectInputHash,
       actual: await hashProjectFiles({
         projectRoot: options.context.projectRoot,
-        paths: [
-          ...options.config.sourceFiles,
-          ...options.config.cssFiles,
-        ],
+        paths: options.config.legacy.proofFiles,
       }),
+    },
+    {
+      name: "viewport",
+      expected: hashJson(JsonValueSchema.parse(options.baseline.viewport)),
+      actual: hashJson(JsonValueSchema.parse(options.config.viewport)),
     },
   ];
   const stale = checks.filter((check) => check.expected !== check.actual);
@@ -248,7 +259,7 @@ async function compareObservation(options: {
   scenarioId: string;
   baseline: Observation;
   candidate: Observation;
-  scenarios: ScenariosFile;
+  scenarios: Scenarios;
 }): Promise<ParityMismatch | null> {
   if (
     options.baseline.kind !== options.candidate.kind ||
@@ -345,11 +356,11 @@ async function compareObservation(options: {
 }
 
 function findAssertion(
-  scenarios: ScenariosFile,
+  scenarios: Scenarios,
   scenarioId: string,
   assertionId: string,
 ) {
-  const scenario = scenarios.scenarios.find((item) => item.id === scenarioId);
+  const scenario = scenarios.find((item) => item.id === scenarioId);
   const assertion = scenario?.assertions.find(
     (item) => item.assertionId === assertionId,
   );
@@ -379,13 +390,13 @@ function mismatch(
   };
 }
 
-function isAccepted(options: {
+export function isAcceptedDifference(options: {
   mismatch: ParityMismatch;
-  acceptedDifferences: AcceptedDifferencesFile;
-  decisions: DecisionsFile;
+  acceptedDifferences: AcceptedDifferences;
+  decisions: Decisions;
   afterStepId: string;
 }): boolean {
-  return options.acceptedDifferences.differences.some((difference) => {
+  return options.acceptedDifferences.some((difference) => {
     const calculatedFingerprint = acceptedDifferenceFingerprint({
       id: difference.id,
       decisionFingerprint: difference.decisionFingerprint,
@@ -411,7 +422,7 @@ function isAccepted(options: {
     ) {
       return false;
     }
-    return options.decisions.decisions.some(
+    return options.decisions.some(
       (decision) =>
         decision.findingFingerprint === difference.decisionFingerprint &&
         decision.approval.status === "approved" &&
@@ -419,4 +430,35 @@ function isAccepted(options: {
           difference.decisionFingerprint,
     );
   });
+}
+
+export async function commitFinalCandidate(options: {
+  candidateDirectory: string;
+  finalDirectory: string;
+}): Promise<void> {
+  const backupDirectory = `${options.finalDirectory}.backup`;
+  await rm(backupDirectory, { recursive: true, force: true });
+  const finalExists = await fileExists(options.finalDirectory);
+  if (finalExists) {
+    await rename(options.finalDirectory, backupDirectory);
+  }
+  try {
+    await rename(options.candidateDirectory, options.finalDirectory);
+    await rm(backupDirectory, { recursive: true, force: true });
+  } catch (error: unknown) {
+    await rm(options.finalDirectory, { recursive: true, force: true });
+    if (finalExists) {
+      await rename(backupDirectory, options.finalDirectory);
+    }
+    throw error;
+  }
+}
+
+async function fileExists(path: string): Promise<boolean> {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
 }

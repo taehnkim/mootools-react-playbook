@@ -26,9 +26,10 @@ import {
 import { hashJson, writeJson } from "../core/json.js";
 import type {
   AnalysisCategory,
-  ComponentConfig,
+  MigrationSpec,
   Evidence,
   Finding,
+  FindingKind,
   JsonValue,
   Worksheet,
 } from "../contracts/schemas.js";
@@ -44,7 +45,7 @@ const ANALYZER_VERSION = "0.2.0";
 
 export async function analyzeComponent(options: {
   context: ToolContext;
-  config: ComponentConfig;
+  config: MigrationSpec;
 }): Promise<Worksheet> {
   const drafts = new Map<string, FindingDraft>();
 
@@ -123,6 +124,7 @@ export async function analyzeComponent(options: {
     findings.push(
       addFindingFingerprint({
         ...draft,
+        decisionRequired: requiresHumanDecision(draft.kind),
         evidence,
       }),
     );
@@ -153,7 +155,7 @@ export async function analyzeComponent(options: {
 
 export async function calculateAnalyzerInputHash(
   context: ToolContext,
-  config: ComponentConfig,
+  config: MigrationSpec,
 ): Promise<string> {
   const paths = await analysisInputPaths(context, config);
   const projectFilesHash = await hashProjectFiles({
@@ -162,14 +164,58 @@ export async function calculateAnalyzerInputHash(
   });
   return hashJson({
     analyzerVersion: ANALYZER_VERSION,
-    componentConfig: JsonValueSchema.parse(config),
+    analysisConfig: analysisConfig(config),
     projectFilesHash,
   });
 }
 
+function analysisConfig(config: MigrationSpec): JsonValue {
+  return JsonValueSchema.parse({
+    id: config.id,
+    legacyGlobal: config.legacyGlobal,
+    sourceFiles: config.sourceFiles,
+    cssFiles: config.cssFiles,
+    markupFiles: config.markupFiles,
+    bootstrapFiles: config.bootstrapFiles,
+    callsiteGlobs: config.callsiteGlobs,
+  });
+}
+
+function requiresHumanDecision(kind: FindingKind): boolean {
+  switch (kind) {
+    case "api-call":
+    case "caller":
+    case "event":
+    case "event-listener":
+    case "global":
+    case "lifecycle":
+    case "public-input":
+    case "public-method":
+    case "side-effect":
+    case "storage":
+    case "timer":
+    case "unknown":
+      return true;
+    case "dependency":
+    case "dom-read":
+    case "dom-write":
+    case "import":
+    case "markup":
+    case "network":
+    case "selector":
+    case "state":
+    case "style":
+      return false;
+    default: {
+      const exhaustive: never = kind;
+      throw new Error(`Unsupported finding kind: ${String(exhaustive)}`);
+    }
+  }
+}
+
 async function analysisInputPaths(
   context: ToolContext,
-  config: ComponentConfig,
+  config: MigrationSpec,
 ): Promise<string[]> {
   const callsitePaths = await expandProjectGlobs({
     projectRoot: context.projectRoot,
@@ -189,7 +235,7 @@ async function analysisInputPaths(
 function buildCoverage(
   findings: Finding[],
   callsiteFiles: string[],
-  config: ComponentConfig,
+  config: MigrationSpec,
 ) {
   const entries: {
     category: AnalysisCategory;
@@ -324,7 +370,7 @@ function buildCoverage(
 
 export async function checkWorksheetFreshness(options: {
   context: ToolContext;
-  config: ComponentConfig;
+  config: MigrationSpec;
   worksheet: Worksheet;
 }): Promise<{ ok: boolean; expected: string; actual: string }> {
   const actual = await calculateAnalyzerInputHash(

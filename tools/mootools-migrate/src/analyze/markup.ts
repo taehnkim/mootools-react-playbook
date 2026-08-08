@@ -8,7 +8,7 @@ import {
   slug,
   type FindingDraft,
 } from "./shared.js";
-import type { ComponentConfig } from "../contracts/schemas.js";
+import type { MigrationSpec } from "../contracts/schemas.js";
 
 type HtmlNode = DefaultTreeAdapterMap["node"];
 type HtmlElement = DefaultTreeAdapterMap["element"];
@@ -24,7 +24,7 @@ const INTERACTIVE_TAGS = new Set([
 
 export async function analyzeMarkup(options: {
   projectRoot: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
   drafts: Map<string, FindingDraft>;
 }): Promise<void> {
   for (const entry of options.config.markupFiles) {

@@ -5,10 +5,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { analyzeComponent } from "../src/analyze/index.js";
-import {
-  ComponentConfigSchema,
-  RegistrySchema,
-} from "../src/contracts/schemas.js";
+import { MigrationSpecSchema } from "../src/contracts/schemas.js";
 
 describe("component analyzer", () => {
   it("covers events, callers, DOM, APIs, effects, dependencies, markup, and CSS", async () => {
@@ -104,10 +101,9 @@ import mainUrl from "./main.js?url";
 const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       "utf8",
     );
-    const config = ComponentConfigSchema.parse({
+    const config = MigrationSpecSchema.parse({
       schemaVersion: 1,
       id: "widget",
-      displayName: "Widget",
       legacyGlobal: "Widget",
       sourceFiles: ["legacy/Widget.js"],
       cssFiles: ["legacy/widget.css", "legacy/global.css"],
@@ -115,7 +111,6 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
         { path: "legacy/index.html", rootSelector: "#widget" },
       ],
       bootstrapFiles: ["legacy/bootstrap.ts"],
-      scanRoots: ["legacy", "src"],
       callsiteGlobs: ["legacy/main.js", "src/**/*.{ts,tsx}"],
       tests: {
         legacyFile: "legacy/Widget.legacy.test.ts",
@@ -133,41 +128,53 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
         entryPath: "/legacy/",
         readyPath: ["WidgetSandbox", "widget"],
         eventNames: ["select"],
+        proofFiles: ["legacy/Widget.js"],
       },
       react: {
         entryPath: "/",
         readySelector: "[data-component=\"widget\"]",
         handlePath: ["ReactSandbox", "widget"],
         componentPath: "src/Widget.tsx",
+        proofFiles: ["src/Widget.tsx"],
       },
+      viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountWidget",
         outputPath: "legacy/mount-widget.js",
         callsiteFiles: ["legacy/main.js"],
         bootstrapFile: "legacy/bootstrap.ts",
-        bootstrapImportAnchor: 'import mainUrl from "./main.js?url";',
-        bootstrapArrayAnchor: "mainUrl,",
         bootstrapImportPath: "./mount-widget.js",
       },
-    });
-    const registry = RegistrySchema.parse({
-      schemaVersion: 1,
-      components: [
+      fixtures: { default: {} },
+      scenarios: [
         {
-          id: "widget",
-          mode: "local-pilot",
-          configPath: "component.json",
-          status: "legacy",
-          blockers: [],
+          id: "observe",
+          fixture: "default",
+          steps: [{ stepId: "observe", action: "observe" }],
+          assertions: [
+            {
+              assertionId: "component-count",
+              afterStepId: "observe",
+              target: "component",
+              kind: "count",
+              matcher: "equals",
+              expected: 1,
+            },
+          ],
         },
       ],
+      selectors: {
+        component: { legacy: "#widget", react: "[data-widget]" },
+      },
+      decisions: [],
+      acceptedDifferences: [],
+      allowedLegacyUses: [],
     });
 
     const worksheet = await analyzeComponent({
       context: {
         projectRoot,
         toolsRoot: projectRoot,
-        registry,
       },
       config,
     });
@@ -218,5 +225,13 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       worksheet.coverage.find((entry) => entry.category === "css")
         ?.filesScanned,
     ).toEqual(["legacy/global.css", "legacy/widget.css"]);
+    expect(
+      worksheet.findings.find((finding) => finding.kind === "event")
+        ?.decisionRequired,
+    ).toBe(true);
+    expect(
+      worksheet.findings.find((finding) => finding.kind === "style")
+        ?.decisionRequired,
+    ).toBe(false);
   });
 });

@@ -1,0 +1,1138 @@
+{
+  "schemaVersion": 1,
+  "id": "tab-pane",
+  "legacyGlobal": "TabPane",
+  "sourceFiles": [
+    "components/tab-pane/TabPane.js",
+    "components/tab-pane/TabPane.Extra.js"
+  ],
+  "cssFiles": [
+    "styles.css",
+    "src/global.css"
+  ],
+  "markupFiles": [
+    {
+      "path": "index.html",
+      "rootSelector": "#tab-pane"
+    }
+  ],
+  "bootstrapFiles": [
+    "bootstrap.ts"
+  ],
+  "callsiteGlobs": [
+    "main.js",
+    "src/**/*.{js,jsx,ts,tsx}"
+  ],
+  "tests": {
+    "legacyFile": "components/tab-pane/TabPane.legacy.test.ts",
+    "legacyDependencies": [
+      "vendor/mootools-core-1.4.2.js"
+    ],
+    "reactFile": "src/components/tab-pane/TabPane.test.tsx",
+    "reactDependencies": []
+  },
+  "fixtureBridge": {
+    "windowValueKey": "__MOOTOOLS_MIGRATION_FIXTURE__",
+    "windowIdKey": "__MOOTOOLS_MIGRATION_FIXTURE_ID__",
+    "legacyStaticFixtureId": "default-tabs",
+    "reactAcknowledgementPath": [
+      "ReactSandbox",
+      "fixtureId"
+    ]
+  },
+  "legacy": {
+    "entryPath": "/",
+    "readyPath": [
+      "MooSandbox",
+      "tabPane"
+    ],
+    "eventNames": [
+      "add",
+      "close",
+      "change"
+    ],
+    "proofFiles": [
+      "bootstrap.ts",
+      "components/tab-pane/TabPane.Extra.js",
+      "components/tab-pane/TabPane.js",
+      "index.html",
+      "main.js",
+      "styles.css",
+      "vendor/mootools-core-1.4.2.js",
+      "vendor/mootools-more-1.4.0.1.js"
+    ]
+  },
+  "react": {
+    "entryPath": "/react.html",
+    "readySelector": "[data-migration-component=\"tab-pane\"]",
+    "handlePath": [
+      "ReactSandbox",
+      "tabPane"
+    ],
+    "componentPath": "src/components/tab-pane/TabPane.tsx",
+    "proofFiles": [
+      "react.html",
+      "src/components/tab-pane/TabPane.tsx",
+      "src/components/tab-pane/TabPaneDemo.tsx",
+      "src/global.css",
+      "src/main.tsx",
+      "styles.css"
+    ]
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "adapter": {
+    "globalName": "mountTabPane",
+    "outputPath": "adapters/mount-tab-pane.js",
+    "callsiteFiles": [
+      "main.js"
+    ],
+    "bootstrapFile": "bootstrap.ts",
+    "bootstrapImportPath": "./adapters/mount-tab-pane.js"
+  },
+  "fixtures": {
+    "default-tabs": {
+      "selectedId": "hello",
+      "tabs": [
+        {
+          "id": "hello",
+          "label": "Hello",
+          "contentHeading": "Hello world",
+          "closable": true
+        },
+        {
+          "id": "behavior",
+          "label": "Behavior",
+          "contentHeading": "Delegated events",
+          "closable": true
+        },
+        {
+          "id": "migration-notes",
+          "label": "Migration notes",
+          "contentHeading": "A useful first migration",
+          "closable": true
+        }
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "id": "initial-selection",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "observe-initial",
+          "action": "observe"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "initial-tab-count",
+          "afterStepId": "observe-initial",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 3
+        },
+        {
+          "assertionId": "hello-is-active",
+          "afterStepId": "observe-initial",
+          "target": "tab:hello",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "hello-panel-visible",
+          "afterStepId": "observe-initial",
+          "target": "panel:hello",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "behavior-panel-hidden",
+          "afterStepId": "observe-initial",
+          "target": "panel:behavior",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": false
+        },
+        {
+          "assertionId": "hello-close-label",
+          "afterStepId": "observe-initial",
+          "target": "tab:hello:close",
+          "kind": "attribute",
+          "matcher": "equals",
+          "attribute": "aria-label",
+          "expected": "Close Hello tab"
+        },
+        {
+          "assertionId": "hello-panel-display",
+          "afterStepId": "observe-initial",
+          "target": "panel:hello",
+          "kind": "computed-style",
+          "matcher": "equals",
+          "property": "display",
+          "expected": "block"
+        },
+        {
+          "assertionId": "initial-status",
+          "afterStepId": "observe-initial",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 1."
+        },
+        {
+          "assertionId": "initial-component-image",
+          "afterStepId": "observe-initial",
+          "target": "component",
+          "kind": "screenshot",
+          "matcher": "pixel-diff",
+          "name": "component",
+          "maxDiffRatio": 0.02
+        }
+      ]
+    },
+    {
+      "id": "select-second-tab",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "click-behavior",
+          "action": "click",
+          "target": "tab:behavior"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "behavior-is-active",
+          "afterStepId": "click-behavior",
+          "target": "tab:behavior",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "behavior-panel-visible",
+          "afterStepId": "click-behavior",
+          "target": "panel:behavior",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "second-tab-status",
+          "afterStepId": "click-behavior",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 2."
+        },
+        {
+          "assertionId": "select-event-order",
+          "afterStepId": "click-behavior",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "add-and-open-tab",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "fill-new-title",
+          "action": "fill",
+          "target": "new-tab-title",
+          "value": "Agent tab"
+        },
+        {
+          "stepId": "fill-new-content",
+          "action": "fill",
+          "target": "new-tab-content",
+          "value": "Created by the migration harness."
+        },
+        {
+          "stepId": "submit-new-tab",
+          "action": "click",
+          "target": "add-tab"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "added-tab-count",
+          "afterStepId": "submit-new-tab",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 4
+        },
+        {
+          "assertionId": "added-tab-active",
+          "afterStepId": "submit-new-tab",
+          "target": "tab:agent",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "added-panel-visible",
+          "afterStepId": "submit-new-tab",
+          "target": "panel:agent",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "added-tab-status",
+          "afterStepId": "submit-new-tab",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 4."
+        },
+        {
+          "assertionId": "title-focus-restored",
+          "afterStepId": "submit-new-tab",
+          "target": "new-tab-title",
+          "kind": "focus",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "add-event-order",
+          "afterStepId": "submit-new-tab",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "add",
+              "args": [
+                3
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                3
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reject-incomplete-add",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "clear-new-title",
+          "action": "fill",
+          "target": "new-tab-title",
+          "value": ""
+        },
+        {
+          "stepId": "submit-incomplete-tab",
+          "action": "click",
+          "target": "add-tab"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "incomplete-tab-count",
+          "afterStepId": "submit-incomplete-tab",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 3
+        },
+        {
+          "assertionId": "incomplete-add-status",
+          "afterStepId": "submit-incomplete-tab",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Enter both a tab name and tab content."
+        },
+        {
+          "assertionId": "incomplete-add-events",
+          "afterStepId": "submit-incomplete-tab",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": []
+        }
+      ]
+    },
+    {
+      "id": "close-non-active-by-api",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "select-behavior-before-close",
+          "action": "click",
+          "target": "tab:behavior"
+        },
+        {
+          "stepId": "close-hello-by-api",
+          "action": "call",
+          "method": "close",
+          "args": [
+            0
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "api-close-tab-count",
+          "afterStepId": "close-hello-by-api",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 2
+        },
+        {
+          "assertionId": "api-close-selected-tab",
+          "afterStepId": "close-hello-by-api",
+          "target": "tab:migration-notes",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "api-close-status",
+          "afterStepId": "close-hello-by-api",
+          "target": "status",
+          "kind": "text",
+          "matcher": "equals",
+          "expected": "Showing tab 2."
+        },
+        {
+          "assertionId": "api-close-event-order",
+          "afterStepId": "close-hello-by-api",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "close",
+              "args": [
+                0
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close-active-with-button",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "select-behavior-before-button-close",
+          "action": "click",
+          "target": "tab:behavior"
+        },
+        {
+          "stepId": "close-behavior-button",
+          "action": "click",
+          "target": "tab:behavior:close"
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "button-close-tab-count",
+          "afterStepId": "close-behavior-button",
+          "target": "tabs",
+          "kind": "count",
+          "matcher": "equals",
+          "expected": 2
+        },
+        {
+          "assertionId": "button-close-selected-tab",
+          "afterStepId": "close-behavior-button",
+          "target": "tab:migration-notes",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "button-close-events",
+          "afterStepId": "close-behavior-button",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "close",
+              "args": [
+                1
+              ]
+            },
+            {
+              "name": "change",
+              "args": [
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "imperative-show",
+      "fixture": "default-tabs",
+      "steps": [
+        {
+          "stepId": "show-migration-notes",
+          "action": "call",
+          "method": "show",
+          "args": [
+            2
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "assertionId": "imperative-show-active",
+          "afterStepId": "show-migration-notes",
+          "target": "tab:migration-notes",
+          "kind": "class",
+          "matcher": "present",
+          "className": "active",
+          "expected": true
+        },
+        {
+          "assertionId": "imperative-show-panel",
+          "afterStepId": "show-migration-notes",
+          "target": "panel:migration-notes",
+          "kind": "visible",
+          "matcher": "equals",
+          "expected": true
+        },
+        {
+          "assertionId": "imperative-show-events",
+          "afterStepId": "show-migration-notes",
+          "target": "$events",
+          "kind": "event-trace",
+          "matcher": "equals",
+          "expected": [
+            {
+              "name": "change",
+              "args": [
+                2
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "selectors": {
+    "add-tab": {
+      "legacy": "#add-tab-form button[type=\"submit\"]",
+      "react": "[data-migration-control=\"add-tab\"]"
+    },
+    "component": {
+      "legacy": "#tab-pane",
+      "react": "[data-migration-component=\"tab-pane\"]"
+    },
+    "new-tab-content": {
+      "legacy": "#new-tab-content",
+      "react": "[data-migration-control=\"new-tab-content\"]"
+    },
+    "new-tab-title": {
+      "legacy": "#new-tab-title",
+      "react": "[data-migration-control=\"new-tab-title\"]"
+    },
+    "panel:agent": {
+      "legacy": "#tab-pane .content:has-text(\"Created by the migration harness.\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"agent-tab\"]"
+    },
+    "panel:behavior": {
+      "legacy": "#tab-pane .content:has-text(\"Delegated events\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"behavior\"]"
+    },
+    "panel:hello": {
+      "legacy": "#tab-pane .content:has-text(\"Hello world\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"hello\"]"
+    },
+    "panel:last": {
+      "legacy": "#tab-pane .content:last-of-type",
+      "react": "[data-migration-component=\"tab-pane\"] [role=\"tabpanel\"]:last-of-type"
+    },
+    "panel:migration-notes": {
+      "legacy": "#tab-pane .content:has-text(\"A useful first migration\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-panel-id=\"migration-notes\"]"
+    },
+    "status": {
+      "legacy": "#tab-pane-status",
+      "react": "[data-migration-control=\"tab-pane-status\"]"
+    },
+    "tab:agent": {
+      "legacy": "#tab-pane .tab:has-text(\"Agent tab\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"agent-tab\"]"
+    },
+    "tab:behavior": {
+      "legacy": "#tab-pane .tab:has-text(\"Behavior\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"behavior\"]"
+    },
+    "tab:behavior:close": {
+      "legacy": "#tab-pane [aria-label=\"Close Behavior tab\"]",
+      "react": "[data-migration-component=\"tab-pane\"] [aria-label=\"Close Behavior tab\"]"
+    },
+    "tab:hello": {
+      "legacy": "#tab-pane .tab:has-text(\"Hello\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"hello\"]"
+    },
+    "tab:hello:close": {
+      "legacy": "#tab-pane [aria-label=\"Close Hello tab\"]",
+      "react": "[data-migration-component=\"tab-pane\"] [aria-label=\"Close Hello tab\"]"
+    },
+    "tab:last": {
+      "legacy": "#tab-pane .tab:last-child",
+      "react": "[data-migration-component=\"tab-pane\"] [role=\"tab\"]:last-of-type"
+    },
+    "tab:migration-notes": {
+      "legacy": "#tab-pane .tab:has-text(\"Migration notes\")",
+      "react": "[data-migration-component=\"tab-pane\"] [data-tab-id=\"migration-notes\"]"
+    },
+    "tab:migration-notes:close": {
+      "legacy": "#tab-pane [aria-label=\"Close Migration notes tab\"]",
+      "react": "[data-migration-component=\"tab-pane\"] [aria-label=\"Close Migration notes tab\"]"
+    },
+    "tabs": {
+      "legacy": "#tab-pane .tab",
+      "react": "[data-migration-component=\"tab-pane\"] [role=\"tab\"]"
+    }
+  },
+  "decisions": [
+    {
+      "findingId": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
+      "findingFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-dom-listener:domready-tabpane-add-tabpane-addevent-tabpane-close",
+      "findingFingerprint": "sha256:388a49922dc5f82a7bb001f6ae640ce6d5bc4d325ad4e79480dcfa0440341efe",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:388a49922dc5f82a7bb001f6ae640ce6d5bc4d325ad4e79480dcfa0440341efe"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-dom-listener:submit-tabpane-add",
+      "findingFingerprint": "sha256:c817a3e7a09445377b36f8dc103a8829fd5bcf0d10b00c18427393cd455701c2",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c817a3e7a09445377b36f8dc103a8829fd5bcf0d10b00c18427393cd455701c2"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-event-listener:addevent-change",
+      "findingFingerprint": "sha256:83355607aa8fb39b09146a6f96a2fee1b0e0d050a9afd9f4924ff05c38a6fb7c",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:83355607aa8fb39b09146a6f96a2fee1b0e0d050a9afd9f4924ff05c38a6fb7c"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-global-exposure:window-moosandbox",
+      "findingFingerprint": "sha256:45765c7de553fcee356052ecd1c93cba073f8db8388352dc4156117554f8f110",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:45765c7de553fcee356052ecd1c93cba073f8db8388352dc4156117554f8f110"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:add",
+      "findingFingerprint": "sha256:d0816f36fc4b5c1a5d7c3b9ef864841afb57ad039274f242b10a2537a197a8fd",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:d0816f36fc4b5c1a5d7c3b9ef864841afb57ad039274f242b10a2537a197a8fd"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:addevent",
+      "findingFingerprint": "sha256:36322b6b2b89370e9d130ba6fb69c9a75b6cd795eff30c2ba13813dc10a9a999",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:36322b6b2b89370e9d130ba6fb69c9a75b6cd795eff30c2ba13813dc10a9a999"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:close",
+      "findingFingerprint": "sha256:7d08f50495cef3ac4c1ab9266d223ce8d7dd8a8f396777e069e750b1d4d6bf69",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:7d08f50495cef3ac4c1ab9266d223ce8d7dd8a8f396777e069e750b1d4d6bf69"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller:main-js-5-constructor",
+      "findingFingerprint": "sha256:4e5d6fdd4240b69b07cd831bb74cb2128a90da24d0d433dc681dafb55bcf70dc",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:4e5d6fdd4240b69b07cd831bb74cb2128a90da24d0d433dc681dafb55bcf70dc"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-change",
+      "findingFingerprint": "sha256:7d2bfb23b6a915258109cb383513d15b788c14f2161aeb75bf3e2760534b94d6",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:7d2bfb23b6a915258109cb383513d15b788c14f2161aeb75bf3e2760534b94d6"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-click-relay-data-close-tab",
+      "findingFingerprint": "sha256:21d5095bc00fb443b5ef3ce6e63a1a740d5e49b972ac5349e4473a7b607079d2",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:21d5095bc00fb443b5ef3ce6e63a1a740d5e49b972ac5349e4473a7b607079d2"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-click-relay-this-options-tabselector",
+      "findingFingerprint": "sha256:c7dc63b0001ec4ba305fb0f3a55ce54d58d624a82a44d4454de4084619e6606a",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c7dc63b0001ec4ba305fb0f3a55ce54d58d624a82a44d4454de4084619e6606a"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-domready",
+      "findingFingerprint": "sha256:7b3d120a59e945241922fdcbf13ec75c20695f2accc18d15ec83fa06eb875b9e",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:7b3d120a59e945241922fdcbf13ec75c20695f2accc18d15ec83fa06eb875b9e"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-submit",
+      "findingFingerprint": "sha256:5d008b1fc25667ade904b2bfb60b5b8c7e11485011b6a0906b3f5175624d9fcd",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:5d008b1fc25667ade904b2bfb60b5b8c7e11485011b6a0906b3f5175624d9fcd"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:add",
+      "findingFingerprint": "sha256:6e80c7ccc614735803f5d000184a9d72dcb1eaf84e5337f579d31e1ba000442e",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:6e80c7ccc614735803f5d000184a9d72dcb1eaf84e5337f579d31e1ba000442e"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:change",
+      "findingFingerprint": "sha256:ef10a6c93c8d77da5f4834fef12505550dce19bd7c4970778049135ec6b08f62",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:ef10a6c93c8d77da5f4834fef12505550dce19bd7c4970778049135ec6b08f62"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:close",
+      "findingFingerprint": "sha256:6116478f5738d3f0c339d95bf9e904cd105d18a9ee70c9ad098ae94969047fcf",
+      "resolution": "preserve",
+      "rationale": "Preserve the trigger, payload, and required ordering; remove the legacy close-button select side effect.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:6116478f5738d3f0c339d95bf9e904cd105d18a9ee70c9ad098ae94969047fcf"
+      }
+    },
+    {
+      "findingId": "tab-pane:global:tabpane",
+      "findingFingerprint": "sha256:d9191834aadb517c45c0da4071c0e34b0b6b88cb8954faed061e81a855f494c2",
+      "resolution": "replace",
+      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:d9191834aadb517c45c0da4071c0e34b0b6b88cb8954faed061e81a855f494c2"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:activeclass",
+      "findingFingerprint": "sha256:1a1cd09ed028077e83df29456151ba5e6a9b1252be69d93afbb1f925d9cf4af9",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:1a1cd09ed028077e83df29456151ba5e6a9b1252be69d93afbb1f925d9cf4af9"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:contentselector",
+      "findingFingerprint": "sha256:1cf081ec2dfb9c73d13683432547387350078c713116eb5ab57255623337c544",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:1cf081ec2dfb9c73d13683432547387350078c713116eb5ab57255623337c544"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:tabselector",
+      "findingFingerprint": "sha256:8ff548c3cf8b2fa09be7aa27c7bdd006be2fcb26a7568539e2178755a667d614",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:8ff548c3cf8b2fa09be7aa27c7bdd006be2fcb26a7568539e2178755a667d614"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:add",
+      "findingFingerprint": "sha256:e7951fd94e2904a18050f822e13d19ba9e8c181b0d10907fb5142a0726ab06de",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:e7951fd94e2904a18050f822e13d19ba9e8c181b0d10907fb5142a0726ab06de"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:close",
+      "findingFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c",
+      "resolution": "fix",
+      "rationale": "Keep close behavior but retain the selected stable tab when another tab closes.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:get",
+      "findingFingerprint": "sha256:0ed2b7c0eaa48f426144a40a792886cebf46986e6f61d03f5230e4ebf9b0bcd0",
+      "resolution": "delete",
+      "rationale": "These index-based helpers are legacy internals and have no required React caller.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:0ed2b7c0eaa48f426144a40a792886cebf46986e6f61d03f5230e4ebf9b0bcd0"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:indexof",
+      "findingFingerprint": "sha256:c3a200a597c844d32ab462fd55374c717d1901ebb68a639cc15cf96aaaeb5405",
+      "resolution": "delete",
+      "rationale": "These index-based helpers are legacy internals and have no required React caller.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:c3a200a597c844d32ab462fd55374c717d1901ebb68a639cc15cf96aaaeb5405"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:initialize",
+      "findingFingerprint": "sha256:3dc2e83b5f9763351ef6c650d559ec50207d61e49390e14b24193c20b5ed5889",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:3dc2e83b5f9763351ef6c650d559ec50207d61e49390e14b24193c20b5ed5889"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:show",
+      "findingFingerprint": "sha256:56827da40314f87f00546c2ce833fc9f34c9f0eef6c09baeb3704da4b28550e4",
+      "resolution": "replace",
+      "rationale": "Replace the index-based MooTools API with stable React tab IDs and an approved compatibility test handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "findingFingerprint": "sha256:56827da40314f87f00546c2ce833fc9f34c9f0eef6c09baeb3704da4b28550e4"
+      }
+    }
+  ],
+  "acceptedDifferences": [
+    {
+      "id": "close-non-active-by-api-api-close-selected-tab",
+      "decisionFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c",
+      "scenarioId": "close-non-active-by-api",
+      "stepId": "close-hello-by-api",
+      "assertionId": "api-close-selected-tab",
+      "legacyValue": true,
+      "reactValue": false,
+      "reason": "React retains the selected stable tab when a different tab closes.",
+      "fingerprint": "sha256:20c46252e2ba219c1793be6fe8d8c8f5f5357244ad6274565270b5d51a08d9c3",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:20c46252e2ba219c1793be6fe8d8c8f5f5357244ad6274565270b5d51a08d9c3"
+      }
+    },
+    {
+      "id": "close-non-active-by-api-api-close-status",
+      "decisionFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c",
+      "scenarioId": "close-non-active-by-api",
+      "stepId": "close-hello-by-api",
+      "assertionId": "api-close-status",
+      "legacyValue": "Showing tab 2.",
+      "reactValue": "Showing tab 1.",
+      "reason": "React retains the selected stable tab when a different tab closes.",
+      "fingerprint": "sha256:466fc7b6bfe2e40ab13d4429a97863f475549859e0a5f7f8c414733852914d22",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:466fc7b6bfe2e40ab13d4429a97863f475549859e0a5f7f8c414733852914d22"
+      }
+    },
+    {
+      "id": "close-non-active-by-api-api-close-event-order",
+      "decisionFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c",
+      "scenarioId": "close-non-active-by-api",
+      "stepId": "close-hello-by-api",
+      "assertionId": "api-close-event-order",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            0
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            0
+          ]
+        }
+      ],
+      "reason": "React retains the selected stable tab when a different tab closes.",
+      "fingerprint": "sha256:b82dee64c2db6b44b432ad44c6fcb25519a84eac475b5745be37a8fd666bac04",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:b82dee64c2db6b44b432ad44c6fcb25519a84eac475b5745be37a8fd666bac04"
+      }
+    },
+    {
+      "id": "close-active-with-button-button-close-events",
+      "decisionFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f",
+      "scenarioId": "close-active-with-button",
+      "stepId": "close-behavior-button",
+      "assertionId": "button-close-events",
+      "legacyValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reactValue": [
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "close",
+          "args": [
+            1
+          ]
+        },
+        {
+          "name": "change",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "reason": "React close buttons stop propagation instead of selecting the tab before close.",
+      "fingerprint": "sha256:b97d33babeed23c810d0a609739d2f0dd6dd15910d978d011eaf174fda23f3c3",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "user:taekim",
+        "approvedAt": "2026-08-07T20:15:00.000Z",
+        "differenceFingerprint": "sha256:b97d33babeed23c810d0a609739d2f0dd6dd15910d978d011eaf174fda23f3c3"
+      }
+    }
+  ],
+  "allowedLegacyUses": [
+    {
+      "path": "main.js",
+      "kind": "constructor",
+      "symbol": "TabPane",
+      "line": 5
+    }
+  ]
+}

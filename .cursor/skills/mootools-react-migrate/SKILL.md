@@ -5,169 +5,77 @@ description: Migrates one MooTools component to React with a saved legacy baseli
 
 # Migrate one MooTools component
 
-Run this workflow from the repository root. Cursor should run the commands,
-write the React component and tests, and continue until verification passes.
+Run this workflow from the repository root. The human gives you one component.
+You run the commands, write the React component and tests, and stop only when
+verification passes.
 
-## Hard rules
+## Rules
 
-- Migrate one registered component at a time.
-- Capture the legacy baseline before React behavior work.
-- Keep generated findings separate from approved decisions.
-- Give one framework sole ownership of the component DOM.
-- Treat generated code as a draft.
+- Migrate one component at a time.
+- Give MooTools and React separate DOM ownership.
 - Do not change a valid baseline to make React pass.
-- Stop for every pending product-visible decision.
-- Do not push, deploy, or apply a write codemod without user authority.
+- Record product-visible choices in
+  `tools/mootools-migrate/components/<component>/migration.json`.
+- Stop for human approval when a decision is pending.
+- Use the adapter only when callers need an intermediate mount function.
+- Do not push, deploy, or write an adapter without user authority.
 
-## Loop
-
-Start with:
+## 1. Analyze
 
 ```bash
-npm run migrate -- status <component>
+npm run migrate -- analyze <component>
 ```
 
-Run the command in `nextAction`. Repeat until the status stops at human or
-agent work.
+Read `worksheet.generated.json`. Review callers, public methods, events,
+side effects, DOM, CSS, dependencies, and unknown forms. The command creates
+decision stubs only when `migration.json` has no decisions.
 
-The deterministic helper can run analysis and baseline phases:
+## 2. Capture the legacy baseline
 
-```bash
-npm run migrate -- loop <component> \
-  --legacy-url http://127.0.0.1:5173 \
-  --react-url http://127.0.0.1:5173
-```
-
-It must stop when a legacy test needs backfilling, a decision needs approval,
-or React code and tests need implementation. It must not approve decisions or
-write product code by itself.
-
-## Phase 1. Analyze
+Backfill the configured MooTools unit test if it is missing. Start the
+application. Then run:
 
 ```bash
-npm run migrate -- inventory --write
-npm run migrate -- analyze <component> --write
-```
-
-Review every unknown and contract-relevant finding. Static analysis is not
-proof that all external callers are known.
-
-## Phase 2. Backfill and run the legacy unit test
-
-Create the configured MooTools unit-test file if it does not exist. Test the
-actual legacy source and pinned runtime. Then run:
-
-```bash
-npm run migrate -- test legacy <component>
-```
-
-Stop if the test fails. The tool stores source and test hashes so later source
-changes make the test evidence stale.
-
-## Phase 3. Capture legacy
-
-Start the sandbox or customer application. Then run:
-
-```bash
-npm run migrate -- capture <component> \
-  --surface legacy \
+npm run migrate -- baseline <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-The capture must have no page, console, request, selector, or assertion error.
-Do not continue without a valid baseline.
+This command runs the legacy unit test before browser capture. Review the
+worksheet and baseline. Resolve every pending product decision in
+`migration.json` before writing React.
 
-## Phase 4. Decide
+## 3. Define the boundary
 
-Create a decision draft once:
+Read all current callers. Prefer stable IDs and React callbacks over the
+legacy class API.
 
-```bash
-npm run migrate -- decisions init <component> --write
-```
-
-Edit each decision. Replace the `TODO` rationale. A human must approve every
-record that says `requiresHumanApproval: true`.
-
-Check:
-
-```bash
-npm run migrate -- decisions check <component>
-```
-
-Stop while this command is nonzero.
-
-## Phase 5. Define the boundary
-
-Read all current callers before choosing the React API.
-
-Use an adapter only when incremental caller movement or rollback needs both
-implementations. Preview the exact adapter change:
+Preview the optional adapter:
 
 ```bash
 npm run migrate -- adapter <component>
 ```
 
-The codemod is dry-run by default. It must preflight every target file. Do not
-use `--allow-unsafe-write` outside a disposable non-git sandbox.
+The adapter command is a dry run unless the user approves `--write`. One
+unsupported caller cancels the complete write plan.
 
-## Phase 6. Implement and test React
+## 4. Implement and verify
 
-- Model state with stable IDs.
-- Preserve only caller-observed contracts.
-- Keep pure utilities when they still model the domain.
-- Replace MooTools DOM and event helpers at the React boundary.
-- Add focused component tests.
-- Expose a test handle only when an approved imperative contract needs it.
-
-Run the target project type check and build after each behavior unit.
-
-Run and record the focused React unit test:
+Write the React component and its focused unit test. Then run:
 
 ```bash
-npm run migrate -- test react <component>
-```
-
-Stop if this test fails.
-
-## Phase 7. Prove
-
-```bash
-npm run migrate -- compare <component> \
+npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-Fix the React candidate when proof fails. After three blind fixes, stop and
-inspect the exact assertion, event, DOM element, or style.
+`verify` checks decisions, new MooTools uses, both unit tests, type checking,
+the production build, baseline freshness, browser behavior, event order,
+focus, styles, and screenshots. Fix React and rerun until the result is
+`PARITY` with `attested: true`.
 
-Done requires `PARITY` and `attested: true`.
+## Rebase and cleanup
 
-## Phase 8. Clean up
+If upstream changes the legacy component, rerun `baseline` and port the change
+before verification.
 
-```bash
-npm run migrate -- no-new-use <component>
-npm run migrate -- status <component>
-```
-
-In local pilot mode, keep the separate legacy reference page. Remove MooTools
-only from the React target.
-
-In production mode, remove approved legacy callers and files only after full
-traffic, stable metrics, and tested rollback.
-
-## Stop conditions
-
-Stop and report evidence when:
-
-- A behavior choice has no approved decision.
-- A legacy defect may need compatibility.
-- A public API has no caller evidence.
-- A baseline state cannot be exercised.
-- A tool finds an unsupported source form.
-- A target file has unrelated changes.
-- A planned write leaves the declared component file set.
-- A post-write check fails.
-
-## References
-
-- Read [contracts.md](contracts.md) for artifact ownership and freshness.
-- Read [tab-pane-pilot.md](tab-pane-pilot.md) for the first pilot contract.
+Remove obsolete globals, compatibility wrappers, feature flags, temporary
+selectors, and direct MooTools calls when React takes ownership.
