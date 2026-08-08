@@ -1,10 +1,10 @@
 import { readFile } from "node:fs/promises";
-import { extname, relative, resolve } from "node:path";
+import { extname, resolve } from "node:path";
 
 import fg from "fast-glob";
 import ts from "typescript";
 
-import type { ComponentConfig, LegacyUse } from "../contracts/schemas.js";
+import type { MigrationSpec, LegacyUse } from "../contracts/schemas.js";
 
 const DEFAULT_IGNORES = [
   "**/node_modules/**",
@@ -27,7 +27,7 @@ export async function expandProjectGlobs(options: {
 
 export async function findLegacyUses(options: {
   projectRoot: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
 }): Promise<LegacyUse[]> {
   const paths = await expandProjectGlobs({
     projectRoot: options.projectRoot,
@@ -101,10 +101,6 @@ export async function findLegacyUses(options: {
   }
 
   return deduplicateUses(uses);
-}
-
-export function projectRelativePath(projectRoot: string, path: string): string {
-  return relative(projectRoot, resolve(path)).split("\\").join("/");
 }
 
 export function walk(

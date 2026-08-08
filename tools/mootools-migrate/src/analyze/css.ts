@@ -14,11 +14,11 @@ import {
   type EvidenceLocation,
   type FindingDraft,
 } from "./shared.js";
-import type { ComponentConfig } from "../contracts/schemas.js";
+import type { MigrationSpec } from "../contracts/schemas.js";
 
 export async function analyzeCssAst(options: {
   projectRoot: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
   drafts: Map<string, FindingDraft>;
 }): Promise<void> {
   const knownMarkup = collectKnownMarkup(options.drafts, options.config);
@@ -208,7 +208,7 @@ function parseSelectorHooks(
 
 function collectKnownMarkup(
   drafts: Map<string, FindingDraft>,
-  config: ComponentConfig,
+  config: MigrationSpec,
 ): { hooks: Set<string>; tags: Set<string> } {
   const hooks = new Set(
     config.markupFiles.map((entry) => normalizeHook(entry.rootSelector)),

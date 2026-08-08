@@ -2,10 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { checkDecisions } from "../src/checks/decisions.js";
 import { addFindingFingerprint } from "../src/core/fingerprint.js";
-import {
-  DecisionsFileSchema,
-  WorksheetSchema,
-} from "../src/contracts/schemas.js";
+import { DecisionsSchema, WorksheetSchema } from "../src/contracts/schemas.js";
 
 const finding = addFindingFingerprint({
   id: "tab-pane:event:change",
@@ -27,8 +24,8 @@ const finding = addFindingFingerprint({
 const worksheet = WorksheetSchema.parse({
   schemaVersion: 1,
   componentId: "tab-pane",
-  source: "manual",
-  analyzerVersion: null,
+  source: "analyzer",
+  analyzerVersion: "test",
   inputHash: `sha256:${"b".repeat(64)}`,
   generatedAt: "2026-01-01T00:00:00.000Z",
   findings: [finding],
@@ -37,16 +34,12 @@ const worksheet = WorksheetSchema.parse({
 
 describe("decision checks", () => {
   it("accepts a matching human approval", () => {
-    const decisions = DecisionsFileSchema.parse({
-      schemaVersion: 1,
-      componentId: "tab-pane",
-      decisions: [
+    const decisions = DecisionsSchema.parse([
         {
           findingId: finding.id,
           findingFingerprint: finding.fingerprint,
           resolution: "preserve",
           rationale: "The current caller observes this event.",
-          requiresHumanApproval: true,
           approval: {
             status: "approved",
             approvedBy: "test-user",
@@ -54,8 +47,7 @@ describe("decision checks", () => {
             findingFingerprint: finding.fingerprint,
           },
         },
-      ],
-    });
+    ]);
 
     expect(checkDecisions({ worksheet, decisions })).toEqual({
       ok: true,
@@ -64,20 +56,15 @@ describe("decision checks", () => {
   });
 
   it("rejects pending and stale decisions", () => {
-    const decisions = DecisionsFileSchema.parse({
-      schemaVersion: 1,
-      componentId: "tab-pane",
-      decisions: [
+    const decisions = DecisionsSchema.parse([
         {
           findingId: finding.id,
           findingFingerprint: `sha256:${"c".repeat(64)}`,
           resolution: "preserve",
           rationale: "TODO: decide",
-          requiresHumanApproval: true,
           approval: { status: "pending" },
         },
-      ],
-    });
+    ]);
     const result = checkDecisions({ worksheet, decisions });
 
     expect(result.ok).toBe(false);
@@ -90,27 +77,19 @@ describe("decision checks", () => {
     );
   });
 
-  it("does not let a decision disable required approval", () => {
-    const decisions = DecisionsFileSchema.parse({
-      schemaVersion: 1,
-      componentId: "tab-pane",
-      decisions: [
+  it("requires approval for every human decision", () => {
+    const decisions = DecisionsSchema.parse([
         {
           findingId: finding.id,
           findingFingerprint: finding.fingerprint,
           resolution: "preserve",
           rationale: "Keep the event.",
-          requiresHumanApproval: false,
-          approval: { status: "not-required" },
+          approval: { status: "pending" },
         },
-      ],
-    });
+    ]);
     const result = checkDecisions({ worksheet, decisions });
 
     expect(result.ok).toBe(false);
-    expect(result.issues).toContain(
-      `Decision approval requirement differs from finding contract relevance for ${finding.id}.`,
-    );
     expect(result.issues).toContain(
       `Human approval is pending for ${finding.id}.`,
     );

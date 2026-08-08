@@ -10,7 +10,7 @@ import {
   slug,
   type FindingDraft,
 } from "./shared.js";
-import type { ComponentConfig } from "../contracts/schemas.js";
+import type { MigrationSpec } from "../contracts/schemas.js";
 import {
   expandProjectGlobs,
   scriptKindForPath,
@@ -19,7 +19,7 @@ import {
 
 export async function analyzeDependencies(options: {
   projectRoot: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
   drafts: Map<string, FindingDraft>;
 }): Promise<void> {
   const callsitePaths = await expandProjectGlobs({
@@ -131,7 +131,7 @@ function analyzeMetadata(options: {
 
 function analyzeImports(options: {
   componentId: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
   path: string;
   sourceFile: ts.SourceFile;
   drafts: Map<string, FindingDraft>;
@@ -188,7 +188,7 @@ function analyzeImports(options: {
 
 function analyzeScriptOrder(options: {
   componentId: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
   path: string;
   sourceFile: ts.SourceFile;
   drafts: Map<string, FindingDraft>;
@@ -248,7 +248,7 @@ function analyzeScriptOrder(options: {
 
 function isRequiredModule(
   moduleName: string,
-  config: ComponentConfig,
+  config: MigrationSpec,
 ): boolean {
   if (/^https?:\/\//.test(moduleName)) {
     return true;
@@ -264,7 +264,7 @@ function isRequiredModule(
 }
 
 function analyzeImplicitGlobal(options: {
-  config: ComponentConfig;
+  config: MigrationSpec;
   path: string;
   sourceFile: ts.SourceFile;
   drafts: Map<string, FindingDraft>;

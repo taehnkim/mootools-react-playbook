@@ -1,11 +1,8 @@
-import { componentArtifactPath, type ToolContext } from "../core/context.js";
-import { readJson } from "../core/json.js";
 import {
-  LegacyUseAllowlistSchema,
-  type ComponentConfig,
+  type MigrationSpec,
   type LegacyUse,
-  type LegacyUseAllowlist,
 } from "../contracts/schemas.js";
+import type { ToolContext } from "../core/context.js";
 import { findLegacyUses } from "../analyze/source.js";
 
 export type LegacyUseCheck = {
@@ -14,39 +11,30 @@ export type LegacyUseCheck = {
   removedUses: LegacyUse[];
 };
 
-export async function loadLegacyUseAllowlist(options: {
-  context: ToolContext;
-  componentId: string;
-}): Promise<LegacyUseAllowlist> {
-  return readJson(
-    componentArtifactPath(
-      options.context,
-      options.componentId,
-      "legacy-use-allowlist.json",
-    ),
-    LegacyUseAllowlistSchema,
-  );
-}
-
 export async function checkNoNewUse(options: {
   context: ToolContext;
-  config: ComponentConfig;
-  allowlist: LegacyUseAllowlist;
+  config: MigrationSpec;
 }): Promise<LegacyUseCheck> {
-  const uses = await findLegacyUses({
+  const foundUses = await findLegacyUses({
     projectRoot: options.context.projectRoot,
     config: options.config,
   });
-  const allowedKeys = new Set(options.allowlist.allowedUses.map(useKey));
+  const uses = foundUses.filter(isDirectLegacyUse);
+  const allowedUses = options.config.allowedLegacyUses.filter(isDirectLegacyUse);
+  const allowedKeys = new Set(allowedUses.map(useKey));
   const actualKeys = new Set(uses.map(useKey));
 
   return {
     ok: uses.every((use) => allowedKeys.has(useKey(use))),
     newUses: uses.filter((use) => !allowedKeys.has(useKey(use))),
-    removedUses: options.allowlist.allowedUses.filter(
+    removedUses: allowedUses.filter(
       (use) => !actualKeys.has(useKey(use)),
     ),
   };
+}
+
+function isDirectLegacyUse(use: LegacyUse): boolean {
+  return use.kind === "constructor" || use.kind === "global-reference";
 }
 
 function useKey(use: LegacyUse): string {

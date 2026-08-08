@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "runId": "legacy-unit-test-gate",
+  "runId": "legacy-2026-08-08T01-08-45-463Z",
   "componentId": "tab-pane",
   "surface": "legacy",
-  "createdAt": "2026-08-07T21:52:11.908Z",
-  "baseUrl": "http://127.0.0.1:5182",
-  "projectInputHash": "sha256:7abb80c27ec99243ddf552d554089d32677b1f77323d524804b5c06c742c7c72",
-  "componentConfigHash": "sha256:a461a77846d49a6ace1c5ca117efbd3c0fac6fa3fc75b9f1d77cbebcce8f843a",
-  "scenariosHash": "sha256:8197299c6b0dde7dc626c41d9255dee96fa80a39dc80d82d278b40e619351ee9",
-  "fixturesHash": "sha256:ed5940842335ace9f987963dc0d5e303f5b3bf3fed5d8c2fcc694d1be47ec9aa",
-  "selectorsHash": "sha256:0c9911eb6454d7b050f64d4175d22a6ca217afd75f0a8a94888e774ea644b47a",
+  "createdAt": "2026-08-08T01:08:50.069Z",
+  "baseUrl": "http://127.0.0.1:5173",
+  "projectInputHash": "sha256:f538059e04a0411ce7704b5315d0a808cae35a5ce528a19225b42116f60df56e",
+  "captureConfigHash": "sha256:5afca368a90130cbf8301e290685f553db79f3bbd23bd6a231abcfa390b60022",
+  "scenariosHash": "sha256:c63439ce6db9639d3d7b53a8f4830c144c11bca4c0d2007b230f90d5aec11e29",
+  "fixturesHash": "sha256:8eac205aa94d3c372bca346e8c590d5a899a2320360b33e2611d73d0c475d210",
+  "selectorsHash": "sha256:71129ba773e5742fdefba35ebd712313bedfbfb4c5caa5f88fbd19e121044662",
   "browserVersion": "151.0.7922.34",
   "viewport": {
     "width": 1280,
@@ -48,6 +48,22 @@
           "afterStepId": "observe-initial",
           "kind": "visible",
           "actual": false,
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "hello-close-label",
+          "afterStepId": "observe-initial",
+          "kind": "attribute",
+          "actual": "Close Hello tab",
+          "screenshotPath": null,
+          "screenshotHash": null
+        },
+        {
+          "assertionId": "hello-panel-display",
+          "afterStepId": "observe-initial",
+          "kind": "computed-style",
+          "actual": "block",
           "screenshotPath": null,
           "screenshotHash": null
         },

@@ -13,7 +13,7 @@ import { promisify } from "node:util";
 import ts from "typescript";
 
 import type { ToolContext } from "../core/context.js";
-import type { ComponentConfig } from "../contracts/schemas.js";
+import type { MigrationSpec } from "../contracts/schemas.js";
 import { scriptKindForPath, walk } from "../analyze/source.js";
 
 const execFileAsync = promisify(execFile);
@@ -36,7 +36,7 @@ export type AdapterCodemodResult =
 
 export async function planAdapterCodemod(options: {
   context: ToolContext;
-  config: ComponentConfig;
+  config: MigrationSpec;
 }): Promise<AdapterCodemodResult> {
   const reasons: string[] = [];
   const edits: PlannedEdit[] = [];
@@ -94,33 +94,39 @@ export async function planAdapterCodemod(options: {
 export async function applyAdapterCodemod(options: {
   context: ToolContext;
   result: Extract<AdapterCodemodResult, { kind: "ready" }>;
-  allowUnsafeWrite: boolean;
 }): Promise<void> {
   if (options.result.edits.length === 0) {
     return;
   }
 
   const paths = options.result.edits.map((edit) => edit.path);
-  if (!options.allowUnsafeWrite) {
-    await requireCleanGitPaths(options.context.projectRoot, paths);
-  }
+  await requireCleanGitPaths(options.context.projectRoot, paths);
+  await applyEditsAtomically(
+    options.context.projectRoot,
+    options.result.edits,
+  );
+}
 
+export async function applyEditsAtomically(
+  projectRoot: string,
+  edits: PlannedEdit[],
+): Promise<void> {
   const temporaryPaths: string[] = [];
   try {
-    for (const edit of options.result.edits) {
-      const absolutePath = resolve(options.context.projectRoot, edit.path);
+    for (const edit of edits) {
+      const absolutePath = resolve(projectRoot, edit.path);
       const temporaryPath = `${absolutePath}.migration-tools-tmp`;
       await mkdir(dirname(absolutePath), { recursive: true });
       await writeFile(temporaryPath, edit.after, "utf8");
       temporaryPaths.push(temporaryPath);
     }
 
-    for (const edit of options.result.edits) {
-      const absolutePath = resolve(options.context.projectRoot, edit.path);
+    for (const edit of edits) {
+      const absolutePath = resolve(projectRoot, edit.path);
       await rename(`${absolutePath}.migration-tools-tmp`, absolutePath);
     }
   } catch (error: unknown) {
-    await restoreEdits(options.context.projectRoot, options.result.edits);
+    await restoreEdits(projectRoot, edits);
     for (const temporaryPath of temporaryPaths) {
       await unlink(temporaryPath).catch(() => undefined);
     }
@@ -182,7 +188,7 @@ function replaceConstructors(options: {
 
 function editBootstrap(options: {
   source: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
 }): { source: string; reasons: string[] } {
   const sourceFile = ts.createSourceFile(
     options.config.adapter.bootstrapFile,
@@ -219,8 +225,7 @@ function editBootstrap(options: {
     const mainImports = sourceFile.statements.filter(
       (statement) =>
         ts.isImportDeclaration(statement) &&
-        statement.getText(sourceFile) ===
-          options.config.adapter.bootstrapImportAnchor,
+        statement.importClause?.name?.text === "mainUrl",
     );
     const mainImport = mainImports[0];
     if (mainImports.length !== 1 || mainImport === undefined) {
@@ -283,7 +288,7 @@ function editBootstrap(options: {
   return { source, reasons };
 }
 
-function renderAdapter(config: ComponentConfig): string {
+function renderAdapter(config: MigrationSpec): string {
   return `(function (global) {
   global.${config.adapter.globalName} = function (container, options, showNow) {
     return new global.${config.legacyGlobal}(container, options, showNow);
@@ -312,7 +317,7 @@ async function requireCleanGitPaths(
       throw error;
     }
     throw new Error(
-      "Adapter writes require a clean git repository. Use --allow-unsafe-write only in a disposable sandbox.",
+      "Adapter writes require a clean git repository.",
       { cause: error },
     );
   }

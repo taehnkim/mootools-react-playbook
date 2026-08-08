@@ -10,7 +10,7 @@ import {
 } from "./shared.js";
 import { analyzeDomOperations } from "./dom.js";
 import { analyzeEffects } from "./effects.js";
-import type { ComponentConfig } from "../contracts/schemas.js";
+import type { MigrationSpec } from "../contracts/schemas.js";
 import {
   expandProjectGlobs,
   walk,
@@ -18,7 +18,7 @@ import {
 
 export async function analyzeCallsites(options: {
   projectRoot: string;
-  config: ComponentConfig;
+  config: MigrationSpec;
   drafts: Map<string, FindingDraft>;
 }): Promise<void> {
   const paths = await expandProjectGlobs({
@@ -55,7 +55,7 @@ export async function analyzeCallsites(options: {
 }
 
 function analyzeCallsiteFile(options: {
-  config: ComponentConfig;
+  config: MigrationSpec;
   path: string;
   sourceFile: ts.SourceFile;
   checker: ts.TypeChecker;
@@ -249,7 +249,7 @@ type InstanceBindings = {
 
 function findInstanceBindings(
   sourceFile: ts.SourceFile,
-  config: ComponentConfig,
+  config: MigrationSpec,
   checker: ts.TypeChecker,
 ): InstanceBindings {
   const bindings: InstanceBindings = {
@@ -315,7 +315,7 @@ function findInstanceBindings(
 
 function isComponentConstruction(
   node: ts.Expression,
-  config: ComponentConfig,
+  config: MigrationSpec,
   checker: ts.TypeChecker,
   factorySymbols: Set<ts.Symbol>,
 ): boolean {
@@ -378,7 +378,7 @@ function isTrackedExpression(
 
 function containsConstructionReturn(
   body: ts.Block,
-  config: ComponentConfig,
+  config: MigrationSpec,
 ): boolean {
   let found = false;
   walk(body, (node) => {
@@ -395,7 +395,7 @@ function containsConstructionReturn(
 
 function isDirectConstruction(
   node: ts.Expression,
-  config: ComponentConfig,
+  config: MigrationSpec,
 ): boolean {
   if (ts.isNewExpression(node)) {
     return expressionMatchesName(node.expression, config.legacyGlobal);

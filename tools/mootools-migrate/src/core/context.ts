@@ -1,18 +1,16 @@
 import { readFile } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { dirname, isAbsolute, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  ComponentConfigSchema,
-  RegistrySchema,
-  type ComponentConfig,
-  type Registry,
+  ComponentIdSchema,
+  MigrationSpecSchema,
+  type MigrationSpec,
 } from "../contracts/schemas.js";
 
 export type ToolContext = {
   toolsRoot: string;
   projectRoot: string;
-  registry: Registry;
 };
 
 export function defaultToolsRoot(): string {
@@ -28,33 +26,26 @@ export async function createContext(options: {
     options.projectRoot === null
       ? resolve(toolsRoot, "../..")
       : resolve(options.projectRoot);
-  const registrySource = await readFile(
-    resolve(toolsRoot, "registry.json"),
-    "utf8",
-  );
-  const registry = RegistrySchema.parse(JSON.parse(registrySource));
-  return { toolsRoot, projectRoot, registry };
+  return { toolsRoot, projectRoot };
 }
 
-export async function loadComponentConfig(
+export async function loadMigrationSpec(
   context: ToolContext,
   componentId: string,
-): Promise<ComponentConfig> {
-  const entry = context.registry.components.find(
-    (component) => component.id === componentId,
-  );
-  if (entry === undefined) {
-    throw new Error(`Unknown component: ${componentId}`);
-  }
-
+): Promise<MigrationSpec> {
+  const safeComponentId = ComponentIdSchema.parse(componentId);
   const configSource = await readFile(
-    resolve(context.toolsRoot, entry.configPath),
+    componentArtifactPath(
+      context,
+      safeComponentId,
+      "migration.json",
+    ),
     "utf8",
   );
-  const config = ComponentConfigSchema.parse(JSON.parse(configSource));
-  if (config.id !== componentId) {
+  const config = MigrationSpecSchema.parse(JSON.parse(configSource));
+  if (config.id !== safeComponentId) {
     throw new Error(
-      `Registry component ${componentId} points to config for ${config.id}.`,
+      `Component directory ${safeComponentId} contains config for ${config.id}.`,
     );
   }
   return config;
@@ -65,10 +56,15 @@ export function componentArtifactPath(
   componentId: string,
   ...segments: string[]
 ): string {
-  return resolve(
+  const componentRoot = resolve(
     context.toolsRoot,
     "components",
-    componentId,
-    ...segments,
+    ComponentIdSchema.parse(componentId),
   );
+  const artifactPath = resolve(componentRoot, ...segments);
+  const child = relative(componentRoot, artifactPath);
+  if (child.startsWith("..") || isAbsolute(child)) {
+    throw new Error("Component artifact path escapes its component directory.");
+  }
+  return artifactPath;
 }

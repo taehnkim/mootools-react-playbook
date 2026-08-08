@@ -3,8 +3,8 @@
   "componentId": "tab-pane",
   "source": "analyzer",
   "analyzerVersion": "0.2.0",
-  "inputHash": "sha256:47b2e3c7ac502ba2d966777fa419396ffe3c2b5136544c5e32a30ef4ce77ca8a",
-  "generatedAt": "2026-08-07T21:48:29.706Z",
+  "inputHash": "sha256:0a978282fbdaee5623fc034c6a4b8a63d5040192df25457cf1d21b3dd8d2c884",
+  "generatedAt": "2026-08-08T02:09:44.629Z",
   "findings": [
     {
       "id": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
@@ -161,7 +161,7 @@
     },
     {
       "id": "tab-pane:dependency:core-1-4-class",
-      "fingerprint": "sha256:0cfa08a84605cb13922ce564ced86cef1a98558b325da1d276069977aef020c5",
+      "fingerprint": "sha256:8fbaa2d38a48ccb5aee10f847c281d08e4cac1127535ee286f9086667b79012d",
       "kind": "dependency",
       "summary": "Declares dependency core/1.4:Class.",
       "evidence": [
@@ -174,11 +174,11 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:core-1-4-class-extras",
-      "fingerprint": "sha256:56621d611571512cfe105cbc1cfc2cd8bc111346f835fed7ca615b4b1bb6e83f",
+      "fingerprint": "sha256:e32e859b711cfbd618047be8d5659a0be17b599bd8f49b55e9102c2c93018b57",
       "kind": "dependency",
       "summary": "Declares dependency core/1.4:Class.Extras.",
       "evidence": [
@@ -191,11 +191,11 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:core-1-4-element",
-      "fingerprint": "sha256:3f75fe3cf0c5a1af2d8b76f99a0b0a0b1d3af6bd0ed65f90484ce1833e293bfa",
+      "fingerprint": "sha256:e8a49e7c7d75fef3b10dfe8c420419b5656ce9da49d7c42fa0082d3d058574fd",
       "kind": "dependency",
       "summary": "Declares dependency core/1.4:Element.",
       "evidence": [
@@ -208,11 +208,11 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:core-1-4-element-delegation",
-      "fingerprint": "sha256:010f14c9333aba2029023ea7daf786f841e15b1511e6416e0f656e6ed62e78d9",
+      "fingerprint": "sha256:5d1a0acbdf24a81177426b5ab1c50ff7b602264a51c6f664d563c1572cf8b5e8",
       "kind": "dependency",
       "summary": "Declares dependency core/1.4:Element.Delegation.",
       "evidence": [
@@ -225,11 +225,11 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:core-1-4-element-event",
-      "fingerprint": "sha256:f328190a34396cc5721131d35e60fa524f26bb7c2f89b81c1a030789a062e3cb",
+      "fingerprint": "sha256:ca605ef9959e6acce32dbdcb752d4dcb37d0f17d683293e0c2c1fdd5a062bfa2",
       "kind": "dependency",
       "summary": "Declares dependency core/1.4:Element.Event.",
       "evidence": [
@@ -242,11 +242,11 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:core-1-4-event",
-      "fingerprint": "sha256:4756bedc9861d1964a69b16f86cc0c81ecec71b1d4105ea0f0dc83bef3f4774a",
+      "fingerprint": "sha256:b65422f4418edd1955b01f9f3f6672f56c23c949a40a8140675c3aedfffce7eb",
       "kind": "dependency",
       "summary": "Declares dependency core/1.4:Event.",
       "evidence": [
@@ -259,7 +259,7 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:provided-module:tabpane",
@@ -297,7 +297,7 @@
     },
     {
       "id": "tab-pane:dependency:script-order:components-tab-pane-tabpane-js-url-then-components-tab-pane-tabpane-extra-js-url-then-main-js-url",
-      "fingerprint": "sha256:71f3c5f195661dc3ad09de4dd08b8275f7285d9d1733f4045c5e92c397436c84",
+      "fingerprint": "sha256:d39a653c40999e2d43daaa4bec6777eec043876050d2710a550c2e5bfad52f6c",
       "kind": "dependency",
       "summary": "Loads scripts in order: ./components/tab-pane/TabPane.js?url -> ./components/tab-pane/TabPane.Extra.js?url -> ./main.js?url.",
       "evidence": [
@@ -310,11 +310,11 @@
       ],
       "suggestedAction": "Preserve required load order until imports replace browser globals.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dependency:tabpane",
-      "fingerprint": "sha256:65179e02412138335ac6edab903ba76216406a8fd26cc2b1c1c72c7dd4f14559",
+      "fingerprint": "sha256:9c2a8609e8f7173c51259a016e74732e8cfee981f6fbf5c7281f94e2b65e643e",
       "kind": "dependency",
       "summary": "Declares dependency TabPane.",
       "evidence": [
@@ -327,7 +327,7 @@
       ],
       "suggestedAction": "Map this runtime capability to React, browser APIs, or retained utilities.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:dom-read:get",
@@ -889,7 +889,7 @@
     },
     {
       "id": "tab-pane:import:static-import-components-tab-pane-tabpane-extra-js-url",
-      "fingerprint": "sha256:e08e91a224132b1aa3edc1f6892f9ab52b0203b72ce51a2475cca5ac897ea629",
+      "fingerprint": "sha256:cfc223f6b8fc241b0cf5a1daf3640f0a41bdd87e0d583cc83f88c4698e948fb0",
       "kind": "import",
       "summary": "Uses static import ./components/tab-pane/TabPane.Extra.js?url.",
       "evidence": [
@@ -902,11 +902,11 @@
       ],
       "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:import:static-import-components-tab-pane-tabpane-js-url",
-      "fingerprint": "sha256:4ad13d96354a616cbb0f723e6712e765887ea83792a0fea25e434cab91bf70c2",
+      "fingerprint": "sha256:59ea4600c1f48481d01f5fa72df66f09eaee59bc415a165b6da3b4349275d03f",
       "kind": "import",
       "summary": "Uses static import ./components/tab-pane/TabPane.js?url.",
       "evidence": [
@@ -919,7 +919,7 @@
       ],
       "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:import:static-import-components-tab-pane-tabpanedemo",
@@ -957,7 +957,7 @@
     },
     {
       "id": "tab-pane:import:static-import-main-js-url",
-      "fingerprint": "sha256:ad6f50988aac47444a22763c9a9494d2743225b3a9bce12e9970d9345235747d",
+      "fingerprint": "sha256:af0dda74b919021dd67ef4b249cd6bbb7ca01eb10213623d76a922f7ae8b384f",
       "kind": "import",
       "summary": "Uses static import ./main.js?url.",
       "evidence": [
@@ -970,7 +970,7 @@
       ],
       "suggestedAction": "Classify this as legacy-only, reusable, or replaced in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:import:static-import-react",
@@ -1151,7 +1151,7 @@
     },
     {
       "id": "tab-pane:markup-order:div-tab-pane-ul-tabs-section-content-section-content-section-content",
-      "fingerprint": "sha256:3bd7572b9efa00c334250d443e2f5816d972719b5cd0608a93513882ee7e2de6",
+      "fingerprint": "sha256:2c4bc4632eb9df278b7da714a83046f0e6e6ef80f90fc0a751be5c8f86451572",
       "kind": "markup",
       "summary": "<div#tab-pane> child order is <ul.tabs> -> <section.content> -> <section.content> -> <section.content>.",
       "evidence": [
@@ -1164,11 +1164,11 @@
       ],
       "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup-order:li-tab-span-button-tab-close",
-      "fingerprint": "sha256:0df89f485f37415a45203b67a6589c4d0217b8898efc7cdec17f1dc197c99b36",
+      "fingerprint": "sha256:356fa1facf29e901611435d98950c0cb2c9eb39abba283f2145c8480b5d06d49",
       "kind": "markup",
       "summary": "<li.tab> child order is <span> -> <button.tab-close>.",
       "evidence": [
@@ -1193,11 +1193,11 @@
       ],
       "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup-order:section-content-h3-p",
-      "fingerprint": "sha256:2db8e4b93e5a265e9d263c98bdcf34c734ca70f9eed45f9c22c054978211549e",
+      "fingerprint": "sha256:1fcb0732c8c50a9193370a55628590200160c2140bdea6ee230c25fb64d7d59c",
       "kind": "markup",
       "summary": "<section.content> child order is <h3> -> <p>.",
       "evidence": [
@@ -1222,11 +1222,11 @@
       ],
       "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup-order:ul-tabs-li-tab-li-tab-li-tab",
-      "fingerprint": "sha256:e6a2dc384685e32054e645294a85340644fb11553d9301811559a5fb1187a5aa",
+      "fingerprint": "sha256:0411a64956a673c171b169ba82b378ae75420ce58f19eaec54438b3bb09add6a",
       "kind": "markup",
       "summary": "<ul.tabs> child order is <li.tab> -> <li.tab> -> <li.tab>.",
       "evidence": [
@@ -1239,11 +1239,11 @@
       ],
       "suggestedAction": "Keep this order when index pairing, CSS, focus, or callers depend on it.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:button-tab-close",
-      "fingerprint": "sha256:a367ad0e93cd582f792e8d2462ee1f48208e9b0ca97143b60ad337debc9da084",
+      "fingerprint": "sha256:555e79c289db9192a8139a859cdc62eff31446c9af021cbebb1bd15895016829",
       "kind": "markup",
       "summary": "Markup contains <button.tab-close> under #tab-pane.",
       "evidence": [
@@ -1268,11 +1268,11 @@
       ],
       "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:div-tab-pane",
-      "fingerprint": "sha256:68af850031d16e789689a0ed1c1f60966b2440cd2ea726a58d75f5b8d122d762",
+      "fingerprint": "sha256:ec7261f6a0e929d6616279bfc7036c8097a8bf77d127a3291c9863cadab61c48",
       "kind": "markup",
       "summary": "Markup contains <div#tab-pane> under #tab-pane.",
       "evidence": [
@@ -1285,11 +1285,11 @@
       ],
       "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:dynamic-button",
-      "fingerprint": "sha256:d0eb8f6ca9af30da0c6e55817ef758b67a61f4c923947e59939077801ba184d7",
+      "fingerprint": "sha256:f28936d6783441f730e497aca38f16f13ad40a8f1597c4197331d7d3b6f2a918",
       "kind": "markup",
       "summary": "Creates dynamic <button> element.",
       "evidence": [
@@ -1302,11 +1302,11 @@
       ],
       "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:dynamic-h3",
-      "fingerprint": "sha256:3fd5f9552ef3c417380d129be6236d31754c4528cc1fd45762cd77a448f0e857",
+      "fingerprint": "sha256:176cc7309fe2e361f7cf79e684f89e70e10f09b53bfdf40291a4b2c7a6c2f907",
       "kind": "markup",
       "summary": "Creates dynamic <h3> element.",
       "evidence": [
@@ -1319,11 +1319,11 @@
       ],
       "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:dynamic-li",
-      "fingerprint": "sha256:2b6062905943b0d237994fdf93150d5f7c6891ad8779f379c8f909789f5371b4",
+      "fingerprint": "sha256:6a32b0b0d82c37e68b292e7d24c17fa4406f7b345cd63265ee4dd33f75fa95f3",
       "kind": "markup",
       "summary": "Creates dynamic <li> element.",
       "evidence": [
@@ -1336,11 +1336,11 @@
       ],
       "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:dynamic-p",
-      "fingerprint": "sha256:5ef09ff55ff60f6e71a2b67e13ec8faf03e20d3bda6f00f70d11f6d4869acb57",
+      "fingerprint": "sha256:76d5d2cb1535a8f1b34ec6b027537f8716884d837fe9e2c4ded5b075ddda30f4",
       "kind": "markup",
       "summary": "Creates dynamic <p> element.",
       "evidence": [
@@ -1353,11 +1353,11 @@
       ],
       "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:dynamic-section",
-      "fingerprint": "sha256:3f29774644ea68538a12f4c0bd8f193e6fb8b7dc0956839ba15a61ccf5cb4ac9",
+      "fingerprint": "sha256:28b086c167db8f9ed764f9ae0c4f0e77fdcd368d7341f03bb1a549b2478b171d",
       "kind": "markup",
       "summary": "Creates dynamic <section> element.",
       "evidence": [
@@ -1370,11 +1370,11 @@
       ],
       "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:dynamic-span",
-      "fingerprint": "sha256:dd857d0104e1134c3108132996d8593a578b0a7e6f10fd4dde05f78976412b69",
+      "fingerprint": "sha256:810e7467e9fa4dcd80714d4814947006857328c539f0a48765a2b309cc1c0109",
       "kind": "markup",
       "summary": "Creates dynamic <span> element.",
       "evidence": [
@@ -1387,7 +1387,7 @@
       ],
       "suggestedAction": "Preserve required semantics, hooks, order, and focus behavior in React.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:h3",
@@ -1420,7 +1420,7 @@
     },
     {
       "id": "tab-pane:markup:li-tab",
-      "fingerprint": "sha256:622a814b85c840a349a957bc3558078af80aef4ae7c8d927fb618ae22972b9c0",
+      "fingerprint": "sha256:92a3ad3fbb3f35bbf28094275dd70083ff76a30f72f82616dd38677e5ecc74a6",
       "kind": "markup",
       "summary": "Markup contains <li.tab> under #tab-pane.",
       "evidence": [
@@ -1445,7 +1445,7 @@
       ],
       "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:p",
@@ -1478,7 +1478,7 @@
     },
     {
       "id": "tab-pane:markup:section-content",
-      "fingerprint": "sha256:ac2b4f2ae48f37adf8b2d885c726aa9d1839bbadd314aee05c2e73972d2f9e7d",
+      "fingerprint": "sha256:3e05e3eab213f0d3d0b91997606c17399b3e522466e26917023b6798b8e690f5",
       "kind": "markup",
       "summary": "Markup contains <section.content> under #tab-pane.",
       "evidence": [
@@ -1503,7 +1503,7 @@
       ],
       "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:markup:span",
@@ -1536,7 +1536,7 @@
     },
     {
       "id": "tab-pane:markup:ul-tabs",
-      "fingerprint": "sha256:68e9048763a685786c5deef5ce19fd298274125104d94a08feb2ce95631cd732",
+      "fingerprint": "sha256:2e23773fe98a69d1a9b9ff3d127741b5577ff26ec349dddeaf168634a4a525b0",
       "kind": "markup",
       "summary": "Markup contains <ul.tabs> under #tab-pane.",
       "evidence": [
@@ -1549,7 +1549,7 @@
       ],
       "suggestedAction": "Preserve required order, semantics, focus behavior, and public hooks.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:public-input:activeclass",
@@ -1706,7 +1706,7 @@
     },
     {
       "id": "tab-pane:selector-option:tabselector",
-      "fingerprint": "sha256:f124cb5699e55fc83c6c74f27baba1d0077a3dfc9e42d3572274dee3eed560a9",
+      "fingerprint": "sha256:ed5e3aef8ff5a45b79df50e612344269b69c86fbe9d1c80f898b223a10dd7ef2",
       "kind": "selector",
       "summary": "Delegated event uses selector option tabSelector.",
       "evidence": [
@@ -1719,11 +1719,11 @@
       ],
       "suggestedAction": "Resolve the option default and caller overrides before migration.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:active",
-      "fingerprint": "sha256:f10f703397a262fbc033b2104d060ad0054e707f67bc5f04e88ac23c17660e68",
+      "fingerprint": "sha256:05437a4cc820c82624f6069544d080a2685a3b1b9c20463839c7a9c474616588",
       "kind": "selector",
       "summary": "Uses selector .active.",
       "evidence": [
@@ -1742,11 +1742,11 @@
       ],
       "suggestedAction": "Check CSS, callers, and automation before removal.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:aria-label-close-behavior-tab",
-      "fingerprint": "sha256:1258ecc5bcc05a6da97338d185e162b9d83183a6dd7a29e0c8c98ba967f57378",
+      "fingerprint": "sha256:8356801b3c5f0837566c827dadcb8a658d0294e53abc59f98a5e5b9962ded97d",
       "kind": "selector",
       "summary": "Markup exposes hook [aria-label=\"Close Behavior tab\"].",
       "evidence": [
@@ -1759,11 +1759,11 @@
       ],
       "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:aria-label-close-hello-tab",
-      "fingerprint": "sha256:01d5df1435d301fba03d8a64ae0faa2bc8096e3ee37ee35bcbbcda7d76bea8b6",
+      "fingerprint": "sha256:720b2e897ed3ee9b53721f5a594f7679de89c0edf0e0285b3ba9aad142b9dd7c",
       "kind": "selector",
       "summary": "Markup exposes hook [aria-label=\"Close Hello tab\"].",
       "evidence": [
@@ -1776,11 +1776,11 @@
       ],
       "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:aria-label-close-migration-notes-tab",
-      "fingerprint": "sha256:c93d2080ebef765e7af040e575897cb25ff207390b718ed6c26f993b8a4679b3",
+      "fingerprint": "sha256:559bd482afc7949083b444c9fedb9da417b90e63664a422ca89eb8f0ade0fc12",
       "kind": "selector",
       "summary": "Markup exposes hook [aria-label=\"Close Migration notes tab\"].",
       "evidence": [
@@ -1793,11 +1793,11 @@
       ],
       "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:button-focus-visible-input-focus-visible-textarea-focus-visible-a-focus-visible",
-      "fingerprint": "sha256:c3dfa4946637c4245f09ebd1b91844214cff60905411c7606a3fce288bd997ab",
+      "fingerprint": "sha256:6f8962e37a054a2c73003184adf8c4d57e40a8e71ca05a41185b55b2fd5984ee",
       "kind": "selector",
       "summary": "CSS selector button:focus-visible,\ninput:focus-visible,\ntextarea:focus-visible,\na:focus-visible.",
       "evidence": [
@@ -1810,11 +1810,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:button-hover-primary-link-hover",
-      "fingerprint": "sha256:de2ac299c49fe0d59489f1952e91a6969d473df0d5b18361fe4438741c732b1a",
+      "fingerprint": "sha256:2cac2747dc413b7e3ea297b8d81b80fe921745137f5f40b0fe99d646df29a33a",
       "kind": "selector",
       "summary": "CSS selector button:hover,\n.primary-link:hover.",
       "evidence": [
@@ -1827,11 +1827,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:button-input-textarea",
-      "fingerprint": "sha256:bb8bb31d80f4b9f686828c421b14474880bc3946dc8e2add113412127ea52410",
+      "fingerprint": "sha256:cba6abc6ecacd8ff4acf773a7c98ed646bdee0ce74b1884cd9c0abfe178f5f80",
       "kind": "selector",
       "summary": "CSS selector button,\ninput,\ntextarea.",
       "evidence": [
@@ -1844,11 +1844,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:button-primary-link",
-      "fingerprint": "sha256:d27e12183a57cd9f64da289fa4d3d4ee5b9e639a5808da519690cb02c76c0358",
+      "fingerprint": "sha256:a2a157526c2589ba84cc1c1065231a1f846317389bb8841adb7ac08ca7843256",
       "kind": "selector",
       "summary": "CSS selector button,\n.primary-link.",
       "evidence": [
@@ -1861,11 +1861,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:content",
-      "fingerprint": "sha256:851a8408485121756c192f0c6f068b46abeb316934413acdadaf3c2894800e25",
+      "fingerprint": "sha256:7ddea1fe5f4a816727cc0551636864393ac02e2aebfb3db53cd1734a9dd4a5eb",
       "kind": "selector",
       "summary": "Uses selector .content.",
       "evidence": [
@@ -1926,11 +1926,11 @@
       ],
       "suggestedAction": "Check CSS, callers, and automation before removal.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:data-close-tab",
-      "fingerprint": "sha256:dbcb0d63b097d87d653080e7f2104eb22a789fd02b9b1b58874afbeac76ed67c",
+      "fingerprint": "sha256:8d4b85c3322845861319cbb53777e0b5738cf5d679cf5f8a8f02dfc44a271ae1",
       "kind": "selector",
       "summary": "Delegated event uses selector [data-close-tab].",
       "evidence": [
@@ -1967,11 +1967,11 @@
       ],
       "suggestedAction": "Preserve this event target or replace it with an explicit React handler.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:h1-h2-h3-p",
-      "fingerprint": "sha256:ef004c7f532b2cf2692d6737d2552d2eefb091e8bb7f8a391c140ec4cdf9c34e",
+      "fingerprint": "sha256:1c4acae48ec4138c89b53e7dde78a4079a0daa33f4d51b6afaa51704a95a338c",
       "kind": "selector",
       "summary": "CSS selector h1,\nh2,\nh3,\np.",
       "evidence": [
@@ -1984,11 +1984,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:new-tab-content",
-      "fingerprint": "sha256:b21f0e28eefa8e992d61cab932fb145cf43bdae64de29a8105aea2877fee0788",
+      "fingerprint": "sha256:a684dbe8026b153ef8561507b80fbd771bb8c5274513ea07ec616b631535a2ed",
       "kind": "selector",
       "summary": "DOM code uses hook #new-tab-content.",
       "evidence": [
@@ -2001,11 +2001,11 @@
       ],
       "suggestedAction": "Search scripts, markup, CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:new-tab-title",
-      "fingerprint": "sha256:fbf1484cac6f454345a44a25acaa3defecf1fe72c168b86488f7143ef8033744",
+      "fingerprint": "sha256:1f9c459bb1f4a4f3bb4624fb5252f9fe24a065459aefcaa4f54a7a4217ed5975",
       "kind": "selector",
       "summary": "DOM code uses hook #new-tab-title.",
       "evidence": [
@@ -2018,11 +2018,11 @@
       ],
       "suggestedAction": "Search scripts, markup, CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab",
-      "fingerprint": "sha256:3b0b14695687e2926422325437e8d75e020a217fd152e954e1220ed32e0dbdef",
+      "fingerprint": "sha256:03572e2dee6b8cb07fa3215a4c18a622a93b9cb1bc09981f367bb15dc60ddf80",
       "kind": "selector",
       "summary": "Uses selector .tab.",
       "evidence": [
@@ -2095,11 +2095,11 @@
       ],
       "suggestedAction": "Check CSS, callers, and automation before removal.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab-close",
-      "fingerprint": "sha256:e04fdb66128dee105acc7b126ff5694d10c9e52bcd297ad74708f355866f7d00",
+      "fingerprint": "sha256:f62ff919203df55edeb58aacfef2ea372bbbb15bcf62603397dcfabf7a3f6418",
       "kind": "selector",
       "summary": "DOM code uses hook .tab-close.",
       "evidence": [
@@ -2142,11 +2142,11 @@
       ],
       "suggestedAction": "Search scripts, markup, CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab-close-hover",
-      "fingerprint": "sha256:96c9e69c1b813875b824673be1025f87fc6dbfd192b4274b6383b30009deda74",
+      "fingerprint": "sha256:d9d4b2a00cb90f965225bfc5d33bdb79a63e2c3d919dbb750f26bcfc7c00c94f",
       "kind": "selector",
       "summary": "CSS selector .tab-close:hover.",
       "evidence": [
@@ -2159,11 +2159,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab-pane",
-      "fingerprint": "sha256:eac8ab188383fdbbb2afced9d8f71faf93306f7fa314e0034018833b82cb089e",
+      "fingerprint": "sha256:de8e17ebee227b0c09a759ae50063ef149cae8acd6c73c083ae86554ba934c55",
       "kind": "selector",
       "summary": "Markup exposes hook #tab-pane.",
       "evidence": [
@@ -2200,11 +2200,11 @@
       ],
       "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab-pane-content",
-      "fingerprint": "sha256:e6a1a27ec442e361fb077a5fb7621eb9e4c647abf4a41e102ae43d2b339042af",
+      "fingerprint": "sha256:dfe9c0c17b69cf90e5d93ea6adb2178d40f6d5362856f893a56c794cef519ae8",
       "kind": "selector",
       "summary": "CSS selector #tab-pane .content.",
       "evidence": [
@@ -2223,11 +2223,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab-pane-content-h3",
-      "fingerprint": "sha256:b455603fb4c1aa761a9a38a69a0d811c88a72f323b57aa6c7ff998e5303a5c00",
+      "fingerprint": "sha256:6a520887b2562ad5c37ea86fc60de8e4ade19b53376829e0e88ae7047c59a95c",
       "kind": "selector",
       "summary": "CSS selector #tab-pane .content h3.",
       "evidence": [
@@ -2240,11 +2240,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tab-pane-content-p",
-      "fingerprint": "sha256:a91c1b903e7a4aeb0ad22e2135fcc41b4352461512e105de25c6f82a3fb7c913",
+      "fingerprint": "sha256:1bb1061332bf6e84fb8fa6e18f4baaf4ebfb6f70d9043a5150da37410eac8078",
       "kind": "selector",
       "summary": "CSS selector #tab-pane .content p.",
       "evidence": [
@@ -2257,11 +2257,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tabs",
-      "fingerprint": "sha256:c246d2bba52fd436f9fd67ef3ba406bceac090994ffebccb4a75e4f2e66b8236",
+      "fingerprint": "sha256:cca134440f03e2a6afff3cbe02d9845d4ab8c10fae7befb11d4a9127d5e73260",
       "kind": "selector",
       "summary": "Markup exposes hook .tabs.",
       "evidence": [
@@ -2310,11 +2310,11 @@
       ],
       "suggestedAction": "Search CSS, tests, and callers before changing this hook.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tabs-tab",
-      "fingerprint": "sha256:df9068e10ad3e2b87588ac9018fc87954fee1ca1c3f1728d73b26a0c3a34c230",
+      "fingerprint": "sha256:08cbbd465b943f32f8594e85f7d525a50708a7170186b4cfa755af2b3b128287",
       "kind": "selector",
       "summary": "CSS selector .tabs .tab.",
       "evidence": [
@@ -2333,11 +2333,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tabs-tab-active",
-      "fingerprint": "sha256:ebfc9975ee57007a406b12b529accc6828f22632c930f3134e885acce79993bb",
+      "fingerprint": "sha256:725c141fcf63811f1d6c0d830e2916415c3b1408dad1627974519d8084eeed52",
       "kind": "selector",
       "summary": "CSS selector .tabs .tab.active.",
       "evidence": [
@@ -2350,11 +2350,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:selector:tabs-tab-hover",
-      "fingerprint": "sha256:7b5c58162d8ba31b0cbacd92e86ce084b16fb70e375fe7f6d23cfac760d38ffa",
+      "fingerprint": "sha256:cfd170e074526d4cec90c3c89d05616c586366c9675c95e69e3d35374e80e037",
       "kind": "selector",
       "summary": "CSS selector .tabs .tab:hover.",
       "evidence": [
@@ -2367,11 +2367,11 @@
       ],
       "suggestedAction": "Preserve required targeting and states, then move style ownership.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:button-focus-visible-input-focus-visible-textarea-focus-visible-a-focus-visible",
-      "fingerprint": "sha256:80b74bd28b824a39ee6d91a91bc5aa4ab2412ffe197afbffdb02e39a06e74df1",
+      "fingerprint": "sha256:eba1ba363b7e2dc7880ca7383958b024473d452e73f169d5e72f1cae9c488d39",
       "kind": "style",
       "summary": "CSS rule button:focus-visible,\ninput:focus-visible,\ntextarea:focus-visible,\na:focus-visible sets outline: 3px solid rgb(155 140 255 / 45%); outline-offset: 3px.",
       "evidence": [
@@ -2384,11 +2384,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:button-hover-primary-link-hover",
-      "fingerprint": "sha256:04b067a1214a952f9157e21347583e78f610ae3e644492b914eb885b94118f2a",
+      "fingerprint": "sha256:9782228bf92f70736a69dc616d46660576b47eb51ac3df30469b01a0b95d9984",
       "kind": "style",
       "summary": "CSS rule button:hover,\n.primary-link:hover sets background: #d3cdff.",
       "evidence": [
@@ -2401,11 +2401,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:button-input-textarea",
-      "fingerprint": "sha256:b3bb0393adb6c69b98ff3a2effaed5c79d5d8063fd02cdc78bdcd1468b2372ef",
+      "fingerprint": "sha256:b3a9e2afec10371f55674d495fbf7e34db6408dd0c1dfcdbb8ea775b27b646dc",
       "kind": "style",
       "summary": "CSS rule button,\ninput,\ntextarea sets font: inherit.",
       "evidence": [
@@ -2418,11 +2418,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:button-primary-link",
-      "fingerprint": "sha256:78c22a59eb7a8d5c5cd45261c7844f69b19d40a137b1d0c628b3e418367cedd9",
+      "fingerprint": "sha256:7b1c5b91467d0e2472e21372eedf023dfe4e6084ee0ee892351c0954e5ac7f50",
       "kind": "style",
       "summary": "CSS rule button,\n.primary-link sets display: inline-flex; align-items: center; justify-content: center; min-height: 2.65rem; padding: 0.65rem 1rem; color: #11121a; font-weight: 700; line-height: 1; text-decoration: none; cursor: pointer; background: var(--accent-strong); border: 1px solid transparent; border-radius: 0.7rem.",
       "evidence": [
@@ -2435,11 +2435,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:h1-h2-h3-p",
-      "fingerprint": "sha256:01b1c61e10ad1dde8c00bc0ca1be7a80fbed6909aab73f92be58aaceec9227fa",
+      "fingerprint": "sha256:094e4cf9fe43bf8acc6203a75e21f5a5e3d62fa5c3bb2608ff151f0596ede581",
       "kind": "style",
       "summary": "CSS rule h1,\nh2,\nh3,\np sets margin-top: 0.",
       "evidence": [
@@ -2452,11 +2452,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tab-close",
-      "fingerprint": "sha256:aedc6c2839bce6368c142769ed08ac5b30a1e47f7e8e0c52f16b3f5d0ea1dbdb",
+      "fingerprint": "sha256:972f149bdc85f65089634e7c4574c83b5f4630ba91a3517830409b3bde86a86f",
       "kind": "style",
       "summary": "CSS rule .tab-close sets min-width: 1.7rem; min-height: 1.7rem; padding: 0; color: var(--muted); font-size: 1.2rem; font-weight: 500; background: transparent; border: 0; border-radius: 50%.",
       "evidence": [
@@ -2469,11 +2469,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tab-close-hover",
-      "fingerprint": "sha256:c1d45b8f99a1df7d1ac6b74fc0e8cffb2ae7cfa993b10d98bccc7664fb97b437",
+      "fingerprint": "sha256:bdbd74217f5df3d67e930dde8afa47504981db61a2682b31d9aa7eb1aea02f67",
       "kind": "style",
       "summary": "CSS rule .tab-close:hover sets color: #17131b; background: var(--danger).",
       "evidence": [
@@ -2486,11 +2486,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tab-pane-content",
-      "fingerprint": "sha256:987ac799337f7bfe77dba4749a6df937419dc5f0be50ab48cd2aa5eb2d58e85e",
+      "fingerprint": "sha256:2aad68f8318cb5c0975f3899943f266d2fcdf45138da1776a190ecd10e39b6f7",
       "kind": "style",
       "summary": "CSS rule #tab-pane .content sets min-height: 10rem; margin: -1px 0 0; padding: clamp(1.25rem, 4vw, 2rem); background: #151722; border: 1px solid var(--border); border-radius: 0 0.9rem 0.9rem 0.9rem.",
       "evidence": [
@@ -2503,11 +2503,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tab-pane-content-h3",
-      "fingerprint": "sha256:ccffa17500ecc5959c31a97fc2e103f47c41d0ea68463b5a88f2b6c7bc2c732c",
+      "fingerprint": "sha256:79babf5e0c9aec42e4d00fc3a3156158ec64e7e9e5c926f3312a3013150e6615",
       "kind": "style",
       "summary": "CSS rule #tab-pane .content h3 sets margin-bottom: 0.75rem; font-size: 1.35rem.",
       "evidence": [
@@ -2520,11 +2520,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tab-pane-content-media-max-width-520px",
-      "fingerprint": "sha256:a57fac7a1edb65ddd901588d8d182b3394cef829b6b679774aad69ae0f1548e0",
+      "fingerprint": "sha256:872fa73b10b9273b569c2bc918acad7fc2e308303fc6e0b265aec53086320954",
       "kind": "style",
       "summary": "CSS rule #tab-pane .content under @media (max-width: 520px) sets margin-top: 0.5rem; border-radius: 0.9rem.",
       "evidence": [
@@ -2537,11 +2537,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tab-pane-content-p",
-      "fingerprint": "sha256:48557079718100b49adf09762728f89133f0380d253594f97fc134051f7a07e0",
+      "fingerprint": "sha256:815a4ac2729766949e5d2679f000193c2fac1cde573abeafa87342c64a8d5260",
       "kind": "style",
       "summary": "CSS rule #tab-pane .content p sets max-width: 58rem; margin-bottom: 0; color: var(--muted); line-height: 1.7.",
       "evidence": [
@@ -2554,11 +2554,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tabs",
-      "fingerprint": "sha256:dff6aeb485a9bcb3e21d9944cb2e930de53c076868f8c436d790ff832548d6ca",
+      "fingerprint": "sha256:3fc80c66773a07253a10660fb307bc9e3c62ccef5106d40d1544d6ea53bda18f",
       "kind": "style",
       "summary": "CSS rule .tabs sets display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0.",
       "evidence": [
@@ -2571,11 +2571,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tabs-media-max-width-520px",
-      "fingerprint": "sha256:bf9cc77dd461ceddfe8aecc51dd5cb8185b96d6f33a93bd0dc31bc2318185d9b",
+      "fingerprint": "sha256:c629deb9aff009d290d9419f607dfb267f48d13eda6970517690479e9ce03abc",
       "kind": "style",
       "summary": "CSS rule .tabs under @media (max-width: 520px) sets display: grid.",
       "evidence": [
@@ -2588,11 +2588,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tabs-tab",
-      "fingerprint": "sha256:ec82f09cbde4fa6510a5648901c19310da2798db807d637bad98cf2d5e115a69",
+      "fingerprint": "sha256:73fae909bb45cd0a66d373614c015c0b068de93e9f7be4ce2294b8e0ec7a5b54",
       "kind": "style",
       "summary": "CSS rule .tabs .tab sets display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.65rem; padding: 0.55rem 0.65rem 0.55rem 0.9rem; color: var(--muted); font-weight: 700; list-style: none; cursor: pointer; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 0.75rem 0.75rem 0 0.",
       "evidence": [
@@ -2605,11 +2605,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tabs-tab-active",
-      "fingerprint": "sha256:7dab1b328212638dc68416b22493aec20388178fc1aa922e6ed241e40b3ab5a6",
+      "fingerprint": "sha256:1b87ac57e252074a44aaf803af0dc0763015b45d99a4bc37a1a0504d3514d48c",
       "kind": "style",
       "summary": "CSS rule .tabs .tab.active sets color: var(--text); background: #292c40; border-color: var(--accent).",
       "evidence": [
@@ -2622,11 +2622,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tabs-tab-hover",
-      "fingerprint": "sha256:f88ea646862c06c75b0e5a42f134e5efc15a8b65f630907c3c45f43f78ad9e2e",
+      "fingerprint": "sha256:8bd28aafca13595c0ebc2a413b2b6a4933ed65577458bd062d84bc8d5ad9aa5e",
       "kind": "style",
       "summary": "CSS rule .tabs .tab:hover sets color: var(--text); border-color: #555b79.",
       "evidence": [
@@ -2639,11 +2639,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style-rule:tabs-tab-media-max-width-520px",
-      "fingerprint": "sha256:acdc96c9f167561cfbf4bdfe5a58537ef62c1c0b1224b267536656bf28754fc1",
+      "fingerprint": "sha256:3ed5e973165aaca685c49cdb8a7fb00713e632ac9c4aa3825c68d1e65840c2b1",
       "kind": "style",
       "summary": "CSS rule .tabs .tab under @media (max-width: 520px) sets justify-content: space-between; border-radius: 0.7rem.",
       "evidence": [
@@ -2656,11 +2656,11 @@
       ],
       "suggestedAction": "Compare these computed properties in each matching visual state.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:accent",
-      "fingerprint": "sha256:c9dabd3f6d1291701206d4be439b3ae17550de808d5b24b07ba943eb99c1a59c",
+      "fingerprint": "sha256:b60b8e0ab6df1daab257202fdb992aa4ab820bf69d7eb09e45b76762976ccc60",
       "kind": "style",
       "summary": "Defines required CSS custom property --accent.",
       "evidence": [
@@ -2673,11 +2673,11 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:accent-strong",
-      "fingerprint": "sha256:1c2ce09db34c51c3c15fb4fae5f93e913d8d60514dc045cafafcd585d86afc34",
+      "fingerprint": "sha256:d959daa8ab1878a2926f3af8f3849d614adff348958b7682ade9d571231c2b0e",
       "kind": "style",
       "summary": "Defines required CSS custom property --accent-strong.",
       "evidence": [
@@ -2690,11 +2690,11 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:border",
-      "fingerprint": "sha256:6dc592ce3ca739bcfcc43f2ffc0e0ac71abdfd60d27bbea00eb3158da3291933",
+      "fingerprint": "sha256:a374e13c42399282adf1148bd305a713dfbc531f62c5906ab28fc57dde71e57d",
       "kind": "style",
       "summary": "Defines required CSS custom property --border.",
       "evidence": [
@@ -2707,11 +2707,11 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:danger",
-      "fingerprint": "sha256:e7ace1d62cea456e80c44ba0989bf339d65b725290773c3f7f5ac525f136ddf6",
+      "fingerprint": "sha256:4798bfe36813633ca8e85ec1dc0614a1dfbf34e31de420f94e33145fa2df5b65",
       "kind": "style",
       "summary": "Defines required CSS custom property --danger.",
       "evidence": [
@@ -2724,11 +2724,11 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:muted",
-      "fingerprint": "sha256:7bf4d0416df7ba14c78d39c3f6b7a415f64cb6319888bcacbaef93e805ad4341",
+      "fingerprint": "sha256:ff456a0b64f360147b018550e5dbd947752f8b938d111fef3913f455e032fbc6",
       "kind": "style",
       "summary": "Defines required CSS custom property --muted.",
       "evidence": [
@@ -2741,11 +2741,11 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:surface-raised",
-      "fingerprint": "sha256:ccfc1d9d17148a19697a252f2a42b5395d1aba2a9dd7a6b020c5d871d7249695",
+      "fingerprint": "sha256:9858dc48f2f60b25be0e5a975cb8082841144af01ac1c30186586c3110d40a0f",
       "kind": "style",
       "summary": "Defines required CSS custom property --surface-raised.",
       "evidence": [
@@ -2758,11 +2758,11 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     },
     {
       "id": "tab-pane:style:custom-property:text",
-      "fingerprint": "sha256:fc1a0c66f8e70baf70e171176ff561525ca4ca20dd4e4178ae025d7018f479dc",
+      "fingerprint": "sha256:c2703ef42011962ab9f57d892e37d8fce31a00b8c35870bb179ecfdd3579c28a",
       "kind": "style",
       "summary": "Defines required CSS custom property --text.",
       "evidence": [
@@ -2775,7 +2775,7 @@
       ],
       "suggestedAction": "Preserve the value source or replace all consumers together.",
       "contractRelevant": true,
-      "decisionRequired": true
+      "decisionRequired": false
     }
   ],
   "coverage": [
