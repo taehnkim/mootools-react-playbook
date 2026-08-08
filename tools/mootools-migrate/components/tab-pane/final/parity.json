@@ -1,12 +1,164 @@
 {
   "status": "PARITY",
   "attested": true,
-  "runId": "react-2026-08-08T02-40-52-588Z",
-  "createdAt": "2026-08-08T02:40:57.597Z",
-  "baselineManifestHash": "sha256:5ad54162e3c80cc7dc461c2f7ce306134fbf4ba39e599757b329c2fa0abef51b",
-  "candidateManifestHash": "sha256:484f2d512c0d24d01ea38fd137d63371e29699989ceaccf2d64622af1c11ec3c",
+  "runId": "react-2026-08-08T07-19-41-129Z",
+  "createdAt": "2026-08-08T07:19:46.594Z",
+  "baselineManifestHash": "sha256:3bda80eea73380c250c85954bc7d9e653b00b5e9cf2db8a5d06f866b2a8397be",
+  "candidateManifestHash": "sha256:4acb65ffeee783aac70a6e623d3312ea71ef9bf59a2d78a00d9378b0eb60c6b2",
   "decisionsHash": "sha256:2b3ef366a771b6c18628f2acad050a0c77dc3ce959994786a850aa02f2816607",
   "acceptedDifferencesHash": "sha256:e7371ed3a3d9902cdf34e3bf83fc24d48efe1a7bc849abef9da57290fe644693",
-  "scenariosHash": "sha256:c63439ce6db9639d3d7b53a8f4830c144c11bca4c0d2007b230f90d5aec11e29",
-  "mismatches": []
+  "scenariosHash": "sha256:0c0173bc5975bbef3e57ccf1549350a699e9a829f22f97202b1a7d0a3aca91a8",
+  "mismatches": [],
+  "imageComparisons": [
+    {
+      "scenarioId": "initial-selection",
+      "stepId": "observe-initial",
+      "assertionId": "initial-component-image",
+      "baselineScreenshotPath": "initial-selection/component.png",
+      "baselineScreenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a",
+      "baselineScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "reactScreenshotPath": "initial-selection/component.png",
+      "reactScreenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a",
+      "reactScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "diffPath": "diffs/initial-selection/initial-component-image.png",
+      "diffHash": "sha256:d8ba7c9976f81441834d5076d72eb8d00ae0b4765f97d13ac9006e5e32f6de91",
+      "totalPixels": 223716,
+      "changedPixels": 0,
+      "diffRatio": 0,
+      "allowedChangedPixels": 0,
+      "exact": true
+    },
+    {
+      "scenarioId": "select-second-tab",
+      "stepId": "click-behavior",
+      "assertionId": "second-tab-component-image",
+      "baselineScreenshotPath": "select-second-tab/component.png",
+      "baselineScreenshotHash": "sha256:a5ede5ecbfc2b9c69825e59631b2585ffeccab7c89b4e09ba544c8ef2a68ccd0",
+      "baselineScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "reactScreenshotPath": "select-second-tab/component.png",
+      "reactScreenshotHash": "sha256:a5ede5ecbfc2b9c69825e59631b2585ffeccab7c89b4e09ba544c8ef2a68ccd0",
+      "reactScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "diffPath": "diffs/select-second-tab/second-tab-component-image.png",
+      "diffHash": "sha256:7367a3c22f3eb5e06ad9328763aec4d1322b120b0cef7c9fc92dad910d58b45b",
+      "totalPixels": 223716,
+      "changedPixels": 0,
+      "diffRatio": 0,
+      "allowedChangedPixels": 0,
+      "exact": true
+    },
+    {
+      "scenarioId": "add-and-open-tab",
+      "stepId": "submit-new-tab",
+      "assertionId": "added-component-image",
+      "baselineScreenshotPath": "add-and-open-tab/component.png",
+      "baselineScreenshotHash": "sha256:2225f87885a4c8e07086649abf4b13564ac3e4488760be115b23b6bddc46a323",
+      "baselineScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "reactScreenshotPath": "add-and-open-tab/component.png",
+      "reactScreenshotHash": "sha256:2225f87885a4c8e07086649abf4b13564ac3e4488760be115b23b6bddc46a323",
+      "reactScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "diffPath": "diffs/add-and-open-tab/added-component-image.png",
+      "diffHash": "sha256:e3858d89eb04fa998404a6fcf21f51d0c75da775beead2cb183a664f66f49654",
+      "totalPixels": 223716,
+      "changedPixels": 0,
+      "diffRatio": 0,
+      "allowedChangedPixels": 0,
+      "exact": true
+    },
+    {
+      "scenarioId": "reject-incomplete-add",
+      "stepId": "submit-incomplete-tab",
+      "assertionId": "incomplete-add-component-image",
+      "baselineScreenshotPath": "reject-incomplete-add/component.png",
+      "baselineScreenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a",
+      "baselineScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "reactScreenshotPath": "reject-incomplete-add/component.png",
+      "reactScreenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a",
+      "reactScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "diffPath": "diffs/reject-incomplete-add/incomplete-add-component-image.png",
+      "diffHash": "sha256:d8ba7c9976f81441834d5076d72eb8d00ae0b4765f97d13ac9006e5e32f6de91",
+      "totalPixels": 223716,
+      "changedPixels": 0,
+      "diffRatio": 0,
+      "allowedChangedPixels": 0,
+      "exact": true
+    },
+    {
+      "scenarioId": "close-active-with-button",
+      "stepId": "close-behavior-button",
+      "assertionId": "button-close-component-image",
+      "baselineScreenshotPath": "close-active-with-button/component.png",
+      "baselineScreenshotHash": "sha256:084ed0cd71de6409d119f3eb9cb9493132053c0d1051b0b74b92aa3cac6ff8e4",
+      "baselineScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "reactScreenshotPath": "close-active-with-button/component.png",
+      "reactScreenshotHash": "sha256:084ed0cd71de6409d119f3eb9cb9493132053c0d1051b0b74b92aa3cac6ff8e4",
+      "reactScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "diffPath": "diffs/close-active-with-button/button-close-component-image.png",
+      "diffHash": "sha256:5a2bca6b762fddbc898d9a74cf0110add90345711f5775b22bca930c3ae3e0d0",
+      "totalPixels": 223716,
+      "changedPixels": 0,
+      "diffRatio": 0,
+      "allowedChangedPixels": 0,
+      "exact": true
+    },
+    {
+      "scenarioId": "imperative-show",
+      "stepId": "show-migration-notes",
+      "assertionId": "imperative-show-component-image",
+      "baselineScreenshotPath": "imperative-show/component.png",
+      "baselineScreenshotHash": "sha256:2c706d4d4fd07794229a49a9eaa61437486bb07e059b14564a921e5b2bbafb63",
+      "baselineScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "reactScreenshotPath": "imperative-show/component.png",
+      "reactScreenshotHash": "sha256:2c706d4d4fd07794229a49a9eaa61437486bb07e059b14564a921e5b2bbafb63",
+      "reactScreenshotSize": {
+        "width": 1086,
+        "height": 206
+      },
+      "diffPath": "diffs/imperative-show/imperative-show-component-image.png",
+      "diffHash": "sha256:4069abbddd59585a25de6893723a860ddeb25815a012422cddaf0f5cd8cc51b9",
+      "totalPixels": 223716,
+      "changedPixels": 0,
+      "diffRatio": 0,
+      "allowedChangedPixels": 0,
+      "exact": true
+    }
+  ],
+  "acceptedDifferencesUsed": [
+    "close-active-with-button-button-close-events",
+    "close-non-active-by-api-api-close-event-order",
+    "close-non-active-by-api-api-close-selected-tab",
+    "close-non-active-by-api-api-close-status"
+  ]
 }

@@ -1,19 +1,31 @@
 {
   "schemaVersion": 1,
-  "runId": "legacy-2026-08-08T02-40-15-614Z",
+  "runId": "legacy-2026-08-08T07-19-26-200Z",
   "componentId": "tab-pane",
   "surface": "legacy",
-  "createdAt": "2026-08-08T02:40:20.623Z",
+  "createdAt": "2026-08-08T07:19:31.540Z",
   "baseUrl": "http://127.0.0.1:5173",
   "projectInputHash": "sha256:f538059e04a0411ce7704b5315d0a808cae35a5ce528a19225b42116f60df56e",
   "captureConfigHash": "sha256:5afca368a90130cbf8301e290685f553db79f3bbd23bd6a231abcfa390b60022",
-  "scenariosHash": "sha256:c63439ce6db9639d3d7b53a8f4830c144c11bca4c0d2007b230f90d5aec11e29",
+  "scenariosHash": "sha256:0c0173bc5975bbef3e57ccf1549350a699e9a829f22f97202b1a7d0a3aca91a8",
   "fixturesHash": "sha256:8eac205aa94d3c372bca346e8c590d5a899a2320360b33e2611d73d0c475d210",
   "selectorsHash": "sha256:71129ba773e5742fdefba35ebd712313bedfbfb4c5caa5f88fbd19e121044662",
   "browserVersion": "151.0.7922.34",
   "viewport": {
     "width": 1280,
     "height": 900
+  },
+  "checks": {
+    "componentTests": [
+      {
+        "surface": "legacy",
+        "command": "npm run test -- components/tab-pane/TabPane.legacy.test.ts",
+        "passed": true,
+        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run components/tab-pane/TabPane.legacy.test.ts\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:19:25\n   Duration  681ms (transform 21ms, setup 0ms, import 31ms, tests 112ms, environment 449ms)",
+        "inputHash": "sha256:1e4d2148dd5bcabf7b82ffdba3faeca2eb95dc69e2b0861e0554d11815e7978f"
+      }
+    ],
+    "projectChecks": []
   },
   "results": [
     {
@@ -126,6 +138,14 @@
           ],
           "screenshotPath": null,
           "screenshotHash": null
+        },
+        {
+          "assertionId": "second-tab-component-image",
+          "afterStepId": "click-behavior",
+          "kind": "screenshot",
+          "actual": null,
+          "screenshotPath": "select-second-tab/component.png",
+          "screenshotHash": "sha256:a5ede5ecbfc2b9c69825e59631b2585ffeccab7c89b4e09ba544c8ef2a68ccd0"
         }
       ]
     },
@@ -192,6 +212,14 @@
           ],
           "screenshotPath": null,
           "screenshotHash": null
+        },
+        {
+          "assertionId": "added-component-image",
+          "afterStepId": "submit-new-tab",
+          "kind": "screenshot",
+          "actual": null,
+          "screenshotPath": "add-and-open-tab/component.png",
+          "screenshotHash": "sha256:2225f87885a4c8e07086649abf4b13564ac3e4488760be115b23b6bddc46a323"
         }
       ]
     },
@@ -221,6 +249,14 @@
           "actual": [],
           "screenshotPath": null,
           "screenshotHash": null
+        },
+        {
+          "assertionId": "incomplete-add-component-image",
+          "afterStepId": "submit-incomplete-tab",
+          "kind": "screenshot",
+          "actual": null,
+          "screenshotPath": "reject-incomplete-add/component.png",
+          "screenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a"
         }
       ]
     },
@@ -331,6 +367,14 @@
           ],
           "screenshotPath": null,
           "screenshotHash": null
+        },
+        {
+          "assertionId": "button-close-component-image",
+          "afterStepId": "close-behavior-button",
+          "kind": "screenshot",
+          "actual": null,
+          "screenshotPath": "close-active-with-button/component.png",
+          "screenshotHash": "sha256:084ed0cd71de6409d119f3eb9cb9493132053c0d1051b0b74b92aa3cac6ff8e4"
         }
       ]
     },
@@ -367,6 +411,14 @@
           ],
           "screenshotPath": null,
           "screenshotHash": null
+        },
+        {
+          "assertionId": "imperative-show-component-image",
+          "afterStepId": "show-migration-notes",
+          "kind": "screenshot",
+          "actual": null,
+          "screenshotPath": "imperative-show/component.png",
+          "screenshotHash": "sha256:2c706d4d4fd07794229a49a9eaa61437486bb07e059b14564a921e5b2bbafb63"
         }
       ]
     }
