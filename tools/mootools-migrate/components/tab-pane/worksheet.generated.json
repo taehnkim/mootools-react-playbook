@@ -4,7 +4,7 @@
   "source": "analyzer",
   "analyzerVersion": "0.2.0",
   "inputHash": "sha256:0a978282fbdaee5623fc034c6a4b8a63d5040192df25457cf1d21b3dd8d2c884",
-  "generatedAt": "2026-08-08T02:09:44.629Z",
+  "generatedAt": "2026-08-08T02:39:15.605Z",
   "findings": [
     {
       "id": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",

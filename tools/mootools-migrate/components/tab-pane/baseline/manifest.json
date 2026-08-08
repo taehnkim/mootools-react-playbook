@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "runId": "legacy-2026-08-08T01-08-45-463Z",
+  "runId": "legacy-2026-08-08T02-40-15-614Z",
   "componentId": "tab-pane",
   "surface": "legacy",
-  "createdAt": "2026-08-08T01:08:50.069Z",
+  "createdAt": "2026-08-08T02:40:20.623Z",
   "baseUrl": "http://127.0.0.1:5173",
   "projectInputHash": "sha256:f538059e04a0411ce7704b5315d0a808cae35a5ce528a19225b42116f60df56e",
   "captureConfigHash": "sha256:5afca368a90130cbf8301e290685f553db79f3bbd23bd6a231abcfa390b60022",
@@ -81,7 +81,7 @@
           "kind": "screenshot",
           "actual": null,
           "screenshotPath": "initial-selection/component.png",
-          "screenshotHash": "sha256:24210e2ee23929697eab8d11265a67550582e87729a908f3de151fa50fc55e34"
+          "screenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a"
         }
       ]
     },

@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "runId": "react-2026-08-08T02-11-14-833Z",
+  "runId": "react-2026-08-08T02-40-52-588Z",
   "componentId": "tab-pane",
   "surface": "react",
-  "createdAt": "2026-08-08T02:11:19.642Z",
-  "baseUrl": "http://127.0.0.1:5183",
+  "createdAt": "2026-08-08T02:40:57.567Z",
+  "baseUrl": "http://127.0.0.1:5173",
   "projectInputHash": "sha256:ba395b07723b0a13c455b1c876c5830ca144d8b25b63e1196aa669ea7516084b",
   "captureConfigHash": "sha256:557775fc0f85b7b85043520771904c24a441d79f29cd094335a6009fdcafb18f",
   "scenariosHash": "sha256:c63439ce6db9639d3d7b53a8f4830c144c11bca4c0d2007b230f90d5aec11e29",
@@ -81,7 +81,7 @@
           "kind": "screenshot",
           "actual": null,
           "screenshotPath": "initial-selection/component.png",
-          "screenshotHash": "sha256:24210e2ee23929697eab8d11265a67550582e87729a908f3de151fa50fc55e34"
+          "screenshotHash": "sha256:3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a"
         }
       ]
     },
