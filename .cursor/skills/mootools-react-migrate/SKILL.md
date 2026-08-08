@@ -20,6 +20,32 @@ verification passes.
 - Use the adapter only when callers need an intermediate mount function.
 - Do not push, deploy, or write an adapter without user authority.
 
+## TypeScript
+
+Use TypeScript for new React code. Keep the types focused on the migration.
+
+- Type component props, local state, function inputs and outputs, and new React
+  API contracts.
+- Use inference when an initializer or function body makes the same type clear.
+  Do not repeat that type in an annotation.
+- Define a small interface for only the legacy members that the React boundary
+  calls.
+- Use `unknown` for untrusted legacy values. Use narrowly scoped `any` only
+  when a MooTools value cannot be described cheaply. Do not let `any` spread
+  past the boundary.
+- Prefer inline unions and callback types inside one boundary type. Extract a
+  named type only when code reuses it or it names a real domain concept.
+- Do not model the full MooTools class or type untouched legacy files.
+- Do not add generics, branded types, mapped types, conditional types, wrappers,
+  or helper abstractions only to improve typing.
+- Do not refactor behavior or expand the migration scope to improve types.
+- Preserve behavior and parity first. Add stronger types only when a migrated
+  caller or a failing check requires them.
+- Remove a type if it does not catch a migration bug or make the boundary
+  easier to understand.
+
+**Type the seam, not the legacy implementation.**
+
 ## 1. Analyze
 
 ```bash
