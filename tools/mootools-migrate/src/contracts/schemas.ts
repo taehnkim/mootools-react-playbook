@@ -378,6 +378,7 @@ export const ScenarioSchema = z
     }
 
     const assertionIds = new Set<string>();
+    const screenshotNames = new Set<string>();
     for (const assertion of scenario.assertions) {
       if (assertionIds.has(assertion.assertionId)) {
         context.addIssue({
@@ -386,6 +387,15 @@ export const ScenarioSchema = z
         });
       }
       assertionIds.add(assertion.assertionId);
+      if (assertion.kind === "screenshot") {
+        if (screenshotNames.has(assertion.name)) {
+          context.addIssue({
+            code: "custom",
+            message: `Duplicate screenshot name: ${assertion.name}`,
+          });
+        }
+        screenshotNames.add(assertion.name);
+      }
       if (!stepIds.has(assertion.afterStepId)) {
         context.addIssue({
           code: "custom",
@@ -457,14 +467,36 @@ export const EventRecordSchema = z.object({
 
 export type EventRecord = z.infer<typeof EventRecordSchema>;
 
-export const ObservationSchema = z.object({
+const NonScreenshotAssertionKindSchema = z.enum([
+  "count",
+  "text",
+  "class",
+  "visible",
+  "focus",
+  "attribute",
+  "computed-style",
+  "event-trace",
+]);
+
+const ObservationBaseSchema = z.object({
   assertionId: z.string().min(1),
   afterStepId: z.string().min(1),
-  kind: AssertionKindSchema,
-  actual: JsonValueSchema,
-  screenshotPath: z.string().nullable(),
-  screenshotHash: Sha256Schema.nullable(),
 });
+
+export const ObservationSchema = z.discriminatedUnion("kind", [
+  ObservationBaseSchema.extend({
+    kind: NonScreenshotAssertionKindSchema,
+    actual: JsonValueSchema,
+    screenshotPath: z.null(),
+    screenshotHash: z.null(),
+  }),
+  ObservationBaseSchema.extend({
+    kind: z.literal("screenshot"),
+    actual: z.null(),
+    screenshotPath: RelativePathSchema,
+    screenshotHash: Sha256Schema,
+  }),
+]);
 
 export type Observation = z.infer<typeof ObservationSchema>;
 

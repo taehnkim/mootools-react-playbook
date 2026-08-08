@@ -14,9 +14,14 @@ import { describe, expect, it } from "vitest";
 import { createContext, loadMigrationSpec } from "../src/core/context.js";
 import { sha256 } from "../src/core/json.js";
 import {
+  CaptureManifestSchema,
+  ScenariosSchema,
+} from "../src/contracts/schemas.js";
+import {
   commitCandidateEvidence,
   compareScreenshotEvidence,
   isAcceptedDifference,
+  validateCaptureCoverage,
 } from "../src/parity/compare.js";
 
 describe("parity comparison", () => {
@@ -193,6 +198,111 @@ describe("parity comparison", () => {
       "passing-new\n",
     );
     await expect(access(failedDirectory)).rejects.toThrow();
+  });
+
+  it("rejects missing or duplicate manifest coverage", () => {
+    const scenarios = ScenariosSchema.parse([
+      {
+        id: "observe",
+        fixture: "default",
+        steps: [{ stepId: "observe", action: "observe" }],
+        assertions: [
+          {
+            assertionId: "component-count",
+            afterStepId: "observe",
+            target: "component",
+            kind: "count",
+            matcher: "equals",
+            expected: 1,
+          },
+        ],
+      },
+    ]);
+    const hash = `sha256:${"0".repeat(64)}`;
+    const manifest = CaptureManifestSchema.parse({
+      schemaVersion: 1,
+      runId: "legacy-coverage",
+      componentId: "widget",
+      surface: "legacy",
+      createdAt: "2026-08-08T00:00:00.000Z",
+      baseUrl: "http://127.0.0.1:5173",
+      projectInputHash: hash,
+      captureConfigHash: hash,
+      scenariosHash: hash,
+      fixturesHash: hash,
+      selectorsHash: hash,
+      browserVersion: "1",
+      viewport: { width: 1280, height: 900 },
+      checks: {
+        componentTests: [
+          {
+            surface: "legacy",
+            command: "npm run test -- widget.test.ts",
+            passed: true,
+            output: "passed",
+            inputHash: hash,
+          },
+        ],
+        projectChecks: [],
+      },
+      results: [
+        {
+          scenarioId: "observe",
+          observations: [
+            {
+              assertionId: "component-count",
+              afterStepId: "observe",
+              kind: "count",
+              actual: 1,
+              screenshotPath: null,
+              screenshotHash: null,
+            },
+          ],
+        },
+      ],
+    });
+
+    expect(() =>
+      validateCaptureCoverage({
+        label: "Baseline",
+        manifest,
+        scenarios,
+      }),
+    ).not.toThrow();
+    expect(() =>
+      validateCaptureCoverage({
+        label: "Baseline",
+        manifest: { ...manifest, results: [] },
+        scenarios,
+      }),
+    ).toThrow("Baseline scenario coverage is incomplete.");
+    expect(() =>
+      validateCaptureCoverage({
+        label: "Baseline",
+        manifest: {
+          ...manifest,
+          results: [...manifest.results, ...manifest.results],
+        },
+        scenarios,
+      }),
+    ).toThrow("Baseline scenario coverage is incomplete.");
+    expect(() =>
+      validateCaptureCoverage({
+        label: "Baseline",
+        manifest: {
+          ...manifest,
+          results: [
+            {
+              scenarioId: "observe",
+              observations: [],
+            },
+          ],
+        },
+        scenarios,
+      }),
+    ).toThrow(
+      "Baseline observation coverage is incomplete for observe.",
+    );
   });
 });
 

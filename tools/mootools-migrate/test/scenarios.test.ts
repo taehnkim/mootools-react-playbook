@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { RunIdSchema, ScenarioSchema } from "../src/contracts/schemas.js";
+import {
+  ObservationSchema,
+  RunIdSchema,
+  ScenarioSchema,
+} from "../src/contracts/schemas.js";
 
 describe("scenario schema", () => {
   it("rejects duplicate step IDs and unknown assertion steps", () => {
@@ -100,5 +104,65 @@ describe("scenario schema", () => {
     });
 
     expect(result.success).toBe(true);
+  });
+
+  it("rejects duplicate screenshot names in one scenario", () => {
+    const result = ScenarioSchema.safeParse({
+      id: "duplicate-images",
+      fixture: "default",
+      steps: [{ stepId: "observe", action: "observe" }],
+      assertions: [
+        {
+          assertionId: "first-image",
+          afterStepId: "observe",
+          target: "component",
+          kind: "screenshot",
+          matcher: "pixel-diff",
+          name: "component",
+          maxDiffRatio: 0,
+        },
+        {
+          assertionId: "second-image",
+          afterStepId: "observe",
+          target: "component",
+          kind: "screenshot",
+          matcher: "pixel-diff",
+          name: "component",
+          maxDiffRatio: 0,
+        },
+      ],
+    });
+
+    expect(result.success).toBe(false);
+    if (result.success) {
+      throw new Error("Duplicate screenshot names passed validation.");
+    }
+    expect(result.error.issues.map((issue) => issue.message)).toContain(
+      "Duplicate screenshot name: component",
+    );
+  });
+
+  it("requires screenshot artifacts only for screenshot observations", () => {
+    const hash = `sha256:${"0".repeat(64)}`;
+    expect(
+      ObservationSchema.safeParse({
+        assertionId: "image",
+        afterStepId: "observe",
+        kind: "screenshot",
+        actual: null,
+        screenshotPath: null,
+        screenshotHash: null,
+      }).success,
+    ).toBe(false);
+    expect(
+      ObservationSchema.safeParse({
+        assertionId: "count",
+        afterStepId: "observe",
+        kind: "count",
+        actual: 1,
+        screenshotPath: "state/component.png",
+        screenshotHash: hash,
+      }).success,
+    ).toBe(false);
   });
 });

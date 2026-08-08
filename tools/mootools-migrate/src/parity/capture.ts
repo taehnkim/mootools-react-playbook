@@ -574,7 +574,11 @@ async function observeAssertion(options: {
         relativePath,
       );
       await mkdir(dirname(absolutePath), { recursive: true });
-      await locator.first().screenshot({ path: absolutePath });
+      await locator.first().screenshot({
+        path: absolutePath,
+        animations: "disabled",
+        caret: "hide",
+      });
       return {
         assertionId: options.assertion.assertionId,
         afterStepId: options.assertion.afterStepId,
@@ -595,7 +599,7 @@ async function observeAssertion(options: {
 }
 
 function observation(
-  assertion: ScenarioAssertion,
+  assertion: Exclude<ScenarioAssertion, { kind: "screenshot" }>,
   actual: JsonValue,
 ): Observation {
   return {

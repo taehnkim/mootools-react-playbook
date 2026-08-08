@@ -96,6 +96,11 @@ async function compareCandidateInDirectory(
     join(options.baselineDirectory, "manifest.json"),
     CaptureManifestSchema,
   );
+  validateCaptureCoverage({
+    label: "Baseline",
+    manifest: baseline,
+    scenarios: options.scenarios,
+  });
   await requireFreshBaseline({
     context: options.context,
     config: options.config,
@@ -120,6 +125,11 @@ async function compareCandidateInDirectory(
     checks: options.checks,
     enforceExpected: false,
     replaceExisting: false,
+  });
+  validateCaptureCoverage({
+    label: "React candidate",
+    manifest: candidate,
+    scenarios: options.scenarios,
   });
   if (candidate.browserVersion !== baseline.browserVersion) {
     throw new Error(
@@ -241,6 +251,58 @@ async function compareCandidateInDirectory(
     passed: result.status === "PARITY" && result.attested,
   });
   return result;
+}
+
+export function validateCaptureCoverage(options: {
+  label: string;
+  manifest: CaptureManifest;
+  scenarios: Scenarios;
+}): void {
+  const expectedScenarioIds = options.scenarios
+    .map((scenario) => scenario.id)
+    .sort();
+  const actualScenarioIds = options.manifest.results
+    .map((result) => result.scenarioId)
+    .sort();
+  if (!isDeepStrictEqual(actualScenarioIds, expectedScenarioIds)) {
+    throw new Error(`${options.label} scenario coverage is incomplete.`);
+  }
+
+  for (const scenario of options.scenarios) {
+    const result = options.manifest.results.find(
+      (candidate) => candidate.scenarioId === scenario.id,
+    );
+    if (result === undefined) {
+      throw new Error(
+        `${options.label} is missing scenario ${scenario.id}.`,
+      );
+    }
+    const expectedAssertionIds = scenario.assertions
+      .map((assertion) => assertion.assertionId)
+      .sort();
+    const actualAssertionIds = result.observations
+      .map((observation) => observation.assertionId)
+      .sort();
+    if (!isDeepStrictEqual(actualAssertionIds, expectedAssertionIds)) {
+      throw new Error(
+        `${options.label} observation coverage is incomplete for ${scenario.id}.`,
+      );
+    }
+    for (const assertion of scenario.assertions) {
+      const observation = result.observations.find(
+        (candidate) => candidate.assertionId === assertion.assertionId,
+      );
+      if (
+        observation === undefined ||
+        observation.afterStepId !== assertion.afterStepId ||
+        observation.kind !== assertion.kind
+      ) {
+        throw new Error(
+          `${options.label} observation ${scenario.id}/${assertion.assertionId} does not match its assertion.`,
+        );
+      }
+    }
+  }
 }
 
 async function requireFreshBaseline(options: {
