@@ -36,6 +36,15 @@ These selected fields come from the local final manifest.
 ]
 ```
 
+## Scenario recordings
+
+Each scenario records a legacy WebM at
+`baseline/recordings/<scenario>.webm` and a React WebM at
+`final/recordings/<scenario>.webm`. `parity.json` pairs both paths and hashes.
+The tool verifies each file against its manifest hash. It does not compare the
+videos for visual parity. Recordings are inspection evidence, while screenshots
+remain exact parity evidence.
+
 ## Sample exact image comparison
 
 This record has equal dimensions and zero changed pixels.
@@ -85,12 +94,15 @@ dimensions and zero changed pixels.
 ```text
 tools/mootools-migrate/components/tab-pane/worksheet.generated.json
 tools/mootools-migrate/components/tab-pane/baseline/manifest.json
+tools/mootools-migrate/components/tab-pane/baseline/recordings/<scenario>.webm
 tools/mootools-migrate/components/tab-pane/baseline/<scenario>/<name>.png
 tools/mootools-migrate/components/tab-pane/final/manifest.json
 tools/mootools-migrate/components/tab-pane/final/parity.json
+tools/mootools-migrate/components/tab-pane/final/recordings/<scenario>.webm
 tools/mootools-migrate/components/tab-pane/final/<scenario>/<name>.png
 tools/mootools-migrate/components/tab-pane/final/diffs/<scenario>/<assertion>.png
 tools/mootools-migrate/components/tab-pane/final.failed/
 ```
 
-Git ignores these paths. Regenerate them for the current checkout.
+All generated media stays local and ignored by Git. Regenerate the evidence for
+the current checkout.

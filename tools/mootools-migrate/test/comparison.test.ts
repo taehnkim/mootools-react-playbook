@@ -21,6 +21,7 @@ import {
   commitCandidateEvidence,
   compareScreenshotEvidence,
   isAcceptedDifference,
+  pairRecordingEvidence,
   validateCaptureCoverage,
 } from "../src/parity/compare.js";
 
@@ -142,6 +143,56 @@ describe("parity comparison", () => {
     });
   });
 
+  it("validates both recording hashes without comparing video contents", async () => {
+    const root = await mkdtemp(join(tmpdir(), "migration-recordings-"));
+    const baselineDirectory = join(root, "baseline");
+    const candidateDirectory = join(root, "candidate");
+    const videoPath = "recordings/recorded-state.webm";
+    const baselineBytes = Buffer.from("legacy recording");
+    const reactBytes = Buffer.from("React recording");
+    await mkdir(join(baselineDirectory, "recordings"), {
+      recursive: true,
+    });
+    await mkdir(join(candidateDirectory, "recordings"), {
+      recursive: true,
+    });
+    await writeFile(join(baselineDirectory, videoPath), baselineBytes);
+    await writeFile(join(candidateDirectory, videoPath), reactBytes);
+
+    const options = {
+      baselineDirectory,
+      candidateDirectory,
+      scenarioId: "recorded-state",
+      baselineVideoPath: videoPath,
+      baselineVideoHash: sha256(baselineBytes),
+      reactVideoPath: videoPath,
+      reactVideoHash: sha256(reactBytes),
+    };
+    await expect(pairRecordingEvidence(options)).resolves.toEqual({
+      scenarioId: "recorded-state",
+      baselineVideoPath: videoPath,
+      baselineVideoHash: sha256(baselineBytes),
+      reactVideoPath: videoPath,
+      reactVideoHash: sha256(reactBytes),
+    });
+    await expect(
+      pairRecordingEvidence({
+        ...options,
+        baselineVideoHash: sha256("tampered"),
+      }),
+    ).rejects.toThrow(
+      "Baseline recording evidence hash failed for recorded-state.",
+    );
+    await expect(
+      pairRecordingEvidence({
+        ...options,
+        reactVideoHash: sha256("tampered"),
+      }),
+    ).rejects.toThrow(
+      "React recording evidence hash failed for recorded-state.",
+    );
+  });
+
   it("retains failed evidence without replacing the last pass", async () => {
     const root = await mkdtemp(join(tmpdir(), "migration-final-"));
     const candidateDirectory = join(root, "final.pending-failed");
@@ -149,6 +200,9 @@ describe("parity comparison", () => {
     const failedDirectory = `${finalDirectory}.failed`;
     await mkdir(join(candidateDirectory, "state"), { recursive: true });
     await mkdir(join(candidateDirectory, "diffs/state"), { recursive: true });
+    await mkdir(join(candidateDirectory, "recordings"), {
+      recursive: true,
+    });
     await mkdir(finalDirectory);
     await mkdir(failedDirectory);
     await writeFile(join(candidateDirectory, "manifest.json"), "failed-new\n");
@@ -156,6 +210,10 @@ describe("parity comparison", () => {
     await writeFile(
       join(candidateDirectory, "diffs/state/component-image.png"),
       "diff\n",
+    );
+    await writeFile(
+      join(candidateDirectory, "recordings/state.webm"),
+      "recording\n",
     );
     await writeFile(join(finalDirectory, "manifest.json"), "passing-old\n");
     await writeFile(join(failedDirectory, "manifest.json"), "failed-old\n");
@@ -181,6 +239,12 @@ describe("parity comparison", () => {
         "utf8",
       ),
     ).toBe("diff\n");
+    expect(
+      await readFile(
+        join(failedDirectory, "recordings/state.webm"),
+        "utf8",
+      ),
+    ).toBe("recording\n");
     expect(committed).toBe(failedDirectory);
     await expect(access(candidateDirectory)).rejects.toThrow();
     await expect(access(`${failedDirectory}.backup`)).rejects.toThrow();
@@ -220,7 +284,7 @@ describe("parity comparison", () => {
     ]);
     const hash = `sha256:${"0".repeat(64)}`;
     const manifest = CaptureManifestSchema.parse({
-      schemaVersion: 1,
+      schemaVersion: 2,
       runId: "legacy-coverage",
       componentId: "widget",
       surface: "legacy",
@@ -248,6 +312,8 @@ describe("parity comparison", () => {
       results: [
         {
           scenarioId: "observe",
+          videoPath: "recordings/observe.webm",
+          videoHash: hash,
           observations: [
             {
               assertionId: "component-count",
@@ -294,6 +360,8 @@ describe("parity comparison", () => {
           results: [
             {
               scenarioId: "observe",
+              videoPath: "recordings/observe.webm",
+              videoHash: hash,
               observations: [],
             },
           ],

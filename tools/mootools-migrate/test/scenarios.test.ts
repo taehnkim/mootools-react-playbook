@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   ObservationSchema,
+  RecordingComparisonSchema,
   RunIdSchema,
+  ScenarioResultSchema,
   ScenarioSchema,
 } from "../src/contracts/schemas.js";
 
@@ -63,6 +65,84 @@ describe("scenario schema", () => {
     });
 
     expect(result.success).toBe(false);
+  });
+
+  it("requires safe scenario video paths and SHA-256 hashes", () => {
+    const hash = `sha256:${"0".repeat(64)}`;
+    const result = {
+      scenarioId: "visual-state",
+      observations: [],
+      videoPath: "recordings/visual-state.webm",
+      videoHash: hash,
+    };
+
+    expect(ScenarioResultSchema.safeParse(result).success).toBe(true);
+    expect(
+      ScenarioResultSchema.safeParse({
+        scenarioId: result.scenarioId,
+        observations: result.observations,
+      }).success,
+    ).toBe(false);
+    expect(
+      ScenarioResultSchema.safeParse({
+        ...result,
+        videoPath: "../visual-state.webm",
+      }).success,
+    ).toBe(false);
+    expect(
+      ScenarioResultSchema.safeParse({
+        ...result,
+        videoHash: "not-a-sha256-hash",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("requires the deterministic recording path for the scenario ID", () => {
+    const hash = `sha256:${"0".repeat(64)}`;
+
+    expect(
+      ScenarioResultSchema.safeParse({
+        scenarioId: "visual-state",
+        observations: [],
+        videoPath: "recordings/other-state.webm",
+        videoHash: hash,
+      }).success,
+    ).toBe(false);
+    expect(
+      ScenarioResultSchema.parse({
+        scenarioId: "visual-state",
+        observations: [],
+        videoPath: "recordings/visual-state.webm",
+        videoHash: hash,
+      }).videoPath,
+    ).toBe("recordings/visual-state.webm");
+  });
+
+  it("requires safe paths and hashes for paired recordings", () => {
+    const hash = `sha256:${"0".repeat(64)}`;
+    const recording = {
+      scenarioId: "visual-state",
+      baselineVideoPath: "recordings/visual-state.webm",
+      baselineVideoHash: hash,
+      reactVideoPath: "recordings/visual-state.webm",
+      reactVideoHash: hash,
+    };
+
+    expect(RecordingComparisonSchema.safeParse(recording).success).toBe(
+      true,
+    );
+    expect(
+      RecordingComparisonSchema.safeParse({
+        ...recording,
+        reactVideoPath: "../../outside.webm",
+      }).success,
+    ).toBe(false);
+    expect(
+      RecordingComparisonSchema.safeParse({
+        ...recording,
+        reactVideoHash: undefined,
+      }).success,
+    ).toBe(false);
   });
 
   it("rejects a positive screenshot tolerance", () => {

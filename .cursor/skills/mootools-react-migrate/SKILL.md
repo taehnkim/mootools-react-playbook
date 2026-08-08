@@ -19,8 +19,9 @@ verification passes.
 - Stop for human approval when a decision is pending.
 - Use the adapter only when callers need an intermediate mount function.
 - Do not push, deploy, or write an adapter without user authority.
-- Generate, inspect, and report the worksheet, manifests, screenshots, and
-  diffs. Do not commit these generated files.
+- Generate, inspect, and report the worksheet, manifests, screenshots,
+  recordings, and diffs. Keep all generated media local and ignored. Do not
+  commit these generated files.
 
 ## TypeScript
 
@@ -70,7 +71,8 @@ npm run migrate -- baseline <component> \
 
 This command runs the legacy unit test before browser capture. Review the
 worksheet and baseline. Resolve every pending product decision in
-`migration.json` before writing React.
+`migration.json` before writing React. The baseline saves one legacy WebM for
+each scenario under `recordings/<scenario>.webm`.
 
 ## 3. Define the boundary
 
@@ -108,11 +110,14 @@ Do not claim parity until every item passes.
   match the configured source, test file, and dependencies.
 - Add a component screenshot for every meaningful visual state that must be
   exact.
+- Save one legacy WebM and one React WebM for every scenario. Recordings are
+  inspection evidence, not a visual parity assertion. Screenshots remain exact
+  parity evidence.
 - Require equal image dimensions and zero changed pixels. Do not add visual
   tolerance.
 - Save the baseline image, the React image, and the diff image for every
   screenshot assertion, including exact matches.
-- Review the saved manifests, images, diffs, and `parity.json`.
+- Review the saved manifests, recordings, images, diffs, and `parity.json`.
 - Do not update the baseline to make React pass.
 - Do not claim parity for an approved visual difference. Leave that scenario
   without an exact screenshot assertion and document the approved difference.

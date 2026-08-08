@@ -8,3 +8,4 @@ legacy-smoke.png
 /tools/mootools-migrate/components/*/final/
 /tools/mootools-migrate/components/*/final.failed/
 /tools/mootools-migrate/components/*/**/*.png
+/tools/mootools-migrate/components/*/**/*.webm

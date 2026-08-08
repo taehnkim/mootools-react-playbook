@@ -68,6 +68,10 @@ export const ArtifactIdSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
+export function scenarioVideoPath(scenarioId: string): string {
+  return `recordings/${ArtifactIdSchema.parse(scenarioId)}.webm`;
+}
+
 const MigrationDefinitionSchema = z.object({
   schemaVersion: z.literal(1),
   id: ComponentIdSchema,
@@ -500,10 +504,25 @@ export const ObservationSchema = z.discriminatedUnion("kind", [
 
 export type Observation = z.infer<typeof ObservationSchema>;
 
-export const ScenarioResultSchema = z.object({
-  scenarioId: z.string().min(1),
-  observations: z.array(ObservationSchema),
-});
+export const ScenarioResultSchema = z
+  .object({
+    scenarioId: ArtifactIdSchema,
+    observations: z.array(ObservationSchema),
+    videoPath: RelativePathSchema,
+    videoHash: Sha256Schema,
+  })
+  .superRefine((result, context) => {
+    const expectedPath = scenarioVideoPath(result.scenarioId);
+    if (result.videoPath !== expectedPath) {
+      context.addIssue({
+        code: "custom",
+        path: ["videoPath"],
+        message: `Expected scenario video path ${expectedPath}.`,
+      });
+    }
+  });
+
+export type ScenarioResult = z.infer<typeof ScenarioResultSchema>;
 
 export const ComponentTestSurfaceSchema = z.enum(["legacy", "react"]);
 export type ComponentTestSurface = z.infer<
@@ -538,7 +557,7 @@ export type CaptureChecks = z.infer<typeof CaptureChecksSchema>;
 
 export const CaptureManifestSchema = z
   .object({
-    schemaVersion: z.literal(1),
+    schemaVersion: z.literal(2),
     runId: RunIdSchema,
     componentId: ComponentIdSchema,
     surface: ComponentTestSurfaceSchema,
@@ -639,6 +658,36 @@ export const ImageComparisonSchema = z.object({
 });
 export type ImageComparison = z.infer<typeof ImageComparisonSchema>;
 
+export const RecordingComparisonSchema = z
+  .object({
+    scenarioId: ArtifactIdSchema,
+    baselineVideoPath: RelativePathSchema,
+    baselineVideoHash: Sha256Schema,
+    reactVideoPath: RelativePathSchema,
+    reactVideoHash: Sha256Schema,
+  })
+  .superRefine((recording, context) => {
+    const expectedPath = scenarioVideoPath(recording.scenarioId);
+    if (recording.baselineVideoPath !== expectedPath) {
+      context.addIssue({
+        code: "custom",
+        path: ["baselineVideoPath"],
+        message: `Expected baseline video path ${expectedPath}.`,
+      });
+    }
+    if (recording.reactVideoPath !== expectedPath) {
+      context.addIssue({
+        code: "custom",
+        path: ["reactVideoPath"],
+        message: `Expected React video path ${expectedPath}.`,
+      });
+    }
+  });
+
+export type RecordingComparison = z.infer<
+  typeof RecordingComparisonSchema
+>;
+
 export const ParityResultSchema = z.object({
   status: z.enum(["PARITY", "MISMATCH"]),
   attested: z.boolean(),
@@ -650,6 +699,7 @@ export const ParityResultSchema = z.object({
   acceptedDifferencesHash: Sha256Schema,
   scenariosHash: Sha256Schema,
   mismatches: z.array(ParityMismatchSchema),
+  recordings: z.array(RecordingComparisonSchema),
   imageComparisons: z.array(ImageComparisonSchema),
   acceptedDifferencesUsed: z.array(ArtifactIdSchema),
 });

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { resolve } from "node:path";
+
 import { Command } from "commander";
 
 import {
@@ -123,6 +125,16 @@ program
         runId: manifest.runId,
         scenarios: manifest.results.length,
         evidencePath: baselineDirectory,
+        recordingPaths: manifest.results.map((result) =>
+          resolve(baselineDirectory, result.videoPath),
+        ),
+        screenshotPaths: manifest.results.flatMap((result) =>
+          result.observations.flatMap((observation) =>
+            observation.kind === "screenshot"
+              ? [resolve(baselineDirectory, observation.screenshotPath)]
+              : [],
+          ),
+        ),
       });
     },
   );
@@ -196,6 +208,11 @@ program
       config.id,
       "final",
     );
+    const baselineDirectory = componentArtifactPath(
+      context,
+      config.id,
+      "baseline",
+    );
     const parity = await compareCandidate({
       context,
       config,
@@ -203,11 +220,7 @@ program
       fixtures: config.fixtures,
       legacySelectors: selectorMap(config, "legacy"),
       reactSelectors: selectorMap(config, "react"),
-      baselineDirectory: componentArtifactPath(
-        context,
-        config.id,
-        "baseline",
-      ),
+      baselineDirectory,
       finalDirectory,
       reactBaseUrl: options.baseUrl,
       runId: createRunId("react"),
@@ -219,6 +232,9 @@ program
       },
     });
     const ok = parity.status === "PARITY" && parity.attested;
+    const evidencePath = ok
+      ? finalDirectory
+      : `${finalDirectory}.failed`;
     writeResult({
       ok,
       decisionCheck,
@@ -226,7 +242,23 @@ program
       unitTests,
       projectChecks,
       parity,
-      evidencePath: ok ? finalDirectory : `${finalDirectory}.failed`,
+      evidencePath,
+      baselineRecordingPaths: parity.recordings.map((recording) =>
+        resolve(baselineDirectory, recording.baselineVideoPath),
+      ),
+      reactRecordingPaths: parity.recordings.map((recording) =>
+        resolve(evidencePath, recording.reactVideoPath),
+      ),
+      baselineScreenshotPaths: parity.imageComparisons.map(
+        (comparison) =>
+          resolve(baselineDirectory, comparison.baselineScreenshotPath),
+      ),
+      reactScreenshotPaths: parity.imageComparisons.map((comparison) =>
+        resolve(evidencePath, comparison.reactScreenshotPath),
+      ),
+      diffScreenshotPaths: parity.imageComparisons.map((comparison) =>
+        resolve(evidencePath, comparison.diffPath),
+      ),
     });
     if (!ok) {
       process.exitCode = 2;

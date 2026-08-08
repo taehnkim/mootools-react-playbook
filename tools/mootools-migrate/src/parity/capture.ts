@@ -7,7 +7,13 @@ import {
 } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 
-import { chromium, type Locator, type Page } from "playwright";
+import {
+  chromium,
+  type Browser,
+  type Locator,
+  type Page,
+  type Video,
+} from "playwright";
 
 import { hashProjectFiles } from "../core/fingerprint.js";
 import { hashJson, sha256, writeJson } from "../core/json.js";
@@ -15,6 +21,7 @@ import {
   CaptureManifestSchema,
   EventRecordSchema,
   JsonValueSchema,
+  scenarioVideoPath,
   type CaptureChecks,
   type CaptureManifest,
   type MigrationSpec,
@@ -33,6 +40,7 @@ import {
 } from "../core/context.js";
 
 const EVENT_STORE = "__mootoolsMigrationEvents";
+const RECORDING_STEP_DELAY_MS = 250;
 
 export type CaptureSurface = "legacy" | "react";
 
@@ -103,23 +111,41 @@ export async function captureSurface(options: {
           `Scenario ${scenario.id} uses unknown fixture ${scenario.fixture}.`,
         );
       }
-      const page = await browser.newPage({ viewport: options.viewport });
-      try {
-        const observations = await runScenario({
-          page,
-          config: options.config,
-          scenario,
-          selectors: options.selectors,
-          baseUrl: options.baseUrl,
-          surface: options.surface,
-          outputDirectory: temporaryDirectory,
-          enforceExpected: options.enforceExpected,
-          fixture,
-        });
-        results.push({ scenarioId: scenario.id, observations });
-      } finally {
-        await page.close();
-      }
+      const rawVideoDirectory = resolveInside(
+        temporaryDirectory,
+        `.raw-video-${scenario.id}`,
+      );
+      await mkdir(rawVideoDirectory, { recursive: true });
+      const { observations, video } = await runRecordedScenario({
+        browser,
+        rawVideoDirectory,
+        viewport: options.viewport,
+        config: options.config,
+        scenario,
+        selectors: options.selectors,
+        baseUrl: options.baseUrl,
+        surface: options.surface,
+        outputDirectory: temporaryDirectory,
+        enforceExpected: options.enforceExpected,
+        fixture,
+      });
+      const videoPath = scenarioVideoPath(scenario.id);
+      const absoluteVideoPath = resolveInside(
+        temporaryDirectory,
+        videoPath,
+      );
+      await mkdir(dirname(absoluteVideoPath), { recursive: true });
+      const sourceVideoPath = await video.path();
+      await video.saveAs(absoluteVideoPath);
+      const videoHash = sha256(await readFile(absoluteVideoPath));
+      await rm(sourceVideoPath, { force: true });
+      await rm(rawVideoDirectory, { recursive: true, force: true });
+      results.push({
+        scenarioId: scenario.id,
+        observations,
+        videoPath,
+        videoHash,
+      });
     }
   } catch (error: unknown) {
     await rm(temporaryDirectory, { recursive: true, force: true });
@@ -135,7 +161,7 @@ export async function captureSurface(options: {
   });
   try {
     const manifest = CaptureManifestSchema.parse({
-      schemaVersion: 1,
+      schemaVersion: 2,
       runId: options.runId,
       componentId: options.config.id,
       surface: options.surface,
@@ -181,6 +207,51 @@ export function captureConfigHash(
       surface: config[surface],
     }),
   );
+}
+
+async function runRecordedScenario(options: {
+  browser: Browser;
+  rawVideoDirectory: string;
+  viewport: { width: number; height: number };
+  config: MigrationSpec;
+  scenario: Scenario;
+  selectors: SelectorMap;
+  baseUrl: string;
+  surface: CaptureSurface;
+  outputDirectory: string;
+  enforceExpected: boolean;
+  fixture: JsonValue;
+}): Promise<{ observations: Observation[]; video: Video }> {
+  const browserContext = await options.browser.newContext({
+    viewport: options.viewport,
+    recordVideo: {
+      dir: options.rawVideoDirectory,
+      size: options.viewport,
+    },
+  });
+  try {
+    const page = await browserContext.newPage();
+    const video = page.video();
+    if (video === null) {
+      throw new Error(
+        `Browser video recording did not start for ${options.scenario.id}.`,
+      );
+    }
+    const observations = await runScenario({
+      page,
+      config: options.config,
+      scenario: options.scenario,
+      selectors: options.selectors,
+      baseUrl: options.baseUrl,
+      surface: options.surface,
+      outputDirectory: options.outputDirectory,
+      enforceExpected: options.enforceExpected,
+      fixture: options.fixture,
+    });
+    return { observations, video };
+  } finally {
+    await browserContext.close();
+  }
 }
 
 async function runScenario(options: {
@@ -246,6 +317,7 @@ async function runScenario(options: {
     config: options.config,
     surface: options.surface,
   });
+  await options.page.waitForTimeout(RECORDING_STEP_DELAY_MS);
 
   const observations: Observation[] = [];
   for (const step of options.scenario.steps) {
@@ -256,6 +328,7 @@ async function runScenario(options: {
       surface: options.surface,
       action: step,
     });
+    await options.page.waitForTimeout(RECORDING_STEP_DELAY_MS);
     for (const assertion of options.scenario.assertions.filter(
       (item) => item.afterStepId === step.stepId,
     )) {
@@ -420,24 +493,43 @@ async function runAction(options: {
   switch (options.action.action) {
     case "observe":
       return;
-    case "click":
-      await targetLocator(options.page, options.selectors, options.action.target)
-        .click();
-      return;
-    case "fill":
-      await targetLocator(
+    case "click": {
+      const locator = targetLocator(
         options.page,
         options.selectors,
         options.action.target,
-      ).fill(options.action.value);
+      );
+      await locator.scrollIntoViewIfNeeded();
+      await locator.hover();
+      await options.page.waitForTimeout(RECORDING_STEP_DELAY_MS);
+      await locator.click();
       return;
-    case "press":
-      await targetLocator(
+    }
+    case "fill": {
+      const locator = targetLocator(
         options.page,
         options.selectors,
         options.action.target,
-      ).press(options.action.key);
+      );
+      await locator.scrollIntoViewIfNeeded();
+      await locator.click();
+      await locator.selectText();
+      await locator.press("Backspace");
+      if (options.action.value !== "") {
+        await locator.pressSequentially(options.action.value, { delay: 50 });
+      }
       return;
+    }
+    case "press": {
+      const locator = targetLocator(
+        options.page,
+        options.selectors,
+        options.action.target,
+      );
+      await locator.scrollIntoViewIfNeeded();
+      await locator.press(options.action.key);
+      return;
+    }
     case "call": {
       const path =
         options.surface === "legacy"

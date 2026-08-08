@@ -23,6 +23,7 @@ import {
   CaptureManifestSchema,
   JsonValueSchema,
   ParityResultSchema,
+  RecordingComparisonSchema,
   type AcceptedDifferences,
   type CaptureChecks,
   type CaptureManifest,
@@ -33,6 +34,7 @@ import {
   type JsonValue,
   type Observation,
   type ParityResultData,
+  type RecordingComparison,
   type Scenarios,
   type SelectorMap,
 } from "../contracts/schemas.js";
@@ -141,6 +143,7 @@ async function compareCandidateInDirectory(
   }
 
   const mismatches: ParityMismatch[] = [];
+  const recordings: RecordingComparison[] = [];
   const imageComparisons: ImageComparison[] = [];
   const acceptedDifferencesUsed = new Set<string>();
   for (const baselineScenario of baseline.results) {
@@ -157,6 +160,17 @@ async function compareCandidateInDirectory(
       });
       continue;
     }
+    recordings.push(
+      await pairRecordingEvidence({
+        baselineDirectory: options.baselineDirectory,
+        candidateDirectory,
+        scenarioId: baselineScenario.scenarioId,
+        baselineVideoPath: baselineScenario.videoPath,
+        baselineVideoHash: baselineScenario.videoHash,
+        reactVideoPath: candidateScenario.videoPath,
+        reactVideoHash: candidateScenario.videoHash,
+      }),
+    );
     for (const baselineObservation of baselineScenario.observations) {
       const candidateObservation = candidateScenario.observations.find(
         (item) => item.assertionId === baselineObservation.assertionId,
@@ -238,6 +252,7 @@ async function compareCandidateInDirectory(
     ),
     scenariosHash: candidate.scenariosHash,
     mismatches,
+    recordings,
     imageComparisons,
     acceptedDifferencesUsed: [...acceptedDifferencesUsed].sort(),
   });
@@ -468,6 +483,43 @@ async function compareObservation(options: {
             : `${imageComparison.reactScreenshotSize.width}x${imageComparison.reactScreenshotSize.height}`,
         ),
   };
+}
+
+export async function pairRecordingEvidence(options: {
+  baselineDirectory: string;
+  candidateDirectory: string;
+  scenarioId: string;
+  baselineVideoPath: string;
+  baselineVideoHash: string;
+  reactVideoPath: string;
+  reactVideoHash: string;
+}): Promise<RecordingComparison> {
+  const recording = RecordingComparisonSchema.parse({
+    scenarioId: options.scenarioId,
+    baselineVideoPath: options.baselineVideoPath,
+    baselineVideoHash: options.baselineVideoHash,
+    reactVideoPath: options.reactVideoPath,
+    reactVideoHash: options.reactVideoHash,
+  });
+  const [baselineBytes, reactBytes] = await Promise.all([
+    readFile(
+      resolve(options.baselineDirectory, recording.baselineVideoPath),
+    ),
+    readFile(
+      resolve(options.candidateDirectory, recording.reactVideoPath),
+    ),
+  ]);
+  if (sha256(baselineBytes) !== recording.baselineVideoHash) {
+    throw new Error(
+      `Baseline recording evidence hash failed for ${recording.scenarioId}.`,
+    );
+  }
+  if (sha256(reactBytes) !== recording.reactVideoHash) {
+    throw new Error(
+      `React recording evidence hash failed for ${recording.scenarioId}.`,
+    );
+  }
+  return recording;
 }
 
 export async function compareScreenshotEvidence(options: {
