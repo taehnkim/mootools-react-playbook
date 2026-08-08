@@ -44,11 +44,13 @@ npm run dev
 ```
 
 - `http://localhost:5173/` runs the MooTools application.
-- `http://localhost:5173/react.html` runs the React comparison page.
+- `http://localhost:5173/?tab-pane=react` runs TabPane through the shared mount.
+- `http://localhost:5173/react.html` runs the standalone React page.
 
 ## Migration commands
 
-The agent runs four commands:
+The workflow has four stages. The adapter stage has a dry run and an approved
+write:
 
 ```sh
 # Analyze source, callers, events, DOM, CSS, and side effects.
@@ -58,13 +60,35 @@ npm run migrate -- analyze <component>
 npm run migrate -- baseline <component> \
   --base-url http://127.0.0.1:5173
 
-# Preview an optional caller adapter. Add --write only with approval.
+# Preview an optional caller adapter.
 npm run migrate -- adapter <component>
+
+# Apply the reviewed plan only after approval.
+npm run migrate -- adapter <component> --write
 
 # Run both unit tests, guards, browser parity, typecheck, and build.
 npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
+
+The adapter command is a dry run unless it receives `--write`. An approved
+write applies the generated adapter, caller rewrite, and load-order edit
+atomically.
+
+The generated adapter checks the configured table manager. A missing manager
+or a disabled flag constructs the legacy class. An enabled flag requires the
+configured React mount and forwards the same container, options, and initial
+index. A missing enabled mount throws.
+
+TabPane keeps the mount groundwork in these tracked files:
+
+- `src/migration/mockTableManager.ts` selects the URL-controlled branch.
+- `src/components/tab-pane/mountTabPane.tsx` snapshots the host DOM and mounts
+  React into the existing container.
+- `bootstrap.ts` registers both globals before classic scripts load.
+
+The approved adapter write generates `adapters/mount-tab-pane.js` and rewrites
+`main.js`. Do not create either codemod edit by hand.
 
 `verify` succeeds only when both focused unit tests and all project checks
 pass, every exact screenshot has equal dimensions and zero changed pixels,
@@ -121,11 +145,14 @@ tools/mootools-migrate/
     final.failed/
 components/                 MooTools source and legacy tests
 src/components/             React source and tests
+src/migration/              Table manager and migration branch controls
+adapters/                   Generated caller adapters after approved writes
 ```
 
 `migration.json` is the human-owned migration input. It contains scenarios,
 paired selectors, decisions, accepted differences, allowed legacy uses, and
-the optional adapter configuration.
+the optional adapter configuration. The adapter config names its flag, table
+manager global, and React mount global.
 
 ## Live example
 

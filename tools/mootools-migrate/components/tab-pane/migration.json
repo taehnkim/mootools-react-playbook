@@ -52,18 +52,20 @@
       "change"
     ],
     "proofFiles": [
+      "adapters/mount-tab-pane.js",
       "bootstrap.ts",
       "components/tab-pane/TabPane.Extra.js",
       "components/tab-pane/TabPane.js",
       "index.html",
       "main.js",
+      "src/migration/mockTableManager.ts",
       "styles.css",
       "vendor/mootools-core-1.4.2.js",
       "vendor/mootools-more-1.4.0.1.js"
     ]
   },
   "react": {
-    "entryPath": "/react.html",
+    "entryPath": "/?tab-pane=react",
     "readySelector": "[data-migration-component=\"tab-pane\"]",
     "handlePath": [
       "ReactSandbox",
@@ -71,11 +73,14 @@
     ],
     "componentPath": "src/components/tab-pane/TabPane.tsx",
     "proofFiles": [
-      "react.html",
+      "adapters/mount-tab-pane.js",
+      "bootstrap.ts",
+      "index.html",
+      "main.js",
       "src/components/tab-pane/TabPane.tsx",
-      "src/components/tab-pane/TabPaneDemo.tsx",
+      "src/components/tab-pane/mountTabPane.tsx",
       "src/global.css",
-      "src/main.tsx",
+      "src/migration/mockTableManager.ts",
       "styles.css"
     ]
   },
@@ -85,6 +90,9 @@
   },
   "adapter": {
     "globalName": "mountTabPane",
+    "flagName": "react-tab-pane",
+    "tableManagerGlobal": "tableManager",
+    "reactMountGlobal": "mountReactTabPane",
     "outputPath": "adapters/mount-tab-pane.js",
     "callsiteFiles": [
       "main.js"
@@ -1172,12 +1180,5 @@
       }
     }
   ],
-  "allowedLegacyUses": [
-    {
-      "path": "main.js",
-      "kind": "constructor",
-      "symbol": "TabPane",
-      "line": 5
-    }
-  ]
+  "allowedLegacyUses": []
 }

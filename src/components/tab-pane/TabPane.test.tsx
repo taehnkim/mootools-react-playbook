@@ -37,6 +37,7 @@ describe("TabPane", () => {
     const user = userEvent.setup();
     const view = render(
       <TabPane
+        closeOwner="component"
         initialSelectedId="hello"
         initialTabs={TABS}
         onMinimumTabClose={() => undefined}
@@ -58,6 +59,7 @@ describe("TabPane", () => {
     const ref = createRef<TabPaneHandle>();
     const view = render(
       <TabPane
+        closeOwner="component"
         initialSelectedId="behavior"
         initialTabs={TABS}
         onMinimumTabClose={() => undefined}
@@ -83,6 +85,7 @@ describe("TabPane", () => {
     const ref = createRef<TabPaneHandle>();
     const view = render(
       <TabPane
+        closeOwner="component"
         initialSelectedId="hello"
         initialTabs={TABS}
         onMinimumTabClose={() => undefined}
@@ -121,6 +124,7 @@ describe("TabPane", () => {
     }
     render(
       <TabPane
+        closeOwner="component"
         initialSelectedId="hello"
         initialTabs={[firstTab]}
         onMinimumTabClose={rejected}
@@ -131,6 +135,51 @@ describe("TabPane", () => {
     act(() => requireHandle(ref.current).close(0));
 
     expect(rejected).toHaveBeenCalledOnce();
+  });
+
+  it("lets the configured owner handle close buttons", async () => {
+    const user = userEvent.setup();
+    const componentOwned = render(
+      <TabPane
+        closeOwner="component"
+        initialSelectedId="hello"
+        initialTabs={TABS}
+        onMinimumTabClose={() => undefined}
+      />,
+    );
+
+    await user.click(
+      componentOwned.getByRole("button", {
+        name: "Close Behavior tab",
+      }),
+    );
+    expect(componentOwned.getAllByRole("tab")).toHaveLength(2);
+    componentOwned.unmount();
+
+    const hostClick = vi.fn();
+    const hostOwned = render(
+      <div onClick={hostClick}>
+        <TabPane
+          closeOwner="host"
+          initialSelectedId="hello"
+          initialTabs={TABS}
+          onMinimumTabClose={() => undefined}
+        />
+      </div>,
+    );
+
+    await user.click(
+      hostOwned.getByRole("button", {
+        name: "Close Behavior tab",
+      }),
+    );
+    expect(hostOwned.getAllByRole("tab")).toHaveLength(3);
+    expect(
+      hostOwned
+        .getByRole("tab", { name: /Behavior/ })
+        .getAttribute("aria-selected"),
+    ).toBe("false");
+    expect(hostClick).toHaveBeenCalledOnce();
   });
 });
 

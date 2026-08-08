@@ -13,19 +13,6 @@ import {
   type TabPaneTab,
 } from "./TabPane";
 
-type ReactSandbox = {
-  fixtureId: string;
-  tabPane: TabPaneHandle;
-};
-
-declare global {
-  interface Window {
-    ReactSandbox?: ReactSandbox;
-    __MOOTOOLS_MIGRATION_FIXTURE__?: unknown;
-    __MOOTOOLS_MIGRATION_FIXTURE_ID__?: unknown;
-  }
-}
-
 const DEFAULT_FIXTURE_ID = "default-tabs";
 
 const DEFAULT_TABS: readonly TabPaneTab[] = [
@@ -162,12 +149,17 @@ export function TabPaneDemo() {
             <a href="/#tab-pane-demo">Open legacy reference</a>
           </header>
           <div className="demo-content">
-            <TabPane
-              initialSelectedId="hello"
-              initialTabs={initialTabs}
-              onMinimumTabClose={() => setStatus("Keep at least one tab open.")}
-              ref={handleRef}
-            />
+            <div id="tab-pane" data-migration-component="tab-pane">
+              <TabPane
+                closeOwner="component"
+                initialSelectedId="hello"
+                initialTabs={initialTabs}
+                onMinimumTabClose={() =>
+                  setStatus("Keep at least one tab open.")
+                }
+                ref={handleRef}
+              />
+            </div>
 
             <form className="add-tab-form" onSubmit={addTab}>
               <label>

@@ -54,6 +54,9 @@ describe("legacy-use scanner", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountTabPane",
+        flagName: "react-tab-pane",
+        tableManagerGlobal: "tableManager",
+        reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
         bootstrapFile: "legacy/bootstrap.ts",

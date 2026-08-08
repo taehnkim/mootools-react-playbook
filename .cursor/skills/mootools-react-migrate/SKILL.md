@@ -82,14 +82,31 @@ each scenario under `recordings/<scenario>.webm`.
 Read all current callers. Prefer stable IDs and React callbacks over the
 legacy class API.
 
+Build and test these mount artifacts before changing callers:
+
+- The configured table manager global. A missing manager selects legacy.
+- The configured React mount global. An enabled flag without this mount throws.
+- Bootstrap registration for both globals before classic scripts load.
+
+The generated adapter has two branches. It calls the React mount with the
+original arguments when the configured flag is enabled. Otherwise it constructs
+the legacy class with those arguments.
+
 Preview the optional adapter:
 
 ```bash
 npm run migrate -- adapter <component>
 ```
 
-The adapter command is a dry run unless the user approves `--write`. One
-unsupported caller cancels the complete write plan.
+The command is a dry run. Review the complete plan. After the user approves the
+write, apply that same plan:
+
+```bash
+npm run migrate -- adapter <component> --write
+```
+
+The write is atomic. One unsupported caller cancels the complete plan. Do not
+create the generated adapter or add its script URL by hand.
 
 ## 4. Implement and verify
 

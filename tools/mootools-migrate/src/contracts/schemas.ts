@@ -117,6 +117,9 @@ const MigrationDefinitionSchema = z.object({
   }),
   adapter: z.object({
     globalName: z.string().min(1),
+    flagName: z.string().min(1),
+    tableManagerGlobal: z.string().min(1),
+    reactMountGlobal: z.string().min(1),
     outputPath: RelativePathSchema,
     callsiteFiles: z.array(RelativePathSchema).min(1),
     bootstrapFile: RelativePathSchema,

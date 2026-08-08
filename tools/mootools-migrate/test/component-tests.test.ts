@@ -74,6 +74,9 @@ describe("component tests", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountWidget",
+        flagName: "react-widget",
+        tableManagerGlobal: "tableManager",
+        reactMountGlobal: "mountReactWidget",
         outputPath: "adapters/mount-widget.js",
         callsiteFiles: ["main.js"],
         bootstrapFile: "bootstrap.ts",

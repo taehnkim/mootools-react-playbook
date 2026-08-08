@@ -290,8 +290,16 @@ function editBootstrap(options: {
 
 function renderAdapter(config: MigrationSpec): string {
   return `(function (global) {
-  global.${config.adapter.globalName} = function (container, options, showNow) {
-    return new global.${config.legacyGlobal}(container, options, showNow);
+  global[${JSON.stringify(config.adapter.globalName)}] = function (container, options, initialIndex) {
+    var tableManager = global[${JSON.stringify(config.adapter.tableManagerGlobal)}];
+    if (tableManager && tableManager.isEnabled(${JSON.stringify(config.adapter.flagName)})) {
+      var reactMount = global[${JSON.stringify(config.adapter.reactMountGlobal)}];
+      if (typeof reactMount !== "function") {
+        throw new Error(${JSON.stringify(`React mount global ${config.adapter.reactMountGlobal} is not available.`)});
+      }
+      return reactMount(container, options, initialIndex);
+    }
+    return new global[${JSON.stringify(config.legacyGlobal)}](container, options, initialIndex);
   };
 })(window);
 `;

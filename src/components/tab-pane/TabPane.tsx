@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
   type ReactNode,
 } from "react";
 
@@ -18,7 +19,7 @@ export type TabPaneEventName = "add" | "change" | "close";
 export type TabPaneEventListener = (index: number) => void;
 
 export type TabPaneHandle = {
-  add(tab: TabPaneTab, showNow?: boolean): void;
+  add(tab: TabPaneTab, showNow?: boolean, location?: number): void;
   addEvent(name: TabPaneEventName, listener: TabPaneEventListener): void;
   close(index: number): void;
   removeEvent(name: TabPaneEventName, listener: TabPaneEventListener): void;
@@ -26,6 +27,7 @@ export type TabPaneHandle = {
 };
 
 type TabPaneProps = {
+  closeOwner: "component" | "host";
   initialTabs: readonly TabPaneTab[];
   initialSelectedId: string;
   onMinimumTabClose(): void;
@@ -33,7 +35,7 @@ type TabPaneProps = {
 
 export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
   function TabPane(
-    { initialTabs, initialSelectedId, onMinimumTabClose },
+    { closeOwner, initialTabs, initialSelectedId, onMinimumTabClose },
     forwardedRef,
   ) {
     const [tabs, setTabs] = useState<TabPaneTab[]>([...initialTabs]);
@@ -101,12 +103,23 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
     useImperativeHandle(
       forwardedRef,
       () => ({
-        add(tab, showNow = false) {
+        add(tab, showNow = false, location) {
           if (tabsRef.current.some((current) => current.id === tab.id)) {
             return;
           }
-          const nextTabs = [...tabsRef.current, tab];
-          const index = nextTabs.length - 1;
+          const currentTabs = tabsRef.current;
+          const index =
+            location !== undefined &&
+            Number.isInteger(location) &&
+            location >= 0 &&
+            location < currentTabs.length
+              ? location
+              : currentTabs.length;
+          const nextTabs = [
+            ...currentTabs.slice(0, index),
+            tab,
+            ...currentTabs.slice(index),
+          ];
           tabsRef.current = nextTabs;
           setTabs(nextTabs);
           fireEvent("add", index);
@@ -135,6 +148,19 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
       }),
       [],
     );
+
+    function handleTabClick(
+      event: ReactMouseEvent<HTMLLIElement>,
+      index: number,
+    ): void {
+      if (
+        event.target instanceof Element &&
+        event.target.closest("[data-close-tab]") !== null
+      ) {
+        return;
+      }
+      selectIndex(index);
+    }
 
     function handleTabKeyDown(
       event: KeyboardEvent<HTMLLIElement>,
@@ -169,7 +195,7 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
     }
 
     return (
-      <div id="tab-pane" data-migration-component="tab-pane">
+      <>
         <ul className="tabs" role="tablist" aria-label="Migration example tabs">
           {tabs.map((tab, index) => {
             const active = tab.id === selectedId;
@@ -181,7 +207,7 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
                 data-tab-id={tab.id}
                 id={`tab-${tab.id}`}
                 key={tab.id}
-                onClick={() => selectIndex(index)}
+                onClick={(event) => handleTabClick(event, index)}
                 onKeyDown={(event) => handleTabKeyDown(event, index)}
                 ref={(element) => {
                   if (element === null) {
@@ -199,10 +225,14 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
                     aria-label={`Close ${tab.label} tab`}
                     className="tab-close"
                     data-close-tab=""
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      closeIndex(index);
-                    }}
+                    onClick={
+                      closeOwner === "component"
+                        ? (event) => {
+                            event.stopPropagation();
+                            closeIndex(index);
+                          }
+                        : undefined
+                    }
                     type="button"
                   >
                     ×
@@ -219,6 +249,7 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
               aria-labelledby={`tab-${tab.id}`}
               className="content"
               data-panel-id={tab.id}
+              data-tab-id={tab.id}
               hidden={!active}
               id={`panel-${tab.id}`}
               key={tab.id}
@@ -230,7 +261,7 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
             </section>
           );
         })}
-      </div>
+      </>
     );
   },
 );

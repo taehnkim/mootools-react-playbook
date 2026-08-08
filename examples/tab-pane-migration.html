@@ -157,15 +157,19 @@ npm run migrate -- verify tab-pane \
         </li>
         <li>
           <article>
-            <h3>Preview the adapter <span class="badge neutral">Dry run only</span></h3>
-            <p>Check the complete caller plan. This report never uses <code>--write</code>.</p>
-            <pre><code>npm run migrate -- adapter tab-pane</code></pre>
-            <h4>Files created</h4>
-            <p>None. The dry run previews changes to these files.</p>
+            <h3>Preview the adapter <span class="badge neutral">Dry run by default</span></h3>
+            <p>The first command prints the complete plan. Run the second command only after approval. It applies every edit or restores the original files.</p>
+            <pre><code>npm run migrate -- adapter tab-pane
+npm run migrate -- adapter tab-pane --write</code></pre>
+            <h4>Configured binary branch</h4>
+            <dl id="adapter-details" class="run-list"></dl>
+            <h4>Mount artifacts</h4>
             <ul class="compact-list">
-              <li><code>main.js</code></li>
+              <li><code>src/migration/mockTableManager.ts</code></li>
+              <li><code>src/components/tab-pane/mountTabPane.tsx</code></li>
               <li><code>adapters/mount-tab-pane.js</code></li>
               <li><code>bootstrap.ts</code></li>
+              <li><code>main.js</code></li>
             </ul>
           </article>
         </li>
@@ -282,6 +286,10 @@ npm run migrate -- verify tab-pane \
       return words.charAt(0).toUpperCase() + words.slice(1);
     }
 
+    function browserGlobal(name) {
+      return `window[${JSON.stringify(String(name || "missing"))}]`;
+    }
+
     function addMetric(label, value, detail = "") {
       const item = make("div");
       item.append(make("dt", "", label));
@@ -381,6 +389,7 @@ npm run migrate -- verify tab-pane \
 
     function renderEvidence(evidence) {
       const { migration, worksheet, baseline, final, parity } = evidence;
+      const adapter = migration.adapter || {};
       const scenarios = asArray(migration.scenarios);
       const recordings = asArray(parity.recordings);
       const imageComparisons = asArray(parity.imageComparisons);
@@ -388,6 +397,20 @@ npm run migrate -- verify tab-pane \
       const findings = asArray(worksheet.findings);
       const changedPixels = imageComparisons.reduce((total, item) => total + Number(item.changedPixels || 0), 0);
       const parityPassed = parity.status === "PARITY" && parity.attested === true;
+      const adapterDetails = [
+        ["Flag", JSON.stringify(adapter.flagName || "missing")],
+        ["Table manager", browserGlobal(adapter.tableManagerGlobal)],
+        ["React mount", browserGlobal(adapter.reactMountGlobal)],
+        ["Legacy branch", `missing manager or false flag calls new ${browserGlobal(migration.legacyGlobal)}(...)`],
+        ["React branch", `true flag calls ${browserGlobal(adapter.reactMountGlobal)}(container, options, initialIndex)`]
+      ];
+      for (const [label, value] of adapterDetails) {
+        const item = make("div");
+        const description = make("dd");
+        description.append(make("code", "", value));
+        item.append(make("dt", "", label), description);
+        byId("adapter-details").append(item);
+      }
       byId("parity-badge").textContent = `${parity.status || "Unknown"}${parity.attested ? ", attested" : ""}`;
       byId("parity-badge").className = `badge ${parityPassed ? "" : "failed"}`;
       addMetric("Scenarios", numberFormat.format(scenarios.length));
@@ -473,7 +496,7 @@ npm run migrate -- verify tab-pane \
     function resetReport() {
       byId("missing").hidden = true;
       for (const id of ["summary", "findings", "receipts", "differences", "browser-evidence"]) byId(id).hidden = true;
-      for (const id of ["summary-grid", "kind-grid", "receipt-rows", "project-checks", "difference-list", "scenarios", "missing-files"]) byId(id).replaceChildren();
+      for (const id of ["summary-grid", "kind-grid", "receipt-rows", "project-checks", "difference-list", "scenarios", "missing-files", "adapter-details"]) byId(id).replaceChildren();
     }
 
     async function fetchEvidence() {

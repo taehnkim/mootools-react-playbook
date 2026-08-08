@@ -3,8 +3,13 @@ import colorRangeUrl from "./components/color-range/ColorRange.js?url";
 import tabPaneExtraUrl from "./components/tab-pane/TabPane.Extra.js?url";
 import tabPaneUrl from "./components/tab-pane/TabPane.js?url";
 import mainUrl from "./main.js?url";
+import { mountReactTabPane } from "./src/components/tab-pane/mountTabPane";
+import { mockTableManager } from "./src/migration/mockTableManager";
 import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
 import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
+
+window.tableManager = mockTableManager;
+window.mountReactTabPane = mountReactTabPane;
 
 const scriptSources: readonly string[] = [
   mootoolsCoreUrl,
