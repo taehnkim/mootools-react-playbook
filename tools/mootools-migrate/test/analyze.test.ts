@@ -101,6 +101,11 @@ import mainUrl from "./main.js?url";
 const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       "utf8",
     );
+    await writeFile(
+      join(projectRoot, "src/Widget.tsx"),
+      "export const Widget = () => null;\n",
+      "utf8",
+    );
     const config = MigrationSpecSchema.parse({
       schemaVersion: 1,
       id: "widget",
@@ -245,5 +250,11 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       worksheet.findings.find((finding) => finding.kind === "style")
         ?.decisionRequired,
     ).toBe(false);
+    expect(
+      worksheet.findings
+        .filter((finding) => finding.kind === "global")
+        .flatMap((finding) => finding.evidence)
+        .map((evidence) => evidence.path),
+    ).not.toContain("src/Widget.tsx");
   });
 });

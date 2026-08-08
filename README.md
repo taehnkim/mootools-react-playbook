@@ -10,16 +10,16 @@ Human names one component
 analyze source and callers
           |
           v
-run legacy test and capture baseline
-          |
-          v
 human approves product-visible decisions
           |
           v
-write React component and test
+build shared mount and apply reviewed adapter
           |
           v
-run tests, browser parity, typecheck, and build
+run legacy fallback test and capture baseline
+          |
+          v
+run React flag tests, browser parity, typecheck, and build
           |
           v
 React component + tests + final proof
@@ -56,15 +56,15 @@ write:
 # Analyze source, callers, events, DOM, CSS, and side effects.
 npm run migrate -- analyze <component>
 
-# Run the legacy unit test and capture the reviewed baseline.
-npm run migrate -- baseline <component> \
-  --base-url http://127.0.0.1:5173
-
 # Preview an optional caller adapter.
 npm run migrate -- adapter <component>
 
 # Apply the reviewed plan only after approval.
 npm run migrate -- adapter <component> --write
+
+# Run the legacy fallback test and capture the reviewed baseline.
+npm run migrate -- baseline <component> \
+  --base-url http://127.0.0.1:5173
 
 # Run both unit tests, guards, browser parity, typecheck, and build.
 npm run migrate -- verify <component> \

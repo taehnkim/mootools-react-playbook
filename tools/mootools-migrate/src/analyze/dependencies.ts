@@ -269,6 +269,9 @@ function analyzeImplicitGlobal(options: {
   sourceFile: ts.SourceFile;
   drafts: Map<string, FindingDraft>;
 }): void {
+  if (ts.isExternalModule(options.sourceFile)) {
+    return;
+  }
   for (const statement of options.sourceFile.statements) {
     if (!ts.isVariableStatement(statement)) {
       continue;

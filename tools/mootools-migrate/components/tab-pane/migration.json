@@ -627,7 +627,7 @@
   "selectors": {
     "add-tab": {
       "legacy": "#add-tab-form button[type=\"submit\"]",
-      "react": "[data-migration-control=\"add-tab\"]"
+      "react": "#add-tab-form button[type=\"submit\"]"
     },
     "component": {
       "legacy": "#tab-pane",
@@ -635,11 +635,11 @@
     },
     "new-tab-content": {
       "legacy": "#new-tab-content",
-      "react": "[data-migration-control=\"new-tab-content\"]"
+      "react": "#new-tab-content"
     },
     "new-tab-title": {
       "legacy": "#new-tab-title",
-      "react": "[data-migration-control=\"new-tab-title\"]"
+      "react": "#new-tab-title"
     },
     "panel:agent": {
       "legacy": "#tab-pane .content:has-text(\"Created by the migration harness.\")",
@@ -663,7 +663,7 @@
     },
     "status": {
       "legacy": "#tab-pane-status",
-      "react": "[data-migration-control=\"tab-pane-status\"]"
+      "react": "#tab-pane-status"
     },
     "tab:agent": {
       "legacy": "#tab-pane .tab:has-text(\"Agent tab\")",
@@ -800,15 +800,15 @@
       }
     },
     {
-      "findingId": "tab-pane:caller:main-js-5-constructor",
-      "findingFingerprint": "sha256:4e5d6fdd4240b69b07cd831bb74cb2128a90da24d0d433dc681dafb55bcf70dc",
-      "resolution": "replace",
-      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "findingId": "tab-pane:caller:main-js-5-adapter-call",
+      "findingFingerprint": "sha256:c4168727fd8d76289f135589017e4af4bb33385f597971e97f0bbd1fb8732573",
+      "resolution": "preserve",
+      "rationale": "Use one shared mount call that selects the legacy or React implementation through the binary flag.",
       "approval": {
         "status": "approved",
         "approvedBy": "user:taekim",
-        "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:4e5d6fdd4240b69b07cd831bb74cb2128a90da24d0d433dc681dafb55bcf70dc"
+        "approvedAt": "2026-08-08T10:15:00.000Z",
+        "findingFingerprint": "sha256:c4168727fd8d76289f135589017e4af4bb33385f597971e97f0bbd1fb8732573"
       }
     },
     {
@@ -909,14 +909,14 @@
     },
     {
       "findingId": "tab-pane:global:tabpane",
-      "findingFingerprint": "sha256:d9191834aadb517c45c0da4071c0e34b0b6b88cb8954faed061e81a855f494c2",
-      "resolution": "replace",
-      "rationale": "Move this integration to the React demo boundary and keep globals only for the parity test handle.",
+      "findingFingerprint": "sha256:8e7007e25ba16b42961e6da2aa4d63e53cc5dc615a92fde98cb084fbed84eb24",
+      "resolution": "preserve",
+      "rationale": "Keep the legacy global only as the feature-flag fallback until the React branch replaces it.",
       "approval": {
         "status": "approved",
         "approvedBy": "user:taekim",
-        "approvedAt": "2026-08-07T20:15:00.000Z",
-        "findingFingerprint": "sha256:d9191834aadb517c45c0da4071c0e34b0b6b88cb8954faed061e81a855f494c2"
+        "approvedAt": "2026-08-08T10:15:00.000Z",
+        "findingFingerprint": "sha256:8e7007e25ba16b42961e6da2aa4d63e53cc5dc615a92fde98cb084fbed84eb24"
       }
     },
     {

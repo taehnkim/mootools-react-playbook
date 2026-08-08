@@ -249,7 +249,6 @@ export const TabPane = forwardRef<TabPaneHandle, TabPaneProps>(
               aria-labelledby={`tab-${tab.id}`}
               className="content"
               data-panel-id={tab.id}
-              data-tab-id={tab.id}
               hidden={!active}
               id={`panel-${tab.id}`}
               key={tab.id}

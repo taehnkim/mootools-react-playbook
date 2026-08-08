@@ -143,20 +143,6 @@ npm run migrate -- verify tab-pane \
         </li>
         <li>
           <article>
-            <h3>Capture the legacy baseline</h3>
-            <p>Run the focused legacy test, then capture observations, screenshots, and one WebM per scenario.</p>
-            <pre><code>npm run migrate -- baseline tab-pane \
-  --base-url http://127.0.0.1:5173</code></pre>
-            <h4>Artifacts</h4>
-            <ul class="compact-list">
-              <li><code>baseline/manifest.json</code></li>
-              <li><code>baseline/recordings/&lt;scenario&gt;.webm</code></li>
-              <li><code>baseline/&lt;scenario&gt;/&lt;name&gt;.png</code></li>
-            </ul>
-          </article>
-        </li>
-        <li>
-          <article>
             <h3>Preview the adapter <span class="badge neutral">Dry run by default</span></h3>
             <p>The first command prints the complete plan. Run the second command only after approval. It applies every edit or restores the original files.</p>
             <pre><code>npm run migrate -- adapter tab-pane
@@ -170,6 +156,20 @@ npm run migrate -- adapter tab-pane --write</code></pre>
               <li><code>adapters/mount-tab-pane.js</code></li>
               <li><code>bootstrap.ts</code></li>
               <li><code>main.js</code></li>
+            </ul>
+          </article>
+        </li>
+        <li>
+          <article>
+            <h3>Capture the legacy fallback baseline</h3>
+            <p>Run the focused legacy test through the shared mount with the flag off, then capture observations, screenshots, and one WebM per scenario.</p>
+            <pre><code>npm run migrate -- baseline tab-pane \
+  --base-url http://127.0.0.1:5173</code></pre>
+            <h4>Artifacts</h4>
+            <ul class="compact-list">
+              <li><code>baseline/manifest.json</code></li>
+              <li><code>baseline/recordings/&lt;scenario&gt;.webm</code></li>
+              <li><code>baseline/&lt;scenario&gt;/&lt;name&gt;.png</code></li>
             </ul>
           </article>
         </li>

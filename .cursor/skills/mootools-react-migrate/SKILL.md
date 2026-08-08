@@ -62,22 +62,7 @@ Read `worksheet.generated.json`. Review callers, public methods, events,
 side effects, DOM, CSS, dependencies, and unknown forms. The command creates
 decision stubs only when `migration.json` has no decisions.
 
-## 2. Capture the legacy baseline
-
-Backfill the configured MooTools unit test if it is missing. Start the
-application. Then run:
-
-```bash
-npm run migrate -- baseline <component> \
-  --base-url http://127.0.0.1:5173
-```
-
-This command runs the legacy unit test before browser capture. Review the
-worksheet and baseline. Resolve every pending product decision in
-`migration.json` before writing React. The baseline saves one legacy WebM for
-each scenario under `recordings/<scenario>.webm`.
-
-## 3. Define the boundary
+## 2. Define the boundary
 
 Read all current callers. Prefer stable IDs and React callbacks over the
 legacy class API.
@@ -107,6 +92,22 @@ npm run migrate -- adapter <component> --write
 
 The write is atomic. One unsupported caller cancels the complete plan. Do not
 create the generated adapter or add its script URL by hand.
+
+## 3. Capture the legacy baseline
+
+Backfill the configured MooTools unit test if it is missing. Start the
+application. Then run:
+
+```bash
+npm run migrate -- baseline <component> \
+  --base-url http://127.0.0.1:5173
+```
+
+This command runs the legacy unit test before browser capture. Review the
+worksheet and baseline. Resolve every pending product decision in
+`migration.json` before writing React. The baseline saves one legacy WebM for
+each scenario under `recordings/<scenario>.webm`. The shared mount must select
+the legacy branch during this capture.
 
 ## 4. Implement and verify
 
