@@ -72,6 +72,9 @@ and browser comparison reaches `PARITY` with `attested: true`.
 
 ## Saved verification evidence
 
+The worksheet, manifests, screenshots, and diffs are generated locally and
+ignored by Git.
+
 - `tools/mootools-migrate/components/<component>/baseline/manifest.json`
   records the hash-bound legacy test receipt. Baseline screenshots sit beside
   it under `<scenario>/<name>.png`.
@@ -115,14 +118,8 @@ src/components/             React source and tests
 paired selectors, decisions, accepted differences, allowed legacy uses, and
 the optional adapter configuration.
 
-## Current example
+## Example
 
-TabPane includes:
-
-- Saved, hash-bound receipts for the passing MooTools and React unit tests.
-- A reviewed legacy baseline.
-- Six exact browser image comparisons with zero changed pixels and saved diffs.
-- A final attested parity result with no unapproved mismatches.
-
-Open `http://localhost:5173/tab-pane-migration.html` for the source-to-proof
-walkthrough.
+See the [TabPane migration example](examples/tab-pane-migration.md) for the
+four commands, sample test receipts, one exact image comparison, and the
+accepted differences. The example is documentation, not live proof.

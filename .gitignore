@@ -3,3 +3,8 @@ dist
 .DS_Store
 *.local
 legacy-smoke.png
+/tools/mootools-migrate/components/*/worksheet.generated.json
+/tools/mootools-migrate/components/*/baseline/
+/tools/mootools-migrate/components/*/final/
+/tools/mootools-migrate/components/*/final.failed/
+/tools/mootools-migrate/components/*/**/*.png

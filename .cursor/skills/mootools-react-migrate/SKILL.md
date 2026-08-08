@@ -19,6 +19,8 @@ verification passes.
 - Stop for human approval when a decision is pending.
 - Use the adapter only when callers need an intermediate mount function.
 - Do not push, deploy, or write an adapter without user authority.
+- Generate, inspect, and report the worksheet, manifests, screenshots, and
+  diffs. Do not commit these generated files.
 
 ## TypeScript
 
