@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "runId": "react-2026-08-08T07-19-41-129Z",
+  "runId": "react-2026-08-08T07-26-06-356Z",
   "componentId": "tab-pane",
   "surface": "react",
-  "createdAt": "2026-08-08T07:19:46.412Z",
+  "createdAt": "2026-08-08T07:26:11.611Z",
   "baseUrl": "http://127.0.0.1:5173",
   "projectInputHash": "sha256:ba395b07723b0a13c455b1c876c5830ca144d8b25b63e1196aa669ea7516084b",
   "captureConfigHash": "sha256:557775fc0f85b7b85043520771904c24a441d79f29cd094335a6009fdcafb18f",
@@ -21,14 +21,14 @@
         "surface": "legacy",
         "command": "npm run test -- components/tab-pane/TabPane.legacy.test.ts",
         "passed": true,
-        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run components/tab-pane/TabPane.legacy.test.ts\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:19:38\n   Duration  629ms (transform 23ms, setup 0ms, import 36ms, tests 108ms, environment 395ms)",
+        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run components/tab-pane/TabPane.legacy.test.ts\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:26:03\n   Duration  650ms (transform 22ms, setup 0ms, import 32ms, tests 110ms, environment 419ms)",
         "inputHash": "sha256:1e4d2148dd5bcabf7b82ffdba3faeca2eb95dc69e2b0861e0554d11815e7978f"
       },
       {
         "surface": "react",
         "command": "npm run test -- src/components/tab-pane/TabPane.test.tsx",
         "passed": true,
-        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run src/components/tab-pane/TabPane.test.tsx\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:19:39\n   Duration  768ms (transform 34ms, setup 0ms, import 125ms, tests 161ms, environment 395ms)",
+        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run src/components/tab-pane/TabPane.test.tsx\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:26:04\n   Duration  767ms (transform 39ms, setup 0ms, import 128ms, tests 155ms, environment 395ms)",
         "inputHash": "sha256:392b21e39edfd55a46a0913612fcccaed6c5f3e021f21ca00e32081247356b1c"
       }
     ],
@@ -41,7 +41,7 @@
       {
         "command": "npm run build",
         "ok": true,
-        "output": "> mootools-to-react-sandbox@0.0.0 build\n> tsc --noEmit && vite build\n\nvite v8.2.0 building client environment for production...\n\u001b[2K\rtransforming...✓ 27 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/react.html                                  0.60 kB │ gzip:  0.33 kB\ndist/assets/mootools-more-1.4.0.1-gsvy7BBy.js    4.23 kB\ndist/assets/BrandBox-CbPKhODb.js                 4.47 kB\ndist/index.html                                  8.44 kB │ gzip:  2.02 kB\ndist/assets/mootools-core-1.4.2-CgoTxqvx.js    146.61 kB\ndist/assets/styles-SonQmuet.css                  7.66 kB │ gzip:  2.28 kB\ndist/assets/styles-DlyqSDbt.js                   0.67 kB │ gzip:  0.38 kB\ndist/assets/mootools-Df4z5aCg.js                13.59 kB │ gzip:  5.13 kB\ndist/assets/react-DEoUmHF4.js                  196.66 kB │ gzip: 62.07 kB\n\n✓ built in 140ms"
+        "output": "> mootools-to-react-sandbox@0.0.0 build\n> tsc --noEmit && vite build\n\nvite v8.2.0 building client environment for production...\n\u001b[2K\rtransforming...✓ 27 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/react.html                                  0.60 kB │ gzip:  0.33 kB\ndist/assets/mootools-more-1.4.0.1-gsvy7BBy.js    4.23 kB\ndist/assets/BrandBox-CbPKhODb.js                 4.47 kB\ndist/index.html                                  8.44 kB │ gzip:  2.02 kB\ndist/assets/mootools-core-1.4.2-CgoTxqvx.js    146.61 kB\ndist/assets/styles-SonQmuet.css                  7.66 kB │ gzip:  2.28 kB\ndist/assets/styles-DlyqSDbt.js                   0.67 kB │ gzip:  0.38 kB\ndist/assets/mootools-Df4z5aCg.js                13.59 kB │ gzip:  5.13 kB\ndist/assets/react-DEoUmHF4.js                  196.66 kB │ gzip: 62.07 kB\n\n✓ built in 145ms"
       }
     ]
   },

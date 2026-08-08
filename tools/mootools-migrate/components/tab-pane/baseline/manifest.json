@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "runId": "legacy-2026-08-08T07-19-26-200Z",
+  "runId": "legacy-2026-08-08T07-25-25-063Z",
   "componentId": "tab-pane",
   "surface": "legacy",
-  "createdAt": "2026-08-08T07:19:31.540Z",
+  "createdAt": "2026-08-08T07:25:30.477Z",
   "baseUrl": "http://127.0.0.1:5173",
   "projectInputHash": "sha256:f538059e04a0411ce7704b5315d0a808cae35a5ce528a19225b42116f60df56e",
   "captureConfigHash": "sha256:5afca368a90130cbf8301e290685f553db79f3bbd23bd6a231abcfa390b60022",
@@ -21,7 +21,7 @@
         "surface": "legacy",
         "command": "npm run test -- components/tab-pane/TabPane.legacy.test.ts",
         "passed": true,
-        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run components/tab-pane/TabPane.legacy.test.ts\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:19:25\n   Duration  681ms (transform 21ms, setup 0ms, import 31ms, tests 112ms, environment 449ms)",
+        "output": "> mootools-to-react-sandbox@0.0.0 test\n> vitest run components/tab-pane/TabPane.legacy.test.ts\n\n\n RUN  v4.1.10 /workspace\n\n\n Test Files  1 passed (1)\n      Tests  4 passed (4)\n   Start at  07:25:24\n   Duration  655ms (transform 22ms, setup 0ms, import 35ms, tests 113ms, environment 416ms)",
         "inputHash": "sha256:1e4d2148dd5bcabf7b82ffdba3faeca2eb95dc69e2b0861e0554d11815e7978f"
       }
     ],
