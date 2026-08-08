@@ -97,3 +97,6 @@ TabPane includes:
 - A passing React unit test.
 - A reviewed legacy baseline.
 - A final attested parity result with no mismatches.
+
+Open `http://localhost:5173/tab-pane-migration.html` for the source-to-proof
+walkthrough.

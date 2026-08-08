@@ -907,6 +907,15 @@
         </dl>
       </header>
 
+      <div class="callout contract-note">
+        <p>
+          <strong>This run is a replay.</strong> It refreshed the legacy
+          analysis and baseline, previewed the adapter, and verified the
+          existing React component. It did not delete and rewrite identical
+          React code for the report.
+        </p>
+      </div>
+
       <nav class="progress" aria-label="Migration report sections">
         <p class="rail-title">Ordered migration path</p>
         <ol>
@@ -1064,6 +1073,73 @@ this.show(selected.limit(0, tabs.length - 2));</code></pre>
             15 kinds. The inventory covers callers, DOM work, events, API
             inputs, markup, selectors, and styles.
           </p>
+
+          <h3>Four parsers build one worksheet</h3>
+          <div class="decision-grid">
+            <section class="decision-card">
+              <h3>JavaScript and TypeScript</h3>
+              <p>
+                The TypeScript compiler parses source and tracks constructor
+                calls, instance aliases, methods, events, and DOM operations.
+              </p>
+            </section>
+            <section class="decision-card">
+              <h3>Metadata comments</h3>
+              <p>
+                The YAML parser reads the MooTools header comment. It records
+                required and provided modules.
+              </p>
+            </section>
+            <section class="decision-card">
+              <h3>HTML</h3>
+              <p>
+                parse5 reads the configured component root. It records element
+                order, interactive elements, and stable hooks.
+              </p>
+            </section>
+            <section class="decision-card">
+              <h3>CSS</h3>
+              <p>
+                PostCSS and its selector parser record matching rules,
+                declarations, media rules, and custom properties.
+              </p>
+            </section>
+          </div>
+
+          <figure class="source-panel">
+            <figcaption>
+              <strong>TabPane.js metadata comment</strong>
+              <span>lines 1 to 22</span>
+            </figcaption>
+            <pre
+              tabindex="0"
+              aria-label="Legacy MooTools metadata comment"
+            ><code>/*
+---
+description: TabPane Class
+version: 0.5.2
+
+requires:
+  core/1.4:
+  - Class
+  - Class.Extras
+  - Event
+  - Element
+  - Element.Event
+  - Element.Delegation
+
+provides: TabPane
+...
+*/</code></pre>
+          </figure>
+
+          <div class="callout">
+            <p>
+              Each finding keeps a file range and a SHA-256 source hash. A
+              source change changes the finding fingerprint and makes its
+              approval stale.
+            </p>
+          </div>
 
           <div
             class="table-wrap"
@@ -1263,6 +1339,9 @@ this.show(selected.limit(0, tabs.length - 2));</code></pre>
                     <code>components/tab-pane/TabPane.js:29</code>,
                     <code>components/tab-pane/TabPane.Extra.js:25</code>,
                     <code>src/components/tab-pane/TabPane.tsx:34-236</code>
+                    <br />
+                    The last range is a known analyzer false positive. A module
+                    export named <code>TabPane</code> is not a browser global.
                   </td>
                 </tr>
               </tbody>
@@ -1569,6 +1648,25 @@ queueMicrotask(() =&gt; tabElementsRef.current.get(nextSelectedId)?.focus());</c
             </li>
           </ul>
 
+          <div class="decision-grid">
+            <section class="decision-card">
+              <h3>First pass</h3>
+              <p>
+                The first pass named the data shape. One
+                <code>TabPaneTab</code> record owns each tab and panel. The
+                <code>selectedId</code> value replaces active DOM lookup.
+              </p>
+            </section>
+            <section class="decision-card">
+              <h3>Proof pass</h3>
+              <p>
+                Browser results then fixed stable selection, removed
+                close-button bubbling, restored focus, and kept event order.
+                Keyboard and ARIA behavior use the same state model.
+              </p>
+            </section>
+          </div>
+
           <div class="source-grid">
             <figure class="source-panel">
               <figcaption>
@@ -1764,6 +1862,15 @@ export type TabPaneHandle = {
             <code
               >3d1551c232afc6e2c9e94864cb6a30e066ebca1ae89550c959353a7f02aa1c8a</code
             >
+          </div>
+
+          <div class="callout contract-note">
+            <p>
+              The initial component screenshots are byte-identical. The other
+              scenarios compare DOM state, text, focus, computed style, and
+              event order. They do not prove every pixel in every possible
+              state.
+            </p>
           </div>
 
           <div class="capture-grid" aria-label="Matching initial screenshots">
