@@ -3,16 +3,19 @@ import colorRangeUrl from "./components/color-range/ColorRange.js?url";
 import tabPaneExtraUrl from "./components/tab-pane/TabPane.Extra.js?url";
 import tabPaneUrl from "./components/tab-pane/TabPane.js?url";
 import mainUrl from "./main.js?url";
-import mountAdapterUrl from "./adapters/mount-tab-pane.js?url";
-import { mountReactTabPane } from "./src/components/tab-pane/mountTabPane";
-import { createMockTableManager } from "./src/migration/mockTableManager";
+import { createMockFeatureFlagger } from "./src/feature-flagger/mockFeatureFlagger";
 import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
 import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
 
-window.tableManager = createMockTableManager(
-  window.__TAB_PANE_IMPLEMENTATION__,
-);
-window.mountReactTabPane = mountReactTabPane;
+// Set migration choices, then load MooTools files in order before starting the legacy app.
+const tabPaneImplementation =
+  window.__TAB_PANE_IMPLEMENTATION__ === "react-TabPane"
+    ? "react-TabPane"
+    : "legacy-TabPane";
+
+window.featureFlagger = createMockFeatureFlagger({
+  TabPane: tabPaneImplementation,
+});
 
 const scriptSources: readonly string[] = [
   mootoolsCoreUrl,
@@ -21,7 +24,6 @@ const scriptSources: readonly string[] = [
   tabPaneExtraUrl,
   brandBoxUrl,
   colorRangeUrl,
-  mountAdapterUrl,
   mainUrl,
 ];
 

@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { TabPaneDemo } from "./components/tab-pane/TabPaneDemo";
 import "./global.css";
 
 const rootElement = document.querySelector<HTMLElement>("#root");
@@ -12,6 +11,12 @@ if (rootElement === null) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <TabPaneDemo />
+    <main className="site-shell">
+      <p className="eyebrow">React migration sandbox</p>
+      <h1>No components migrated yet.</h1>
+      <p className="lede">
+        Add each React replacement here as its MooTools migration is ready.
+      </p>
+    </main>
   </StrictMode>,
 );

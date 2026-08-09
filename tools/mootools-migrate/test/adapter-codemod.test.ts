@@ -75,7 +75,7 @@ describe("adapter codemod", () => {
         selectionKey: "TabPane",
         legacyValue: "legacy-TabPane",
         reactValue: "react-TabPane",
-        tableManagerGlobal: "tableManager",
+        featureFlaggerGlobal: "featureFlagger",
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
@@ -147,7 +147,7 @@ describe("adapter codemod", () => {
       throw new Error("The generated adapter edit is missing.");
     }
     expect(adapterAfter).toContain(
-      'var implementation = tableManager.get("TabPane");',
+      'var implementation = featureFlagger.get("TabPane");',
     );
     expect(adapterAfter).toContain(
       'if (implementation === "legacy-TabPane")',
@@ -189,7 +189,7 @@ describe("adapter codemod", () => {
     }
     const explicitLegacyAdapter = evaluateAdapter(adapterAfter, {
       TabPane: ExplicitLegacyTabPane,
-      tableManager: {
+      featureFlagger: {
         get(selectionKey: string) {
           legacySelectionKeys.push(selectionKey);
           return "legacy-TabPane";
@@ -219,7 +219,7 @@ describe("adapter codemod", () => {
           throw new Error("The legacy branch ran.");
         }
       },
-      tableManager: {
+      featureFlagger: {
         get(selectionKey: string) {
           requestedSelectionKeys.push(selectionKey);
           return "react-TabPane";
@@ -237,19 +237,19 @@ describe("adapter codemod", () => {
 
     const invalidAdapter = evaluateAdapter(adapterAfter, {
       TabPane: LegacyTabPane,
-      tableManager: {
+      featureFlagger: {
         get() {
           return "unknown-TabPane";
         },
       },
     });
     expect(() => invalidAdapter(container, options, initialIndex)).toThrow(
-      "Table manager returned an unsupported implementation for TabPane: unknown-TabPane.",
+      "Feature flagger returned an unsupported implementation for TabPane: unknown-TabPane.",
     );
 
     const missingMountAdapter = evaluateAdapter(adapterAfter, {
       TabPane: LegacyTabPane,
-      tableManager: {
+      featureFlagger: {
         get() {
           return "react-TabPane";
         },
@@ -264,7 +264,7 @@ describe("adapter codemod", () => {
     const escapedSelectionKey = 'Tab"Pane\nkey';
     const escapedLegacyValue = 'legacy-"Tab\nPane';
     const escapedReactValue = "react-\\TabPane";
-    const escapedManagerName = 'table"Manager';
+    const escapedFlaggerName = 'feature"Flagger';
     const escapedMountName = "mount\\React";
     const escapedConfig = MigrationSpecSchema.parse({
       ...config,
@@ -273,7 +273,7 @@ describe("adapter codemod", () => {
         selectionKey: escapedSelectionKey,
         legacyValue: escapedLegacyValue,
         reactValue: escapedReactValue,
-        tableManagerGlobal: escapedManagerName,
+        featureFlaggerGlobal: escapedFlaggerName,
         reactMountGlobal: escapedMountName,
       },
     });
@@ -293,7 +293,7 @@ describe("adapter codemod", () => {
     const escapedSelectionKeys: string[] = [];
     const escapedAdapter = evaluateAdapter(escapedSource, {
       TabPane: LegacyTabPane,
-      [escapedManagerName]: {
+      [escapedFlaggerName]: {
         get(selectionKey: string) {
           escapedSelectionKeys.push(selectionKey);
           return escapedReactValue;
@@ -315,7 +315,7 @@ describe("adapter codemod", () => {
     }
     const repeatedAdapter = evaluateAdapter(adapterAfter, {
       TabPane: RepeatedLegacyTabPane,
-      tableManager: {
+      featureFlagger: {
         get() {
           return "legacy-TabPane";
         },

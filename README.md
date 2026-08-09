@@ -43,28 +43,25 @@ npm run migrate:setup
 npm run dev
 ```
 
-- `http://localhost:5173/` runs TabPane through the shared mount.
-- `http://localhost:5173/react.html` runs the standalone React page.
+- `http://localhost:5173/` runs the untouched MooTools application.
+- `http://localhost:5173/react.html` runs the empty React migration root.
 
 Before `bootstrap.ts` runs, the host can set
 `window.__TAB_PANE_IMPLEMENTATION__` to `legacy-TabPane` or `react-TabPane`.
-Missing and unknown injected values select `legacy-TabPane`. The browser proof
-runner sets the configured value before it loads `/`; the URL does not select
-the implementation.
+The mock feature flagger defaults missing and unknown values to
+`legacy-TabPane`. The browser proof runner sets the configured value before it
+loads `/`; the URL does not select the implementation.
 
 ## Migration commands
 
-The workflow has four stages. The adapter stage has a dry run and an approved
-write:
+The workflow has four stages. The adapter stage generates the source artifact
+that belongs in the migration draft PR:
 
 ```sh
 # Analyze source, callers, events, DOM, CSS, and side effects.
 npm run migrate -- analyze <component>
 
-# Preview an optional caller adapter.
-npm run migrate -- adapter <component>
-
-# Apply the reviewed plan only after approval.
+# Generate the configured caller adapter and load-order edit.
 npm run migrate -- adapter <component> --write
 
 # Run the legacy fallback test and capture the reviewed baseline.
@@ -76,26 +73,25 @@ npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-The adapter command is a dry run unless it receives `--write`. An approved
-write applies the generated adapter, caller rewrite, and load-order edit
-atomically.
+The adapter command applies the generated adapter, caller rewrite, and
+load-order edit atomically.
 
-The generated adapter calls `tableManager.get("TabPane")`. A missing manager or
-the `legacy-TabPane` result constructs the legacy class. The `react-TabPane`
-result requires the React mount and forwards the same container, options, and
-initial index. Any other manager value throws. A missing React mount throws.
+The generated adapter calls `featureFlagger.get("TabPane")`. A missing flagger
+or the `legacy-TabPane` result constructs the legacy class. The
+`react-TabPane` result requires the React mount and forwards the same container,
+options, and initial index. Any other flag value throws. A missing React mount
+throws.
 
-TabPane keeps the mount groundwork in these tracked files:
+The repository starts with only the migration groundwork:
 
-- `src/migration/mockTableManager.ts` normalizes the injected implementation
-  and exposes the `TabPane` selection.
-- `src/components/tab-pane/mountTabPane.tsx` snapshots the host DOM and mounts
-  React into the existing container.
-- `bootstrap.ts` reads `window.__TAB_PANE_IMPLEMENTATION__`, creates the table
-  manager, and registers both globals before classic scripts load.
+- `src/feature-flagger/mockFeatureFlagger.ts` provides the local flag lookup.
+- `src/main.tsx` owns an empty React root.
+- `bootstrap.ts` reads `window.__TAB_PANE_IMPLEMENTATION__` and configures the
+  feature flagger before classic scripts load.
 
-The approved adapter write generates `adapters/mount-tab-pane.js` and rewrites
-`main.js`. Do not create either codemod edit by hand.
+The migration run creates the React component, mount, tests, generated adapter,
+caller rewrite, and bootstrap load-order edit. Those files belong in the
+migration draft PR. Do not create codemod edits by hand.
 
 `verify` succeeds only when both focused unit tests and all project checks
 pass, every exact screenshot has equal dimensions and zero changed pixels,
@@ -124,10 +120,11 @@ evidence.
   `tools/mootools-migrate/components/<component>/final.failed/`. The last
   passing `final/` stays unchanged. A later pass removes `final.failed/`.
 
-All generated media stays local and ignored. Review the legacy and React
-recordings and the saved baseline, React, and diff images before claiming
-parity. Do not refresh a valid baseline to make React pass. An approved visual
-difference is not visual parity and must not use an exact screenshot claim.
+Generated media stays local and ignored in the worktree, then becomes review
+evidence through the draft PR. Review the legacy and React recordings and the
+saved baseline, React, and diff images before claiming parity. Do not refresh a
+valid baseline to make React pass. An approved visual difference is not visual
+parity and must not use an exact screenshot claim.
 
 ## Layout
 
@@ -151,21 +148,16 @@ tools/mootools-migrate/
       diffs/<scenario>/<assertion>.png
     final.failed/
 components/                 MooTools source and legacy tests
-src/components/             React source and tests
-src/migration/              Table manager and migration branch controls
-adapters/                   Generated caller adapters after approved writes
+src/main.tsx                Empty React migration root
+src/feature-flagger/        Local feature flag test double
 ```
 
-`migration.json` is the human-owned migration input. It contains scenarios,
-paired selectors, decisions, accepted differences, allowed legacy uses, and
-the implementation bridge and adapter configuration. The implementation bridge
-names the injected window key and both implementation values. The adapter
-config names its selection key, branch values, table manager global, and React
-mount global.
+`migration.json` is a starting migration plan, not generated evidence. It
+contains source paths, scenarios, paired selectors, allowed legacy uses, and
+the implementation bridge and adapter configuration. A fresh clone has no
+decisions or accepted differences. `analyze` adds pending decision stubs, and
+the migration run records approvals and accepted differences before it opens
+the draft PR.
 
-## Live example
-
-The [TabPane migration report](examples/tab-pane-migration.html) reads the
-latest local generated evidence after a run when Vite serves the repository.
-It shows the four stages, test receipts, findings, recordings, exact image
-comparisons, and approved differences used.
+The draft PR is the migration handoff. It includes the adapter, React source,
+tests, and links to the generated verification evidence.

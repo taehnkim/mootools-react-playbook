@@ -291,11 +291,11 @@ function editBootstrap(options: {
 function renderAdapter(config: MigrationSpec): string {
   return `(function (global) {
   global[${JSON.stringify(config.adapter.globalName)}] = function (container, options, initialIndex) {
-    var tableManager = global[${JSON.stringify(config.adapter.tableManagerGlobal)}];
-    if (!tableManager) {
+    var featureFlagger = global[${JSON.stringify(config.adapter.featureFlaggerGlobal)}];
+    if (!featureFlagger) {
       return new global[${JSON.stringify(config.legacyGlobal)}](container, options, initialIndex);
     }
-    var implementation = tableManager.get(${JSON.stringify(config.adapter.selectionKey)});
+    var implementation = featureFlagger.get(${JSON.stringify(config.adapter.selectionKey)});
     if (implementation === ${JSON.stringify(config.adapter.legacyValue)}) {
       return new global[${JSON.stringify(config.legacyGlobal)}](container, options, initialIndex);
     }
@@ -306,7 +306,7 @@ function renderAdapter(config: MigrationSpec): string {
       }
       return reactMount(container, options, initialIndex);
     }
-    throw new Error(${JSON.stringify(`Table manager returned an unsupported implementation for ${config.adapter.selectionKey}: `)} + String(implementation) + ".");
+    throw new Error(${JSON.stringify(`Feature flagger returned an unsupported implementation for ${config.adapter.selectionKey}: `)} + String(implementation) + ".");
   };
 })(window);
 `;

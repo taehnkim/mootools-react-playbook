@@ -18,13 +18,10 @@ verification passes.
   `tools/mootools-migrate/components/<component>/migration.json`.
 - Stop for human approval when a decision is pending.
 - Use the adapter only when callers need an intermediate mount function.
-- Do not push, deploy, or write an adapter without user authority.
+- Do not push or deploy.
 - Generate, inspect, and report the worksheet, manifests, screenshots,
-  recordings, and diffs. Keep all generated media local and ignored. Do not
-  commit these generated files.
-- After a run, open
-  `http://127.0.0.1:5173/examples/tab-pane-migration.html`. It reads the latest
-  local generated evidence from the Vite server.
+  recordings, and diffs. Keep generated media local and ignored. Attach the
+  media and final report to the draft PR.
 
 ## TypeScript
 
@@ -71,35 +68,29 @@ Build and test these mount artifacts before changing callers:
 
 - The implementation bridge. It names the injected window key and the exact
   legacy and React values.
-- The configured table manager global. A missing manager selects legacy.
+- The configured feature flagger global. A missing flagger selects legacy.
 - The configured React mount global. The React value without this mount throws.
-- Bootstrap reads the injected value, creates the manager, and registers both
-  globals before classic scripts load.
+- Bootstrap reads the injected value, creates the feature flagger, and
+  registers it before classic scripts load.
 
 The host sets the implementation value before bootstrap. The browser proof
 runner does the same before it loads `/` for either surface. Do not select an
 implementation from the URL.
 
-The generated adapter reads the configured selection key. A missing manager or
+The generated adapter reads the configured selection key. A missing flagger or
 the configured legacy value constructs the legacy class with the original
 arguments. The configured React value calls the React mount with those
-arguments. Any other manager value throws.
+arguments. Any other flag value throws.
 
-Preview the optional adapter:
-
-```bash
-npm run migrate -- adapter <component>
-```
-
-The command is a dry run. Review the complete plan. After the user approves the
-write, apply that same plan:
+Generate the configured adapter:
 
 ```bash
 npm run migrate -- adapter <component> --write
 ```
 
-The write is atomic. One unsupported caller cancels the complete plan. Do not
-create the generated adapter or add its script URL by hand.
+The command writes the generated adapter, caller rewrite, and load-order edit
+atomically. One unsupported caller cancels the complete plan. Do not create
+these migration artifacts by hand.
 
 ## 3. Capture the legacy baseline
 
@@ -131,6 +122,10 @@ npm run migrate -- verify <component> \
 the production build, baseline freshness, browser behavior, event order,
 focus, styles, and screenshots. It prints the saved `final` or `final.failed`
 evidence directory.
+
+Open or update a draft PR after verification. Include the adapter, React
+component, tests, verification result, approved behavior differences, and
+links to the attached recordings, screenshots, diffs, and `parity.json`.
 
 ## Verification gate
 

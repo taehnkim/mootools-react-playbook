@@ -1,21 +1,10 @@
 /// <reference types="vite/client" />
 
-import type { TabPaneHandle } from "./components/tab-pane/TabPane";
-import type { mountReactTabPane } from "./components/tab-pane/mountTabPane";
-import type { MockTableManager } from "./migration/mockTableManager";
-
-type ReactSandbox = {
-  fixtureId: string;
-  tabPane: TabPaneHandle;
-};
+import type { MockFeatureFlagger } from "./feature-flagger/mockFeatureFlagger";
 
 declare global {
   interface Window {
-    ReactSandbox?: ReactSandbox;
-    __MOOTOOLS_MIGRATION_FIXTURE__?: unknown;
-    __MOOTOOLS_MIGRATION_FIXTURE_ID__?: unknown;
     __TAB_PANE_IMPLEMENTATION__?: unknown;
-    mountReactTabPane: typeof mountReactTabPane;
-    tableManager: MockTableManager;
+    featureFlagger: MockFeatureFlagger;
   }
 }

@@ -11,11 +11,13 @@ import { join, resolve } from "node:path";
 import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
 
-import { createContext, loadMigrationSpec } from "../src/core/context.js";
+import { acceptedDifferenceFingerprint } from "../src/core/fingerprint.js";
 import { sha256 } from "../src/core/json.js";
 import {
   CaptureManifestSchema,
   ScenariosSchema,
+  type AcceptedDifference,
+  type Decision,
 } from "../src/contracts/schemas.js";
 import {
   commitCandidateEvidence,
@@ -27,16 +29,43 @@ import {
 
 describe("parity comparison", () => {
   it("accepts only the exact approved observation difference", async () => {
-    const toolsRoot = resolve(process.cwd());
-    const context = await createContext({
-      toolsRoot,
-      projectRoot: resolve(toolsRoot, "../.."),
-    });
-    const config = await loadMigrationSpec(context, "tab-pane");
-    const difference = config.acceptedDifferences[0];
-    if (difference === undefined) {
-      throw new Error("Expected an accepted difference fixture.");
-    }
+    const findingFingerprint = `sha256:${"a".repeat(64)}`;
+    const differenceInput = {
+      id: "approved-difference",
+      decisionFingerprint: findingFingerprint,
+      scenarioId: "close-tab",
+      stepId: "close",
+      assertionId: "selected-tab",
+      legacyValue: "second",
+      reactValue: "first",
+      reason: "React keeps the selected stable tab.",
+    };
+    const differenceFingerprint =
+      acceptedDifferenceFingerprint(differenceInput);
+    const difference: AcceptedDifference = {
+      ...differenceInput,
+      fingerprint: differenceFingerprint,
+      approval: {
+        status: "approved",
+        approvedBy: "test-user",
+        approvedAt: "2026-01-01T00:00:00.000Z",
+        differenceFingerprint,
+      },
+    };
+    const decision: Decision = {
+      findingId: "tab-pane:public-method:close",
+      findingFingerprint,
+      resolution: "fix",
+      rationale: "Keep the selected stable tab.",
+      approval: {
+        status: "approved",
+        approvedBy: "test-user",
+        approvedAt: "2026-01-01T00:00:00.000Z",
+        findingFingerprint,
+      },
+    };
+    const acceptedDifferences = [difference];
+    const decisions = [decision];
     const mismatch = {
       scenarioId: difference.scenarioId,
       assertionId: difference.assertionId,
@@ -48,16 +77,16 @@ describe("parity comparison", () => {
     expect(
       isAcceptedDifference({
         mismatch,
-        acceptedDifferences: config.acceptedDifferences,
-        decisions: config.decisions,
+        acceptedDifferences,
+        decisions,
         afterStepId: difference.stepId,
       }),
     ).toBe(true);
     expect(
       isAcceptedDifference({
         mismatch: { ...mismatch, reactValue: difference.legacyValue },
-        acceptedDifferences: config.acceptedDifferences,
-        decisions: config.decisions,
+        acceptedDifferences,
+        decisions,
         afterStepId: difference.stepId,
       }),
     ).toBe(false);

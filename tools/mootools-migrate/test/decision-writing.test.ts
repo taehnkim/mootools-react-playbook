@@ -9,8 +9,8 @@ import { join, resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { analyzeComponent } from "../src/analyze/index.js";
 import {
-  loadWorksheet,
   writeDecisionStubsIfEmpty,
 } from "../src/checks/decisions.js";
 import {
@@ -28,9 +28,9 @@ describe("analyze decision stubs", () => {
       projectRoot,
     });
     const config = await loadMigrationSpec(sourceContext, "tab-pane");
-    const worksheet = await loadWorksheet({
+    const worksheet = await analyzeComponent({
       context: sourceContext,
-      componentId: config.id,
+      config,
     });
     const toolsRoot = await mkdtemp(join(tmpdir(), "decision-stubs-"));
     const componentRoot = join(toolsRoot, "components/tab-pane");
@@ -52,13 +52,19 @@ describe("analyze decision stubs", () => {
         await readFile(join(componentRoot, "migration.json"), "utf8"),
       ),
     );
-    expect(written.decisions).toHaveLength(27);
+    expect(written.decisions).toHaveLength(
+      worksheet.findings.filter((finding) => finding.decisionRequired).length,
+    );
 
     await writeFile(join(componentRoot, "migration.json"), "human-owned\n");
+    const configuredDecisions = MigrationSpecSchema.parse({
+      ...config,
+      decisions: written.decisions,
+    });
     expect(
       await writeDecisionStubsIfEmpty({
         context: { toolsRoot, projectRoot },
-        config,
+        config: configuredDecisions,
         worksheet,
       }),
     ).toBe(false);

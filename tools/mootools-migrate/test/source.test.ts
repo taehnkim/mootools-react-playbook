@@ -62,7 +62,7 @@ describe("legacy-use scanner", () => {
         selectionKey: "TabPane",
         legacyValue: "legacy-TabPane",
         reactValue: "react-TabPane",
-        tableManagerGlobal: "tableManager",
+        featureFlaggerGlobal: "featureFlagger",
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
