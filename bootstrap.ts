@@ -7,6 +7,7 @@ import { createMockFeatureFlagger } from "./src/feature-flagger/mockFeatureFlagg
 import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
 import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
 
+// Set migration choices, then load MooTools files in order before starting the legacy app.
 const tabPaneImplementation =
   window.__TAB_PANE_IMPLEMENTATION__ === "react-TabPane"
     ? "react-TabPane"
