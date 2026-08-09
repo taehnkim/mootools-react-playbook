@@ -82,7 +82,7 @@ describe("component tests", () => {
         selectionKey: "Widget",
         legacyValue: "legacy-Widget",
         reactValue: "react-Widget",
-        tableManagerGlobal: "tableManager",
+        featureFlaggerGlobal: "featureFlagger",
         reactMountGlobal: "mountReactWidget",
         outputPath: "adapters/mount-widget.js",
         callsiteFiles: ["main.js"],

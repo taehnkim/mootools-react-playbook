@@ -68,19 +68,19 @@ Build and test these mount artifacts before changing callers:
 
 - The implementation bridge. It names the injected window key and the exact
   legacy and React values.
-- The configured table manager global. A missing manager selects legacy.
+- The configured feature flagger global. A missing flagger selects legacy.
 - The configured React mount global. The React value without this mount throws.
-- Bootstrap reads the injected value, creates the manager, and registers both
-  globals before classic scripts load.
+- Bootstrap reads the injected value, creates the feature flagger, and
+  registers it before classic scripts load.
 
 The host sets the implementation value before bootstrap. The browser proof
 runner does the same before it loads `/` for either surface. Do not select an
 implementation from the URL.
 
-The generated adapter reads the configured selection key. A missing manager or
+The generated adapter reads the configured selection key. A missing flagger or
 the configured legacy value constructs the legacy class with the original
 arguments. The configured React value calls the React mount with those
-arguments. Any other manager value throws.
+arguments. Any other flag value throws.
 
 Generate the configured adapter:
 
