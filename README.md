@@ -54,17 +54,14 @@ the implementation.
 
 ## Migration commands
 
-The workflow has four stages. The adapter stage has a dry run and an approved
-write:
+The workflow has four stages. The adapter stage generates the source artifact
+that belongs in the migration draft PR:
 
 ```sh
 # Analyze source, callers, events, DOM, CSS, and side effects.
 npm run migrate -- analyze <component>
 
-# Preview an optional caller adapter.
-npm run migrate -- adapter <component>
-
-# Apply the reviewed plan only after approval.
+# Generate the configured caller adapter and load-order edit.
 npm run migrate -- adapter <component> --write
 
 # Run the legacy fallback test and capture the reviewed baseline.
@@ -76,9 +73,8 @@ npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-The adapter command is a dry run unless it receives `--write`. An approved
-write applies the generated adapter, caller rewrite, and load-order edit
-atomically.
+The adapter command applies the generated adapter, caller rewrite, and
+load-order edit atomically.
 
 The generated adapter calls `tableManager.get("TabPane")`. A missing manager or
 the `legacy-TabPane` result constructs the legacy class. The `react-TabPane`
@@ -124,10 +120,11 @@ evidence.
   `tools/mootools-migrate/components/<component>/final.failed/`. The last
   passing `final/` stays unchanged. A later pass removes `final.failed/`.
 
-All generated media stays local and ignored. Review the legacy and React
-recordings and the saved baseline, React, and diff images before claiming
-parity. Do not refresh a valid baseline to make React pass. An approved visual
-difference is not visual parity and must not use an exact screenshot claim.
+Generated media stays local and ignored in the worktree, then becomes review
+evidence through the draft PR. Review the legacy and React recordings and the
+saved baseline, React, and diff images before claiming parity. Do not refresh a
+valid baseline to make React pass. An approved visual difference is not visual
+parity and must not use an exact screenshot claim.
 
 ## Layout
 
@@ -163,9 +160,5 @@ names the injected window key and both implementation values. The adapter
 config names its selection key, branch values, table manager global, and React
 mount global.
 
-## Live example
-
-The [TabPane migration report](examples/tab-pane-migration.html) reads the
-latest local generated evidence after a run when Vite serves the repository.
-It shows the four stages, test receipts, findings, recordings, exact image
-comparisons, and approved differences used.
+The draft PR is the migration handoff. It includes the adapter, React source,
+tests, and links to the generated verification evidence.
