@@ -1,6 +1,6 @@
 ---
 name: mootools-react-migrate
-description: Migrates one MooTools component to React with a saved legacy baseline, explicit behavior decisions, a narrow adapter codemod, and real-browser parity proof. Use when moving a registered component from legacy MooTools code to React.
+description: Migrates one MooTools component to React with a complete call-site inventory, a saved legacy baseline, explicit behavior decisions, a feature-flagged adapter, and real-browser parity proof. Use when moving a registered component from legacy MooTools code to React.
 ---
 
 # Migrate one MooTools component
@@ -19,6 +19,8 @@ verification passes.
 - Stop for human approval when a decision is pending.
 - Route every migrated component through its generated adapter and feature
   flag.
+- Use the `mootools-callsite-inventory` skill to find every class load and
+  construction site. Route every construction site through the adapter.
 - Do not push or deploy.
 - Generate, inspect, and report the worksheet, manifests, screenshots,
   recordings, and diffs. Keep generated media local and ignored. Attach the
@@ -60,10 +62,15 @@ Read `worksheet.generated.json`. Review callers, public methods, events,
 side effects, DOM, CSS, dependencies, and unknown forms. The command creates
 decision stubs only when `migration.json` has no decisions.
 
+Load and follow `.cursor/skills/mootools-callsite-inventory/SKILL.md`. Search
+for the component class name, source filename, global name, aliases, and each
+listed loader pattern. Inventory both the places that load the class file and
+the places that construct an instance.
+
 ## 2. Define the boundary
 
-Read all current callers. Prefer stable IDs and React callbacks over the
-legacy class API.
+Use the completed call-site inventory. Prefer stable IDs and React callbacks
+over the legacy class API.
 
 Build and test these mount artifacts before changing callers:
 
@@ -90,9 +97,11 @@ Generate the configured adapter:
 npm run migrate -- adapter <component> --write
 ```
 
-The command writes the feature flag setup, generated adapter, caller rewrite,
-and load-order edit atomically. One unsupported caller cancels the complete
-plan. Do not create these migration artifacts by hand.
+The command writes the feature flag setup, generated adapter, all caller
+rewrites, and all load-order edits atomically. One unsupported caller cancels
+the complete plan. Extend the adapter transform and add a focused test for an
+unsupported loading pattern, then rerun the complete plan. Do not create these
+migration artifacts by hand.
 
 ## 3. Capture the legacy baseline
 
@@ -125,9 +134,14 @@ the production build, baseline freshness, browser behavior, event order,
 focus, styles, and screenshots. It prints the saved `final` or `final.failed`
 evidence directory.
 
+Repeat the call-site inventory searches after verification. Every remaining
+direct legacy reference must be the adapter's legacy implementation, a focused
+legacy test, or an approved and recorded exception.
+
 Open or update a draft PR after verification. Include the adapter, React
-component, tests, verification result, approved behavior differences, and
-links to the attached recordings, screenshots, diffs, and `parity.json`.
+component, tests, complete call-site inventory, verification result, approved
+behavior differences, and links to the attached recordings, screenshots,
+diffs, and `parity.json`.
 
 ## Verification gate
 
@@ -145,6 +159,8 @@ Do not claim parity until every item passes.
 - Save the baseline image, the React image, and the diff image for every
   screenshot assertion, including exact matches.
 - Review the saved manifests, recordings, images, diffs, and `parity.json`.
+- Confirm that every inventoried construction site uses the adapter and that
+  every required load path makes the adapter available before use.
 - Do not update the baseline to make React pass.
 - Do not claim parity for an approved visual difference. Leave that scenario
   without an exact screenshot assertion and document the approved difference.

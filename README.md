@@ -7,7 +7,7 @@ captures a browser baseline, writes React and its tests, and verifies parity.
 Human names one component
           |
           v
-analyze source and callers
+analyze source and inventory every load and construction call site
           |
           v
 human approves product-visible decisions
@@ -56,7 +56,7 @@ The workflow has four stages. The adapter stage generates the source artifact
 that belongs in the migration draft PR:
 
 ```sh
-# Analyze source, callers, events, DOM, CSS, and side effects.
+# Analyze source, load paths, constructors, events, DOM, CSS, and side effects.
 npm run migrate -- analyze <component>
 
 # Add the component feature flag, caller adapter, and load-order edit.
@@ -71,9 +71,17 @@ npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-The adapter command applies the feature flag setup, generated adapter, caller
-rewrite, and load-order edit atomically. The first run imports and registers
-the feature flagger. Later runs reuse it and add one component choice.
+Before the adapter runs, the agent inventories every place that loads the
+MooTools class file and every place that constructs the component. This
+includes templates, PHP-generated JavaScript, page scripts, runtime loaders,
+and inline event attributes. The call-site inventory skill describes each
+supported pattern.
+
+The adapter command applies the feature flag setup, generated adapter, all
+caller rewrites, and all load-order edits atomically. The first run imports and
+registers the feature flagger. Later runs reuse it and add one component
+choice. Every construction site calls the adapter. The adapter reads the flag
+and selects the legacy or React implementation.
 
 The generated adapter calls `featureFlagger.get("TabPane")`. The
 `legacy-TabPane` result constructs the legacy class. The `react-TabPane` result
@@ -100,6 +108,7 @@ After `verify` passes, the agent opens a draft PR. The PR contains:
 
 - the React component, mount, and tests;
 - the generated adapter, caller rewrite, and bootstrap load-order edit;
+- the complete call-site inventory and the status of each rewrite;
 - the approved decisions and behavior differences in `migration.json`;
 - the verification result and links to the recordings, screenshots, image
   diffs, and `parity.json`.
@@ -140,6 +149,7 @@ parity and must not use an exact screenshot claim.
 
 ```text
 .cursor/skills/mootools-react-migrate/SKILL.md
+.cursor/skills/mootools-callsite-inventory/SKILL.md
 tools/mootools-migrate/
   src/
   test/
