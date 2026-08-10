@@ -20,7 +20,7 @@ const projectRoot = resolve(toolsRoot, "../..");
 describe("migration config", () => {
   it("starts without component feature flags in bootstrap", async () => {
     const bootstrap = await readFile(
-      resolve(projectRoot, "bootstrap.ts"),
+      resolve(projectRoot, "bootstrap.js"),
       "utf8",
     );
 

@@ -18,7 +18,7 @@ describe("adapter codemod", () => {
       "utf8",
     );
     await writeFile(
-      join(projectRoot, "legacy/bootstrap.ts"),
+      join(projectRoot, "legacy/bootstrap.js"),
       [
         '// import mountTabPaneUrl from "./adapters/mount-tab-pane.js?url";',
         'import mainUrl from "./main.js?url";',
@@ -37,7 +37,7 @@ describe("adapter codemod", () => {
       sourceFiles: ["legacy/TabPane.js"],
       cssFiles: [],
       markupFiles: [],
-      bootstrapFiles: ["legacy/bootstrap.ts"],
+      bootstrapFiles: ["legacy/bootstrap.js"],
       callsiteGlobs: ["legacy/main.js"],
       tests: {
         legacyFile: "legacy/TabPane.legacy.test.ts",
@@ -80,7 +80,7 @@ describe("adapter codemod", () => {
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
-        bootstrapFile: "legacy/bootstrap.ts",
+        bootstrapFile: "legacy/bootstrap.js",
         bootstrapImportPath: "./adapters/mount-tab-pane.js",
         bootstrapImportLocal: "mountTabPaneUrl",
       },
@@ -130,14 +130,14 @@ describe("adapter codemod", () => {
     }
     expect(result.edits.map((edit) => edit.path).sort()).toEqual([
       "legacy/adapters/mount-tab-pane.js",
-      "legacy/bootstrap.ts",
+      "legacy/bootstrap.js",
       "legacy/main.js",
     ]);
     expect(
       result.edits.find((edit) => edit.path === "legacy/main.js")?.after,
     ).toContain("mountTabPane('tabs')");
     const bootstrapAfter = result.edits.find(
-      (edit) => edit.path === "legacy/bootstrap.ts",
+      (edit) => edit.path === "legacy/bootstrap.js",
     )?.after;
     if (bootstrapAfter === undefined) {
       throw new Error("The bootstrap edit is missing.");
@@ -158,7 +158,7 @@ describe("adapter codemod", () => {
     );
 
     await writeFile(
-      join(projectRoot, "legacy/bootstrap.ts"),
+      join(projectRoot, "legacy/bootstrap.js"),
       bootstrapAfter,
       "utf8",
     );
@@ -198,7 +198,7 @@ describe("adapter codemod", () => {
       throw new Error(widgetPlan.reasons.join("\n"));
     }
     const widgetBootstrap = widgetPlan.edits.find(
-      (edit) => edit.path === "legacy/bootstrap.ts",
+      (edit) => edit.path === "legacy/bootstrap.js",
     )?.after;
     if (widgetBootstrap === undefined) {
       throw new Error("The second bootstrap edit is missing.");

@@ -5,7 +5,7 @@ export default defineConfig({
     environment: "jsdom",
     include: [
       "components/**/*.legacy.test.ts",
-      "src/**/*.test.{ts,tsx}",
+      "src/**/*.test.{js,jsx,ts,tsx}",
     ],
   },
 });

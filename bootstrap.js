@@ -7,7 +7,7 @@ import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
 import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
 
 // Load MooTools files in order before starting the legacy app.
-const scriptSources: readonly string[] = [
+const scriptSources = [
   mootoolsCoreUrl,
   mootoolsMoreUrl,
   tabPaneUrl,
@@ -17,7 +17,7 @@ const scriptSources: readonly string[] = [
   mainUrl,
 ];
 
-function loadClassicScript(source: string): Promise<void> {
+function loadClassicScript(source) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.async = false;
@@ -36,7 +36,7 @@ try {
   for (const source of scriptSources) {
     await loadClassicScript(source);
   }
-} catch (error: unknown) {
+} catch (error) {
   const message =
     error instanceof Error ? error.message : "Unknown script-loading error.";
   const alert = document.createElement("p");

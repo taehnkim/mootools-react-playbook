@@ -17,7 +17,7 @@
     }
   ],
   "bootstrapFiles": [
-    "bootstrap.ts"
+    "bootstrap.js"
   ],
   "callsiteGlobs": [
     "main.js",
@@ -58,12 +58,12 @@
     ],
     "proofFiles": [
       "adapters/mount-tab-pane.js",
-      "bootstrap.ts",
+      "bootstrap.js",
       "components/tab-pane/TabPane.Extra.js",
       "components/tab-pane/TabPane.js",
       "index.html",
       "main.js",
-      "src/feature-flagger/mockFeatureFlagger.ts",
+      "src/feature-flagger/mockFeatureFlagger.js",
       "styles.css",
       "vendor/mootools-core-1.4.2.js",
       "vendor/mootools-more-1.4.0.1.js"
@@ -79,13 +79,13 @@
     "componentPath": "src/components/tab-pane/TabPane.tsx",
     "proofFiles": [
       "adapters/mount-tab-pane.js",
-      "bootstrap.ts",
+      "bootstrap.js",
       "index.html",
       "main.js",
       "src/components/tab-pane/TabPane.tsx",
       "src/components/tab-pane/mountTabPane.tsx",
       "src/global.css",
-      "src/feature-flagger/mockFeatureFlagger.ts",
+      "src/feature-flagger/mockFeatureFlagger.js",
       "styles.css"
     ]
   },
@@ -105,7 +105,7 @@
     "callsiteFiles": [
       "main.js"
     ],
-    "bootstrapFile": "bootstrap.ts",
+    "bootstrapFile": "bootstrap.js",
     "bootstrapImportPath": "./adapters/mount-tab-pane.js",
     "bootstrapImportLocal": "mountTabPaneUrl"
   },

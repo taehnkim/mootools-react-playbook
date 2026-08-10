@@ -197,7 +197,7 @@ function editBootstrap(options: {
     options.source,
     ts.ScriptTarget.Latest,
     true,
-    ts.ScriptKind.TS,
+    scriptKindForPath(options.config.adapter.bootstrapFile),
   );
   const adapterModule = `${options.config.adapter.bootstrapImportPath}?url`;
   const adapterImportLocal = options.config.adapter.bootstrapImportLocal;

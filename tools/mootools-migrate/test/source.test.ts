@@ -67,7 +67,7 @@ describe("legacy-use scanner", () => {
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
-        bootstrapFile: "legacy/bootstrap.ts",
+        bootstrapFile: "legacy/bootstrap.js",
         bootstrapImportPath: "./adapters/mount-tab-pane.js",
         bootstrapImportLocal: "mountTabPaneUrl",
       },

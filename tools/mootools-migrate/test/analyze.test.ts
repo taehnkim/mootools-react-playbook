@@ -95,7 +95,7 @@ button { font: inherit; }`,
       "utf8",
     );
     await writeFile(
-      join(projectRoot, "legacy/bootstrap.ts"),
+      join(projectRoot, "legacy/bootstrap.js"),
       `import widgetUrl from "./Widget.js?url";
 import mainUrl from "./main.js?url";
 const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
@@ -115,7 +115,7 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       markupFiles: [
         { path: "legacy/index.html", rootSelector: "#widget" },
       ],
-      bootstrapFiles: ["legacy/bootstrap.ts"],
+      bootstrapFiles: ["legacy/bootstrap.js"],
       callsiteGlobs: ["legacy/main.js", "src/**/*.{ts,tsx}"],
       tests: {
         legacyFile: "legacy/Widget.legacy.test.ts",
@@ -158,7 +158,7 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
         reactMountGlobal: "mountReactWidget",
         outputPath: "legacy/mount-widget.js",
         callsiteFiles: ["legacy/main.js"],
-        bootstrapFile: "legacy/bootstrap.ts",
+        bootstrapFile: "legacy/bootstrap.js",
         bootstrapImportPath: "./mount-widget.js",
         bootstrapImportLocal: "mountWidgetUrl",
       },

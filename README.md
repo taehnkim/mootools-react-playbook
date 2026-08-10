@@ -46,7 +46,7 @@ npm run dev
 - `http://localhost:5173/` runs the untouched MooTools application.
 - `http://localhost:5173/react.html` runs the empty React migration root.
 
-The fresh `bootstrap.ts` has no component feature flags. The first migration
+The fresh `bootstrap.js` has no component feature flags. The first migration
 adds the feature flagger. Each migration adds its own legacy and React choices.
 
 ## Migration commands
@@ -81,9 +81,9 @@ index. Any other flag value throws. A missing React mount throws.
 
 The repository starts with only the migration groundwork:
 
-- `src/feature-flagger/mockFeatureFlagger.ts` provides the local flag lookup.
+- `src/feature-flagger/mockFeatureFlagger.js` provides the local flag lookup.
 - `src/main.tsx` owns an empty React root.
-- `bootstrap.ts` only loads the untouched MooTools application.
+- `bootstrap.js` only loads the untouched MooTools application.
 
 The migration run creates the component flag, React component, mount, tests,
 generated adapter, caller rewrite, and bootstrap load-order edit. Those files

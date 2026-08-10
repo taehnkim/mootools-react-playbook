@@ -87,7 +87,7 @@ describe("component tests", () => {
         reactMountGlobal: "mountReactWidget",
         outputPath: "adapters/mount-widget.js",
         callsiteFiles: ["main.js"],
-        bootstrapFile: "bootstrap.ts",
+        bootstrapFile: "bootstrap.js",
         bootstrapImportPath: "./adapters/mount-widget.js",
         bootstrapImportLocal: "mountWidgetUrl",
       },
