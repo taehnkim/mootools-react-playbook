@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -17,6 +18,16 @@ const toolsRoot = resolve(process.cwd());
 const projectRoot = resolve(toolsRoot, "../..");
 
 describe("migration config", () => {
+  it("starts without component feature flags in bootstrap", async () => {
+    const bootstrap = await readFile(
+      resolve(projectRoot, "bootstrap.js"),
+      "utf8",
+    );
+
+    expect(bootstrap).not.toContain("createMockFeatureFlagger");
+    expect(bootstrap).not.toContain("__TAB_PANE_IMPLEMENTATION__");
+  });
+
   it("loads migration.json by component convention", async () => {
     const context = await createContext({ toolsRoot, projectRoot });
     const config = await loadMigrationSpec(context, "tab-pane");
@@ -27,6 +38,13 @@ describe("migration config", () => {
       legacy: "#tab-pane",
       react: '[data-migration-component="tab-pane"]',
     });
+    expect(config.implementationBridge).toEqual({
+      windowKey: "__TAB_PANE_IMPLEMENTATION__",
+      legacyValue: "legacy-TabPane",
+      reactValue: "react-TabPane",
+    });
+    expect(config.legacy.entryPath).toBe("/");
+    expect(config.react.entryPath).toBe("/");
   });
 
   it("rejects component paths that can escape the tools directory", async () => {
@@ -75,6 +93,13 @@ describe("migration config", () => {
         entryPath: "/changed-react.html",
       },
     });
+    const bridgeEdit = MigrationSpecSchema.parse({
+      ...config,
+      implementationBridge: {
+        ...config.implementationBridge,
+        reactValue: "react-TabPane-next",
+      },
+    });
 
     expect(captureConfigHash(decisionEdit, "legacy")).toBe(
       captureConfigHash(config, "legacy"),
@@ -86,6 +111,12 @@ describe("migration config", () => {
       captureConfigHash(config, "legacy"),
     );
     expect(captureConfigHash(reactEdit, "react")).not.toBe(
+      captureConfigHash(config, "react"),
+    );
+    expect(captureConfigHash(bridgeEdit, "legacy")).toBe(
+      captureConfigHash(config, "legacy"),
+    );
+    expect(captureConfigHash(bridgeEdit, "react")).not.toBe(
       captureConfigHash(config, "react"),
     );
   });

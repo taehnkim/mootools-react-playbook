@@ -10,16 +10,16 @@ Human names one component
 analyze source and callers
           |
           v
-run legacy test and capture baseline
-          |
-          v
 human approves product-visible decisions
           |
           v
-write React component and test
+build shared mount and apply reviewed adapter
           |
           v
-run tests, browser parity, typecheck, and build
+run legacy fallback test and capture baseline
+          |
+          v
+run React branch tests, browser parity, typecheck, and build
           |
           v
 React component + tests + final proof
@@ -43,28 +43,51 @@ npm run migrate:setup
 npm run dev
 ```
 
-- `http://localhost:5173/` runs the MooTools application.
-- `http://localhost:5173/react.html` runs the React comparison page.
+- `http://localhost:5173/` runs the untouched MooTools application.
+- `http://localhost:5173/react.html` runs the empty React migration root.
+
+The fresh `bootstrap.js` has no component feature flags. The first migration
+adds the feature flagger. Each migration adds its own legacy and React choices.
 
 ## Migration commands
 
-The agent runs four commands:
+The workflow has four stages. The adapter stage generates the source artifact
+that belongs in the migration draft PR:
 
 ```sh
 # Analyze source, callers, events, DOM, CSS, and side effects.
 npm run migrate -- analyze <component>
 
-# Run the legacy unit test and capture the reviewed baseline.
+# Add the component feature flag, caller adapter, and load-order edit.
+npm run migrate -- adapter <component> --write
+
+# Run the legacy fallback test and capture the reviewed baseline.
 npm run migrate -- baseline <component> \
   --base-url http://127.0.0.1:5173
-
-# Preview an optional caller adapter. Add --write only with approval.
-npm run migrate -- adapter <component>
 
 # Run both unit tests, guards, browser parity, typecheck, and build.
 npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
+
+The adapter command applies the feature flag setup, generated adapter, caller
+rewrite, and load-order edit atomically. The first run imports and registers
+the feature flagger. Later runs reuse it and add one component choice.
+
+The generated adapter calls `featureFlagger.get("TabPane")`. The
+`legacy-TabPane` result constructs the legacy class. The `react-TabPane` result
+requires the React mount and forwards the same container, options, and initial
+index. Any other flag value throws. A missing React mount throws.
+
+The repository starts with only the migration groundwork:
+
+- `src/feature-flagger/mockFeatureFlagger.js` provides the local flag lookup.
+- `src/main.tsx` owns an empty React root.
+- `bootstrap.js` only loads the untouched MooTools application.
+
+The migration run creates the component flag, React component, mount, tests,
+generated adapter, caller rewrite, and bootstrap load-order edit. Those files
+belong in the migration draft PR. Do not create codemod edits by hand.
 
 `verify` succeeds only when both focused unit tests and all project checks
 pass, every exact screenshot has equal dimensions and zero changed pixels,
@@ -93,10 +116,11 @@ evidence.
   `tools/mootools-migrate/components/<component>/final.failed/`. The last
   passing `final/` stays unchanged. A later pass removes `final.failed/`.
 
-All generated media stays local and ignored. Review the legacy and React
-recordings and the saved baseline, React, and diff images before claiming
-parity. Do not refresh a valid baseline to make React pass. An approved visual
-difference is not visual parity and must not use an exact screenshot claim.
+Generated media stays local and ignored in the worktree, then becomes review
+evidence through the draft PR. Review the legacy and React recordings and the
+saved baseline, React, and diff images before claiming parity. Do not refresh a
+valid baseline to make React pass. An approved visual difference is not visual
+parity and must not use an exact screenshot claim.
 
 ## Layout
 
@@ -120,16 +144,16 @@ tools/mootools-migrate/
       diffs/<scenario>/<assertion>.png
     final.failed/
 components/                 MooTools source and legacy tests
-src/components/             React source and tests
+src/main.tsx                Empty React migration root
+src/feature-flagger/        Local feature flag test double
 ```
 
-`migration.json` is the human-owned migration input. It contains scenarios,
-paired selectors, decisions, accepted differences, allowed legacy uses, and
-the optional adapter configuration.
+`migration.json` is a starting migration plan, not generated evidence. It
+contains source paths, scenarios, paired selectors, allowed legacy uses, and
+the implementation bridge and adapter configuration. A fresh clone has no
+decisions or accepted differences. `analyze` adds pending decision stubs, and
+the migration run records approvals and accepted differences before it opens
+the draft PR.
 
-## Example
-
-See the [TabPane migration example](examples/tab-pane-migration.md) for the
-four commands, scenario recordings, sample test receipts, one exact image
-comparison, and the accepted differences. The example is documentation, not
-live proof.
+The draft PR is the migration handoff. It includes the adapter, React source,
+tests, and links to the generated verification evidence.

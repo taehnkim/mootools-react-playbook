@@ -57,6 +57,7 @@ const RelativeImportSchema = z
       });
     }
   });
+const IdentifierSchema = z.string().regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/);
 export const ComponentIdSchema = z
   .string()
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
@@ -98,6 +99,11 @@ const MigrationDefinitionSchema = z.object({
     legacyStaticFixtureId: z.string().min(1),
     reactAcknowledgementPath: z.array(z.string().min(1)).min(1),
   }),
+  implementationBridge: z.object({
+    windowKey: z.string().min(1),
+    legacyValue: z.string().min(1),
+    reactValue: z.string().min(1),
+  }),
   legacy: z.object({
     entryPath: z.string().startsWith("/"),
     readyPath: z.array(z.string().min(1)).min(1),
@@ -117,10 +123,17 @@ const MigrationDefinitionSchema = z.object({
   }),
   adapter: z.object({
     globalName: z.string().min(1),
+    selectionKey: z.string().min(1),
+    legacyValue: z.string().min(1),
+    reactValue: z.string().min(1),
+    featureFlaggerGlobal: z.string().min(1),
+    featureFlaggerImportPath: RelativeImportSchema,
+    reactMountGlobal: z.string().min(1),
     outputPath: RelativePathSchema,
     callsiteFiles: z.array(RelativePathSchema).min(1),
     bootstrapFile: RelativePathSchema,
     bootstrapImportPath: RelativeImportSchema,
+    bootstrapImportLocal: IdentifierSchema,
   }),
 });
 

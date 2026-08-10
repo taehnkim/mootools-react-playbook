@@ -17,11 +17,12 @@ verification passes.
 - Record product-visible choices in
   `tools/mootools-migrate/components/<component>/migration.json`.
 - Stop for human approval when a decision is pending.
-- Use the adapter only when callers need an intermediate mount function.
-- Do not push, deploy, or write an adapter without user authority.
+- Route every migrated component through its generated adapter and feature
+  flag.
+- Do not push or deploy.
 - Generate, inspect, and report the worksheet, manifests, screenshots,
-  recordings, and diffs. Keep all generated media local and ignored. Do not
-  commit these generated files.
+  recordings, and diffs. Keep generated media local and ignored. Attach the
+  media and final report to the draft PR.
 
 ## TypeScript
 
@@ -59,7 +60,41 @@ Read `worksheet.generated.json`. Review callers, public methods, events,
 side effects, DOM, CSS, dependencies, and unknown forms. The command creates
 decision stubs only when `migration.json` has no decisions.
 
-## 2. Capture the legacy baseline
+## 2. Define the boundary
+
+Read all current callers. Prefer stable IDs and React callbacks over the
+legacy class API.
+
+Build and test these mount artifacts before changing callers:
+
+- The implementation bridge. It names the injected window key and the exact
+  legacy and React values.
+- The configured feature flagger global and source import.
+- The configured React mount global. The React value without this mount throws.
+- The fresh bootstrap has no feature flags. The first adapter write creates and
+  registers the feature flagger before classic scripts load. Later adapter
+  writes add their component flag to that setup.
+
+The host sets the implementation value before bootstrap. The browser proof
+runner does the same before it loads `/` for either surface. Do not select an
+implementation from the URL.
+
+The generated adapter reads the configured selection key. The configured
+legacy value constructs the legacy class with the original arguments. The
+configured React value calls the React mount with those arguments. Any other
+flag value throws.
+
+Generate the configured adapter:
+
+```bash
+npm run migrate -- adapter <component> --write
+```
+
+The command writes the feature flag setup, generated adapter, caller rewrite,
+and load-order edit atomically. One unsupported caller cancels the complete
+plan. Do not create these migration artifacts by hand.
+
+## 3. Capture the legacy baseline
 
 Backfill the configured MooTools unit test if it is missing. Start the
 application. Then run:
@@ -72,21 +107,9 @@ npm run migrate -- baseline <component> \
 This command runs the legacy unit test before browser capture. Review the
 worksheet and baseline. Resolve every pending product decision in
 `migration.json` before writing React. The baseline saves one legacy WebM for
-each scenario under `recordings/<scenario>.webm`.
-
-## 3. Define the boundary
-
-Read all current callers. Prefer stable IDs and React callbacks over the
-legacy class API.
-
-Preview the optional adapter:
-
-```bash
-npm run migrate -- adapter <component>
-```
-
-The adapter command is a dry run unless the user approves `--write`. One
-unsupported caller cancels the complete write plan.
+each scenario under `recordings/<scenario>.webm`. The shared mount must select
+the legacy branch during this capture. The browser runner injects the configured
+legacy implementation value before bootstrap.
 
 ## 4. Implement and verify
 
@@ -101,6 +124,10 @@ npm run migrate -- verify <component> \
 the production build, baseline freshness, browser behavior, event order,
 focus, styles, and screenshots. It prints the saved `final` or `final.failed`
 evidence directory.
+
+Open or update a draft PR after verification. Include the adapter, React
+component, tests, verification result, approved behavior differences, and
+links to the attached recordings, screenshots, diffs, and `parity.json`.
 
 ## Verification gate
 
@@ -129,5 +156,5 @@ Fix React and rerun until the result is `PARITY` with `attested: true`.
 If upstream changes the legacy component, rerun `baseline` and port the change
 before verification.
 
-Remove obsolete globals, compatibility wrappers, feature flags, temporary
-selectors, and direct MooTools calls when React takes ownership.
+Remove obsolete globals, compatibility wrappers, implementation bridges,
+temporary selectors, and direct MooTools calls when React takes ownership.

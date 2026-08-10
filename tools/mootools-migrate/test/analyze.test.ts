@@ -95,10 +95,15 @@ button { font: inherit; }`,
       "utf8",
     );
     await writeFile(
-      join(projectRoot, "legacy/bootstrap.ts"),
+      join(projectRoot, "legacy/bootstrap.js"),
       `import widgetUrl from "./Widget.js?url";
 import mainUrl from "./main.js?url";
 const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
+      "utf8",
+    );
+    await writeFile(
+      join(projectRoot, "src/Widget.tsx"),
+      "export const Widget = () => null;\n",
       "utf8",
     );
     const config = MigrationSpecSchema.parse({
@@ -110,7 +115,7 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       markupFiles: [
         { path: "legacy/index.html", rootSelector: "#widget" },
       ],
-      bootstrapFiles: ["legacy/bootstrap.ts"],
+      bootstrapFiles: ["legacy/bootstrap.js"],
       callsiteGlobs: ["legacy/main.js", "src/**/*.{ts,tsx}"],
       tests: {
         legacyFile: "legacy/Widget.legacy.test.ts",
@@ -123,6 +128,11 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
         windowIdKey: "__FIXTURE_ID__",
         legacyStaticFixtureId: "default",
         reactAcknowledgementPath: ["ReactSandbox", "fixtureId"],
+      },
+      implementationBridge: {
+        windowKey: "__WIDGET_IMPLEMENTATION__",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
       },
       legacy: {
         entryPath: "/legacy/",
@@ -140,10 +150,17 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountWidget",
+        selectionKey: "Widget",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+        featureFlaggerGlobal: "featureFlagger",
+        featureFlaggerImportPath: "./src/feature-flagger/mockFeatureFlagger",
+        reactMountGlobal: "mountReactWidget",
         outputPath: "legacy/mount-widget.js",
         callsiteFiles: ["legacy/main.js"],
-        bootstrapFile: "legacy/bootstrap.ts",
+        bootstrapFile: "legacy/bootstrap.js",
         bootstrapImportPath: "./mount-widget.js",
+        bootstrapImportLocal: "mountWidgetUrl",
       },
       fixtures: { default: {} },
       scenarios: [
@@ -242,5 +259,11 @@ const scripts = ["https://cdn.example.com/mootools.js", widgetUrl, mainUrl];`,
       worksheet.findings.find((finding) => finding.kind === "style")
         ?.decisionRequired,
     ).toBe(false);
+    expect(
+      worksheet.findings
+        .filter((finding) => finding.kind === "global")
+        .flatMap((finding) => finding.evidence)
+        .map((evidence) => evidence.path),
+    ).not.toContain("src/Widget.tsx");
   });
 });

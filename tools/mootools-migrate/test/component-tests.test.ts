@@ -58,6 +58,11 @@ describe("component tests", () => {
         legacyStaticFixtureId: "default",
         reactAcknowledgementPath: ["ReactSandbox", "fixtureId"],
       },
+      implementationBridge: {
+        windowKey: "__WIDGET_IMPLEMENTATION__",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+      },
       legacy: {
         entryPath: "/",
         readyPath: ["Widget"],
@@ -74,10 +79,17 @@ describe("component tests", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountWidget",
+        selectionKey: "Widget",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+        featureFlaggerGlobal: "featureFlagger",
+        featureFlaggerImportPath: "./src/feature-flagger/mockFeatureFlagger",
+        reactMountGlobal: "mountReactWidget",
         outputPath: "adapters/mount-widget.js",
         callsiteFiles: ["main.js"],
-        bootstrapFile: "bootstrap.ts",
+        bootstrapFile: "bootstrap.js",
         bootstrapImportPath: "./adapters/mount-widget.js",
+        bootstrapImportLocal: "mountWidgetUrl",
       },
       fixtures: { default: {} },
       scenarios: [

@@ -1,6 +1,7 @@
 import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { runInNewContext } from "node:vm";
 
 import { describe, expect, it } from "vitest";
 
@@ -17,12 +18,12 @@ describe("adapter codemod", () => {
       "utf8",
     );
     await writeFile(
-      join(projectRoot, "legacy/bootstrap.ts"),
+      join(projectRoot, "legacy/bootstrap.js"),
       [
-        '// import mountAdapterUrl from "./adapters/mount-tab-pane.js?url";',
+        '// import mountTabPaneUrl from "./adapters/mount-tab-pane.js?url";',
         'import mainUrl from "./main.js?url";',
         "const scripts = [",
-        "  // mountAdapterUrl,",
+        "  // mountTabPaneUrl,",
         "  mainUrl,",
         "];",
         "",
@@ -36,7 +37,7 @@ describe("adapter codemod", () => {
       sourceFiles: ["legacy/TabPane.js"],
       cssFiles: [],
       markupFiles: [],
-      bootstrapFiles: ["legacy/bootstrap.ts"],
+      bootstrapFiles: ["legacy/bootstrap.js"],
       callsiteGlobs: ["legacy/main.js"],
       tests: {
         legacyFile: "legacy/TabPane.legacy.test.ts",
@@ -49,6 +50,11 @@ describe("adapter codemod", () => {
         windowIdKey: "__FIXTURE_ID__",
         legacyStaticFixtureId: "default",
         reactAcknowledgementPath: ["ReactSandbox", "fixtureId"],
+      },
+      implementationBridge: {
+        windowKey: "__TAB_PANE_IMPLEMENTATION__",
+        legacyValue: "legacy-TabPane",
+        reactValue: "react-TabPane",
       },
       legacy: {
         entryPath: "/legacy/",
@@ -66,10 +72,17 @@ describe("adapter codemod", () => {
       viewport: { width: 1280, height: 900 },
       adapter: {
         globalName: "mountTabPane",
+        selectionKey: "TabPane",
+        legacyValue: "legacy-TabPane",
+        reactValue: "react-TabPane",
+        featureFlaggerGlobal: "featureFlagger",
+        featureFlaggerImportPath: "./src/feature-flagger/mockFeatureFlagger",
+        reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
-        bootstrapFile: "legacy/bootstrap.ts",
+        bootstrapFile: "legacy/bootstrap.js",
         bootstrapImportPath: "./adapters/mount-tab-pane.js",
+        bootstrapImportLocal: "mountTabPaneUrl",
       },
       fixtures: { default: {} },
       scenarios: [
@@ -117,16 +130,316 @@ describe("adapter codemod", () => {
     }
     expect(result.edits.map((edit) => edit.path).sort()).toEqual([
       "legacy/adapters/mount-tab-pane.js",
-      "legacy/bootstrap.ts",
+      "legacy/bootstrap.js",
       "legacy/main.js",
     ]);
     expect(
       result.edits.find((edit) => edit.path === "legacy/main.js")?.after,
     ).toContain("mountTabPane('tabs')");
     const bootstrapAfter = result.edits.find(
-      (edit) => edit.path === "legacy/bootstrap.ts",
+      (edit) => edit.path === "legacy/bootstrap.js",
     )?.after;
-    expect(bootstrapAfter).toMatch(/^import mountAdapterUrl/m);
-    expect(bootstrapAfter).toMatch(/^\s+mountAdapterUrl,$/m);
+    if (bootstrapAfter === undefined) {
+      throw new Error("The bootstrap edit is missing.");
+    }
+    expect(bootstrapAfter).toMatch(/^import mountTabPaneUrl/m);
+    expect(bootstrapAfter).toMatch(/^\s+mountTabPaneUrl,$/m);
+    expect(bootstrapAfter).toContain(
+      'import { createMockFeatureFlagger } from "./src/feature-flagger/mockFeatureFlagger";',
+    );
+    expect(bootstrapAfter).toContain(
+      "const migrationFeatureFlagger = createMockFeatureFlagger();",
+    );
+    expect(bootstrapAfter).toContain(
+      'migrationFeatureFlagger.set("TabPane", Reflect.get(window, "__TAB_PANE_IMPLEMENTATION__") === "react-TabPane" ? "react-TabPane" : "legacy-TabPane");',
+    );
+    expect(bootstrapAfter).toContain(
+      'Object.assign(window, { "featureFlagger": migrationFeatureFlagger });',
+    );
+
+    await writeFile(
+      join(projectRoot, "legacy/bootstrap.js"),
+      bootstrapAfter,
+      "utf8",
+    );
+    await writeFile(
+      join(projectRoot, "legacy/widget.js"),
+      "var widget = new Widget('widget');\n",
+      "utf8",
+    );
+    const widgetConfig = MigrationSpecSchema.parse({
+      ...config,
+      id: "widget",
+      legacyGlobal: "Widget",
+      callsiteGlobs: ["legacy/widget.js"],
+      implementationBridge: {
+        windowKey: "__WIDGET_IMPLEMENTATION__",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+      },
+      adapter: {
+        ...config.adapter,
+        globalName: "mountWidget",
+        selectionKey: "Widget",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+        reactMountGlobal: "mountReactWidget",
+        outputPath: "legacy/adapters/mount-widget.js",
+        callsiteFiles: ["legacy/widget.js"],
+        bootstrapImportPath: "./adapters/mount-widget.js",
+        bootstrapImportLocal: "mountWidgetUrl",
+      },
+    });
+    const widgetPlan = await planAdapterCodemod({
+      context: { projectRoot, toolsRoot: projectRoot },
+      config: widgetConfig,
+    });
+    if (widgetPlan.kind !== "ready") {
+      throw new Error(widgetPlan.reasons.join("\n"));
+    }
+    const widgetBootstrap = widgetPlan.edits.find(
+      (edit) => edit.path === "legacy/bootstrap.js",
+    )?.after;
+    if (widgetBootstrap === undefined) {
+      throw new Error("The second bootstrap edit is missing.");
+    }
+    expect(
+      widgetBootstrap.match(/createMockFeatureFlagger/g),
+    ).toHaveLength(2);
+    expect(
+      widgetBootstrap.match(/Object\.assign\(window/g),
+    ).toHaveLength(1);
+    expect(widgetBootstrap).toContain(
+      'migrationFeatureFlagger.set("TabPane",',
+    );
+    expect(widgetBootstrap).toContain(
+      'migrationFeatureFlagger.set("Widget", Reflect.get(window, "__WIDGET_IMPLEMENTATION__") === "react-Widget" ? "react-Widget" : "legacy-Widget");',
+    );
+    expect(widgetBootstrap).toMatch(/^import mountWidgetUrl/m);
+    expect(widgetBootstrap).toMatch(/^\s+mountWidgetUrl,$/m);
+
+    const adapterAfter = result.edits.find(
+      (edit) => edit.path === "legacy/adapters/mount-tab-pane.js",
+    )?.after;
+    if (adapterAfter === undefined) {
+      throw new Error("The generated adapter edit is missing.");
+    }
+    expect(adapterAfter).toContain(
+      'var implementation = featureFlagger.get("TabPane");',
+    );
+    expect(adapterAfter).toContain(
+      'if (implementation === "legacy-TabPane")',
+    );
+    expect(adapterAfter).toContain(
+      'if (implementation === "react-TabPane")',
+    );
+    expect(adapterAfter).toContain(
+      "return reactMount(container, options, initialIndex);",
+    );
+    expect(adapterAfter).toContain(
+      'return new global["TabPane"](container, options, initialIndex);',
+    );
+
+    const container = { id: "tabs" };
+    const options = { activeClass: "selected" };
+    const initialIndex = 2;
+    const legacyCalls: unknown[][] = [];
+    class LegacyTabPane {
+      constructor(...args: unknown[]) {
+        legacyCalls.push(args);
+      }
+    }
+    const legacyAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: LegacyTabPane,
+    });
+
+    const legacyResult = legacyAdapter(container, options, initialIndex);
+
+    expect(legacyResult).toBeInstanceOf(LegacyTabPane);
+    expectForwarded(legacyCalls, container, options, initialIndex);
+
+    const legacySelectionKeys: string[] = [];
+    const explicitLegacyCalls: unknown[][] = [];
+    class ExplicitLegacyTabPane {
+      constructor(...args: unknown[]) {
+        explicitLegacyCalls.push(args);
+      }
+    }
+    const explicitLegacyAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: ExplicitLegacyTabPane,
+      featureFlagger: {
+        get(selectionKey: string) {
+          legacySelectionKeys.push(selectionKey);
+          return "legacy-TabPane";
+        },
+      },
+    });
+
+    expect(
+      explicitLegacyAdapter(container, options, initialIndex),
+    ).toBeInstanceOf(
+      ExplicitLegacyTabPane,
+    );
+    expect(legacySelectionKeys).toEqual(["TabPane"]);
+    expectForwarded(
+      explicitLegacyCalls,
+      container,
+      options,
+      initialIndex,
+    );
+
+    const requestedSelectionKeys: string[] = [];
+    const reactCalls: unknown[][] = [];
+    const reactResult = { owner: "react" };
+    const reactAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: class {
+        constructor() {
+          throw new Error("The legacy branch ran.");
+        }
+      },
+      featureFlagger: {
+        get(selectionKey: string) {
+          requestedSelectionKeys.push(selectionKey);
+          return "react-TabPane";
+        },
+      },
+      mountReactTabPane(...args: unknown[]) {
+        reactCalls.push(args);
+        return reactResult;
+      },
+    });
+
+    expect(reactAdapter(container, options, initialIndex)).toBe(reactResult);
+    expect(requestedSelectionKeys).toEqual(["TabPane"]);
+    expectForwarded(reactCalls, container, options, initialIndex);
+
+    const invalidAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: LegacyTabPane,
+      featureFlagger: {
+        get() {
+          return "unknown-TabPane";
+        },
+      },
+    });
+    expect(() => invalidAdapter(container, options, initialIndex)).toThrow(
+      "Feature flagger returned an unsupported implementation for TabPane: unknown-TabPane.",
+    );
+
+    const missingMountAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: LegacyTabPane,
+      featureFlagger: {
+        get() {
+          return "react-TabPane";
+        },
+      },
+    });
+    expect(() =>
+      missingMountAdapter(container, options, initialIndex),
+    ).toThrow(
+      "React mount global mountReactTabPane is not available.",
+    );
+
+    const escapedSelectionKey = 'Tab"Pane\nkey';
+    const escapedLegacyValue = 'legacy-"Tab\nPane';
+    const escapedReactValue = "react-\\TabPane";
+    const escapedMountName = "mount\\React";
+    const escapedConfig = MigrationSpecSchema.parse({
+      ...config,
+      adapter: {
+        ...config.adapter,
+        selectionKey: escapedSelectionKey,
+        legacyValue: escapedLegacyValue,
+        reactValue: escapedReactValue,
+        reactMountGlobal: escapedMountName,
+      },
+    });
+    const escapedPlan = await planAdapterCodemod({
+      context: { projectRoot, toolsRoot: projectRoot },
+      config: escapedConfig,
+    });
+    if (escapedPlan.kind !== "ready") {
+      throw new Error(escapedPlan.reasons.join("\n"));
+    }
+    const escapedSource = escapedPlan.edits.find(
+      (edit) => edit.path === "legacy/adapters/mount-tab-pane.js",
+    )?.after;
+    if (escapedSource === undefined) {
+      throw new Error("The escaped adapter edit is missing.");
+    }
+    const escapedSelectionKeys: string[] = [];
+    const escapedAdapter = evaluateAdapter(escapedSource, {
+      TabPane: LegacyTabPane,
+      featureFlagger: {
+        get(selectionKey: string) {
+          escapedSelectionKeys.push(selectionKey);
+          return escapedReactValue;
+        },
+      },
+      [escapedMountName]() {
+        return reactResult;
+      },
+    });
+
+    expect(escapedAdapter(container, options, initialIndex)).toBe(reactResult);
+    expect(escapedSelectionKeys).toEqual([escapedSelectionKey]);
+
+    const repeatedCalls: unknown[][] = [];
+    class RepeatedLegacyTabPane {
+      constructor(...args: unknown[]) {
+        repeatedCalls.push(args);
+      }
+    }
+    const repeatedAdapter = evaluateAdapter(adapterAfter, {
+      TabPane: RepeatedLegacyTabPane,
+      featureFlagger: {
+        get() {
+          return "legacy-TabPane";
+        },
+      },
+    });
+
+    repeatedAdapter(container, options, initialIndex);
+    repeatedAdapter(container, options, initialIndex);
+
+    expect(repeatedCalls).toHaveLength(2);
+    for (const call of repeatedCalls) {
+      expect(call[0]).toBe(container);
+      expect(call[1]).toBe(options);
+      expect(call[2]).toBe(initialIndex);
+    }
   });
 });
+
+function evaluateAdapter(
+  source: string,
+  globals: Record<string, unknown>,
+): (
+  container: unknown,
+  options: unknown,
+  initialIndex: unknown,
+) => unknown {
+  runInNewContext(source, { window: globals });
+  const adapter = globals.mountTabPane;
+  if (typeof adapter !== "function") {
+    throw new Error("The generated mountTabPane global is missing.");
+  }
+  return (container, options, initialIndex) =>
+    Reflect.apply(adapter, globals, [container, options, initialIndex]);
+}
+
+function expectForwarded(
+  calls: readonly unknown[][],
+  container: unknown,
+  options: unknown,
+  initialIndex: unknown,
+): void {
+  expect(calls).toHaveLength(1);
+  const args = calls[0];
+  if (args === undefined) {
+    throw new Error("The adapter call was not recorded.");
+  }
+  expect(args).toHaveLength(3);
+  expect(args[0]).toBe(container);
+  expect(args[1]).toBe(options);
+  expect(args[2]).toBe(initialIndex);
+}
