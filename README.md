@@ -22,14 +22,15 @@ run legacy fallback test and capture baseline
 run React branch tests, browser parity, typecheck, and build
           |
           v
-React component + tests + final proof
+open a draft PR with the migration code and proof
 ```
 
 ## Ask Cursor
 
 ```text
 Migrate components/brand-box/BrandBox.js to React.
-Use the mootools-react-migrate skill and continue until verify passes.
+Use the mootools-react-migrate skill. Continue until verify passes, then open
+a draft PR with the migration code and verification evidence.
 ```
 
 The human names the component and approves behavior changes. The agent runs
@@ -92,6 +93,19 @@ belong in the migration draft PR. Do not create codemod edits by hand.
 `verify` succeeds only when both focused unit tests and all project checks
 pass, every exact screenshot has equal dimensions and zero changed pixels,
 and browser comparison reaches `PARITY` with `attested: true`.
+
+## Draft PR handoff
+
+After `verify` passes, the agent opens a draft PR. The PR contains:
+
+- the React component, mount, and tests;
+- the generated adapter, caller rewrite, and bootstrap load-order edit;
+- the approved decisions and behavior differences in `migration.json`;
+- the verification result and links to the recordings, screenshots, image
+  diffs, and `parity.json`.
+
+The generated media stays ignored. The agent attaches it to the draft PR
+instead of committing it to the repository.
 
 ## Saved verification evidence
 
