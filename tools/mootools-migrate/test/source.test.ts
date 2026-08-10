@@ -63,11 +63,13 @@ describe("legacy-use scanner", () => {
         legacyValue: "legacy-TabPane",
         reactValue: "react-TabPane",
         featureFlaggerGlobal: "featureFlagger",
+        featureFlaggerImportPath: "./src/feature-flagger/mockFeatureFlagger",
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
         bootstrapFile: "legacy/bootstrap.ts",
         bootstrapImportPath: "./adapters/mount-tab-pane.js",
+        bootstrapImportLocal: "mountTabPaneUrl",
       },
       fixtures: { default: {} },
       scenarios: [

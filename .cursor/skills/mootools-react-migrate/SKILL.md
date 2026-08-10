@@ -17,7 +17,8 @@ verification passes.
 - Record product-visible choices in
   `tools/mootools-migrate/components/<component>/migration.json`.
 - Stop for human approval when a decision is pending.
-- Use the adapter only when callers need an intermediate mount function.
+- Route every migrated component through its generated adapter and feature
+  flag.
 - Do not push or deploy.
 - Generate, inspect, and report the worksheet, manifests, screenshots,
   recordings, and diffs. Keep generated media local and ignored. Attach the
@@ -68,19 +69,20 @@ Build and test these mount artifacts before changing callers:
 
 - The implementation bridge. It names the injected window key and the exact
   legacy and React values.
-- The configured feature flagger global. A missing flagger selects legacy.
+- The configured feature flagger global and source import.
 - The configured React mount global. The React value without this mount throws.
-- Bootstrap reads the injected value, creates the feature flagger, and
-  registers it before classic scripts load.
+- The fresh bootstrap has no feature flags. The first adapter write creates and
+  registers the feature flagger before classic scripts load. Later adapter
+  writes add their component flag to that setup.
 
 The host sets the implementation value before bootstrap. The browser proof
 runner does the same before it loads `/` for either surface. Do not select an
 implementation from the URL.
 
-The generated adapter reads the configured selection key. A missing flagger or
-the configured legacy value constructs the legacy class with the original
-arguments. The configured React value calls the React mount with those
-arguments. Any other flag value throws.
+The generated adapter reads the configured selection key. The configured
+legacy value constructs the legacy class with the original arguments. The
+configured React value calls the React mount with those arguments. Any other
+flag value throws.
 
 Generate the configured adapter:
 
@@ -88,9 +90,9 @@ Generate the configured adapter:
 npm run migrate -- adapter <component> --write
 ```
 
-The command writes the generated adapter, caller rewrite, and load-order edit
-atomically. One unsupported caller cancels the complete plan. Do not create
-these migration artifacts by hand.
+The command writes the feature flag setup, generated adapter, caller rewrite,
+and load-order edit atomically. One unsupported caller cancels the complete
+plan. Do not create these migration artifacts by hand.
 
 ## 3. Capture the legacy baseline
 

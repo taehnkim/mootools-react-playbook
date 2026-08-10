@@ -99,13 +99,15 @@
     "legacyValue": "legacy-TabPane",
     "reactValue": "react-TabPane",
     "featureFlaggerGlobal": "featureFlagger",
+    "featureFlaggerImportPath": "./src/feature-flagger/mockFeatureFlagger",
     "reactMountGlobal": "mountReactTabPane",
     "outputPath": "adapters/mount-tab-pane.js",
     "callsiteFiles": [
       "main.js"
     ],
     "bootstrapFile": "bootstrap.ts",
-    "bootstrapImportPath": "./adapters/mount-tab-pane.js"
+    "bootstrapImportPath": "./adapters/mount-tab-pane.js",
+    "bootstrapImportLocal": "mountTabPaneUrl"
   },
   "fixtures": {
     "default-tabs": {

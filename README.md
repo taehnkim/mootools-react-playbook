@@ -46,11 +46,8 @@ npm run dev
 - `http://localhost:5173/` runs the untouched MooTools application.
 - `http://localhost:5173/react.html` runs the empty React migration root.
 
-Before `bootstrap.ts` runs, the host can set
-`window.__TAB_PANE_IMPLEMENTATION__` to `legacy-TabPane` or `react-TabPane`.
-The mock feature flagger defaults missing and unknown values to
-`legacy-TabPane`. The browser proof runner sets the configured value before it
-loads `/`; the URL does not select the implementation.
+The fresh `bootstrap.ts` has no component feature flags. The first migration
+adds the feature flagger. Each migration adds its own legacy and React choices.
 
 ## Migration commands
 
@@ -61,7 +58,7 @@ that belongs in the migration draft PR:
 # Analyze source, callers, events, DOM, CSS, and side effects.
 npm run migrate -- analyze <component>
 
-# Generate the configured caller adapter and load-order edit.
+# Add the component feature flag, caller adapter, and load-order edit.
 npm run migrate -- adapter <component> --write
 
 # Run the legacy fallback test and capture the reviewed baseline.
@@ -73,25 +70,24 @@ npm run migrate -- verify <component> \
   --base-url http://127.0.0.1:5173
 ```
 
-The adapter command applies the generated adapter, caller rewrite, and
-load-order edit atomically.
+The adapter command applies the feature flag setup, generated adapter, caller
+rewrite, and load-order edit atomically. The first run imports and registers
+the feature flagger. Later runs reuse it and add one component choice.
 
-The generated adapter calls `featureFlagger.get("TabPane")`. A missing flagger
-or the `legacy-TabPane` result constructs the legacy class. The
-`react-TabPane` result requires the React mount and forwards the same container,
-options, and initial index. Any other flag value throws. A missing React mount
-throws.
+The generated adapter calls `featureFlagger.get("TabPane")`. The
+`legacy-TabPane` result constructs the legacy class. The `react-TabPane` result
+requires the React mount and forwards the same container, options, and initial
+index. Any other flag value throws. A missing React mount throws.
 
 The repository starts with only the migration groundwork:
 
 - `src/feature-flagger/mockFeatureFlagger.ts` provides the local flag lookup.
 - `src/main.tsx` owns an empty React root.
-- `bootstrap.ts` reads `window.__TAB_PANE_IMPLEMENTATION__` and configures the
-  feature flagger before classic scripts load.
+- `bootstrap.ts` only loads the untouched MooTools application.
 
-The migration run creates the React component, mount, tests, generated adapter,
-caller rewrite, and bootstrap load-order edit. Those files belong in the
-migration draft PR. Do not create codemod edits by hand.
+The migration run creates the component flag, React component, mount, tests,
+generated adapter, caller rewrite, and bootstrap load-order edit. Those files
+belong in the migration draft PR. Do not create codemod edits by hand.
 
 `verify` succeeds only when both focused unit tests and all project checks
 pass, every exact screenshot has equal dimensions and zero changed pixels,

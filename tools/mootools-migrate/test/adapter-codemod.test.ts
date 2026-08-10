@@ -20,10 +20,10 @@ describe("adapter codemod", () => {
     await writeFile(
       join(projectRoot, "legacy/bootstrap.ts"),
       [
-        '// import mountAdapterUrl from "./adapters/mount-tab-pane.js?url";',
+        '// import mountTabPaneUrl from "./adapters/mount-tab-pane.js?url";',
         'import mainUrl from "./main.js?url";',
         "const scripts = [",
-        "  // mountAdapterUrl,",
+        "  // mountTabPaneUrl,",
         "  mainUrl,",
         "];",
         "",
@@ -76,11 +76,13 @@ describe("adapter codemod", () => {
         legacyValue: "legacy-TabPane",
         reactValue: "react-TabPane",
         featureFlaggerGlobal: "featureFlagger",
+        featureFlaggerImportPath: "./src/feature-flagger/mockFeatureFlagger",
         reactMountGlobal: "mountReactTabPane",
         outputPath: "legacy/adapters/mount-tab-pane.js",
         callsiteFiles: ["legacy/main.js"],
         bootstrapFile: "legacy/bootstrap.ts",
         bootstrapImportPath: "./adapters/mount-tab-pane.js",
+        bootstrapImportLocal: "mountTabPaneUrl",
       },
       fixtures: { default: {} },
       scenarios: [
@@ -137,8 +139,84 @@ describe("adapter codemod", () => {
     const bootstrapAfter = result.edits.find(
       (edit) => edit.path === "legacy/bootstrap.ts",
     )?.after;
-    expect(bootstrapAfter).toMatch(/^import mountAdapterUrl/m);
-    expect(bootstrapAfter).toMatch(/^\s+mountAdapterUrl,$/m);
+    if (bootstrapAfter === undefined) {
+      throw new Error("The bootstrap edit is missing.");
+    }
+    expect(bootstrapAfter).toMatch(/^import mountTabPaneUrl/m);
+    expect(bootstrapAfter).toMatch(/^\s+mountTabPaneUrl,$/m);
+    expect(bootstrapAfter).toContain(
+      'import { createMockFeatureFlagger } from "./src/feature-flagger/mockFeatureFlagger";',
+    );
+    expect(bootstrapAfter).toContain(
+      "const migrationFeatureFlagger = createMockFeatureFlagger();",
+    );
+    expect(bootstrapAfter).toContain(
+      'migrationFeatureFlagger.set("TabPane", Reflect.get(window, "__TAB_PANE_IMPLEMENTATION__") === "react-TabPane" ? "react-TabPane" : "legacy-TabPane");',
+    );
+    expect(bootstrapAfter).toContain(
+      'Object.assign(window, { "featureFlagger": migrationFeatureFlagger });',
+    );
+
+    await writeFile(
+      join(projectRoot, "legacy/bootstrap.ts"),
+      bootstrapAfter,
+      "utf8",
+    );
+    await writeFile(
+      join(projectRoot, "legacy/widget.js"),
+      "var widget = new Widget('widget');\n",
+      "utf8",
+    );
+    const widgetConfig = MigrationSpecSchema.parse({
+      ...config,
+      id: "widget",
+      legacyGlobal: "Widget",
+      callsiteGlobs: ["legacy/widget.js"],
+      implementationBridge: {
+        windowKey: "__WIDGET_IMPLEMENTATION__",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+      },
+      adapter: {
+        ...config.adapter,
+        globalName: "mountWidget",
+        selectionKey: "Widget",
+        legacyValue: "legacy-Widget",
+        reactValue: "react-Widget",
+        reactMountGlobal: "mountReactWidget",
+        outputPath: "legacy/adapters/mount-widget.js",
+        callsiteFiles: ["legacy/widget.js"],
+        bootstrapImportPath: "./adapters/mount-widget.js",
+        bootstrapImportLocal: "mountWidgetUrl",
+      },
+    });
+    const widgetPlan = await planAdapterCodemod({
+      context: { projectRoot, toolsRoot: projectRoot },
+      config: widgetConfig,
+    });
+    if (widgetPlan.kind !== "ready") {
+      throw new Error(widgetPlan.reasons.join("\n"));
+    }
+    const widgetBootstrap = widgetPlan.edits.find(
+      (edit) => edit.path === "legacy/bootstrap.ts",
+    )?.after;
+    if (widgetBootstrap === undefined) {
+      throw new Error("The second bootstrap edit is missing.");
+    }
+    expect(
+      widgetBootstrap.match(/createMockFeatureFlagger/g),
+    ).toHaveLength(2);
+    expect(
+      widgetBootstrap.match(/Object\.assign\(window/g),
+    ).toHaveLength(1);
+    expect(widgetBootstrap).toContain(
+      'migrationFeatureFlagger.set("TabPane",',
+    );
+    expect(widgetBootstrap).toContain(
+      'migrationFeatureFlagger.set("Widget", Reflect.get(window, "__WIDGET_IMPLEMENTATION__") === "react-Widget" ? "react-Widget" : "legacy-Widget");',
+    );
+    expect(widgetBootstrap).toMatch(/^import mountWidgetUrl/m);
+    expect(widgetBootstrap).toMatch(/^\s+mountWidgetUrl,$/m);
 
     const adapterAfter = result.edits.find(
       (edit) => edit.path === "legacy/adapters/mount-tab-pane.js",
@@ -264,7 +342,6 @@ describe("adapter codemod", () => {
     const escapedSelectionKey = 'Tab"Pane\nkey';
     const escapedLegacyValue = 'legacy-"Tab\nPane';
     const escapedReactValue = "react-\\TabPane";
-    const escapedFlaggerName = 'feature"Flagger';
     const escapedMountName = "mount\\React";
     const escapedConfig = MigrationSpecSchema.parse({
       ...config,
@@ -273,7 +350,6 @@ describe("adapter codemod", () => {
         selectionKey: escapedSelectionKey,
         legacyValue: escapedLegacyValue,
         reactValue: escapedReactValue,
-        featureFlaggerGlobal: escapedFlaggerName,
         reactMountGlobal: escapedMountName,
       },
     });
@@ -293,7 +369,7 @@ describe("adapter codemod", () => {
     const escapedSelectionKeys: string[] = [];
     const escapedAdapter = evaluateAdapter(escapedSource, {
       TabPane: LegacyTabPane,
-      [escapedFlaggerName]: {
+      featureFlagger: {
         get(selectionKey: string) {
           escapedSelectionKeys.push(selectionKey);
           return escapedReactValue;

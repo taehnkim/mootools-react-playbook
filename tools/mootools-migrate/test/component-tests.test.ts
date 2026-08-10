@@ -83,11 +83,13 @@ describe("component tests", () => {
         legacyValue: "legacy-Widget",
         reactValue: "react-Widget",
         featureFlaggerGlobal: "featureFlagger",
+        featureFlaggerImportPath: "./src/feature-flagger/mockFeatureFlagger",
         reactMountGlobal: "mountReactWidget",
         outputPath: "adapters/mount-widget.js",
         callsiteFiles: ["main.js"],
         bootstrapFile: "bootstrap.ts",
         bootstrapImportPath: "./adapters/mount-widget.js",
+        bootstrapImportLocal: "mountWidgetUrl",
       },
       fixtures: { default: {} },
       scenarios: [

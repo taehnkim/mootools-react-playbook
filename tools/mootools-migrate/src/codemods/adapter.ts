@@ -17,6 +17,8 @@ import type { MigrationSpec } from "../contracts/schemas.js";
 import { scriptKindForPath, walk } from "../analyze/source.js";
 
 const execFileAsync = promisify(execFile);
+const featureFlaggerFactory = "createMockFeatureFlagger";
+const featureFlaggerLocal = "migrationFeatureFlagger";
 
 export type PlannedEdit = {
   path: string;
@@ -198,46 +200,28 @@ function editBootstrap(options: {
     ts.ScriptKind.TS,
   );
   const adapterModule = `${options.config.adapter.bootstrapImportPath}?url`;
-  const importLine = `import mountAdapterUrl from "${adapterModule}";`;
+  const adapterImportLocal = options.config.adapter.bootstrapImportLocal;
   const reasons: string[] = [];
   const insertions: { position: number; value: string }[] = [];
-  const adapterImports: ts.ImportDeclaration[] = [];
-  for (const statement of sourceFile.statements) {
-    if (
-      ts.isImportDeclaration(statement) &&
+  const imports = sourceFile.statements.filter(ts.isImportDeclaration);
+  const adapterImports = imports.filter(
+    (statement) =>
       ts.isStringLiteral(statement.moduleSpecifier) &&
-      statement.moduleSpecifier.text === adapterModule
-    ) {
-      adapterImports.push(statement);
-    }
-  }
+      statement.moduleSpecifier.text === adapterModule,
+  );
+  let insertAdapterImport = false;
   if (adapterImports.length > 1) {
     reasons.push("Bootstrap has more than one adapter import.");
   } else if (adapterImports.length === 1) {
     const adapterImport = adapterImports[0];
     if (
       adapterImport === undefined ||
-      adapterImport.importClause?.name?.text !== "mountAdapterUrl"
+      adapterImport.importClause?.name?.text !== adapterImportLocal
     ) {
       reasons.push("Bootstrap adapter import has an unexpected local name.");
     }
   } else {
-    const mainImports = sourceFile.statements.filter(
-      (statement) =>
-        ts.isImportDeclaration(statement) &&
-        statement.importClause?.name?.text === "mainUrl",
-    );
-    const mainImport = mainImports[0];
-    if (mainImports.length !== 1 || mainImport === undefined) {
-      reasons.push(
-        `Bootstrap import anchor must be one real import; found ${mainImports.length}.`,
-      );
-    } else {
-      insertions.push({
-        position: mainImport.end,
-        value: `\n${importLine}`,
-      });
-    }
+    insertAdapterImport = true;
   }
 
   const scriptArrays: ts.ArrayLiteralExpression[] = [];
@@ -259,7 +243,7 @@ function editBootstrap(options: {
   } else if (
     !scriptArray.elements.some(
       (element) =>
-        ts.isIdentifier(element) && element.text === "mountAdapterUrl",
+        ts.isIdentifier(element) && element.text === adapterImportLocal,
     )
   ) {
     const mainElement = scriptArray.elements.find(
@@ -270,7 +254,48 @@ function editBootstrap(options: {
     } else {
       insertions.push({
         position: mainElement.getStart(sourceFile),
-        value: "mountAdapterUrl,\n  ",
+        value: `${adapterImportLocal},\n  `,
+      });
+    }
+  }
+
+  const targetScriptArray = scriptArrays[0];
+  const featureFlaggerPlan = planFeatureFlaggerSetup({
+    source: options.source,
+    sourceFile,
+    config: options.config,
+    setupAnchor:
+      targetScriptArray === undefined
+        ? undefined
+        : containingStatement(sourceFile, targetScriptArray),
+  });
+  reasons.push(...featureFlaggerPlan.reasons);
+  insertions.push(...featureFlaggerPlan.insertions);
+
+  const importLines: string[] = [];
+  if (insertAdapterImport) {
+    importLines.push(
+      `import ${adapterImportLocal} from "${adapterModule}";`,
+    );
+  }
+  if (featureFlaggerPlan.insertImport) {
+    importLines.push(
+      `import { ${featureFlaggerFactory} } from "${options.config.adapter.featureFlaggerImportPath}";`,
+    );
+  }
+  if (importLines.length > 0) {
+    const mainImports = imports.filter(
+      (statement) => statement.importClause?.name?.text === "mainUrl",
+    );
+    const mainImport = mainImports[0];
+    if (mainImports.length !== 1 || mainImport === undefined) {
+      reasons.push(
+        `Bootstrap import anchor must be one real import; found ${mainImports.length}.`,
+      );
+    } else {
+      insertions.push({
+        position: mainImport.end,
+        value: `${lineBreak(options.source)}${importLines.join(lineBreak(options.source))}`,
       });
     }
   }
@@ -286,6 +311,224 @@ function editBootstrap(options: {
   }
 
   return { source, reasons };
+}
+
+function planFeatureFlaggerSetup(options: {
+  source: string;
+  sourceFile: ts.SourceFile;
+  config: MigrationSpec;
+  setupAnchor: ts.Statement | undefined;
+}): {
+  reasons: string[];
+  insertImport: boolean;
+  insertions: { position: number; value: string }[];
+} {
+  const reasons: string[] = [];
+  const insertions: { position: number; value: string }[] = [];
+  const imports = options.sourceFile.statements.filter(
+    (statement): statement is ts.ImportDeclaration =>
+      ts.isImportDeclaration(statement) &&
+      ts.isStringLiteral(statement.moduleSpecifier) &&
+      statement.moduleSpecifier.text ===
+        options.config.adapter.featureFlaggerImportPath,
+  );
+  const declarations: ts.VariableDeclaration[] = [];
+  const setCalls: ts.CallExpression[] = [];
+  const assignments: ts.CallExpression[] = [];
+
+  walk(options.sourceFile, (node) => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === featureFlaggerLocal
+    ) {
+      declarations.push(node);
+    }
+    if (
+      ts.isCallExpression(node) &&
+      isMethodCall(node, featureFlaggerLocal, "set")
+    ) {
+      setCalls.push(node);
+    }
+    if (
+      ts.isCallExpression(node) &&
+      isFeatureFlaggerAssignment(
+        node,
+        options.config.adapter.featureFlaggerGlobal,
+      )
+    ) {
+      assignments.push(node);
+    }
+  });
+
+  const setupExists =
+    imports.length > 0 ||
+    declarations.length > 0 ||
+    setCalls.length > 0 ||
+    assignments.length > 0;
+  if (!setupExists) {
+    if (options.setupAnchor === undefined) {
+      reasons.push("Bootstrap feature flagger needs a script-array anchor.");
+      return { reasons, insertImport: true, insertions };
+    }
+    const newline = lineBreak(options.source);
+    insertions.push({
+      position: options.setupAnchor.getStart(options.sourceFile),
+      value: [
+        `const ${featureFlaggerLocal} = ${featureFlaggerFactory}();`,
+        featureFlagSetStatement(options.config),
+        `Object.assign(window, { ${JSON.stringify(options.config.adapter.featureFlaggerGlobal)}: ${featureFlaggerLocal} });`,
+        "",
+      ].join(newline),
+    });
+    return { reasons, insertImport: true, insertions };
+  }
+
+  if (
+    imports.length !== 1 ||
+    imports[0] === undefined ||
+    !hasNamedImport(imports[0], featureFlaggerFactory)
+  ) {
+    reasons.push("Bootstrap feature flagger import is missing or unsupported.");
+  }
+  if (
+    declarations.length !== 1 ||
+    declarations[0] === undefined ||
+    !isFeatureFlaggerDeclaration(declarations[0])
+  ) {
+    reasons.push(
+      "Bootstrap feature flagger declaration is missing or unsupported.",
+    );
+  }
+  if (assignments.length !== 1 || assignments[0] === undefined) {
+    reasons.push("Bootstrap feature flagger global is missing or unsupported.");
+  }
+
+  const componentCalls = setCalls.filter(
+    (call) =>
+      call.arguments[0] !== undefined &&
+      ts.isStringLiteralLike(call.arguments[0]) &&
+      call.arguments[0].text === options.config.adapter.selectionKey,
+  );
+  if (componentCalls.length > 1) {
+    reasons.push("Bootstrap has more than one feature flag for the component.");
+  } else if (
+    componentCalls[0] !== undefined &&
+    compact(componentCalls[0].getText(options.sourceFile)) !==
+      compact(featureFlagSetCall(options.config))
+  ) {
+    reasons.push("Bootstrap component feature flag has unexpected values.");
+  } else if (
+    componentCalls.length === 0 &&
+    assignments.length === 1 &&
+    assignments[0]?.parent !== undefined
+  ) {
+    insertions.push({
+      position: assignments[0].parent.getStart(options.sourceFile),
+      value: `${featureFlagSetStatement(options.config)}${lineBreak(options.source)}`,
+    });
+  }
+
+  return { reasons, insertImport: false, insertions };
+}
+
+function isMethodCall(
+  call: ts.CallExpression,
+  owner: string,
+  method: string,
+): boolean {
+  return (
+    ts.isPropertyAccessExpression(call.expression) &&
+    ts.isIdentifier(call.expression.expression) &&
+    call.expression.expression.text === owner &&
+    call.expression.name.text === method
+  );
+}
+
+function isFeatureFlaggerAssignment(
+  call: ts.CallExpression,
+  globalName: string,
+): boolean {
+  if (
+    !ts.isPropertyAccessExpression(call.expression) ||
+    !ts.isIdentifier(call.expression.expression) ||
+    call.expression.expression.text !== "Object" ||
+    call.expression.name.text !== "assign" ||
+    call.arguments[0] === undefined ||
+    !ts.isIdentifier(call.arguments[0]) ||
+    call.arguments[0].text !== "window" ||
+    call.arguments[1] === undefined ||
+    !ts.isObjectLiteralExpression(call.arguments[1])
+  ) {
+    return false;
+  }
+  return call.arguments[1].properties.some(
+    (property) =>
+      ts.isPropertyAssignment(property) &&
+      propertyName(property.name) === globalName &&
+      ts.isIdentifier(property.initializer) &&
+      property.initializer.text === featureFlaggerLocal,
+  );
+}
+
+function propertyName(name: ts.PropertyName): string | null {
+  if (ts.isIdentifier(name) || ts.isStringLiteralLike(name)) {
+    return name.text;
+  }
+  return null;
+}
+
+function hasNamedImport(
+  declaration: ts.ImportDeclaration,
+  name: string,
+): boolean {
+  const bindings = declaration.importClause?.namedBindings;
+  return (
+    bindings !== undefined &&
+    ts.isNamedImports(bindings) &&
+    bindings.elements.some(
+      (element) =>
+        element.propertyName === undefined && element.name.text === name,
+    )
+  );
+}
+
+function isFeatureFlaggerDeclaration(
+  declaration: ts.VariableDeclaration,
+): boolean {
+  return (
+    declaration.initializer !== undefined &&
+    ts.isCallExpression(declaration.initializer) &&
+    ts.isIdentifier(declaration.initializer.expression) &&
+    declaration.initializer.expression.text === featureFlaggerFactory &&
+    declaration.initializer.arguments.length === 0
+  );
+}
+
+function featureFlagSetStatement(config: MigrationSpec): string {
+  return `${featureFlagSetCall(config)};`;
+}
+
+function featureFlagSetCall(config: MigrationSpec): string {
+  const bridge = config.implementationBridge;
+  return `${featureFlaggerLocal}.set(${JSON.stringify(config.adapter.selectionKey)}, Reflect.get(window, ${JSON.stringify(bridge.windowKey)}) === ${JSON.stringify(bridge.reactValue)} ? ${JSON.stringify(config.adapter.reactValue)} : ${JSON.stringify(config.adapter.legacyValue)})`;
+}
+
+function containingStatement(
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
+): ts.Statement | undefined {
+  return sourceFile.statements.find(
+    (statement) => statement.pos <= node.pos && statement.end >= node.end,
+  );
+}
+
+function compact(source: string): string {
+  return source.replace(/\s+/g, "");
+}
+
+function lineBreak(source: string): "\r\n" | "\n" {
+  return source.includes("\r\n") ? "\r\n" : "\n";
 }
 
 function renderAdapter(config: MigrationSpec): string {

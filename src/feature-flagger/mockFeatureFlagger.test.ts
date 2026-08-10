@@ -26,4 +26,12 @@ describe("mockFeatureFlagger", () => {
 
     expect(featureFlagger.get("TabPane")).toBeUndefined();
   });
+
+  it("adds a feature after creation", () => {
+    const featureFlagger = createMockFeatureFlagger();
+
+    featureFlagger.set("TabPane", "react-TabPane");
+
+    expect(featureFlagger.get("TabPane")).toBe("react-TabPane");
+  });
 });

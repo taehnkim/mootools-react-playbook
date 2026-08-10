@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -17,6 +18,16 @@ const toolsRoot = resolve(process.cwd());
 const projectRoot = resolve(toolsRoot, "../..");
 
 describe("migration config", () => {
+  it("starts without component feature flags in bootstrap", async () => {
+    const bootstrap = await readFile(
+      resolve(projectRoot, "bootstrap.ts"),
+      "utf8",
+    );
+
+    expect(bootstrap).not.toContain("createMockFeatureFlagger");
+    expect(bootstrap).not.toContain("__TAB_PANE_IMPLEMENTATION__");
+  });
+
   it("loads migration.json by component convention", async () => {
     const context = await createContext({ toolsRoot, projectRoot });
     const config = await loadMigrationSpec(context, "tab-pane");
