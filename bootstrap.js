@@ -5,6 +5,9 @@ import tabPaneUrl from "./components/tab-pane/TabPane.js?url";
 import mainUrl from "./main.js?url";
 import mootoolsCoreUrl from "./vendor/mootools-core-1.4.2.js?url";
 import mootoolsMoreUrl from "./vendor/mootools-more-1.4.0.1.js?url";
+import { mountReactTabPane } from "./src/components/tab-pane/mountTabPane";
+
+Object.assign(window, { mountReactTabPane });
 
 // Load MooTools files in order before starting the legacy app.
 const scriptSources = [
