@@ -720,7 +720,332 @@
       "react": "[data-migration-component=\"tab-pane\"] [role=\"tab\"]"
     }
   },
-  "decisions": [],
+  "decisions": [
+    {
+      "findingId": "tab-pane:caller-dom-listener:click-relay-data-close-tab-tabpane-close",
+      "findingFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f",
+      "resolution": "preserve",
+      "rationale": "Keep the host close listener in main.js. React renders the same [data-close-tab] buttons inside the container, and its root listener runs before the host listener, so the tab is selected before tabPane.close runs (change, close, change).",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:e63f30052dd9e0686d2be17847e0d33eb369cb5f940a1e174b89887ee427ae8f"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-dom-listener:domready-tabpane-add-tabpane-addevent-tabpane-close",
+      "findingFingerprint": "sha256:388a49922dc5f82a7bb001f6ae640ce6d5bc4d325ad4e79480dcfa0440341efe",
+      "resolution": "preserve",
+      "rationale": "Keep domready start-up in main.js. It constructs through mountTabPane, and the React handle accepts the same add, addEvent, and close calls.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:388a49922dc5f82a7bb001f6ae640ce6d5bc4d325ad4e79480dcfa0440341efe"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-dom-listener:submit-tabpane-add",
+      "findingFingerprint": "sha256:c817a3e7a09445377b36f8dc103a8829fd5bcf0d10b00c18427393cd455701c2",
+      "resolution": "preserve",
+      "rationale": "Keep the add form in main.js. The React handle reads the label, heading, and body from the elements the host builds and renders its own copy; React does not adopt host DOM nodes.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:c817a3e7a09445377b36f8dc103a8829fd5bcf0d10b00c18427393cd455701c2"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-event-listener:addevent-change",
+      "findingFingerprint": "sha256:83355607aa8fb39b09146a6f96a2fee1b0e0d050a9afd9f4924ff05c38a6fb7c",
+      "resolution": "preserve",
+      "rationale": "The React handle keeps addEvent('change') with the same zero-based index, fired after the DOM updates.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:83355607aa8fb39b09146a6f96a2fee1b0e0d050a9afd9f4924ff05c38a6fb7c"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-global-exposure:window-moosandbox",
+      "findingFingerprint": "sha256:45765c7de553fcee356052ecd1c93cba073f8db8388352dc4156117554f8f110",
+      "resolution": "preserve",
+      "rationale": "main.js still exposes the returned handle as window.MooSandbox.tabPane for both implementations. The React mount also publishes window.ReactSandbox.tabPane for the proof runner.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:45765c7de553fcee356052ecd1c93cba073f8db8388352dc4156117554f8f110"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:add",
+      "findingFingerprint": "sha256:d0816f36fc4b5c1a5d7c3b9ef864841afb57ad039274f242b10a2537a197a8fd",
+      "resolution": "preserve",
+      "rationale": "The React handle keeps add(tab, content, location, showNow) for the host call add(tab, panel, null, true): it appends, fires add with the new index, then shows it.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:d0816f36fc4b5c1a5d7c3b9ef864841afb57ad039274f242b10a2537a197a8fd"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:addevent",
+      "findingFingerprint": "sha256:36322b6b2b89370e9d130ba6fb69c9a75b6cd795eff30c2ba13813dc10a9a999",
+      "resolution": "preserve",
+      "rationale": "The React handle keeps addEvent for add, change, and close. Listeners run in registration order with the handle as this.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:36322b6b2b89370e9d130ba6fb69c9a75b6cd795eff30c2ba13813dc10a9a999"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller-method:close",
+      "findingFingerprint": "sha256:7d08f50495cef3ac4c1ab9266d223ce8d7dd8a8f396777e069e750b1d4d6bf69",
+      "resolution": "preserve",
+      "rationale": "The React handle keeps close(index or element), including the legacy rule that re-selects the pre-close active index clamped to the new tab count.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:7d08f50495cef3ac4c1ab9266d223ce8d7dd8a8f396777e069e750b1d4d6bf69"
+      }
+    },
+    {
+      "findingId": "tab-pane:caller:main-js-5-adapter-call",
+      "findingFingerprint": "sha256:c4168727fd8d76289f135589017e4af4bb33385f597971e97f0bbd1fb8732573",
+      "resolution": "preserve",
+      "rationale": "main.js:5 constructs through the generated mountTabPane adapter, which reads the TabPane feature flag and selects the legacy class or mountReactTabPane with the same arguments.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:c4168727fd8d76289f135589017e4af4bb33385f597971e97f0bbd1fb8732573"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-change",
+      "findingFingerprint": "sha256:7d2bfb23b6a915258109cb383513d15b788c14f2161aeb75bf3e2760534b94d6",
+      "resolution": "preserve",
+      "rationale": "The host change listener stays in main.js and receives the same index from the React handle.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:7d2bfb23b6a915258109cb383513d15b788c14f2161aeb75bf3e2760534b94d6"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-click-relay-data-close-tab",
+      "findingFingerprint": "sha256:21d5095bc00fb443b5ef3ce6e63a1a740d5e49b972ac5349e4473a7b607079d2",
+      "resolution": "preserve",
+      "rationale": "The host delegated close listener stays on the #tab-pane container, which React leaves in place as its root.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:21d5095bc00fb443b5ef3ce6e63a1a740d5e49b972ac5349e4473a7b607079d2"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-click-relay-this-options-tabselector",
+      "findingFingerprint": "sha256:c7dc63b0001ec4ba305fb0f3a55ce54d58d624a82a44d4454de4084619e6606a",
+      "resolution": "replace",
+      "rationale": "React replaces the delegated .tab click listener with an onClick handler on each rendered tab. A click anywhere in the tab, including its close button, still selects it.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:c7dc63b0001ec4ba305fb0f3a55ce54d58d624a82a44d4454de4084619e6606a"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-domready",
+      "findingFingerprint": "sha256:7b3d120a59e945241922fdcbf13ec75c20695f2accc18d15ec83fa06eb875b9e",
+      "resolution": "preserve",
+      "rationale": "Start-up timing stays in main.js; the React mount runs synchronously inside the same domready callback.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:7b3d120a59e945241922fdcbf13ec75c20695f2accc18d15ec83fa06eb875b9e"
+      }
+    },
+    {
+      "findingId": "tab-pane:event-listener:registers-submit",
+      "findingFingerprint": "sha256:5d008b1fc25667ade904b2bfb60b5b8c7e11485011b6a0906b3f5175624d9fcd",
+      "resolution": "preserve",
+      "rationale": "The host submit listener stays in main.js unchanged.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:5d008b1fc25667ade904b2bfb60b5b8c7e11485011b6a0906b3f5175624d9fcd"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:add",
+      "findingFingerprint": "sha256:6e80c7ccc614735803f5d000184a9d72dcb1eaf84e5337f579d31e1ba000442e",
+      "resolution": "preserve",
+      "rationale": "React fires add with the inserted index after the DOM update and before any change event.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:6e80c7ccc614735803f5d000184a9d72dcb1eaf84e5337f579d31e1ba000442e"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:change",
+      "findingFingerprint": "sha256:ef10a6c93c8d77da5f4834fef12505550dce19bd7c4970778049135ec6b08f62",
+      "resolution": "preserve",
+      "rationale": "React fires change with the shown index on every successful show, including a re-show of the active tab.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:ef10a6c93c8d77da5f4834fef12505550dce19bd7c4970778049135ec6b08f62"
+      }
+    },
+    {
+      "findingId": "tab-pane:event:close",
+      "findingFingerprint": "sha256:6116478f5738d3f0c339d95bf9e904cd105d18a9ee70c9ad098ae94969047fcf",
+      "resolution": "preserve",
+      "rationale": "React fires close with the removed index after the DOM update and before the follow-up change.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:6116478f5738d3f0c339d95bf9e904cd105d18a9ee70c9ad098ae94969047fcf"
+      }
+    },
+    {
+      "findingId": "tab-pane:global:tabpane",
+      "findingFingerprint": "sha256:8e7007e25ba16b42961e6da2aa4d63e53cc5dc615a92fde98cb084fbed84eb24",
+      "resolution": "preserve",
+      "rationale": "The legacy TabPane global stays loaded so the legacy flag value keeps working. React code does not reference it.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:8e7007e25ba16b42961e6da2aa4d63e53cc5dc615a92fde98cb084fbed84eb24"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:activeclass",
+      "findingFingerprint": "sha256:1a1cd09ed028077e83df29456151ba5e6a9b1252be69d93afbb1f925d9cf4af9",
+      "resolution": "replace",
+      "rationale": "React always uses the default active class. mountReactTabPane throws if any options object is passed; no caller passes options.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:1a1cd09ed028077e83df29456151ba5e6a9b1252be69d93afbb1f925d9cf4af9"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:contentselector",
+      "findingFingerprint": "sha256:1cf081ec2dfb9c73d13683432547387350078c713116eb5ab57255623337c544",
+      "resolution": "replace",
+      "rationale": "React reads initial panels with the default .content selector. mountReactTabPane throws if any options object is passed; no caller passes options.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:1cf081ec2dfb9c73d13683432547387350078c713116eb5ab57255623337c544"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-input:tabselector",
+      "findingFingerprint": "sha256:8ff548c3cf8b2fa09be7aa27c7bdd006be2fcb26a7568539e2178755a667d614",
+      "resolution": "replace",
+      "rationale": "React reads initial tabs with the default .tab selector. mountReactTabPane throws if any options object is passed; no caller passes options.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:8ff548c3cf8b2fa09be7aa27c7bdd006be2fcb26a7568539e2178755a667d614"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:add",
+      "findingFingerprint": "sha256:e7951fd94e2904a18050f822e13d19ba9e8c181b0d10907fb5142a0726ab06de",
+      "resolution": "fix",
+      "rationale": "Preserve append, add event, and showNow. For a numeric location, React keeps the inserted panel hidden until it is shown and appends when the location is out of range; legacy left the panel visible or threw. No caller uses a numeric location.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:e7951fd94e2904a18050f822e13d19ba9e8c181b0d10907fb5142a0726ab06de"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:close",
+      "findingFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c",
+      "resolution": "preserve",
+      "rationale": "Preserve close selection, including the non-active close quirk captured by close-non-active-by-api.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:f217f121a5326ffc3999b58a01f4dc26deaed9abe9a7b34d872b8ceded5ed68c"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:get",
+      "findingFingerprint": "sha256:0ed2b7c0eaa48f426144a40a792886cebf46986e6f61d03f5230e4ebf9b0bcd0",
+      "resolution": "delete",
+      "rationale": "No caller uses get. The React handle does not expose it.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:0ed2b7c0eaa48f426144a40a792886cebf46986e6f61d03f5230e4ebf9b0bcd0"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:indexof",
+      "findingFingerprint": "sha256:c3a200a597c844d32ab462fd55374c717d1901ebb68a639cc15cf96aaaeb5405",
+      "resolution": "delete",
+      "rationale": "No caller uses indexOf. The React handle resolves elements internally through data-tab-id and data-panel-id.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:c3a200a597c844d32ab462fd55374c717d1901ebb68a639cc15cf96aaaeb5405"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:initialize",
+      "findingFingerprint": "sha256:3dc2e83b5f9763351ef6c650d559ec50207d61e49390e14b24193c20b5ed5889",
+      "resolution": "replace",
+      "rationale": "mountReactTabPane(container, options, initialIndex) replaces the constructor. It reads the server-rendered tabs, clears the container, renders React into it, and shows initialIndex (number or function, default 0).",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:3dc2e83b5f9763351ef6c650d559ec50207d61e49390e14b24193c20b5ed5889"
+      }
+    },
+    {
+      "findingId": "tab-pane:public-method:show",
+      "findingFingerprint": "sha256:56827da40314f87f00546c2ce833fc9f34c9f0eef6c09baeb3704da4b28550e4",
+      "resolution": "preserve",
+      "rationale": "Preserve show(index or element): out-of-range targets do nothing, and a valid target always fires change.",
+      "approval": {
+        "status": "approved",
+        "approvedBy": "cursor-agent (delegated by the TabPane migration request; human review requested in the draft PR)",
+        "approvedAt": "2026-09-26T04:04:10.770Z",
+        "findingFingerprint": "sha256:56827da40314f87f00546c2ce833fc9f34c9f0eef6c09baeb3704da4b28550e4"
+      }
+    }
+  ],
   "acceptedDifferences": [],
   "allowedLegacyUses": []
 }
