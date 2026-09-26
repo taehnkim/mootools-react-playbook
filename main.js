@@ -2,7 +2,7 @@
   var initialize = function () {
     var tabPaneStatus = document.id("tab-pane-status");
     var tabPaneContainer = document.id("tab-pane");
-    var tabPane = new TabPane(tabPaneContainer);
+    var tabPane = mountTabPane(tabPaneContainer);
 
     tabPane.addEvent("change", function (index) {
       tabPaneStatus.set("text", "Showing tab " + (index + 1) + ".");
